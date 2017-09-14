@@ -1,7 +1,9 @@
 #!/usr/bin/python3.5
 
+import sys
 import re
 
+sys.path.insert(0, '../')
 from models import Papers, Citations, connect_to_db
 
 # Connect to the database
@@ -14,7 +16,8 @@ def extract_citations():
     """
     titles = dict((p.title.strip(), p.id) for p in Papers.select(Papers) if len(p.title.strip().split(' ')) > 1 )
     for paper in Papers.select():
-        citations = [titles[t] for t in list(titles.keys()) if t in paper.paper_text]
+        citations = [titles[t] for t in list(titles.keys()) if t in
+                paper.paper_text and titles[t] != paper.id]
         for citation in citations:
             create_citation(paper.id, citation)
         print("Paper {paper_id}".format(paper_id=paper.id))
