@@ -11,7 +11,7 @@ def count_explicit_references():
     unwanted_end_symbols = [".", ",", ":", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     select_cmd = 'SELECT pdf_name, paper_text from papers;'
     if DEBUG:
-        select_cmd = 'SELECT pdf_name, paper_text from papers where id = 1617;'
+        select_cmd = 'SELECT pdf_name, paper_text from papers where id = 167;'
 
     explicit_references = []
     implicit_references = []
