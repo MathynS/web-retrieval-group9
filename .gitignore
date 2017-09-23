@@ -4,3 +4,6 @@
 data/*.csv
 data/*.zip
 data/*.sqlite
+index/data/*.csv
+index/data/*.zip
+index/data/*.sqlite
