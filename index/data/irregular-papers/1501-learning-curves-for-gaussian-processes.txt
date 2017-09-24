@@ -1,0 +1,641 @@
+Learning curves for Gaussian processes
+
+Peter Sollich *
+Department of Physics, University of Edinburgh
+Edinburgh EH9 3JZ, U.K. Email: P.Sollich<Oed.ac . uk
+
+Abstract
+I consider the problem of calculating learning curves (i.e., average
+generalization performance) of Gaussian processes used for regression. A simple expression for the generalization error in terms of
+the eigenvalue decomposition of the covariance function is derived,
+and used as the starting point for several approximation schemes.
+I identify where these become exact, and compare with existing
+bounds on learning curves; the new approximations, which can
+be used for any input space dimension, generally get substantially
+closer to the truth.
+
+1
+
+INTRODUCTION: GAUSSIAN PROCESSES
+
+Within the neural networks community, there has in the last few years been a
+good deal of excitement about the use of Gaussian processes as an alternative to
+feedforward networks [lJ. The advantages of Gaussian processes are that prior
+assumptions about the problem to be learned are encoded in a very transparent
+way, and that inference-at least in the case of regression that I will consider-is
+relatively straightforward. One crucial question for applications is then how 'fast'
+Gaussian processes learn, i.e., how many training examples are needed to achieve a
+certain level of generalization performance. The typical (as opposed to worst case)
+behaviour is captured in the learning curve, which gives the average generalization
+error ? as a function of the number of training examples n. Several workers have
+derived bounds on ?(n) [2,3, 4J or studied its large n asymptotics. As I will illustrate
+below, however, the existing bounds are often far from tight; and asymptotic results
+will not necessarily apply for realistic sample sizes n. My main aim in this paper
+is therefore to derive approximations to ?( n) which get closer to the true learning
+curves than existing bounds, and apply both for small and large n.
+In its simplest form, the regression problem that I am considering is this: We are
+trying to learn a function 0* which maps inputs x (real-valued vectors) to (realvalued scalar) outputs O*(x) . We are given a set of training data D, consisting of n
+'Present address: Department of Mathematics, King's College London, Strand, London
+WC2R 2LS, U.K. Email peter.sollicMlkcl.ac . uk
+
+345
+
+Learning Curves for Gaussian Processes
+
+input-output pairs (Xl, yt); the training outputs Yl may differ from the 'clean' target
+outputs 9* (xL) due to corruption by noise. Given a test input x, we are then asked
+to come up with a prediction 9(x) for the corresponding output, expressed either in
+the simple form of a mean prediction 9(x) plus error bars, or more comprehensively
+in terms of a 'predictive distribution' P(9(x)lx, D). In a Bayesian setting, we do this
+by specifying a prior P(9) over our hypothesis functions, and a likelihood P(DI9)
+with which each 9 could have generated the training data; from this we deduce the
+posterior distribution P(9ID) ex P(DI9)P(9). In the case of feedforward networks,
+where the hypothesis functions 9 are parameterized by a set of network weights, the
+predictive distribution then needs to be extracted by integration over this posterior,
+either by computationally intensive Monte Carlo techniques or by approximations
+which lead to analytically tractable integrals. For a Gaussian process, on the other
+hand, obtaining the predictive distribution is trivial (see below); one reason for
+this is that the prior P(9) is defined directly over input-output functions 9. How
+is this done? Any 9 is uniquely determined by its output values 9(x) for all x
+from the input domain, and for a Gaussian process, these are simply assumed to
+have a joint Gaussian distribution (hence the name). This distribution can be
+specified by the mean values (9(x))o (which I assume to be zero in the following,
+as is commonly done), and the covariances (9(x)9(x ' ))o = C(x, x'); C(x, x') is
+called the covariance function of the Gaussian process. It encodes in an easily
+interpretable way prior assumptions about the function to be learned. Smoothness,
+for example, is controlled by the behaviour of C(x, x') for x' -+ x: The OrnsteinUhlenbeck (OU) covariance function C(x, x') ex exp( -IX-X'l/l) produces very rough
+(non-differentiable) functions, while functions sampled from the squared exponential
+(SE) prior with C(X,X') ex exp(-Ix - x ' 12/(2l2)) are infinitely differentiable. The
+'length scale' parameter l, on the other hand, corresponds directly to the distance in
+input space over which we expect our function to vary significantly. More complex
+properties can also be encoded; by replacing l with different length scales for each
+input component, for example, relevant (smalll) and irrelevant (large l) inputs can
+be distinguished.
+How does inference with Gaussian processes work? I only give a brief summary here
+and refer to existing reviews on the subject (see e.g. [5, 1]) for details. It is simplest
+to assume that outputs yare generated from the 'clean' values of a hypothesis
+function 9(x) by adding Gaussian noise of x-independent variance 0'2. The joint
+distribution of a set of training outputs {yd and the function values 9(x) is then
+also Gaussian, with covariances given by
+
+here I have defined an n x n matrix K and x-dependent n-component vectors k(x).
+The posterior distribution P(9ID) is then obtained by simply conditioning on the
+{Yl}. It is again Gaussian and has mean and variance
+(B(x))OID
+( (9(x) - 9(X))2)
+
+9(x)
+
+=
+
+k(X)TK-1y
+
+C(x, x) - k(X)TK-lk(x)
+
+(1)
+
+(2)
+
+OlD
+
+Eqs. (1,2) solve the inference problem for Gaussian process: They provide us directly
+with the predictive distribution P(9(x)lx, D). The posterior variance, eq. (2), in
+fact also gives us the expected generalization error at x. Why? If the teacher
+is 9*, the squared deviation between our mean prediction and the teacher output
+is 1 (9(x) - 9* (X))2; averaging this over the posterior distribution of teachers P(9* ID)
+just gives (2). The underlying assumption is that our assumed Gaussian process
+lOne can also one measure the generalization by the squared deviation between the
+prediction O(x) and the noisy teacher output; this simply adds a term 0'2 to eq. (3).
+
+P. Sollich
+
+346
+
+prior is the true one from which teachers are actually generated (and that we are
+using the correct noise model). Otherwise, a more complicated expression for the
+expected generalization error results; in line with most other work on the subject, I
+only consider the 'correct prior' case in the following. Averaging the generalization
+error at x over the distribution of inputs gives then
+(3)
+
+This form of the generalization error (which is well known [2, 3, 4, 5]) still depends
+on the training inputs (the fact that the training outputs have dropped out already
+is a signature of the fact that Gaussian processes are linear predictors, compare (1)).
+Averaging over data sets yields the quantity we are after,
+?
+
+(4)
+
+= (t(D)}D?
+
+This average expected generalization error (I will drop the 'average expected' in the
+following) only depends on the number of training examples n; the function ?(n)
+is called the learning curve. Its exact calculation is difficult because of the joint
+average in eqs. (3,4) over the training inputs Xl and the test input x.
+
+2
+
+LEARNING CURVES
+
+As a starting point for an approximate calculation of ?(n), I first derive a representation of the generalization error in terms of the eigenvalue decomposition of
+the covariance function. Mercer's theorem (see e.g. [6]) tells us that the covariance
+function can be decomposed into its eigenvalues Ai and eigenfunctions (/Ji(x):
+00
+
+C(x, x') =
+
+L Ai<Pi(X)qJi(x')
+
+(5)
+
+i=1
+
+This is simply the analogue of the eigenvalue decomposition of a finite symmetric
+matrix; the eigenfunctions can be taken to be normalized such that (<Pi (x) <Pj (x)} x =
+Oij . Now write the data-dependent generalization error (3) as ?(D) = (C(x,x)}xtr (k(x)k(x)T)x K- 1 and perform the x-average in the second term:
+?(k(x)k(x)T)lm)x =
+
+L AiAj<Pi(XI) (<Pi (x)<pj (x)} <pj(xm) = L A;<Pi (Xt}<Pi (x
+ij
+
+m)
+
+i
+
+This suggests introducing the diagonal matrix (A)ij = AiOij and the 'design matrix'
+(<J?li = <Pi (xt), so that (k(x)k(x)T)x = <J>A2<J>T. One then also has (C(x,x)}x =
+tr A, and the matrix K is expressed as K = a 21 + <J>A<J>T, 1 being the identity
+matrix. Collecting these results, we have
+?(D)
+
+= tr A -
+
+tr (a 21 + <J>A<J>T)-I<J>A 2<J>T
+
+This can be simplified using the Woodbury formula for matrix inverses (see e.g. [7]),
+which applied to our case gives (a 2I+<J>A<J>T)-1 = a- 2[I-<J>(a 21+A<J>T<J?-1 A<J>TJ;
+after a few lines of algebra, one then obtains the final result
+t= (t(D))D'
+
+?(D) =tra 2A(a 21+A<J>T<J?-1 =tr(A- 1 +a- 2 <J>T<J?-1
+
+(6)
+
+This exact representation of the generalization error is one of the main results of this
+paper. Its advantages are that the average over the test input X has already been
+carried out, and that the remainingf dependence on the training data is contained
+entirely in the matrix <J> T <J>. It also includes as a special case the well-known result
+for linear regression (see e.g. [8]); A-I and <J> T <J> can be interpreted as suitably
+generalized versions of the weight decay (matrix) and input correlation matrix.
+Starting from (6), one can now derive approximate expressions for the learning
+
+347
+
+Learning Curves for Gaussian Processes
+
+curve I:(n). The most naive approach is to entirely neglect the fluctuations in cJ>TcJ>
+over different data sets and replace it by its average, which is simply (( cJ> T cJ> )ij ) D =
+I:l (?i(Xt)?j(XI)) D = n8ij . This leads to the Naive approximation
+I:N(n) = tr (A -1 + O'- 2 nI)-1
+(7)
+which is not, in general, very good. It does however become exact in the large noise
+limit 0'2 -t 00 at constant nlO' 2 : The fluctuations of the elements of the matrix
+O'- 2cJ>TcJ> then become vanishingly small (of order foO'- 2 = (nlO' 2 )/fo -t 0) and
+so replacing cJ> T cJ> by its average is justified.
+To derive better approximations, it is useful to see how the matrix 9 = (A -1 +
+O'- 2cJ>TcJ?-1 changes when a new example is added to the training set. One has
+9(n
+
++ 1) -
+
+9(n)
+
+= [9- 1 (n) + O'- 2 1j11j1 T
+
+r
+
+l -
+
+9(n)
+
+=_
+
+9(n)1jI1jI T 9(n)
++ 1jIT 9(n)1jI
+
+(8)
+
+0'2
+
+in terms of the vector 1jI with elements (1jI)i = ?i(Xn+I); the second identity uses
+again the Woodbury formula. To get exact learning curves, one would have to average this update formula over both the new training input Xn+1 and all previous
+ones. This is difficult, but progress can be made by again neglecting some fluctuations: The average over Xn +1 is approximated by replacing 1jI1jIT by its average,
+which is simply the identity matrix; the average over the previous training inputs
+by replacing 9(n) by its average G(n) = (9(n)) D' This yields the approximation
+G 2 (n)
+G(n + 1) - G(n) = - 2
+G()
+(9)
+a +tr n
+Iterating from G(n = 0) = A, one sees that G(n) remains diagonal for all n, and
+so (9) is trivial to implement numerically. I call the resulting I:D(n) = tr G(n) the
+Discrete approximation to the learning curve, because it still correctly treats n as
+a variable with discrete, integer values. One can further approximate (9) by taking
+n as continuously varying, replacing the difference on the left-hand side by the
+derivative dG( n) 1dn. The resulting differential equation for G( n) is readily solved;
+taking the trace, one obtains the generalization error
+I:uc(n) = tr (A -1 + O'- 2 n'I)-1
+(10)
+with n' determined by the self-consistency equation n' + tr In(I + O'- 2 n' A) = n.
+By comparison with (7), n' can be thought of as an 'effective number of training
+examples'. The subscript DC in (10) stands for Upper Continuous approximation.
+As the name suggests, there is another, lower approximation also derived by treating
+n as continuous. It has the same form as (10), but a different self-consistent equation
+for n', and is derived as follows. Introduce an auxiliary offset parameter v (whose
+usefulness will become clear shortly) by 9- 1 = vI+A -1 +O'- 2cJ>TcJ>; at the end ofthe
+calculation, v will be set to zero again. As before, start from (8)-which also holds
+for nonzero v-and approximate 1jI1jIT and tr 9 by their averages, but retain possible
+fluctuations of 9 in the numerator. This gives G(n+ 1) - G(n) = - (9 2 (n)) 1[0'2 +
+tr G(n)]. Taking the trace yields an update formula for the generalization error 1:,
+where the extra parameter v lets us rewrite the average on the right-hand side as
+-tr (9 2 ) = (olov)tr (9) = ol:lov. Treating n again as continuous, we thus arrive
+at the partial differential equation Eh{on = (oI:l ov) 1 (0'2 + 1:). This can be solved
+using the method of characteristics [8 and (for v = 0) gives the Lower Continuous
+approximation to the learning curve,
+I:Lc(n)
+
+= tr (A -1 + O'- 2 n'I)-1 ,
+
+n'
+
+=
+
+nO' 2
+0'2
+
++ I:LC
+
+(11)
+
+By comparing derivatives w.r.t. n, it is easy to show that this is always lower than
+the DC approximation (10). One can also check that all three approximations that
+I have derived (D, LC and DC) converge to the exact result (7) in the large noise
+limit as defined above.
+
+P. Sol/ich
+
+348
+
+3
+
+COMPARISON WITH BOUNDS AND SIMULATIONS
+
+I now compare the D, LC and UC approximations with existing bounds, and with
+the 'true' learning curves as obtained by simulations. A lower bound on the generalization error was given by Michelli and Wahba [2J as
+?(n) ~ ?Mw(n) = 2::n+l Ai
+
+This is derived for the noiseless
+jections of 0* (x) along the first
+to be tight for the case of 'real'
+information theoretic methods, a
+
+(12)
+
+case by allowing 'generalized observations' (pron eigenfunctions of C (x, x') ), and so is unlikely
+observations at discrete input points. Based on
+different Lower bound was obtained by Opper [3J:
+
+1
+?(n) ~ ?Lo(n) = 4"tr (A -1
+
++ 2a- 2 nl)-1
+
+x [I + (I
+
++ 2a- 2 nA)-lJ
+
+This is always lower than the naive approximation (7); both incorrectly suggest that
+? decreases to zero for a 2 -+ 0 at fixed n, which is clearly not the case (compare (12)).
+There is also an Upper bound due to Opper [3J,
+i(n) ~ ?uo(n)
+
+= (a- 2 n)-1 tr In(1 + a- 2 nA) + tr (A -1 + a- 2 nl)-1
+
+(13)
+
+Here i is a modified version of ? which (in the rescaled version that I am using)
+becomes identical to ? in the limit of small generalization errors (? ? a 2 ), but never
+gets larger that 2a 2 ; for small n in particular, ?(n) can therefore actually be much
+larger than i(n) and its bound (13). An upper bound on ?(n) itself was derived
+by Williams and Vivarelli [4J for one-dimensional inputs and stationary covariance
+functions (for which C(x, x') is a function of x - x' alone). They considered the
+generalization error at x that would be obtained from each individual training example, and then took the minimum over all n examples; the training set average
+of this 'lower envelope' can be evaluated explicitly in terms of integrals over the
+covariance function [4J. The resulting upper bound, ?wv(n), never decays below a 2
+and therefore complements the range of applicability of the UO bound (13).
+In the examples in Fig. 1, I consider a very simple input domain, x E [0, 1Jd,
+with a uniform input distribution. I also restrict myself to stationary covariance
+functions, and in fact I use what physicists call periodic boundary conditions. This
+is simply a trick that makes it easy to calculate the required eigenvalue spectra of
+the covariance function, but otherwise has little effect on the results as long as the
+length scale of the covariance function is smaller than the size of the input domain 2 ,
+l ? 1. To cover the two extremes of 'rough' and 'smooth' Gaussian priors, I
+consider the OU [C(x, x') = exp( -lx-xll/l)J and SE [C(x, x') = exp( -lx-x' 12 /2l 2 )J
+covariance functions. The prior variance of the values of the function to be learned is
+simply C (x, x) = 1; one generically expects this 'prior ignorance' to be significantly
+larger than the noise on the training data, so I only consider values of a 2 < 1.
+I also fix the covariance function length scale to l = 0.1; results for l = 0.01
+are qualitatively similar. Several observations can be made from Figure 1. (1)
+The MW lower bound is not tight, as expected. (2) The bracket between Opper's
+lower and upper bounds (LO /UO) is rather wide (1-2 orders of magnitude); both
+give good representations of the overall shape of the learning curve only in the
+asymptotic regime (most clearly visible for the SE covariance function), i. e., once
+? has dropped below a 2 . (3) The WV upper bound (available only in d = 1) works
+21n d = 1 dimension, for example, a 'periodically continued' stationary covariance
+function on [0,1] can be written as C(X,X') = 2:::_ooc(x - x' + r). For I ? 1, only
+the r = 0 term makes a significant contribution, except when x and x' are within ~ I of
+opposite ends of the input space. With this definition, the eigenvalues of C(x, x') are given
+dx c(x) exp( -2rriqx), for integer q.
+by the Fourier transform
+
+1:"00
+
+349
+
+Learning Curves for Gaussian Processes
+2
+
+OU, d=l, 1=0.1 , cr =10
+
+-3
+
+2
+
+-3
+
+SE, d=l, 1=0.1, cr =10
+
+10?
+
+10?
+
+E
+
+(b)
+
+10-1
+
+10- 1
+
+-_WV
+
+10-2
+10-3
+
+10-2
+\.
+
+MW--y~ - -
+
+--
+
+' ,L?
+
+,\
+
+'i- ,
+
+10-4
+
+, - __
+'MW ---
+
+\
+
+10-3
+
+10-5
+0
+
+200
+
+400
+
+600
+
+~O
+
+50
+
+0
+
+2
+
+100
+
+200
+
+150
+2
+
+OU, d=l, 1=0.1, cr =0.1
+
+SE, d=l , 1=0.1, cr =0.1
+
+10?
+
+10?
+(c)
+
+E
+
+___
+
+10- 1
+-~~-::::.-::::.-
+
+10-1
+
+D/uC
+
+,
+\\~
+
+WV
+
+10-2
+
+--VO
+
+LC
+
+''''',---
+
+0
+
+,- - - - - - - - - - - --- - - _ _ -VO- ,
+
+10-3
+
+'-.\.
+
+10-2
+
+'-.
+
+(d)
+
+wv
+
+- _ _ -l-O
+
+IMW
+
+- ..!-O-
+
+-
+
+- --
+
+10-4
+
+200
+
+400
+2
+
+OU, d=2, 1=0.1, cr =10
+
+600
+
+0
+
+200
+
+-3
+
+400
+2
+
+600
+-3
+
+SE, d=2, 1=0.1, cr =10
+
+10?
+
+10?
+(e)
+
+E
+\.
+'-.
+
+-- -- - -~
+
+LC
+
+vo--- ---
+
+10- 1
+\
+
+0
+
+10-2
+10-3
+
+, - ___ ~o
+
+200
+
+\.
+
+-
+
+n
+
+400
+
+- -- 600
+
+'.MW
+
+,
+
+,
+
+\
+
+,
+
+\~---,~-
+
+10-4
+
+-- -
+
+10-2
+
+(D
+
+10-1
+
+DIVC
+
+\
+
+10-5
+0
+
+200
+
+n
+
+400
+
+600
+
+Figure 1: Learning curves c(n): Comparison of simulation results (thick solid lines;
+the small fluctuations indicate the order of magnitude of error bars), approximations
+derived in this paper (thin solid lines; D = discrete, UC/LC = upper/lower continuous) , and existing upper (dashed; UO = upper Opper, WV = Williams-Vivarelli)
+and lower (dot-dashed; LO = lower Opper, MW = Michelli-Wahba) bounds. The
+type of covariance function (Ornstein-Uhlenbeck/Squared Exponential), its length
+scale l, the dimension d of the input space, and the noise level (72 are as shown.
+Note the logarithmic y-axes. On the scale of the plots, D and UC coincide (except
+in (b)); the simulation results are essentially on top of the LC curve in (c-e) .
+
+350
+
+P'Sollich
+
+well for the OU covariance function, but less so for the SE case. As expected, it
+is not useful in the asymptotic regime because it always remains above (72. (4)
+The discrete (D) and upper continuous (UC) approximations are very similar, and
+in fact indistinguishable on the scale of most plots. This makes the UC version
+preferable in practice, because it can be evaluated for any chosen n without having
+to step through all smaller values of n. (5) In all the examples, the true learning
+curve lies between the UC and LC curves. In fact I would conjecture that these two
+approximations provide upper and lower bounds on the learning curves, at least
+for stationary covariance functions. (6) Finally, the LC approximation comes out
+as the clear winner: For (72 = 0.1 (Fig. 1c,d), it is indistinguishable from the true
+learning curves. But even in the other cases it represents the overall shape of the
+learning curves very well, both for small n and in the asymptotic regime; the largest
+deviations occur in the crossover region between these two regimes.
+In summary, I have derived an exact representation of the average generalization c
+error of Gaussian processes used for regression, in terms of the eigenvalue decomposition of the covariance function. Starting from this, I have obtained three different
+approximations to the learning curve c(n) . All of them become exact in the large
+noise limit; in practice, one generically expects the opposite case ((72 /C(x, x) ? 1),
+but comparison with simulation results shows that even in this regime the new
+approximations perform well. The LC approximation in particular represents the
+overall shape of the learning curves very well, both for 'rough' (OU) and 'smooth'
+(SE) Gaussian priors, and for small as well as for large numbers of training examples
+n. It is not perfect, but does get substantially closer to the true learning curves
+than existing bounds. Future work will have to show how well the new approximations work for non-stationary covariance functions and/or non-uniform input
+distributions, and whether the treatment of fluctuations in the generalization error
+(due to the random selection of training sets) can be improved, by analogy with
+fluctuation corrections in linear perceptron learning [8].
+Acknowledgements: I would like to thank Chris Williams and Manfred Opper for
+stimulating discussions, and for providing me with copies of their papers [3,4] prior
+to publication. I am grateful to the Royal Society for financial support through a
+Dorothy Hodgkin Research Fellowship.

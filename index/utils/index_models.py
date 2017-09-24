@@ -47,17 +47,29 @@ class Paper_authors(BaseModel):
     paper_id = pw.ForeignKeyField(Papers)
     author_id = pw.ForeignKeyField(Authors) 
 
-
 class Citations(BaseModel):
     id = pw.PrimaryKeyField()
     source_paper = pw.ForeignKeyField(Papers, related_name='sorce')
     cited_paper = pw.ForeignKeyField(Papers, related_name='cited')
 
-class Papers_for_index(BaseModel):
+# table for papers without reference content
+class Papers_NR(BaseModel):
     id = pw.PrimaryKeyField()
     pdf_name = pw.TextField()
     paper_text = pw.TextField()
 
+# tables for papers without reference content and without stopwords
+class Papers_NR_NSW(BaseModel):
+    id = pw.PrimaryKeyField()
+    pdf_name = pw.TextField()
+    paper_text = pw.TextField()
+
+# tables for papers without reference content and without stopwords
+# and with a stemming process applied
+class Papers_NR_NSW_STE(BaseModel):
+    id = pw.PrimaryKeyField()
+    pdf_name = pw.TextField()
+    paper_text = pw.TextField()
     
 DATABASE_FILENAME = "../data/database.sqlite"
 if __name__ == '__main__':

@@ -1,0 +1,1666 @@
+000
+001
+002
+003
+004
+005
+006
+007
+
+Switching state space model for simultaneously
+estimating state transitions and nonstationary firing
+rates
+
+008
+009
+010
+011
+
+Anonymous Author(s)
+Affiliation
+Address
+email
+
+012
+013
+014
+015
+016
+017
+018
+
+Abstract
+
+019
+020
+
+We propose an algorithm for simultaneously estimating state transitions among
+neural states, the number of neural states, and nonstationary firing rates using a
+switching state space model (SSSM). This algorithm enables us to detect state
+transitions on the basis of not only the discontinuous changes of mean firing rates
+but also discontinuous changes in temporal profiles of firing rates, e.g., temporal
+correlation. We construct a variational Bayes algorithm for a non-Gaussian SSSM
+whose non-Gaussian property is caused by binary spike events. Synthetic data
+analysis reveals that our algorithm has the high performance for estimating state
+transitions, the number of neural states, and nonstationary firing rates compared
+to previous methods. We also analyze neural data that were recorded from the
+medial temporal area. The statistically detected neural states probably coincide
+with transient and sustained states that have been detected heuristically. Estimated
+parameters suggest that our algorithm detects the state transition on the basis of
+discontinuous changes in the temporal correlation of firing rates, which transitions previous methods cannot detect. This result suggests that our algorithm is
+advantageous in real-data analysis.
+
+021
+022
+023
+024
+025
+026
+027
+028
+029
+030
+031
+032
+033
+034
+035
+036
+037
+038
+039
+040
+041
+042
+043
+044
+045
+046
+047
+048
+049
+050
+051
+052
+053
+
+1 Introduction
+Elucidating neural encoding is one of the most important issues in neuroscience. Recent studies have
+suggested that cortical neuron activities transit among neural states in response to applied sensory
+stimuli[1-3]. Abeles et al. detected state transitions among neural states using a hidden Markov
+model whose output distribution is multivariate Poisson distribution (multivariate-Poisson hidden
+Markov model(mPHMM))[1]. Kemere et al. indicated the correspondence relationship between
+the time of the state transitions and the time when input properties change[2]. They also suggested
+that the number of neural states corresponds to the number of input properties. Assessing neural
+states and their transitions thus play a significant role in elucidating neural encoding. Firing rates
+have state-dependent properties because mean and temporal correlations are significantly different
+among all neural states[1]. We call the times of state transitions as change points. Change points
+are those times when the time-series data statistics change significantly and cause nonstationarity
+in time-series data. In this study, stationarity means that time-series data have temporally uniform
+statistical properties. By this definition, data that do not have stationarity have nonstationarity.
+Previous studies have detected change points on the basis of discontinuous changes in mean firing rates using an mPHMM. In this model, firing rates in each neural state take a constant value.
+However, actually in motor cortex, average firing rates and preferred direction change dynamically
+in motor planning and execution[4]. This makes it necessary to estimate state-dependent, instantaneous firing rates. On the other hand, when place cells burst within their place field[5], the inter-burst
+1
+
+054
+055
+056
+057
+058
+059
+060
+061
+062
+063
+064
+065
+066
+067
+068
+069
+070
+071
+072
+073
+074
+075
+076
+077
+078
+079
+080
+081
+082
+083
+084
+085
+086
+087
+088
+089
+090
+091
+092
+093
+094
+095
+096
+097
+098
+099
+100
+101
+102
+103
+104
+105
+106
+107
+
+intervals correspond to the ? rhythm frequency. Medial temporal (MT) area neurons show oscillatory firing rates when the target speed is modulated in the manner of a sinusoidal function[6]. These
+results indicate that change points also need to be detected when the temporal profiles of firing rates
+change discontinuously.
+One solution is to simultaneously estimate both change points and instantaneous firing rates. A
+switching state space model(SSSM)[7] can model nonstationary time-series data that include change
+points. An SSSM defines two or more system models, one of which is modeled to generate observation data through an observation model. It can model nonstationary time-series data while switching
+system models at change points. Each system model estimates stationary state variables in the region
+that it handles. Recent studies have been focusing on constructing algorithms for estimating firing
+rates using single-trial data to consider trial-by-trial variations in neural activities [8]. However,
+these previous methods assume firing rate stationarity within a trial. They cannot estimate nonstationary firing rates that include change points. An SSSM may be used to estimate nonstationary
+firing rates using single-trial data.
+We propose an algorithm for simultaneously estimating state transitions among neural states and
+nonstationary firing rates using an SSSM. We expect to be able to estimate change points when
+not only mean firing rates but also temporal profiles of firing rates change discontinuously. Our
+algorithm consists of a non-Gaussian SSSM, whose non-Gaussian property is caused by binary
+spike events. Learning and estimation algorithms consist of variational Bayes[9,10] and local variational methods[11,12]. Automatic relevance determination (ARD) induced by the variational Bayes
+method[13] enables us to estimate the number of neural states after pruning redundant ones. For
+simplicity, we focus on analyzing single-neuron data. Although many studies have discussed state
+transitions by analyzing multi-neuron data, some of them have suggested that single-neuron activities reflect state transitions in a recurrent neural network[14]. Note that we can easily extend our
+algorithm to multi-neuron analysis using the often-used assumption that change points are common
+among recorded neurons[1-3].
+
+2 Definitions of Probabilistic Model
+2.1 Likelihood Function
+Observation time T consists of K time bins of widths ? (ms), and each bin includes at most one
+spike (? ? 1). The spike timings are t = {t1 , ..., tS } where S is the total number of observed
+spikes. We define ?k such that ?k = +1 if the kth bin includes a spike and ?k = ?1 otherwise
+(k = 1, ..., K). The likelihood function is defined by the Bernoulli distribution
+1+?k
+1??k
+?K
+p(t|?) = k=1 (?k ?) 2 (1 ? ?k ?) 2 ,
+(1)
+where ? = {?1 , ..., ?K } and ?k is the firing rate at the kth bin. The product of firing rates and bin
+width corresponds to the spike-occurrence probability and ?k ? ? [0, 1) since ? ? 1. The logit
+?k ?
+transformation of exp(2xk ) = 1??
+(xk ? (??, ?)) lets us consider the nonnegativity of firing
+k?
+rates in detail[11]. Hereinafter, we call x = {x1 , ..., xK } the ?firing rates?.
+Since K is a large because ? ? 1, the computational cost and memory accumulation do matter.
+We thus use coarse graining[15]. Observation time T consists of M coarse bins of widths r = C?
+(ms). A coarse bin includes many spikes and the firing rate in each bin is constant. The likelihood
+function which is obtained by applying the logit transformation and the coarse graining to eq. (1) is
+?M
+p(t|x) = m=1 [exp(?
+?m xm ? C log 2 cosh xm )],
+(2)
+?C
+where ??m = u=1 ?(m?1)C+u .
+xN xN
+xN
+2.2
+
+Firing
+rate
+
+Switching State Space Model
+
+1
+
+2
+
+M
+
+x11
+
+x21
+z2
+
+xM1
+zM
+
+^
+?
+2
+
+^
+?
+M
+
+An SSSM consists of N system models; for each model, we den
+fine a prior distribution. We define label variables zm
+such that Label z 1
+n
+zm = 1 if the nth system model generates an observation in the variable
+n
+mth bin and zm
+= 0 otherwise (n = 1, ..., N, m = 1, ..., M ). Spike ^
+?
+train
+
+2
+
+1
+
+Figure 1: Graphical model representation of SSSM.
+
+108
+109
+
+We call N the number of labels and the nth system model the nth
+label. The joint distribution is defined by
+
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+
+p(t, x, z|? 0 ) = p(t|x, z)p(z|?, a)p(x|?, ?),
+
+(3)
+
+1
+N
+where x = {x , ..., x }, x =
+...,
+z = {z11 , .., zM
+, ..., z1N , ..., zM
+}, and ? 0 =
+{?, a, ?, ?} are parameters. The likelihood function, including label variables, is given by
+?N ?M
+n
+p(t|x, z) = n=1 m=1 [exp(?
+?m xnm ? C log 2 cosh xnm )]zm .
+(4)
+1
+
+N
+
+n
+
+{xn1 ,
+
+xnM },
+
+We define the prior distributions of label variables as
+?N
+?N
+n
+p(z 1 |?) = n=1 (? n )z1 ?( n=1 ? n ? 1),
+?N ?N
+?N
+n k
+p(z m+1 |z m , a) = n=1 k=1 (ank )zm zm+1 ?( k=1 ank ? 1),
+
+(5)
+(6)
+
+where ? n and ank are the probabilities that the nth label is selected at the initial time and that the
+nth label switches to the kth one, respectively. The prior distributions of firing rates are Gaussian
+?N
+?N ? |? n ?|
+?n
+n
+p(x) = n=1 p(xn |? n , ?n ) = n=1 (2?)
+? ?n )T ?(xn ? ?n )),
+(7)
+M exp(? 2 (x
+where ? n , ?n respectively mean the temporal correlation and the mean values of the nth-label firing
+rates (n = 1, ..., N ). Here for simplicity, we introduced ?, which is the structure of the temporal
+?
+n
+correlation satisfying p(xn |? n , ?n ) ? m exp(? ?2 ((xm ? ?m ) ? (xm?1 ? ?m?1 ))2 ). Figure 1
+depicts a graphical model representation of an SSSM.
+Ghahramani & Hinton (2000) did not introduce a priori knowledge about the label switching frequencies. However, in many cases, the time scale of state transitions is probably slower than that of
+the temporal variation of firing rates. We define prior distributions of ? and a to introduce a priori
+knowledge about label switching frequencies using Dirichlet distributions
+?N
+?N
+n
+(8)
+p(?|? n ) = C(? n ) n=1 (? n )? ?1 ?( n=1 ? n ? 1),
+]
+[
+?
+?
+?
+nk
+N
+N
+N
+(9)
+p(a|? nk ) = n=1 C(? nk ) k=1 (ank )? ?1 ?( k=1 ank ? 1) ,
+?(
+
+PN
+
+?n)
+
+?(
+
+PN
+
+? nk )
+
+141
+142
+
+nk
+n
+nk
+n=1
+k=1
+where C(? n ) = ?(? 1 )...?(?
+) = ?(? n1 )...?(?
+) correspond to the
+N ) , C(?
+nN ) . C(? ) and C(?
+n
+nk
+normalization
+? ?constants of p(?|? ) and p(a|? ), respectively. ?(u) is the gamma function defined
+by ?(u) = 0 dttu?1 exp(?t). ? n , ? nk are hyperparameters to control the probability that the nth
+label is selected at the initial time and that the nth label switches to the kth. We define the prior
+distributions of ?n and ? n using non-informative priors. Since we do not have a priori knowledge
+about neural states, ? and ?, which characterize each neural state, should be estimated from scratch.
+
+143
+144
+
+3
+
+137
+138
+139
+140
+
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+
+Estimation and Learning of non-Gaussian SSSM
+
+It is generally computationally difficult to calculate the marginal posterior distribution in an
+SSSM[6]. We thus use the variational Bayes method to calculate approximated posterior distributions q(w) and q(?) that minimize the variational free energy
+??
+F[q] =
+dwd?q(w)q(?) log q(w)q(?)
+(10)
+p(t,w,?) = U[q] ? S[q]
+where w =?{z,
+(
+)
+? x} are hidden variables, ? = {?, a} are parameters,
+??
+U[q] = ?
+dwd?q(w)q(?) log p(t, w, ?) and S[q] = ?
+dwd?q(w)q(?) log q(w)q(?) .
+We denote q(w) and q(?) as test distributions. The variational free energy satisfies
+log p(t) = ?F[q] + KL(q(w)q(?)kp(w, ?|t)),
+
+(11)
+
+where KL(q(w)q(?)kp(w, ?|t)) is the Kullback-Leibler divergence between test distributions and
+?
+q(y)
+a posterior distribution p(w, ?|t) defined by KL(q(y)kp(y|t)) = dyq(y) log p(y|t)
+. Since the
+marginal likelihood log p(t) takes a constant value, the minimization of variational free energy indirectly minimizes Kullback-Leibler divergence. The variational Bayes method requires conjugacy
+between the likelihood function (eq. (4)) and the prior distribution (eq. (7)). However, eqs. (4) and
+(7) are not conjugate to each other because of the binary spike events. The local variational method
+enables us to construct a variational Bayes algorithm for a non-Gaussian SSSM.
+3
+
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+
+3.1
+
+Local Variational Method
+
+The local variational method, which was proposed by Jaakola & Jordan[11], approximately transforms a non-Gaussian distribution into a quadratic-form distribution by introducing variational parameters. Watanabe et al. have proven the effectiveness of this method in estimating stationary
+firing rates[12]. The exponential function in eq. (4) includes f (xnm ) = log 2 cosh xnm , which is a
+concave function of y = (xnm )2 . The concavity can be confirmed by showing the negativity of the
+second-order derivative of f (xnm ) with respect to (xnm )2 for all xnm . Considering the tangent line of
+n 2
+f (xnm ) with respect to (xnm )2 at (xnm )2 = (?m
+) , we get a lower bound for eq. (4)
+?N ?M
+n
+tanh ? n
+n 2
+n zm
+) )) ? C log 2 cosh ?m
+)] , (12)
+p? (t|x, z) = n=1 m=1 [exp(?
+?m xnm ? C 2?n m ((xnm )2 ? (?m
+m
+
+181
+182
+
+is a variational parameter. Equation (12) satisfies the inequality p? (t|x, z) ? p(t|x, z).
+where
+We use eq. (12) as the likelihood function instead of eq. (4). The conjugacy between eqs. (12)
+and (7) enables us to construct the variational Bayes algorithm. Using eq. (12), we find that the
+variational free energy
+??
+F? [q] =
+dwd?q(w)q(?) log pq(w)q(?)
+= U? [q] ? S[q]
+(13)
+? (t,w,?)
+??
+satisfies the inequality F? [q] ? F[q], where U? [q] = ?
+dwd?q? (w)q? (?) log p? (s, w, ?).
+Since the inequality log p(t, x, z) ? ?F[q] ? ?F? [q] is satisfied, the test distributions that minimize F? [q] can indirectly minimize F[q] which is analytically intractable. Using the EM algorithm
+to estimate variational parameters improves the approximation accuracy of F? [q][16].
+
+183
+184
+
+3.2
+
+174
+175
+176
+177
+178
+179
+180
+
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+
+n
+?m
+
+Variational Bayes Method
+
+?N
+We assume the test distributions that satisfy the constraints q(w) = n=1 (q(xn |?n , ? n ))q(z)
+1
+N
+1
+N
+and
+q(?) = q(?)q(a),
+? {? , ..., ? }, ? ?= {? , ..., ? }. Under constraints
+?
+? where ? =
+dxq(x|?, ?) = 1, z q(z) = 1, d?q(?) = 1 and daq(a) = 1, we can obtain the test
+distributions of hidden variables xn , z that minimize eq. (13) as follows:
+? n
+|W |
+1
+n
+q(xn |?n , ? n ) = (2?)
+??
+? n )T W n (xn ? ?
+? n )),
+(14)
+M exp(? 2 (x
+q(z) ?
+
+?N
+n=1
+
+n
+
+exp(?
+? n )z1
+
+?N
+n=1
+n
+
+?M
+m=1
+
+?N
+n k
+n ?M ?1 ?N
+zm
+zm+1
+exp(?bnm )zm m=1 n=1 k=1 exp(?
+ank
+, (15)
+m)
+
+where W n = CLn + ? n ?, ?
+? = (W n )?1 (wn + ? n ??n ), ?
+? n = hlog ? n i, ?bnm = ??m hxnm i ?
+n
+C tanh ?m
+n 2
+n 2
+n
+nk
+nk
+(h(xm ) i ? (?m ) ) ? C log 2 cosh ?m , a
+? = hlog a i, Ln is the diagonal matrix whose
+2? n
+m
+
+tanh ? n
+
+n
+n
+i ?n m , wn is the vector whose (1, m) component is hzm
+i?
+?m . h?i means
+(m, m) component is hzm
+m
+the average obtained using a test distribution q(?). The computational cost of calculating the inverse
+of each W is O(M) because ? is defined by a tridiagonal and Ln is a diagonal matrix.
+n
+i controls the effective variance of the likelihood function. A higher
+In the calculation of q(xn ), hzm
+n
+n
+i means the data are
+hzm
+i means the data are reliable for the nth label in the mth bin and lower hzm
+?N
+n
+unreliable. Under the constraint n=1 hzm i = 1, all labels estimate their firing rates on the basis
+n 2
+of divide-and-conquer principle of data reliability. Using the equality (?m
+) = h(xnm )2 i that will
+( be
+n
+n
+?
+developed in the next section, we obtain bm = ??m hxm i ? C log 2 coshhxnm i ? C2 log 2 cosh 1 +
+)
+?1
+(W n )(m,m)
+/hxnm i2 in eq. (15). When the mth bin includes many (few) spikes, the nth label tends
+to be selected if it estimates the highest (lowest) firing rate among the labels. But the variance of the
+nth label (W n )?1
+(m,m) penalizes that label?s selection probability.
+
+We can also obtain the test distribution of parameters ?, a as
+?N
+?N
+n
+q(?) = C(?
+? n ) n=1 (? n )?? ?1 ?( n=1 ? n ? 1),
+]
+?N [
+?N
+?N
+nk
+q(a) =
+? nk ) k=1 (ank )?? ?1 ?( k=1 ank ? 1) ,
+n=1 C(?
+where C(?
+?n) =
+
+PN
+
+?( n=1 ?
+?n )
+,
+?(?
+? 1 )...?(?
+?N )
+
+C(?
+? nk ) =
+
+normalization constants of q(?) and q(a),
+
+PN
+
+(16)
+(17)
+
+?( k=1 ?
+? nk )
+. C(?
+? n ) and C(?
+? nk ) correspond to the
+?(?
+? n1 )...?(?
+? nN )
+?
+M ?1 n k
+and ?? n = hz1n i + ? 1 , ?? nk = m=1 hzm
+zm+1 i + ? nk .
+
+4
+
+216
+217
+218
+219
+220
+221
+
+We can see ? n in ?? n controls the probability that the nth label is selected at the initial time, and
+? nk in ?? nk biases the probability of the transition from the nth label to the kth label. A forwardbackward algorithm enables us to calculate the first- and second-order statistics of q(z). Since an
+SSSM involves many local solutions, we search for a global one using deterministic annealing,
+which is proven to be effective for estimating and learning in an SSSM [7].
+
+222
+223
+
+3.3 EM algorithm
+
+224
+225
+
+The EM algorithm enables us to estimate variational parameters ? and parameters ? and ?. In the
+EM algorithm, the calculation of the Q function is computationally difficult because it requires us to
+calculate averages using the true posterior distribution. We thus calculate the Q function using test
+distributions instead of the true posterior distributions as follows:
+?
+0
+0
+0
+0
+0
+?
+Q(?,
+?, ?k?(t ) , ? (t ) , ? (t ) ) = dxq(x|?(t ) , ? (t ) )q(z)q(?)q(a) log p? (t, x, z, ?, a|?, ?). (18)
+
+226
+227
+228
+229
+230
+231
+
+0
+
+232
+233
+234
+235
+236
+237
+238
+239
+240
+
+n 2
+(?m
+) = h(xnm )2 i,
+
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+
+?nm = hxnm i,
+
+and
+
+?n =
+
+M
+Tr[?((Wn )?1 +(hxn i??n )(hxn i??n )T )]
+
+(19)
+
+?
+Summary of our algorithm
+Set ? 1 and ? nk . t0 ? 1 Initialize parameters of model.
+Perform the following VB and EM algorithm until F? [q] converges.
+0
+0
+0
+? (t ) , ?(t ) , ? (t ) ? ?, ?, ?
+
+VB-E step:
+VB-M step:
+
+0
+
+0
+
+Compute q(x|?(t ) , ? (t ) ) and q(z) using eq. (14) and eq. (15).
+Compute q(?) and q(a) using eq. (16) and eq. (17).
+
+EM algorithm
+
+Compute ?, ?, ? using eq. (19).
+
+t0 ? t0 + 1
+?
+
+4
+
+?
+
+Results
+
+?m
+The estimated firing rate in the mth bin is defined by x
+?m = hxnm
+i, where n
+? m satisfies n
+?m =
+n
+n
+k
+?
+arg maxn hzm
+i. The estimated change points mr
+? = mC?
+?
+satisfies hzm
+i
+>
+hz
+i
+(
+k
+6= n)
+?
+m
+?
+n
+k
+?
+? is given by N
+? =
+and hzm+1
+i
+<
+hz
+i
+(
+k
+=
+6
+n).
+The
+estimated
+number
+of
+labels
+N
+?
+m+1
+?
+n
+N ? (the number of pruned labels), where we assume that the nth label is pruned out if hzm
+i<
+10?5 (? m). We call our algorithm ?the variational Bayes switching state space model? (VB-SSSM).
+
+4.1
+
+Synthetic data analysis and Comparison with previous methods
+
+We artificially generate spike trains from arbitrarily set firing rates with an inhomogeneous gamma
+process. Throughout this study, we set ? which means the spike irregularity to 2.4 in generating
+spike trains. We additionally confirmed that the following results are invariant if we generate spikes
+using inhomogeneous Poisson or inverse Gaussian process.
+
+264
+265
+
+In this section, we set parameters to N = 5, T = 4000, ? = 0.001, r = 0.04, ? n = 1, ? nk =
+100(n = k) or 2.5(n 6= k). The hyperparameters ? nk represent the a priori knowledge where the
+time scale of transitions among labels is sufficiently slower than that of firing-rate variations.
+
+266
+267
+
+4.1.1
+
+268
+269
+
+?
+
+Variational Bayes algorithm Perform the VB-E and VB-M step until F?(t0 ) [q] converges.
+
+243
+244
+
+247
+248
+
+0
+
+maximize the Q function. The following table summarizes our algorithm.
+
+241
+242
+
+245
+246
+
+0
+
+?
+Since Q(?,
+?, ?k?(t ) , ? (t ) , ?(t ) ) = ?U[q]? , maximizing the Q function with respect to ?, ?, ? is
+equivalent to minimizing the variational free energy (eq. (10) ). The update rules
+
+Accuracy of change-point detections
+
+This section discusses the comparative results between the VB-SSSM and mPHMM regarding the
+accuracy of change-point detections and number-of-labels estimation. We used the EM algorithm to
+5
+
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+
+0
+
+1000
+
+2000
+
+Time (ms)
+
+3000
+
+4000
+
+(d)
+
+0
+
+120
+80
+
+True firing rate
+
+40
+
+Firing rate (Hz)
+
+120
+80
+
+<z>
+1
+
+(b)
+
+mPHMM VB-SSSM 0
+
+276
+277
+
+(c)
+
+True firing rate
+
+40
+
+274
+275
+
+Firing rate (Hz)
+
+272
+273
+
+(a)
+
+mPHMM VB-SSSM 0
+
+270
+271
+
+0
+
+<z>
+1
+
+1000
+
+2000
+
+3000
+
+4000
+
+0
+
+Time (ms)
+
+Figure 2: Comparative results of change-point detections for the VB-SSSM and the mPHMM. (a)
+and (c): Arbitrary set firing rates for validating the accuracy of change-point detections when firing
+rates include discontinuous changes in mean value (fig. (a)) or temporal correlation (fig. (c)). (b)
+and (d): Comparative results that correspond to firing rates in (a) ((b)) and (c) ((d)). The stronger
+the white color becomes, the more dominant the label is in the bin.
+estimate the label variables in the mPHMM[1-3]. Since the mPHMM is useful in analyzing multitrial data, in the estimation of mPHMM we used ten spike trains under the assumption that change
+points were common among ten spike trains. On the other hand, VB-SSSM uses single-trial data.
+Fig. 2(a) displays arbitrarily set firing rates to verify the change point detection accuracy when
+(
+mean firing rates changed discontinuously.
+The
+firing
+rate
+at
+time
+t(ms)
+was
+set
+to
+?
+=
+0.0
+t )?
+t
+)
+(
+)
+(
+[0, 1000), t ? [2000, 3000) , ?t = 110.0 t ? [1000, 2000) , and ?t = 60.0 t ? [3000, 4000] .
+The upper graph in fig. 2(b) indicates the label variables estimated with the VB-SSSM and the
+lower indicates those estimated with the mPHMM. In the VB-SSSM, ARD estimated the number
+of labels to be three after pruning redundant labels. As a result of ten-trial data analysis, the VBSSSM estimated the number of labels to be three in nine over ten spike trains. The estimated change
+points were 1000?0.0, 2000?0.0, and 2990?16.9ms. The true change points were 1000, 2000, and
+3000ms.
+
+309
+310
+
+Fig. 2(c) plots the arbitrarily set firing rates for verifying the change point detection accuracy when
+temporal
+discontinuously. (The firing rate at time
+( correlation changes
+)
+) t(ms) was set to ?t = ?t?1 +
+2.0zt t ? [0, 2000) , ?t = ?t?1 + 20.0zt t ? [2000, 4000] , where zt is a standard normal
+random variable that satisfies hzt i = 0, hzt zt0 i = ?tt0 (?tt0 = 0(t 6= t0 ), 1(t = t0 )). Fig. 2(d)
+shows the comparative results between the VB-SSSM and mPHMM. ARD estimates the number of
+labels to be two after pruning redundant labels. As a result of ten-trial data analysis, our algorithm
+estimated the number of labels to be two in nine over ten spike trains. The estimated change points
+was 1933?315.1ms and the true change point was 2000ms.
+
+311
+312
+
+4.1.2 Accuracy of firing-rate estimation
+
+305
+306
+307
+308
+
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+
+This section discusses the nonstationary firing rate estimation accuracy. The comparative methods
+include kernel smoothing (KS), kernel band optimization (KBO)[17], adaptive kernel smoothing
+(KSA)[18], Bayesian adaptive regression splines (BARS)[19], and Bayesian binning (BB)[20]. We
+used a Gaussian kernel in KS, KBO, and KSA. The kernel widths ? were set to ? = 30 (ms) (KS30),
+? = 50 (ms) (KS50) and ? = 100 (ms) (KS100) in KS. In KSA, we used the bin widths estimated
+using KBO. Cunningham et al. have reviewed all of these compared methods [8].
+(
+)
+A firing rate at time t(ms) was set to ?t = 5.0 t ? [0, 480), t ? [3600, 4000] , ?t = 90.0 ?
+(
+)
+(
+)
+exp(?11 (t?480)
+4000 ) t ? [480, 2400) , ?t = 80.0 ? exp(?0.5(t ? 2400)/4000)) t ? [2400, 3600)
+and we reset ?t to 5.0 if ?t < 5.0. We set these firing rates assuming an experiment in which transient and persistent inputs are applied to an observed neuron in a series. Note that input information,
+such as timings, properties, and sequences is entirely unknown.
+6
+
+338
+339
+340
+341
+342
+343
+344
+345
+346
+347
+348
+349
+350
+351
+352
+353
+354
+355
+356
+357
+358
+359
+360
+361
+362
+363
+364
+365
+366
+367
+368
+369
+370
+371
+372
+373
+374
+375
+376
+377
+
+3000
+
+4000
+
+7
+6
+5
+
+0
+
+1000
+
+2000
+
+Time (ms)
+
+3000
+
+4000
+
+0
+
+BB
+
+2000
+
+Time (ms)
+
+**
+
+VB-SSSM
+
+1000
+
+**
+
+8
+
+KSA
+
+< z >1 0
+
+**
+
+KBO
+
+120
+80
+
+Firing rate (Hz)
+4000
+
+**
+
+9
+
+KS50
+
+3000
+
+11
+
+KS100
+
+2000
+
+Time (ms)
+
+*
+
+*
+
+**??
+?p<0.005
+
+**
+
+10
+
+40
+
+120
+80
+40
+
+1000
+
+12
+
+KS30
+
+336
+337
+
+0
+
+1
+2
+3
+4
+5
+
+*??
+?p<0.01
+
+(d)
+
+BARS
+
+334
+335
+
+(b)
+
+Estimated value using label 1
+Estimated value using label 2
+Estimated value using label 3
+True firing rate
+
+Mean absolute error
+
+332
+333
+
+0
+
+330
+331
+
+Firing rate (Hz)
+
+328
+329
+
+(c)
+
+Estimated firing rate
+True firing rate
+
+0
+
+326
+327
+
+(a)
+
+Label number
+
+324
+325
+
+Figure 3: Results of firing-rate estimation. (a): Estimated firing rates. Vertical bars above abscissa
+n
+axes are spikes used for estimates. (b): Averaged label variables hzm
+i. (c): Estimated firing rates
+using each label. (d): Mean absolute error ? standard deviation when applying our algorithm and
+other methods to estimate firing rates plotted in (a). * indicates p<0.01 and ** indicates p<0.005.
+Fig. 3(a) plots the estimated firing rates (red line). Fig. 3(b) plots the estimated label variables and
+fig. 3(c) plots the estimated firing rates when all labels other than the pruned ones were used. ARD
+estimates the number of labels to be three after pruning redundant labels. As a result of ten spike
+trains analysis, the VB-SSSM estimated the number of labels to be three in eight over ten spike
+trains. The change points were estimated at 420?82.8, 2385?20.7, and 3605?14.1ms. The true
+change points were 480, 2400, and 3600ms.
+?K
+1
+?
+?
+The mean-absolute-error (MAE) is defined by MAE = K
+k=1 |?k ? ?k |, where ?k and ?k are
+the true and estimated firing rates in the kth bin. All the methods estimate the firing rates at ten
+times. Fig. 3(d) shows the mean MAE values averaged across ten trials and the standard deviations.
+We investigated the significant differences in firing-rate estimation among all the methods using
+Wilcoxon signed rank test. Both the VB-SSSM and BB show the high performance. Note that the
+VB-SSSM can estimate not only firing rates but change points and the number of neural states.
+4.2
+
+Real Data Analysis
+
+In area MT, neurons preferentially respond to the movement directions of visual inputs[21]. We analyzed the neural data recorded from area MT of a rhesus monkey when random dots were presented.
+These neural data are available from the Neural Signal Archive (http://www.neuralsignal.org.), and
+detailed experimental setups are described by Britten et al. [22]. The input onsets correspond to
+t = 0(ms), and the end of the recording corresponds to t = 2000(ms). This section discusses our
+analysis of the neural data included in nsa2004.1 j001 T2. These data were recorded from the same
+neuron of the same subject. Parameters were set as follows: T = 2000, ? = 0.001, N = 5, r =
+0.02, ? n = 1(n = 1, ..., 5), ? nk = 100(n = k) or 2.5(n 6= k).
+Fig. 4 shows the analysis results when random dots have 3.2% coherence. Fig. 4 (a) plots the
+estimated firing rates (red line) and a Kolmogorov-Smirnov plot (K-S plot) (inset)[23]. Since the
+true firing rates for the real data are entirely unknown, we evaluated the reliability of estimated
+values from the confidence intervals. The black and gray lines in the inset denote the K-S plot and
+95 % confidence intervals. The K-S plot supported the reliability of the estimated firing rates since
+it fits into the 95% confidence intervals. Fig. 4(b) depicts the estimated label variables, and fig.
+4(c) shows the estimated firing rates using all labels other than the pruned ones. The VB-SSSM
+estimates the number of labels to be two. We call the label appearing on the right after the input
+onset ?the 1st neural state? and that appearing after the 1st neural state ?the 2nd neural state?. The
+1st and 2nd neural states in fig. 4 might corresponded to transient and sustained states[6] that have
+been heuristically detected, e.g. assuming the sustained state lasts for a constant time[24].
+We analyzed all 105 spike trains recorded under presentations of random dots with 3.2%, 6.4%,
+12.8%, and 99.9% coherence, precluding the neural data in which the total spike count was less than
+7
+
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+
+500
+
+1000
+
+1500
+
+1
+2
+3
+4
+5
+
+0
+
+500
+
+1000
+
+Time (ms)
+
+1500
+
+?
+
+200
+
+Firing rate (Hz)
+
+2000
+< z >1
+
+2000
+
+0
+
+p<0.0005
+
+2.5
+
+100
+
+200
+100
+
+(b) 0
+
+(d) x3.510 5
+1.5
+
+The 1st neural state
+The 2nd neural state
+
+0.5
+
+500
+
+1000
+
+Time (ms)
+
+5
+10 15
+Trial number
+
+20
+
+p>0.1
+
+(e)
+
+1500 2000
+
+-1.4
+
+<d?>
+
+386
+387
+
+Estimated value using label 2
+Estimated value using label 4
+
+0
+0
+
+384
+385
+
+Firing rate (Hz)
+
+382
+383
+
+(c)
+
+Estimated firing rate
+K-S plot
+
+0
+
+380
+381
+
+(a)
+
+Label number
+
+378
+379
+
+The 1st neural state
+The 2nd neural state
+
+-1.8
+-2.2
+
+0
+
+0
+
+5
+10 15
+Trial number
+
+20
+
+Figure 4: Estimated results when applying the VB-SSSM to area MT neural data. (a): Estimated
+firing rates. Vertical bars above abscissa axes are spikes used for estimates. Inset is result of
+Kolmogorov-Smirnov goodness-of-fit. Solid and gray lines correspond to K-S plot and 95% confidence interval. (b): Averaged label variables using test distribution. (c): Estimated firing rates using
+each label. (d) and (e): Estimated parameters in the 1st and the 2nd neural states.
+
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408
+409
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+
+20. The VB-SSSM estimated the number of labels to be two in 25 over 30 spike trains (3.2%), 19
+over 30 spike trains (6.4%), 26 over 30 spike trains (12.8%), and 16 over 16 spike trains (99.9%). In
+summary, the number of labels is estimated to be two in 85 over 101 spike trains.
+Figs. 4(d) and (e) show the estimated parameters from 19 spike trains whose estimated number
+of labels was two (6.4% coherence). The horizontal axis denotes the arranged number of trials
+in ascending order. Figs. 4 (d) and (e) correspond to the estimated temporal correlation ? and
+?Tn n
+the time average of ?, which is defined by h?n i = T1n t=1
+?t , where Tn denotes the sojourn
+time in the nth label or the total observation time T . The estimated temporal correlation differed
+significantly between the 1st and 2nd neural states (Wilcoxon signed rank test, p<0.00005). On the
+other hand, the estimated mean firing rates did not differ significantly between these neural states
+(Wilcoxon signed rank test, p>0.1). Our algorithm thus detected the change points on the basis of
+discontinuous changes in temporal correlations. We could see the similar tendencies for all randomdot coherence conditions (data not shown). We confirmed that the mPHMM could not detect these
+change points (data not shown), which we were able to deduce from the results shown in fig. 2(d).
+These results suggest that our algorithm is effective in real data analysis.
+
+5 Discussion
+We proposed an algorithm for simultaneously estimating state transitions, the number of neural
+states, and nonstationary firing rates using single-trial data.
+There are ways of extending our research to analyze multi-neuron data. The simplest one assumes
+that the time of state transitions is common among all recorded neurons[1-3]. Since this assumption
+can partially include the effect of inter-neuron interactions, we can define prior distributions that are
+independent between neurons. Because there are no loops in the statistical dependencies of firing
+rates under these conditions, the variational Bayes method can be applied directly.
+One important topic for future study is optimization of coarse bin widths r = C?. A bin width
+that is too wide obscures both the time of change points and temporal profile of nonstationary firing
+rates. A bin width that is too narrow, on the other hand, increases computational costs and worsens
+estimation accuracy. Watanabe et al. proposed an algorithm for estimating the optimal bin width by
+maximization the marginal likelihood [15], which is probably applicable to our algorithm.
+
+8
+
+432
+433
+
+
+434
+435
+
+
+436
+437
+
+
+438
+439
+440
+441
+442
+443
+444
+445
+
+
+446
+447
+
+448
+
+449
+450
+
+451
+452
+
+453
+454
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+
+467
+468
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+
+
+
+

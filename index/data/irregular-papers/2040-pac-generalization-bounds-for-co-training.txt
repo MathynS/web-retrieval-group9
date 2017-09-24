@@ -1,0 +1,1337 @@
+PAC Generalization Bounds for Co-training
+
+Sanjoy Dasgupta
+AT&T Labs?Research
+dasgupta@research.att.com
+
+Michael L. Littman
+AT&T Labs?Research
+mlittman@research.att.com
+
+David McAllester
+AT&T Labs?Research
+dmac@research.att.com
+
+Abstract
+The rule-based bootstrapping introduced by Yarowsky, and its cotraining variant by Blum and Mitchell, have met with considerable empirical success. Earlier work on the theory of co-training has been only
+loosely related to empirically useful co-training algorithms. Here we give
+a new PAC-style bound on generalization error which justifies both the
+use of confidences ? partial rules and partial labeling of the unlabeled
+data ? and the use of an agreement-based objective function as suggested by Collins and Singer. Our bounds apply to the multiclass case,
+i.e., where instances are to be assigned one of labels for
+.
+
+
+
+1 Introduction
+In this paper, we study bootstrapping algorithms for learning from unlabeled data. The
+general idea in bootstrapping is to use some initial labeled data to build a (possibly partial)
+predictive labeling procedure; then use the labeling procedure to label more data; then use
+the newly labeled data to build a new predictive procedure and so on. This process can
+be iterated until a fixed point is reached or some other stopping criterion is met. Here we
+give PAC style bounds on generalization error which can be used to formally justify certain
+boostrapping algorithms.
+One well-known form of bootstrapping is the EM algorithm (Dempster, Laird and Rubin,
+1977). This algorithm iteratively updates model parameters by using the current model
+to infer (a probability distribution on) labels for the unlabeled data and then adjusting the
+model parameters to fit the (distribution on) filled-in labels. When the model defines a joint
+probability distribution over observable data and unobservable labels, each iteration of the
+EM algorithm can be shown to increase the probability of the observable data given the
+model parameters. However, EM is often subject to local minima ? situations in which
+the filled-in data and the model parameters fit each other well but the model parameters are
+far from their maximum-likelihood values. Furthermore, even if EM does find the globally
+optimal maximum likelihood parameters, a model with a large number of parameters will
+over-fit the data. No PAC-style guarantee has yet been given for the generalization accuracy
+of the maximum likelihood model.
+An alternative to EM is rule-based bootstrapping of the form used by Yarowsky (1995),
+in which one assigns labels to some fraction of a corpus of unlabeled data and then infers
+
+new labeling rules using these assigned labels as training data. New labels lead to new
+rules which in turn lead to new labels, and so on. Unlike EM, rule-based bootstrapping
+typically does not attempt to fill in, or assign a distribution over, labels unless there is
+compelling evidence for a particular label. One intuitive motivation for this is that by
+avoiding training on low-confidence filled-in labels one might avoid the self-justifying local
+optima encountered by EM. Here we prove PAC-style generalization guarantees for rulebased bootstrapping.
+Our results are based on an independence assumption introduced by Blum and
+Mitchell (1998) which is rather strong but is used by many successful applications. Consider, for example, a stochastic context-free grammar. If we generate a parse tree using
+such a grammar then the nonterminal symbol labeling a phrase separates the phrase from
+its context ? the phrase and the context are statistically independent given the nonterminal symbol. More intuitively, in natural language the distribution of contexts into which a
+given phrase can be inserted is determined to some extent by the ?type? of the phrase. The
+type includes the syntactic category but might also include semantic subclassifications, for
+instance, whether a noun phrase refers to a person, organization, or location. If we think of
+each particular occurrence of a phrase as a triple 	
+
+ , where  is the phrase itself,
+ is the ?type? of the phrase, and 	 is the context, then we expect that  is conditionally
+independent of  given  . The conditional independence can be made to hold precisely if
+we generate such triples using a stochastic context free grammar where  is the syntactic
+category of the phrase.
+Blum and Mitchell introduce co-training as a general term for rule-based bootstrapping in
+which each rule must be based entirely on   or entirely on   . In other words, there are
+two distinct hypothesis classes,   which consists of functions predicting  from   , and
+  which consists of functions predicting  from   . A co-training algorithm bootstraps
+by alternately selecting     and     . The principal assumption made by Blum
+and Mitchell is that   is conditionally independent of   given  . Under such circumstances, they show that, given a weak predictor in   , and given an algorithm which can
+learn  under random misclassification noise, it is possible to learn a good predictor in
+ . This gives some degree of justification for the co-training restriction on rule-based
+bootstrapping. However, it does not provide a bound on generalization error as a function of empirically measurable quantities. Furthermore, there is no apparent relationship
+between this PAC-learnability theorem and the iterative co-training algorithm they suggest.
+Collins and Singer (1999) suggest a refinement of the co-training algorithm in which one
+explicitly optimizes an objective function that measures the degree of agreement between
+the predictions based on   and those based on   . They describe methods for ?boosting?
+this objective function but do not provide any formal justification for the objective function
+itself. Here we give a PAC-style performance guarantee in terms of this agreement rate.
+This guarantee formally justifies the Collins and Singer suggestion.
+In this paper, we use partial classification rules, which either output a class label or output
+a special symbol  indicating no opinion. The error of a partial rule is the probability that
+the rule is incorrect given that it has an opinion. We work in the co-training setting where
+we have a pair of partial rules  and  where 	 (sometimes) predicts  from  and 
+(sometimes) predicts  from 	 . Each of the rules  and  can be ?composite rules?, such
+as decision lists, where each composite rule contains a large set of smaller rules within it.
+We give a bound on the generalization error of each of the rules   and   in terms of the
+empirical agreement rate between the two rules. This bound formally justifies both the use
+
+h1
+
+X1
+
+X2
+
+h2
+
+Y
+Figure 1: The co-training scenario with rules  and  .
+of agreement in the objective function and the use of partial rules. The bound shows the
+potential power of unlabeled data ? low generalization error can be achieved for complex
+rules with a sufficient quantity of unlabeled data. The use of partial rules is analogous to
+the use of confidence ratings ? a partial rule is just a rule with two levels of confidence.
+So the bound can also be viewed as justifying the partial labeling aspect of rule-based
+bootstrapping, at least in the case of co-training where an independence assumption holds.
+The generalization bound leads naturally to algorithms for optimizing the bound. A simple
+greedy procedure for doing this is quite similar to the co-training algorithm suggested by
+Collins and Singer.
+
+2 The Main Result
+We start with some basic definitions and observations. Let be an i.i.d. sample consisting
+of individual samples  ,  ,  . For any statement 	 
+ we let 
+ be the subset 
+
+	   
+ . For any two statements  and  we define the empirical estimate   to be
+ 
+  ! 
+ . For the co-training bounds proved here we assume data is drawn from
+some distribution over triples   
+   
+ with   #"     %$    , and   &"  , and
+
+
+where   and   are conditionally independent given  , that is,        ('
+   
+
+
+and     	   )'
+     . In the co-training framework we are given an unlabeled
+sample +* of pairs   
+  
+ drawn i.i.d. from the underlying distribution, and possibly
+some labeled samples +, . We will mainly be interested in making inferences from the
+unlabeled data. A partial rule  on a set " is a mapping from " to %$    - . We will
+be interested in pairs of partial rules  and  which largely agree on the unlabeled data.
+The conditional probability relationships in our scenario are depicted graphically in figure 1. Important intuition is given by the data-processing inequality of information theory
+.2 30  . In other words, any mutual information
+(Cover and Thomas, 1991): ./ 10 
+between 	 and  must be mediated through  . In particular, if  and  agree to a large
+extent, then they must reveal a lot about  . And yet finding such a pair        requires no
+labeled data at all. This simple observation is a major motivation for the proof, but things
+are complicated considerably by partial rules and by approximate agreement.
+
+
+
+For a given partial rule 
+
+
+with
+
+
+
+
+ (' 4
+
+6587
+
+9:<;<='?>A@BDC E1F
+H GJIKGML
+
+
+
+
+define a function 9 on %$  
+ 
+
+
+
+ by
+
+'ON P
+ '?;<
+
+We want 	 to be a nearly deterministic function of the actual label  ; in other words, we
+
+want  	 'Q9: 	 ' 4  to be near one. We would also like  to carry the same
+information as  . This is equivalent to saying that 9 should be a permutation of the possible
+labels A$    . Here we give a condition using only unlabeled data which guarantees, up
+to high confidence, that 9 is a permutation; this is the best we can hope for using unlabeled
+
+
+
+
+
+data alone. We also bound the error rates   D' 4 N :9: ' N   ' 4  using only
+unlabeled data. In the case of '
+, if 9 is a permutation then 9 is either the identity
+function or the function reversing the two possible values. We use the unlabeled data to
+select  and  so that 9 is a permutation and 	 has low error rate. We can then use a
+smaller amount of labeled data to determine which permutation we have found.
+We now introduce a few definitions related to sampling issues. Some measure of the complexity of rules  and  is needed; rather than VC dimension, we adopt a clean notion of
+bit length. We assume that rules are specified in some rule language and write    for the
+number of bits used to specify the rule  . We assume that the rule language is prefix-free
+(no proper prefix of the bit string specifying a rule is itself a legal rule specification). A
+$ . For given partial rules 	 and
+prefix free code satisfies the Kraft inequality
+ and N  A$  
+ we now define the following functions of the sample . The first, as
+we will see, is a bound on the sampling error for empirical probabilities conditioned upon
+  'ON    ' 4
+ . The second is a sampling-adjusted disagreement rate between   and   .
+
+   	 
+
+ 
+!#"$
+% %$&'% (% )&*! +
+
+
+
+"-% .
+  0/1 352 467% ,
+8 
+ 9  
+10/%:;/) '2 46< 9  
+ ) 02 /=%:0/> 52 43?<@"
+
+A(
+$3C 
+Note that if the sample size is sufficiently large (relative to   and  % ) then HB I 
+is near zero. Also note that if
+and
+have near perfect agreement when they both are
+$3C  is near one. We can now state our main result.
+not then D I 
+Theorem 1 With probability at least $FE5C  over the choice of the sample , we have that
+for all
+ and, , if D I  GC3
+5 7 for $ N then (a) 9 is a permutation and (b) for
+N
+all $
+    -'?4 N6 ' N -' 4 IH5B I  G3C  
+
+4 N639: ='ON
+-' 4 
+ -'?
+D I  G3C 
+
+
+
+
+
+
+
+
+ 
+
+
+
+  
+
+
+
+ 
+
+ 
+
+  
+
+  
+
+
+
+ 
+
+
+
+ 
+
+  
+
+     
+
+
+
+	    
+
+The theorem states, in essence, that if the sample size is large, and   and   largely agree
+
+on the unlabeled data, then    ' 4 N6   '?N   -' 4  is a good estimate of the error rate
+
+4 N639:  ='ON   -' 4  .
+  -'?
+The theorem also justifies the use of partial rules. Of course it is possible to convert a
+partial rule to a total rule by forcing a random choice when the rule would otherwise return
+ . Converting a partial rule to a total rule in this way and then applying the above theorem
+to the total rule gives a weaker result. An interesting case is when '
+,   is total and is
+
+a perfect copy of  , and   -' 4  happens to be $1!
+  . In this case the empirical error
+rate of the corresponding total rule ? the rule that guesses when  has no opinion ? will
+be statistically indistinguishable from from 1/2. However, in this case theorem 1 can still
+establish that the false positive and false negative rate of the partial rule  is near zero.
+
+	J
+
+
+
+3 The Analysis
+We start with a general lemma about conditional probability estimation.
+Lemma 2 For any i.i.d. sample , and any statements  and  about individual instances
+in the sample, the following holds with probability at least $
+over the choice of .
+
+M
+
+MM 
+
+
+
+1E
+
+A
+
+
+
+ 
+
+KELD
+
+P
+N
+O
+
+MM 
+  
+!D 
+  M
+
+(1)
+
+ MMM    A1E       MMM 5   
+
+	 
+M
+'
+ L    
+ '   MM    1E   
+     
+ '  D ' D
+L
+
+Proof. We have the following where the third step follows by the Chernoff bound.
+
+
+
+
+MM
+
+
+
+MM
+
+	
+  M 5     
+
+>
+
+ 
+KE 	  1  C ! ,
+
+1E
+
+'ON6
+'ON
+
+MM
+
+
+
+
+
+Therefore, with probability at least $
+
+
+
+ 
+  '
+
+ BI
+
+GC3 (2)
+for any given
+. By the union bound and the Kraft inequality, we have that with
+ N  .
+probability at least $ E C this must hold simultaneously for all and , and all $
+Lemma 3 Pick
+ any rules and for which equation (2) as well as D I  G3C 5 7
+
+  
+
+'
+
+ 
+
+N
+
+'ON
+
+
+
+'4
+
+  
+
+ 
+
+
+
+  -' 4
+
+ 
+
+
+
+     
+
+    
+
+ 
+
+ 
+
+hold for all $
+
+N
+
+ 
+
+ 
+
+     
+
+. Then 9 is a permutation, and moreover, for any N ,
+
+
+
+  -' 4
+
+'?N 39:  =
+ '?N
+
+ 
+
+
+
+5
+
+$1!
+
+
+
+
+
+
+
+Pick any N  %$    . We need to show that there exists some such that
+9: ='?N . By the definition of I and condition (2) we know
+
+
+4 N  ' N   ' 4 
+ 	
+?
+' N  ' N  	 ' 4 
+  '?
+I     3
+
+Since I     3
+587 , it follows that  	 '?N6  '?N   ' 4 5 $! . Rewriting this
+
+
+
+D
+
+Proof.
+
+D
+
+ D
+
+E
+
+GC
+
+by conditioning on  , we get
+
+
+GGML 
+
+
+
+P
+ '
+
+
+
+'ON
+
+
+  -' 4
+
+
+
+
+
+
+!
+
+'ON P
+ '
+
+ 
+
+
+
+ -' 4
+
+
+
+5
+
+
+
+
+
+$C
+
+
+
+
+
+$!
+
+
+
+
+
+
+
+"
+
+The summation is a convex combination; therefore there must exist some such that
+
+   'QN  '
+  )' 4
+ 5
+$! . So for each N there must exist a with 9: %Q
+' N,
+whereby 9 is a permutation.
+Lemma 4 Pick any rules 
+
+
+<9: 
+ ='ON 
+
+'ON
+
+ 
+
+
+
+  -' 4
+
+D
+
+$C
+
+and   satisfying the conditions of the previous lemma. Then
+is at least I        3 .
+
+
+
+Proof. By the previous lemma 9 is a permutation, so 9:  has the same information
+content as  . Therefore   and   are conditionally independent given 9: . For any N ,
+
+D I 
+
+GC3
+
+     
+
+
+
+
+
+'
+
+
+
+
+
+
+ 
+
+
+
+'?N 
+
+ 
+
+!
+
+'
+
+<9:  =
+ '
+
+<9: 
+ ='ON 
+
+H $ 
+ # I
+
+ 
+
+N
+
+
+
+
+'ON
+
+
+
+
+
+
+
+ 'ON
+
+ 
+
+4 N6 
+ -'?
+
+
+  -' 4
+
+  -' 4
+
+'ON
+
+%
+
+9:='
+
+1E
+
+  -' 4
+
+
+
+
+
+
+
+
+'4
+
+E
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+E
+
+
+
+
+ 
+
+
+
+'
+
+N
+
+  -' 4
+
+
+
+!
+!
+
+'ON A9: '
+N6 9:='
+
+ -' 4
+
+  -' 4
+  -' 4
+
+
+
+
+
+
+
+
+
+'ON639:='?N   -' 4 
+N39: ='?N    ' 4 
+
+  'ON639: ='
+ 	 ' 4
+
+
+ 
+'
+39: ='
+ 	 ' 4
+
+
+ -' 4
+
+E
+
+%
+
+
+
+
+
+
+
+
+
+where the second step involves conditioning on 9: . Also by the previous lemma, we
+
+have    ' & 9:'
+   '4
+ 5
+$! so the second term in the above sum must be
+negative, whereby
+
+
+
+D I
+
+
+
+GC3 
+
+     
+
+
+
+
+
+
+<9:  =
+ 'ON6
+
+
+'?N
+
+  -' 4
+
+
+
+<9:  =
+ 'ON6
+
+
+'?N
+
+  -' 4
+
+
+
+
+
+
+
+E
+
+
+
+
+'ON  9:='ON  
+4 N6 9:=' N
+'?
+
+ 
+
+
+
+ 
+
+'4
+
+
+
+
+  -' 4
+
+
+
+
+
+Under the conditions of these lemmas, we can derive the bounds on error rates:
+
+
+4 N39:='
+ -'O
+
+
+  -' 4
+
+N
+
+
+
+
+
+
+
+  ' 4 N6   ?
+' N 
+9:='ON6 	' N
+
+
+
+
+
+
+ 
+
+4 N6 '
+'?
+
+
+
+N
+
+D I
+
+'4
+
+ 
+
+
+
+'4
+
+ 	
+
+ 
+
+'4
+
+
+
+IH5BHI 
+
+
+
+GC3
+
+GC3
+
+	    
+
+     
+
+4 Bounding Total Error
+Assuming that we make a random guess when
+written as follows.
+
+
+
+
+
+='
+
+ 
+
+
+
+ -' 4
+
+
+
+
+
+
+
+ -' 4
+
+'
+
+
+
+
+
+ '4
+9:
+ -
+
+
+
+I 
+
+GC3
+
+D I
+'
+
+  
+
+$
+
+
+
+GC3
+
+     
+
+ 
+
+	
+
+4 N 
+'O
+
+ 
+
+	
+
+can be
+
+=H 8E $   ' 
+G3C  to be the bounds on the
+
+
+
+To give a bound on the total error rate we first define I 
+error rate for label N given in theorem 1.
+
+
+, the total error rate of
+
+ 
+
+
+
+	    
+
+'ON
+
+ 	
+
+'4
+
+IH'BHI 
+
+
+
+GC3 
+
+	 
+
+We can now state a bound on the total error rate as a corollary to theorem 1.
+
+E C
+
+GC 
+
+Corollary 5 With probability at least $
+over the choice of we have the follow and  such that for all N we have I  	     !
+ 5 7 and
+ing
+for
+all
+pairs
+of
+rules
+
+I  	     ! 
+ 8$ ! .
+
+GC  
+
+	
+
+E
+
+
+
+ 
+
+
+
+
+
+E B   GC !    C  E1F   
+H E8$    ' IH'B   $C !   
+ NPO  N O 
+H ! C
+
+
+ 
+
+ (' 4
+
+
+
+ 
+
+ 
+
+B $C3
+
+
+D
+
+'
+
+
+
+
+
+ 
+
+
+
+GC !  
+
+     
+
+
+
+
+
+E C 
+
+$C 
+
+Proof. From our main theorem, we know that with probability at least $
+! , for all
+
+
+N .   #' 4 N-M9: ' N   #' 4  is bounded by I        !  . This implies that with
+probability at least $
+! ,
+
+
+
+
+
+KE0C 
+  
+
+
+
+'4
+
+
+
+C 1
+E F
+
+
+
+
+A
+
+GC !  IH 8E $  $KE
+
+	    
+
+
+
+
+
+
+'4
+
+
+
+
+
+(3)
+
+GC 
+
+E C 
+
+
+
+E
+
+
+
+With probability at least $
+! we have that      ' 4 
+   ' 4  is no larger
+than       !  . So by the union bound
+both
+of
+these
+conditions
+hold
+simultaneously with
+
+ 8$ ! we have that the upper
+probability at least $
+. Since CPE3F% 3   ! 
+
+
+bound in (3) is maximized by setting   -' 4  equal to    (' 4 
+      !  .
+
+B
+
+KE0C
+
+$C  
+
+E
+
+E B
+
+GC 
+
+Corollary 5 can be improved in a variety of ways. One could use a relative Chernoff
+
+bound to tighten the uncertainty in    ' 4  in the case where this probability is small.
+
+
+One could also use the error rate bounds I        !  to construct bounds on 9:='
+
+N6  -' 4  . One could then replace the max over I        !  by a convex combination.
+Another approach is to use the error rate of a rule that combines   and   , e.g., the rule
+outputs   if  &' 4  , otherwise outputs   if  )' 4  , and otherwise guesses a random
+value. This combined rule will have a lower error rate and it is possible to give bounds on
+the error rate of the combined rule. We will not pursue these refined bounds here. It should
+be noted, however, that the algorithm described in section 4 can be used with any bound on
+total error rate.
+
+$C 
+
+$C 
+
+5 A Decision List Algorithm
+This section suggests a learning algorithm inspired by both Yarowsky (1995) and Collins
+and Singer (1999) but modified to take into account theorem 1 and Corollary 5. Corollary 5, or some more refined bound on total error, provides an objective function that can
+be pursued by a learning algorithm ? the objective is to find   and   so as to minimize
+the upper bound on the total error rate. Typically, however, the search space is enormous.
+Following Yarowsky, we consider the greedy construction of decision list rules.
+ and   
+"  we have     
+be two ?feature sets? such that for  
+
+ and  )"  we have      
+7 $3 . We assume that   is to be a
+decision list over the features in  , i.e., a finite sequence of the form    
+ ;  ; /L  L 
+ and 3I 
+A$    . A decision list can be viewed as a right-branching
+where /I 
+decision tree. More specifically, if  is the list 	   
+ ; 
+ ;  ; /L  L 
+ then 	1 	
+is   if 1	'Q$ and otherwise equals the value of the list  
+ ;  ; JL  L
+ on 	 .
+We define an empty decision list to have value  . For in <7 $ we can define    as
+follows where is the number of feature-value pairs in   .
+
+Let
+
+
+
+and
+
+
+
+7  $  and for
+
+
+
+N
+
+BH
+$
+
+N
+
+B
+
+
+
+3
+
+KE0B
+equals the probability that
+a  certain
+stochastic process
+
+
+
+
+
+I $ which
+. This implies the Kraft inequality
+is all that is
+   '
+
+
+	
+
+1
+
+
+It is possible to show that
+
+
+	
+
+
+
+	
+
+
+
+$
+
+generates the rule  
+needed in theorem 1 and corollary 5. We also assume that
+features  and define     similarly.
+
+ 
+
+is a decision list over the
+
+Following Yarowsky we suggest growing the decision lists in a greedy manner adding one
+feature value pair at a time. A natural choice of greedy heuristic might be a bound on the
+total error rate. However, in many cases the final objective function is not an appropriate
+choice for the greedy heuristic in greedy algorithms. A* search, for example, might be
+viewed as a greedy heuristic where the heuristic function estimates the number of steps
+needed to reach a high-value configuration ? a low value configuration might be one step
+away from a high value configuration. The greedy heuristic used in greedy search should
+estimate the value of the final configuration. Here we suggest using CPE3F          ! 
+as a heuristic estimate of the final total error rate ? in the final configuration we should
+
+GC 
+
+
+
+
+
+GC
+
+have that   -' 4  is reasonably large and the important term will be C E1F          3 .
+For concreteness, we propose the following algorithm. Many variants of this algorithm also
+seem sensible.
+1. Initialize 	 and
+knowledge.
+
+
+
+to ?seed rule? decision lists using domain-specific prior
+
+
+
+
+
+2. Until   	 '  and    '
+both rules, do the following.
+
+
+GC  O 
+
+
+
+are both zero, or all features have been used in
+
+
+(a) Let B denote   if     ' 65     '  and   otherwise.
+7 for some N , then extend B by the pair  
+ which
+(b) If I  	     ! 
+I I       ! .
+most increases C
+(c) Otherwise
+extend B by a single feature-value pair selected to minimize the
+
+C E1FA A 	     !  .
+
+D
+
+
+
+GC 
+
+D
+
+$C 
+
+3. Prune the rules ? iteratively remove the pair from the end of either  or   that
+greedily minimizes the bound on total error until no such removal reduces the
+bound.
+
+6 Future Directions
+We have given some theoretical justification for some aspects of co-training algorithms that
+have been shown to work well in practice. The co-training assumption we have used in our
+theorems are is at best only approximately true in practice. One direction for future research
+is to try to relax this assumption somehow. The co-training assumption states that   and
+ are independent given  . This is equivalent to the statement that the mutual information
+between  and  given  is zero. We could relax this assumption by allowing some
+small amount of mutual information between   and   given  and giving bounds on error
+rates that involve this quantity of mutual information. Another direction for future work,
+of course, is the empirical evaluation of co-training and bootstrapping methods suggested
+by our theory.
+Acknowledgments
+The authors wish to acknowledge Avrim Blum for useful discussions and give special
+thanks to Steve Abney for clarifying insights.
+

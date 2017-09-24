@@ -87,7 +87,7 @@ def clean_papers_from_db():
                 print("Removing reference section from paper id: {0}".format(paper_id))
                 new_content = remove_reference_section(paper_content)
                 print("Saving new paper_text into papers_for_index")
-                new_entry = models.Papers_for_index.create(id=paper_id,
+                new_entry = models.Papers_NR.create(id=paper_id,
                                                        pdf_name=paper_pdf_name,
                                                        paper_text=new_content)
                 print("Number of rows modified: {0}".format(new_entry.save()))
@@ -98,17 +98,13 @@ def clean_papers_from_db():
     models.close_connection()
 
     
-def drop_papers_for_index_table():
+def drop_papers_nr_table():
     models.connect_to_db(DATABASE_FILENAME)
-    models.Papers_for_index.drop_table()
+    models.Papers_NR.drop_table()
     models.close_connection()
     
         
 if __name__ == '__main__':
-    #print(create_list_of_ids(70, 10))
-    #print(create_list_of_ids(10, 10))
-    #print(create_list_of_ids(2040, 10))
-    #print(create_list_of_ids(1080, 10))
-    drop_papers_for_index_table()
+    drop_papers_nr_table()
     clean_papers_from_db()
-    #count_explicit_references()
+

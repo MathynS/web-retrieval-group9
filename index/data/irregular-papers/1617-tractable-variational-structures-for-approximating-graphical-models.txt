@@ -1,0 +1,489 @@
+Tractable Variational Structures for
+Approximating Graphical Models
+
+David Barber
+Wim Wiegerinck
+{davidb,wimw}@mbfys,kun,nl
+RWCP* Theoretical Foundation SNNt University of Nijmegen
+6525 EZ Nijmegen, The Netherlands.
+
+Abstract
+Graphical models provide a broad probabilistic framework with applications in speech recognition (Hidden Markov Models), medical
+diagnosis (Belief networks) and artificial intelligence (Boltzmann
+Machines). However, the computing time is typically exponential
+in the number of nodes in the graph. Within the variational framework for approximating these models, we present two classes of distributions, decimatable Boltzmann Machines and Tractable Belief
+Networks that go beyond the standard factorized approach. We
+give generalised mean-field equations for both these directed and
+undirected approximations. Simulation results on a small benchmark problem suggest using these richer approximations compares
+favorably against others previously reported in the literature.
+
+1
+
+Introduction
+
+Graphical models provide a powerful framework for probabilistic inference[l] but
+suffer intractability when applied to large scale problems. Recently, variational approximations have been popular [2, 3, 4, 5], and have the advantage of providing
+rigorous bounds on quantities of interest, such as the data likelihood, in contrast to
+other approximate procedures such as Monte Carlo methods[l]. One of the original
+models in the neural networks community, the Boltzmann machine (BM), belongs
+to the class of undirected graphical models. The lack of a suitable algorithm has
+hindered its application to larger problems. The deterministic BM algorithm[6], a
+variational procedure using a factorized approximating distribution, speeds up the
+learning of BMs, although the simplicity of this approximation can lead to undesirable effects [7] . Factorized approximations have also been successfully applied to
+sigmoid belief networks[4]. One approach to producing a more accurate approximation is to go beyond the class of factorized approximating models by using, for
+example, mixtures of factorized models. However, it may be that very many mixture components are needed to obtain a significant improvement beyond using the
+factorized approximation[5]. In this paper, after describing the variational learnOReal World Computing Partnership
+tFoundation for Neural Networks
+
+D. Barber and W Wiegerinck
+
+184
+
+ing framework, we introduce two further classes of non-factorized approximations,
+one undirected (decimatable BMs in section (3)) and the other, directed (Tractable
+Belief Networks in section (4)) . To demonstrate the potential benefits of these
+methods, we include results on a toy benchmark problem in section (5) and discuss
+their relation to other methods in section (6).
+
+2
+
+Variational Learning
+
+We assume the existence of a graphical model P with known qualitative structure
+but for which the quantitative parameters of the structure remain to be learned from
+data. Given that the variables can be considered as either visible (V) or hidden
+(H), one approach to learning is to carry out maximum likelihood on the visible
+variables for each example in the dataset. Considering the KL divergence between
+the true distribution P(HIV) and a distribution Q(H),
+Q(H) ~ 0
+KL(Q(H),P(H/V? = "~ Q(H) In P(H/V}
+H
+
+and using P(H/V)
+
+= P(H, V}/ pev)
+
+In P(V) 2: -
+
+gives the bound
+
+L Q(H) In Q(H) + L Q(H) In P(H, V)
+H
+
+(1)
+
+H
+
+Betraying the connection to statistical physics, the first term is termed the "entropy" and the second the "energy". One typically chooses a variational distribution Q so that the entropic term is "tractable". We assume that the energy E(Q)
+is similarly computable, perhaps with recourse to some extra variational bound (as
+in section (5)). By tractable, we mean that all necessary marginals and desired
+quantities are computationally feasible, regardless of the issue of the scaling of the
+computational effort with the graph size. Learning consists of two iterating steps:
+first optimize the bound (1) with respect to the parameters of Q, and then with
+respect to the parameters of P(H, V). We concentrate here on the first step. For
+clarity, we present our approach for the case of binary variables Si E {O, 1} ,i = LN.
+We now consider two classes of approximating distributions Q.
+
+3
+
+Undirected Q: Decimatable Boltzmann Machines
+
+Boltzmann machines describe probability distributions parameterized by a symmetric weight matrix J
+1
+Q(s) = Z expfjJ,
+fjJ ==
+JijSiSj = s?Js
+(2)
+
+L
+ij
+
+where the normalization constant, or "partition function" is Z = Es exp fjJ. For
+convenience we term the diagonals of J the "biases", hi = J ii . Since In Z (J, h) is a
+generating function for the first and second order statistics of the variables s, the
+entropy is tractable provided that Z is tractable. For general connection structures,
+J, computing Z is intractable as it involves a sum over 2N states; however, not all
+Boltzmann machines are intractable. A class of tractable structures is described by
+a set of so-called decimation rules in which nodes from the graph can be removed
+one by one, fig(l). Provided that appropriate local changes are made to the BM
+parameters, the partition function of the reduced graph remains unaltered (see eg
+[2]). For example, node c in fig(l) can be removed, provided that the weight matrix
+J and bias h are transformed, J -t JI, h -t hi, with J~c = Jtc = h~ = 0 and
+I
+
+Jab -
+
+(1 + e he ) (1 + ehe+2(Jae+Jbe))
+2 ln (1 + ehe+2Jae) (1 + ehe+2Jbc )
+1
+
+_
+
+Jab
+
++
+
+I
+
+'
+
+ha/ b
+
+_
+
+-
+
+h a / b + In
+
+1 + ehc+2Ja/b.c
+1 + e he (3)
+
+Tractable Variational Strnctures for Approximating Graphical Models
+
+185
+
+Figure 1: A decimation rule for BMs. We can remove the upper node on the left so
+that the partition function of the reduced graph is the same. This requires a simple
+change in the parameters J, h coupling the two nodes on the right (see text).
+By repeatedly applying such rules, Z is calculable in time linear in N.
+3.1
+
+Fixed point (Mean Field) Equations
+
+Using (2) in (1), the bound we wish to optimize with respect to the parameters
+B = (J, h) of Q has the form (( ... ) denotes averages with respect to Q)
+B(B)
+
+=-
+
+(?) + In Z + E(B)
+
+where E(B) is the energy. Differentiating (4) with respect to Jij(i
+
+8B
+8J ..
+tJ
+
+=-
+
+L
+
+(4)
+=1=
+
+8E
+
+Fij,ktlkl
+
+kl
+
++ 8J? ?
+
+j) gives
+(5)
+
+tJ
+
+where Fij,kl = (SiSjSkSI) - (SiSj) (SkSI) is the Fisher information matrix. A similar
+expression holds for the bias parameters, h, so that we can form a linear fixed point
+equation in the total parameter set B where the derivatives of the bound vanish.
+This suggests the iterative solution, Bnew = F- 1 'Voj where the right hand side is
+evaluated at the current parameter values, Bold.
+
+4
+
+Directed Q: Tractable Belief Networks
+
+Belief networks are products of conditional probability distributions,
+
+Q(H)
+
+= II Q(Hil 1Ti)
+
+(6)
+
+iEH
+
+in which 1Ti denotes the parents of node i (see for example, [1]). The efficiency
+of computation depends on the underlying graphical structure of the model and is
+exponential in the maximal clique size (of the moralized triangulated graph [1]). We
+now assume that our model class consists of belief networks with a fixed, tractable
+graphical structure. The entropy can then be computed efficiently since it decouples
+into a sum of averaged entropies per site i (Q(1TJ == 1 if 1Ti = ?),
+
+H
+
+iEH
+
+7ri
+
+H,
+
+Note that the conditional entropy at each site i is trivial to compute since the values
+required can be read off directly from the definition of Q (6). By assumption, the
+marginals Q(1Ti) are tractable, and can be found by standard methods, for example
+using the Junction Tree Algorithm[I].
+To optimize the bound (1), we parameterize Q via its conditional probabilities,
+qi(1Ti) == Q(Hi = II1Ti). The remaining probability Q(Hi = 011Ti) follows from
+
+D. Barber and W. Wiegerinck
+
+186
+
+normalization. We therefore have a set {qi(1I'dI1l'i = (0 . .. 0), ... ,(1 ... I)} of variational parameters for each node in the graph . Setting the gradient of the bound
+with respect to the qi (11'd 's equal to zero yields the equations
+(8)
+with
+(9)
+where a (z) = 1/ (1 + e- Z ). The gradient V'ilTi is with respect to qi(1I'i). The
+explicit evaluation of the gradients can be performed efficiently, since all that need
+to be differentiated are at most scalar functions of quantities that depend again
+only linearly on the parameters Qi(1I'd . To optimize the bound, we iterate (8) till
+convergence, analogous to using factorized models[4]. However, the more powerful
+class of approximating distributions described by belief networks should enable a
+much tighter bound on the likelihood of the visible units.
+
+5
+
+Application to Sigmoid Belief Networks
+
+We now describe an application of these non-factorized approximations to a particular class of directed graphical models, sigmoid belief networks[8J for which the
+conditional distributions have the form
+(10)
+Wij
+
+= 0 if j tJ. 1I'i.
+
+The joint distribution then has the form
+P(H, V) =
+
+II exp [ZiSi -In(1 + eZi)J
+
+(11)
+
+where Zi = 2: j WijS j + ki. In (11) it is to be understood that the visible units are
+set to their observed values. In the lower bound (1) , unfortunately, the average of
+In P(H, V) is not tractable, since (In [1 + e Z ]) does not decouple into a polynomial
+number of single site averages. Following [4J we use therefore the bound
+(12)
+
+where
+
+~
+
+is a variational parameter in [0, IJ. We can then define the energy function
+
+E(Q,O =
+
+L Wij (SiSj) + L kdsi) - L ki~i ij
+
+LIn
+i i i
+
+(e-~iZ; + e(1-~;) Zi)
+(13)
+
+where ki = k i - 2: j ~j Wji. Expect for the final term, the energy is a function of
+first or second order statistics of the variables. For using a BM as the variational
+distribution, the final terms of (13) (e-~iZi) = 2:H e</>-~iZi /Z are simply the ratio of
+two partition functions, with the one in the numerator having a shifted bias. This
+is therefore tractable, provided that we use a tractable BM Q.
+Similarly, if we are using a Belief Network as the variational distribution, all but the
+last term in (13) is trivially tractable, provided that Q is tractable. We write the
+terms (e-~iZ;) = e-~ihi 2:HR(H), where R(H) = Il j R(Hj I1l'j) and R(Hj I1l'j) ==
+
+Tractable Variational Structures for Approximating Graphical Models
+
+(a) Directed graph
+toy problem. Hidden
+units are black
+
+e e
+e e e e
+
+(b) Decimatable BM - 25 parameters, mean: 0.0020 .
+
+Lii
+
+o
+
+187
+
+0~.02~--:0C':"
+.04:-'
+
+(c) disconnected (,standard mean
+field') - 16 parameters, mean:
+0.01571. Max. clique size: 1
+
+e e
+I'\..
+e e e e
+/1
+
+(e) trees - 20 parameters, mean:
+0.0089. Max. clique size: 2
+
+e e
+e-e-e-e
+(d) chain - 19 parameters, mean:
+0.01529. Max. clique size: 2
+
+e e
+e e e e
+~
+
+o
+
+0.02
+
+0.04
+
+(f) network - 28 parameters, mean:
+0.00183. Max. clique size: 3
+
+Figure 2: (a) Sigmoid Belief Network for which we approximate In P(V) . (b): BM approximation . (c,d,e,f): Structures of the directed approximations on H. For each structure,
+histograms of the relative error between the true log likelihood and the lower bound is
+plotted. The horizontal scale has been fixed to [0,0 .05] in all plots. The maximum clique
+size refers to the complexity of computation for each approximation, which is exponential
+in this quantity. The number of parameters includes the vector ?.
+
+Q(Hj In j) exp ( -~Jij Hj). Rand Q have the same graphical structure and we can
+therefore use message propagation techniques again to compute
+
+(e-{iZi).
+
+To test our methods numerically, we generated 500 networks with parameters
+{Wij , k j } drawn randomly from the uniform distribution over [-1 , 1J. The lower
+bounds Fv for several approximating structures are compared with the true log
+likelihood, using the relative error [ = Fv/lnP(V} -1, fig. 2. These show that
+considerable improvements can be obtained when non-factorized variational distributions are used. Note that a 5 component mixture model (~ 80 variational
+parameters) yields [ = 0.01139 On this problem [5F. These results suggest therefore that exploiting knowledge of the graphical structure of the model is useful. For
+instance, the chain (fig. 2(b? with no graphical overlap with the original graph
+shows hardly any improvement over the standard mean field approximation. On
+the other hand, the tree model (fig. 2(c), which has about the same number of
+parameters, but a larger overlap with the original graph, does improve considerably
+over the mean field approximation (and even over the 5 component mixture model).
+By increasing the overlap, as in fig. 2(d), the improvement gained is even greater.
+
+D. Barber and W. Wiegerinck
+
+188
+
+6
+
+Discussion
+
+In this section, we briefly explain the relationship of the introduced methods to
+other, "non-factorized" methods in the literature, namely node-elimination[9] and
+substructure variation[lO].
+6.1
+
+Graph Partitioning and Node Elimination
+
+A further class of approximating distributions Q that could be considered are those
+in which the nodes can be partitioned into clusters, with independencies between
+the clusters. For expositional clarity, consider two partitions, s = (S1' S2), and
+define Q to be factorized over these partitions2 , Q = Q1(sdQ2(S2). Using this Q
+in (1), we obtain (with obvious notational simplifications)
+
+InP(V) 2:: - (lnQ1)1 - (InQ2) 2 + (InP)1.2
+
+(14)
+
+A functional derivative with respect to Ql and Q2 gives the optimal forms:
+
+Q2 = exp (InP)1/Z2
+If we substitute this form for Q2 in (14) and use Z2 =
+
+InP(V) 2:: - (InQ1)1
+
++ In L
+
+(15)
+
+E exp (In P)l' we obtain
+
+exp (InP)1
+
+(16)
+
+2
+
+In general, the final term may not have a simple form. In the case of approximating
+a BM P , InP = SI?JllSI + 2s 1?J12 S2 + s2?h2S2 -lnZpo Used in (16), we get:
+In P(V) 2:: - (In Q1)1 -In Zp
+
++ (SI ?Jll S1)1 + In L
+2
+
+exp (S2? J22 S2 + 2s 2 ?J21 ($1)1)
+(17)
+
+so that the final term of (17) is the normalizing constant of a BM with connection
+matrix h2 and whose diagonals are shifted by J 21 (SI)1' One can therefore identify a
+set of nodes S1 which, when eliminated, reveal a tractable structure on the nodes S2.
+The nodes that were removed are compensated for by using a variational distribution
+Q1(sd. If P is a BM, then the optimal Q1 has its weights fixed to those of P
+restricted to variables S1, but with variable biases shifted by J 12 (S2)2' Restricting
+Q1 to factorized models, we recover the node elimination bound [9] which can
+readily be improved by considering non-factorized distributions Q1 (for example
+those introduced in this paper), see fig(3) . Note, however, that there is no apriori guarantee that using such partitioned approximations will lead to a better
+approximation than that obtained from a tractable variational distribution defined
+on the whole graph, but which does not have such a product form . Using a product
+of conditional distributions over clusters of nodes is developed more fully in [11].
+6.2
+
+Substructure Variation
+
+The process of using a Q defined on the whole graph but for which only a subset of
+the connections are adaptive is termed substructure variation [10]. In the context of
+BMs, Saul et al [2] identified weights in the original intractable distribution P that,
+if set to zero, would lead to a tractable graph Q(s) = P(slh, J, Jintractable = 0). To
+compensate for these removed weights they allowed the biases in Q to vary such
+that the KL divergence between Q and P is minimized. In general, this is a weaker
+method than one in which potentially all the parameters in the approximating
+network are adaptive, such as using a decimatable BM.
+2In the case of fully connected BMs, for computing with a Q which is the product of
+K partitions (each of which is fully connected say), the computing time reduces from 2N
+for the "intractable" P to K2N/K for Q, which can be a considerable reduction.
+
+Tractable Variational Structures for Approximating Graphical Models
+
+o
+
+o
+
+o
+
+0
+
+o
+
+189
+
+~o
+
+0
+
+(a) Intractable Model (b) "Naive" mean field
+
+(c) Node elimination
+
+(d) Partioning
+
+Figure 3: (a) A non-decimatable 5 node BM. (b) The standard factorized approximation. (c) Node Elimination (d) Partitioning, where a richer distribution is considered on the eliminated nodes. A solid line denotes a weight fixed to those in the
+original graph. A solid node is fixed , and an open node represents a variable bias.
+
+7
+
+Conclusion
+
+Finding accurate, controllable approximations of graphical models is crucial if their
+application to large scale problems is to be realised. We have elucidated two general
+classes of tractable approximations, both based on the Kullback-Leibler divergence .
+Future interesting directions include extending the class of distributions to higher
+order Boltzmann Machines (for which the class of decimation rules is greater), and to
+mixtures of these approaches. Higher order perturbative approaches are considered
+in [12]. These techniques therefore facilitate the approximating power of tractable
+models which can lead to a considerable improvement in performance.
