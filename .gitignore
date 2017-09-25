@@ -1,6 +1,8 @@
 *.md~
 *.py~
 *.pyc
+#*#
+.#*
 data/*.csv
 data/*.zip
 data/*.sqlite

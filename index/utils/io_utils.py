@@ -20,9 +20,9 @@ def list_files_in_dir(directory):
     files = [f for f in os.listdir(directory) if f.endswith(".txt")]
     return files
 
-def load_file(filename):
-    file_content = ""
+def load_file_rows(filename):
+    file_content = []
     with open(filename, "r") as f:
         for line in f:
-            file_content += line
+            file_content.append(line)
     return file_content
