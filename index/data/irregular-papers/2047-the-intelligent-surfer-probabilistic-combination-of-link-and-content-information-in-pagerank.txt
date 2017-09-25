@@ -1,0 +1,434 @@
+The Intelligent Surfer:
+Probabilistic Combination of Link and
+Content Information in PageRank
+
+Matthew Richardson
+Pedro Domingos
+Department of Computer Science and Engineering
+University of Washington
+Box 352350
+Seattle, WA 98195-2350, USA
+{mattr, pedrod}@cs.washington.edu
+
+Abstract
+The PageRank algorithm, used in the Google search engine, greatly
+improves the results of Web search by taking into account the link
+structure of the Web. PageRank assigns to a page a score proportional to the number of times a random surfer would visit that page,
+if it surfed indefinitely from page to page, following all outlinks
+from a page with equal probability. We propose to improve PageRank by using a more intelligent surfer, one that is guided by a
+probabilistic model of the relevance of a page to a query. Efficient
+execution of our algorithm at query time is made possible by precomputing at crawl time (and thus once for all queries) the necessary terms. Experiments on two large subsets of the Web indicate
+that our algorithm significantly outperforms PageRank in the (human-rated) quality of the pages returned, while remaining efficient
+enough to be used in today?s large search engines.
+
+1
+
+Introduction
+
+Traditional information retrieval techniques can give poor results on the Web, with
+its vast scale and highly variable content quality. Recently, however, it was found
+that Web search results can be much improved by using the information contained in
+the link structure between pages. The two best-known algorithms which do this are
+HITS [1] and PageRank [2]. The latter is used in the highly successful Google search
+engine [3]. The heuristic underlying both of these approaches is that pages with many
+inlinks are more likely to be of high quality than pages with few inlinks, given that
+the author of a page will presumably include in it links to pages that s/he believes are
+of high quality. Given a query (set of words or other query terms), HITS invokes a
+traditional search engine to obtain a set of pages relevant to it, expands this set with
+its inlinks and outlinks, and then attempts to find two types of pages, hubs (pages
+that point to many pages of high quality) and authorities (pages of high quality). Because this computation is carried out at query time, it is not feasible for today?s
+search engines, which need to handle tens of millions of queries per day. In contrast,
+PageRank computes a single measure of quality for a page at crawl time. This meas-
+
+ure is then combined with a traditional information retrieval score at query time.
+Compared with HITS, this has the advantage of much greater efficiency, but the disadvantage that the PageRank score of a page ignores whether or not the page is relevant to the query at hand.
+Traditional information retrieval measures like TFIDF [4] rate a document highly if
+the query terms occur frequently in it. PageRank rates a page highly if it is at the center of a large sub-web (i.e., if many pages point to it, many other pages point to
+those, etc.). Intuitively, however, the best pages should be those that are at the center
+of a large sub-web relevant to the query. If one issues a query containing the word
+jaguar, then pages containing the word jaguar that are also pointed to by many other
+pages containing jaguar are more likely to be good choices than pages that contain
+jaguar but have no inlinks from pages containing it. This paper proposes a search
+algorithm that formalizes this intuition while, like PageRank, doing most of its computations at crawl time. The PageRank score of a page can be viewed as the rate at
+which a surfer would visit that page, if it surfed the Web indefinitely, blindly jumping from page to page. Our algorithm does something closer to what a human surfer
+would do, jumping preferentially to pages containing the query terms.
+A problem common to both PageRank and HITS is topic drift. Because they give the
+same weight to all edges, the pages with the most inlinks in the network being considered (either at crawl or query time) tend to dominate, whether or not they are the
+most relevant to the query. Chakrabarti et al. [5] and Bharat and Henzinger [6] propose heuristic methods for differentially weighting links. Our algorithm can be
+viewed as a more principled approach to the same problem. It can also be viewed as
+an analog for PageRank of Cohn and Hofmann?s [7] variation of HITS. Rafiei and
+Mendelzon'
+s [8] algorithm, which biases PageRank towards pages containing a specific word, is a predecessor of our work. Haveliwala [9] proposes applying an optimized version of PageRank to the subset of pages containing the query terms, and
+suggests that users do this on their own machines.
+We first describe PageRank. We then introduce our query-dependent, contentsensitive version of PageRank, and demonstrate how it can be implemented efficiently. Finally, we present and discuss experimental results.
+
+2
+
+PageRank : The Random Surfer
+
+Imagine a web surfer who jumps from web page to web page, choosing with uniform
+probability which link to follow at each step. In order to reduce the effect of deadends or endless cycles the surfer will occasionally jump to a random page with some
+small probability ?, or when on a page with no out-links. To reformulate this in
+graph terms, consider the web as a directed graph, where nodes represent web pages,
+and edges between nodes represent links between web pages. Let W be the set of
+nodes, N=|W|, Fi be the set of pages page i links to, and B i be the set pages which
+link to page i. For pages which have no outlinks we add a link to all pages in the
+graph1. In this way, rank which is lost due to pages with no outlinks is redistributed
+uniformly to all pages. If averaged over a sufficient number of steps, the probability
+the surfer is on page j at some point in time is given by the formula:
+
+P( j ) =
+
+1
+
+(1 ? ? )
+P (i )
++? ?
+N
+i?B j Fi
+
+(1)
+
+For each page s with no outlinks, we set Fs={all N nodes}, and for all other nodes augment B i with s. (B i ? {s})
+
+The PageRank score for node j is defined as this probability: PR(j)=P(j). Because
+equation (1) is recursive, it must be iteratively evaluated until P(j) converges. Typically, the initial distribution for P(j) is uniform. PageRank is equivalent to the primary eigenvector of the transition matrix Z:
+
+?1?
+Z = (1 ? ? ) ? ?
++ ? M ,with
+? N ? NxN
+
+? 1
+?
+M ji = ? Fi
+?0
+?
+
+if there is an edge from i to j
+
+(2)
+
+otherwise
+
+One iteration of equation (1) is equivalent to computing xt+1=Zxt, where xjt=P(j) at
+iteration t. After convergence, we have xT+1=xT, or xT=ZxT, which means xT is an
+eigenvector of Z. Furthermore, since the columns of Z are normalized, x has an eigenvalue of 1.
+
+3
+
+Directed Surfer Model
+
+We propose a more intelligent surfer, who probabilistically hops from page to page,
+depending on the content of the pages and the query terms the surfer is looking for.
+The resulting probability distribution over pages is:
+
+Pq ( j ) = (1 ? ? ) Pq? ( j ) + ?
+
+? Pq (i ) Pq (i ? j )
+
+(3)
+
+i?B j
+
+where Pq(i?j) is the probability that the surfer transitions to page j given that he is
+on page i and is searching for the query q. Pq?(j) specifies where the surfer chooses to
+jump when not following links. Pq(j) is the resulting probability distribution over
+pages and corresponds to the query-dependent PageRank score (QD-PageRankq(j) ?
+Pq(j)). As with PageRank, QD-PageRank is determined by iterative evaluation of
+equation 3 from some initial distribution, and is equivalent to the primary eigenvector of the transition matrix Zq, where Z q ji = (1 ? ? ) Pq? ( j ) + ? ? Pq (i ? j ) . Although
+i?B j
+
+Pq(i?j) and Pq?(j) are arbitrary distributions, we will focus on the case where both
+probability distributions are derived from Rq(j), a measure of relevance of page j to
+query q:
+
+Pq? ( j ) =
+
+Rq ( j )
+
+? Rq ( k )
+
+k?W
+
+Pq (i ? j ) =
+
+Rq ( j )
+
+? Rq (k )
+
+(4)
+
+k?Fi
+
+In other words, when choosing among multiple out-links from a page, the directed
+surfer tends to follow those which lead to pages whose content has been deemed
+relevant to the query (according to Rq). Similarly to PageRank, when a page?s outlinks all have zero relevance, or has no outlinks, we add links from that page to all
+other pages in the network. On such a page, the surfer thus chooses a new page to
+jump to according to the distribution Pq? (j).
+When given a multiple-term query, Q={q 1,q 2,?}, the surfer selects a q according to
+some probability distribution, P(q) and uses that term to guide its behavior (according to equation 3) for a large number of steps1. It then selects another term according
+to the distribution to determine its behavior, and so on. The resulting distribution
+over visited web pages is QD-PageRankQ and is given by
+1
+
+However many steps are needed to reach convergence of equation 3.
+
+QD ? PageRank Q ( j ) ? PQ ( j ) =
+
+? P( q) Pq ( j )
+
+(5)
+
+q?Q
+
+For standard PageRank, the PageRank vector is equivalent to the primary eigenvector
+of the matrix Z. The vector of single-term QD-PageRankq is again equivalent to the
+primary eigenvector of the matrix Zq. An interesting question that arises is whether
+the QD-PageRankQ vector is equivalent to the primary eigenvector of a matrix
+ZQ = ? P ( q) Z q (corresponding to the combination performed by equation 5). In
+q?Q
+
+fact, this is not the case. Instead, the primary eigenvector of ZQ corresponds to the
+QD-PageRank obtained by a random surfer who, at each step, selects a new query
+according to the distribution P(q). However, QD-PageRankQ is approximately equal
+to the PageRank that results from this single-step surfer, for the following reason.
+Let xq be the L2-normalized primary eigenvector for matrix Zq (note element j of xq
+is QD-PageRankq(j)), thus satisfying xi=Tixi. Since xq is the primary eigenvector for
+Zq, we have [10]: ?q, r ? Q : Z q x q ? Z q x r . Thus, to a first degree of approximation, Z q
+
+? x r ? ?Z q x q . Suppose P(q)=1/|Q|. Consider xQ = ? P( q)x q (see equation
+
+r?Q
+
+q?Q
+
+5). Then
+
+?
+??
+? 1
+?
+? 1
+1
+?
+?
+ZQ x Q = ? ?
+Z ?? x q ?? =
+? ?? Z q ? x r ?? ? ? ?Z q x q = ? x q = x Q
+? q?Q Q q ?? q?
+Q q?Q
+n
+?
+?? ?Q ? Q q?Q ? r?Q ? Q q?Q
+and thus xQ is approximately an eigenvector for ZQ. Since xQ is equivalent to QDPageRankQ, and ZQ describes the behavior of the single-step surfer, QD-PageRankQ
+is approximately the same PageRank that would be obtained by using the single-step
+surfer. The approximation has the least error when the individual random surfers defined by Zq are very similar, or are very dissimilar.
+
+(
+
+)
+
+The choice of relevance function Rq(j) is arbitrary. In the simplest case, Rq(j)=R is
+independent of the query term and the document, and QD-PageRank reduces to PageRank. One simple content-dependent function could be Rq(j)=1 if the term q appears
+on page j, and 0 otherwise. Much more complex functions could be used, such as the
+well-known TFIDF information retrieval metric, a score obtained by latent semantic
+indexing, or any heuristic measure using text size, positioning, etc?. It is important
+to note that most current text ranking functions could be easily incorporated into the
+directed surfer model.
+
+4
+
+Scalability
+
+The difficulty with calculating a query dependent PageRank is that a search engine
+cannot perform the computation, which can take hours, at query time, when it is expected to return results in seconds (or less). We surmount this problem by precomputing the individual term rankings QD-PageRankq, and combining them at query
+time according to equation 5. We show that the computation and storage requirements for QD-PageRankq for hundreds of thousands of words is only approximately
+100-200 times that of a single query independent PageRank.
+Let W={q1, q2, ?, qm} be the set of words in our lexicon. That is, we assume all
+search queries contain terms in W, or we are willing to use plain PageRank for those
+terms not in W. Let d q be the number of documents which contain the term q. Then
+S = ? d q is the number of unique document-term pairs.
+q?W
+
+4 .1
+
+Disk St o ra g e
+
+For each term q, we must store the results of the computation. We add the minor restriction that a search query will only return documents containing all of the terms 1.
+Thus, when merging QD-PageRankq?s, we need only to know the QD-PageRankq for
+documents that contain the term. Each QD-PageRankq is a vector of d q values. Thus,
+the space required to store all of the PageRanks is S, a factor of S/N times the query
+independent PageRank alone (recall N is the number of web pages). Further, note
+that the storage space is still considerably less than that required for the search engine?s reverse index, which must store information about all document-term pairs, as
+opposed to our need to store information about every unique document term pair.
+4 .2
+
+Time Requirement s
+
+If Rq(j)=0 for some document j, the directed surfer will never arrive at that page. In
+this case, we know QD-PageRankq(j)=0, and thus when calculating QD-PageRankq,
+we need only consider the subset of nodes for which Rq(j)>0. We add the reasonable
+constraint that Rq(j)=0 if term q does not appear in document j, which is common for
+most information retrieval relevance metrics, such as TFIDF. The computation for
+term q then only needs to consider dq documents. Because it is proportional to the
+number of documents in the graph, the computation of QD-PageRankq for all q in W
+will require O(S) time, a factor of S/N times the computation of the query independent PageRank alone. Furthermore, we have noticed in our experiments that the computation converges in fewer iterations on these smaller sub-graphs, empirically reducing the computational requirements to 0.75*S/N. Additional speedup may be derived from the fact that for most words, the sub-graph will completely fit in memory,
+unlike PageRank which (for any large corpus) must repeatedly read the graph structure from disk during computation.
+4 .3
+
+Empirica l Sca la bilit y
+
+The fraction S/N is critical to determining the scalability of QD-PageRank. If every
+document contained vastly different words, S/N would be proportional to the number
+of search terms, m. However, this is not the case. Instead, there are a very few words
+that are found in almost every document, and many words which are found in very
+few documents2; in both cases the contribution to S is small.
+In our database of 1.7 million pages (see section 5), we let W be the set of all unique
+words, and removed the 100 most common words3. This results in |W|=2.3 million
+words, and the ratio S/N was found to be 165. We expect that this ratio will remain
+relatively constant even for much larger sets of web pages. This means QDPageRank requires approximately 165 times the storage space and 124 times the
+computation time to allow for arbitrary queries over any of the 2.3 million words
+(which is still less storage space than is required by the search engine?s reverse index
+alone).
+1
+
+Google has this ?feature? as well. See http://www.google.com/technology/whyuse.html.
+This is because the distribution of words in text tends to follow an inverse power law
+[11]. We also verified experimentally that the same holds true for the distribution of the
+number of documents a word is found in.
+3
+It is common to remove ?stop? words such as the, is, etc., as they do not affect the
+search.
+2
+
+Table 1: Results on educrawl
+Query
+QD-PR
+PR
+
+Table 2: Results on WebBase
+Query
+QD-PR
+PR
+
+chinese association
+computer labs
+financial aid
+intramural
+maternity
+president office
+sororities
+student housing
+visitor visa
+Average
+
+alcoholism
+architecture
+bicycling
+rock climbing
+shakespeare
+stamp collecting
+vintage car
+Thailand tourism
+Zen Buddhism
+Average
+
+5
+
+10.75
+9.50
+8.00
+16.5
+12.5
+5.00
+13.75
+14.13
+19.25
+12.15
+
+6.50
+13.25
+12.38
+10.25
+6.75
+11.38
+7.38
+10.75
+12.50
+10.13
+
+11.50
+8.45
+8.45
+8.43
+11.53
+9.13
+13.15
+16.90
+8.63
+10.68
+
+11.88
+2.93
+6.88
+5.75
+5.03
+10.68
+8.68
+9.75
+10.38
+7.99
+
+Results
+
+We give results on two data sets: educrawl, and WebBase. Educrawl is a crawl of the
+web, restricted to .edu domains. The crawler was seeded with the first 18 results of a
+search for ? University? on Google (www.google.com). Links containing ? ?? or ? cgibin? were ignored, and links were only followed if they ended with ? .html? . The
+crawl contains 1.76 million pages over 32,000 different domains. WebBase is the first
+15 million pages of the Stanford WebBase repository [12], which contains over 120
+million pages. For both datasets, HTML tags were removed before processing.
+We calculated QD-PageRank as described above, using Rq(j) = the fraction of words
+equal to q in page j, and P(q)=1/|Q|. We compare our algorithm to the standard PageRank algorithm. For content ranking, we used the same Rq(j) function as for QDPageRank, but, similarly to TFIDF, weighted the contribution of each search term by
+the log of its inverse document frequency. As there is nothing published about merging PageRank and content rank into one list, the approach we follow is to normalize
+the two scores and add them. This implicitly assumes that PageRank and content rank
+are equally important. This resulted in poor PageRank performance, which we found
+was because the distribution of PageRanks is much more skewed than the distribution
+of content ranks; normalizing the vectors resulted in PageRank primarily determining
+the final ranking. To correct this problem, we scaled each vector to have the same
+average value in its top ten terms before adding the two vectors. This drastically improved PageRank.
+For educrawl, we requested a single word and two double word search queries from
+each of three volunteers, resulting in a total of nine queries. For each query, we randomly mixed the top 10 results from standard PageRank with the top 10 results from
+QD-PageRank, and gave them to four volunteers, who were asked to rate each search
+result as a 0 (not relevant), 1 (somewhat relevant, not very good), or 2 (good search
+result) based on the contents of the page it pointed to. In Table 1, we present the final
+rating for each method, per query. This rating was obtained by first summing the ratings for the ten pages from each method for each volunteer, and then averaging the
+individual ratings. A similar experiment for WebBase is given in Table 2. For WebBase, we randomly selected the queries from Bharat and Henzinger [6]. The four
+volunteers for the WebBase evaluation were independent from the four for the
+educrawl evaluation, and none knew how the pages they were asked to rate were obtained.
+
+QD-PageRank performs better than PageRank, accomplishing a relative improvement
+in relevance of 20% on educrawl and 34% on WebBase. The results are statistically
+significant (p<.03 for educrawl and p<.001 for WebBase using a two-tailed paired ttest, one sample per person per query). Averaging over queries, every volunteer
+found QD-PageRank to be an improvement over PageRank, though not all differences were statistically significant.
+One item to note is that the results on multiple word queries are not as positive as the
+results on single word queries. As discussed in section 3, the combination of single
+word QD-PageRanks to calculate the QD-PageRank for a multiple word query is only
+an approximation, made for practical reasons. This approximation is worse when the
+words are highly dependent. Further, some queries, such as ? financial aid? have a
+different intended meaning as a phrase than simply the two words ? financial? and
+? aid? . For queries such as these, the words are highly dependent. We could partially
+overcome this difficulty by adding the most common phrases to the lexicon, thus
+treating them the same as single words.
+
+6
+
+Conclusions
+
+In this paper, we introduced a model that probabilistically combines page content and
+link structure in the form of an intelligent random surfer. The model can accommodate essentially any query relevance function in use today, and produces higherquality results than PageRank, while having time and storage requirements that are
+within reason for today? s large scale search engines.
+Ackno w ledg ment s
+We would like to thank Gary Wesley and Taher Haveliwala for their help with WebBase, Frank McSherry for eigen-help, and our experiment volunteers for their time.
+This work was partially supported by NSF CAREER and IBM Faculty awards to the
+second author.

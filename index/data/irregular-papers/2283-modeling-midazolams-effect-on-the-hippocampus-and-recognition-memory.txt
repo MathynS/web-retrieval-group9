@@ -1,0 +1,603 @@
+Modeling Midazolam' s Effect on the
+__
+H_il!Jlocampus and Recognition Memor!
+Kenneth J'" .I\'lalJrnbeJ~2
+Departn1ent of Psychology
+
+Indiana V'uiversity
+Bloomington, IN' 47405
+
+Rene
+
+Le!ele:nD~er2
+
+Department of rS'/cnOlCHIV
+Indiana University
+Bloomington, IN 47405
+rzeelenb(~~indiana.edu
+
+Richard 1\'1.. Sbiffrin
+Departm.entsof Cognitive Science and Psychology
+Indiana 'University
+Bloomington, TN' 47405
+
+shiffrin@indiaful.etiu
+
+Abstract
+The benz.odiaze:pine '~1idazolam causes dense,but
+temporary ~ anterograde amnesia, similar to that produced
+by- hippocampal damage~Does the action of M'idazola:m on
+the hippocanlpus cause less storage, or less accurate
+storage, .of information in episodic. long-term menlory?- \rVe
+used a sinlple variant of theREJv1. JD.odel [18] to fit data
+collected. by IIirsbnla.n~Fisher, .IIenthorn,Arndt} and
+
+Passa.nnante [9] on the effects of Midazola.m, study time~
+and normative \vQrd.. frequenc:y on both yes-no and
+remember-k.novv recognition m.emory. That a: simple
+strength. 'model fit well \\tas cont.rary to the expectations of
+'flirshman et aLMore important,within the Bayesian based
+R.EM modeling frame\vork, the data were consistentw'ith
+the view that Midazolam causes less accurate storage~
+rather than less storage, of infornlation in episodic
+mcm.ory..
+
+1 Introduction
+'Danlage to the hippocampus (and nearby regions), often caused by lesiclns
+leaves normal cognitive function intact in the short term., including long".tenn
+memo-ry retrieval, but prevents learning of new1' inJornlat.ion.We have found a ,yay
+to begin to distinguish two alternative accounts for this lea.ming deficit: Does
+damage cause less storage, or less accurate storagc 1 of information in long-term
+episodic menlQry?! We addressed this question by using the REM model of
+recognition 'mC'mQry [18] to fit data collected by Hirshnlan and colleagues [9], vlho
+1
+
+tested recognition memory in nornlalparticipants given either saline (control group)
+or Midazolam, a benzodiazepine that temporarily- causes anterograde amnesia with
+effects that generally' 'mimic those found after hippoca.mpa1 dan1age.
+
+2
+
+Empirical findings
+
+The participants in Hirshman et at [9] studied lists of \~ords that ?varied in
+nomlative. word frequency (Le., lo\v-frequency vs. high.-frequency) and the amount of
+time allocated for study (either not studied, or studied for 500, 1.200, or 2500 ms per
+?word)+ These variables are known to have a robust effect on rec.ognition memory in
+nornlal populations; Lo\v-frequency (LF) \vords are better recognized tllan high??
+frequency (FIT) \"rOrd5~ an.d a.n. increase in study tinle inJproves recognition perfbl1:11ance.
+In. addi.tion~ the probability ofrespon.ding 'oldY to studied words (temJed hit rate~ or FfR) is
+higher forL?F \:vords than forHF '\?ords, and t11e probability of responding 'old? to
+unstu.died. \\lords (~ermed fa.tse alarm. rate, or FAR) is lo\>ver for l,F \vords than. tor HF
+'\Tords. Th.is pattern of data is commonly kno\vn as a ~l;mirror etIecf' [7].,
+In. Hirshulan et al. [9], participants received either salin.e or l'vfidazolatn a11d
+then studied a list of ?words. A.fter a delay of about an hour they ,vere sho\vn studied
+words eoldt ) and unstudied words Cnew1)'1 a.nd asked to give old-new recognition
+and. renlenlber/k'11o\v judgments. The HR and F.AR. ii.ndin.gs are depicted in Figure 1
+as the large circles (tl.I1ed for l,F test?iords and un.filled for HF test '~i'ords). The
+results fror.n the saline condition, given in the left panel, replicate tIle standard
+effects in the literature: In the figure; the points labeled with zero study time give
+FAR.s (for ne?';fl test itelns), and the other poin.ts give HRs (for old test items). Thus
+,ve see that the saline group exhibits better performance forL?F words al1d a rnirror
+effect: ForLF words~ FA?Rs are IO\,l.ler an-dHRs are higheL The Midazolam group of
+course gave ]oVi-rer performance (see right pan.el). More critically, the pattern of
+results differs from that for the sal ine group: The mirror effect was lostL,F \vords
+produced both.loweTF~A,..Rsand lower HR.s+
+
+0.8 - , - - - - - - - - - - - - - - - , ....---------------,- 0.8
+0.7
+
+HRsandFARs
+
+HRsandFARs
+
+in Saline Condition
+
+0.6
+
+0.7
+
+in MidazolamCondition
+.... :::::::::::::::: .. ,.@
+
+0.6 II
+0.5 0
+~
+
+0.5
+--.- LF Data
+
+~
+
+"
+
+;
+
+c.
+
+0.4
+
+???0???? HFData
+
+0.4 '-'
+
+0.3
+
+--.- LF Fit
+.. ??0? .. ? HF Fit
+
+0.3
+
+0.2
+
+-'---.,----,.---,------r--,----,..-----t '----,----.,-----,--.,----,.----r----+
+
+o
+
+500 1000 1500 .2000 25003000
+
+Study Time (ms.)
+
+o
+
+0.2
+
+50010001500 200025003000
+
+Study Time (ms.)
+
+Figure J.!.y"?cs-no recognition data. from Hirshman ct at and predictions o:f aR.EMm.odeL
+ZerQ U1S study time refers to 'new~ items so the data gives the false-alarnl rate (FAR). Data
+sh(nvn for non-zero study times give hit rates (lIR). Only the REM parameter & varies
+bchvecn the saline andm.idaz:olam conditions. 1~hc fi.ts are hased on 300 JVlonte (~arlo
+simulations usinggLF ~ .325 t g= . 40" gnr ~ ,,45; ~:= 16; 10 ~ 4, ~ ~ .8~ !!* ~ .. 025, QS.l ,~ .77,
+~M1d = .25, CritQ/ N '= .92. ?LF?= low-frequency words and lIP = high-freque.ncy \yords.
+
+The participants also indicated 'Athether their "old'" judgrnents \vere
+made on the basis of '~rememberingH the study event or on the basis of "kno\?ing"
+the v.rord \vas studied even tb.ougb. tlley could not explicitly rernenlber the study
+event [5]. Data: are sh.o\?n in Figure 2. Of greatest interest (or present purposes,
+~~knowr~" and "rernelnber)' responses \vere differently affected by the \vord frequen.cy
+and the drug manipulations. In the 1Vlidazol.aul condition~ th.e conditional probability
+of a t'kno\\{'~ judgnlent (given an t'o]d:l~ response) was consistently higber tb.an that of
+a "remember'} judg1nent (for both HF and L,F Vi-i'ords). lVl"oreover, these probabilities
+?were hardly affected by study timei A different pattern \vas obtained in the Saline
+condition.FQT HF words, the cQnditional probability of a '.tknO\~l~1 judgment vvas
+higher than that,of a "rerrleulber" judgmen.t~ but the difference decreased with study'
+time..Final1y~ tor LF \vords, the conditional probability of a "'kn.o\v" Judgment vvas
+higher than that of a Hrernenlber~' judgrrlent tor nonstudjed foj.ls~ but tor studied
+targets the conditional probability of a. Hremernber" judgrnent \vas 11 igher tha.n that
+of a '~kn.ow?" judgrnent The recognition an.d rerrlenlberlk"u\? re?sults were interpreted
+by Hirshman et aL [91 to require a dual process account; in particular~ tlle authors
+argued against Hnlenlory strel1gtll~' accounts [4 t 6~ 11]. Although not the n1uin
+message of this tlote~ itvvitl be of som.e inteTest to m.emory theorists to n.ote that our
+present results. sho?ws tIllS con.clusion to be in.correct.
+1.0 . . , - - - - - - - - - - - - - ,
+
+1.0 . , - - - - , - - - - - - - - - - - - - - - ,
+
+,-.. 0.8 D."...
+HF .. Saline
+~ 0.6
+???""O:::::::::::::::::::::::~::::::::::::::::::::..
+I:
+
+~ 0.4
+
+g
+
+~
+
+0.2
+
+.2
+
+o 0.0
+
+\..
+
+~
+
+E
+
+4)
+
+!
+
+~
+
+1000
+2000
+0
+1.0 . , - - - - - - - - - - - - - - - - - ,
+
+0.8
+OJ>.
+
+[J
+~o:t
+
+~
+
+LF ? Saline
+
+o
+
+0.0
+
+~------,-------.-------'
+
+~
+
+0.8
+
+..c
+OJ
+
+~
+
+cr
+
+LF ... Midazolam
+
+0.6 ~::::::::::::::::::::::'a:::::::::::::::::::::?
+
+0.4 ~
+0.2
+
+0.2
+
+0.0
+
+Dr.------ID
+
+o
+2000
+1000
+1.0 . . , . - - - - - - - - - - - - - - - ,
+
+r-
+
+~
+
+D:' 0.4
+
+0.4
+
+0.2
+
+(U
+
+1I:r-
+
+E
+
+C:t,...
+
+HF ... Midazolam
+
+0.8
+
+~ 0.6 O-???????:::::~? ..:::::::;;::???????????????,,,?o?..??~--_????_-_ ..?~~_?????-O
+
+..J..-,-------,-------.-------'
+
+0=
+
+1000
+Study Time
+
+2000
+
+0.0
+
+..J..-,-
+
+o
+
+-II-
+
+p~Uremember~ f?old)
+
+-Ii
+
+pJlk.now.~~ I~'Old.)
+
+-0- Rmember Fit
+???_O????--,.??_Ko_o_w_F_it_---r_ _---'
+1000
+
+2000
+
+Study Time
+
+Figu.re2~ .Remember/kn.ow data froluHirshman et aL and predictions ora REM
+fllodeL The paramete:r values are those listed in t.he caption for.Figure I,. plus there
+arc two remember...know crite.rion:Fo.r the saline group,. CritR/K;; 1.52; for the
+midazo.lanl group, (:ritRlK;;;' 1~30~
+
+3 A REM model for recognition and remember/know judgments
+Aconlmonway to conceive of recognition. nlenl0ry is to posit that memory.
+is probed \vith the test item, and the recognition decision is based on a. continuous
+random variable that is oft.en conceptuali.zed as the resultant strength, intensity, or
+fam.iliarity [6]" If the familiarity exceeds a subjective c.riteri.on, then the subject
+responds'~old"+Otherwise, a "n.ew" response is made [8].
+
+?of
+
+A subclass
+this type of model accounts for the vvord-frequency mirror
+effect by assuming that there exist four underlying d.istributions of fa.nliHarity
+
+values~
+
+such th.at th.e means of these distributions. are arranged along a familiarity
+scale in the follo\ving n1annct: p(L?F-nc\v) ~:::: jl(HF-nc\\r) <~ p(HP-old) < p(LF~old).
+The left side of Figure 3 displa.ys this relation graphical.ly. l\.. model of this type can
+predict the recognition fmdings of IIirshn1a.n ?ct a1. (in press) if the effect of
+. Midazolam is to rearrange the underlying distribut.ions on the familiarity scale such
+that }t(L.F-old) < p(HF-old). The right side of Figure 3 displays this relation.
+graphically. The R.EM 1110del of the \~lord-frequency effect described by Shiffrin and
+Steyvers [13, 18, 19] is a member of this class of models, as \ve describe next.
+
+RE.M [1.8] assumes that memory traces consist of vectors Y, of length ~, of
+nonnegativ?e integer feature values Zero represents no infomlation about a feature
+()thenvise the values for a given feature? are assum.ed to tbllo\\l the geometric. probability
+distribution given as Equation 1: P(V = j) = (l_gy-lg, for j= 1 and higber~ Thus higber
+integer values represent feature values less likely to be encountered in the environment
+R.EM adopts a "feature-frequen.cy'" assumption [13]: the lexicalJsemantic traces of lU\\ler
+frequency ?words are generated \vith a low?er value of g (Le. gLP < gllr). These
+lexical/semantic traces represent general knovvledge (ekg~, the orthographic, pl1onological,
+senlantic, and contextual characteristics of a \vord) and bave very many non-zero feature
+values~ most of'\vl1icb. are e.ncoded correctly. Episodic traces represent the occurrence of
+stinluli in a certain environmental context; they are built of tlle same feature types as
+lexical/senlantic traces, but tend to be in,cOlnplete (bavemany zero values) and inaccurate
+(the values do not nec.essarily represent correctly the ?v?alues ofth,e presented event).
++
+
+v
+
+When a \vord is studied, an incomplete and error prone representation of the
+trace is stored in a. separate episodic image. The probability
+that a feature ',eVill be stored in the episodic inlage after! time units of study is given
+as Equation 2: 1 - (1 - 11*)1, where !!* is the probability of storing a feature in an
+arbitrary un-it of time~ The number of attempts, 1j, at storin.g a con.tent featur-e for an
+itenl studied for j units of time is co.mputed from Equation 3: 11 == 11.=.1(1 +' ~-JAJ), \vh.-ere
+'~lord's lexical/semantic
+
+Midazolam
+
+Saline
+new
+LF
+
+(}ld
+
+HF
+
+HF
+
+cld
+
+lleW
+
+LF
+
+LF
+
+HF I.F HF
+
+JI
+
+more
+Figure 3. l\rrallgomcnt of Inoans of the theoretica.l distributions of strcngth.. bascd
+models that may give risc to 'Hirshman ct at ~s findings. HF and LF = high or LF
+freq~ucncy ,vol'ds:; respectively..
+less.
+
+Fmniliarity
+
+tnQ~
+
+less
+
+Fami1:L."U'ity
+
+i.s a rat.e parameter:- and t, is the number of atten1pts at storing a. feature in the' first
+1 s. of study. "rhus, increased study time increases the storage of features, but the
+gain in the amount of information stored diminishes as the itctn is studied longer.
+Features that arc not copied frotn the lexical/semantic trace arc represented by a
+valu.c of O. If storage of a feature docs occur, the feature value is correctly copied from
+the ,vord~s lexical/semantic tI'aCC '\vith probability Q. With probability l ..~ the value is
+incorrectly copied and sall1plcd randolnly from the long-run base-rate gco111ctric
+distribution:, a distribution defin.ed. by g such that gHF ~> g > gLF.
+
+:?;
+
+At test, a probe made with context features only is assumed to activate the
+episodic traces~ Ij, of the !l list i tenlS and no otllefS [24]. Then the content features of the
+probe cue are tnatched in parallel to the activated traces..For each episodic trace, Ii, the
+system notes the values. of features of Ii that rnatch the corresponding feature of the cue
+(njjm stands for the number of matching values in tl1e j-th image that have value i)} and the
+ntnnber of nlisulatcbing featq.res (njq stands tor the number of mismatching values in the
+fhimage). Next~ a likelihood ratio, ~j~ is cOlnputed for each Ii:
+
+A ~ (.l-c )12,)Il
+'.
+j
+
+n?C.",""'>. [..
+
+/;1
+
+.
+
+c+
+
+(l-,{.~)g(l-i-Ig)r-l ].,.?
+
+fi
+l1. m
+
+(4)
+
+gel-g)
+
+~ is the likelihood ratio for the fh itnage~ It can be thought of as a? runtchstrength bet\veen the retrieval cue and.Ii. It gives tlle probability of the data (the olutcl1es
+and misn1atches) given that tlle retrieval cue and the inlage represent the san1e word (in
+which case features are expected to luatch, except for errors in storage) divided by the
+probability' of the data given t11at the retrieval cue and tIle irnage represent different "fords
+(in \vhich case features matell only by chance).
+
+TI,e recognition decision is based on the odds1 <1>, giving the probability that the
+test item is old divided by the probability the test itetn is ne," [18]. This is just the
+average of the likelihood ratios:
+
+1
+=-
+
+n
+
+LA.?J
+
+(5)
+
+11 j=4
+
+If the odds exceed a criterion~ then an Uoldj~ response is 1nade, The default criterion is '1.0
+(wllich maximizes probability correct) although subjects could of course deviate from
+this setting.
+Thus an Hold" response is given 'Vvnen there is more evidence that the test ,vord
+is old. !\1atching features contribute evidence that an item is old (contribute factors to the
+product in ,Eq. 3 greater than 1~O) and n1ismatching features contribute evidence that an
+item is ne\\' (contribute factors less than l .O)~ RE!vlpredicts an effect of study time
+because storage of Olore non-zero features increases the number of matching target-trace
+features; this factor outweighs the general increase in variance produced by'" greater
+nunlbers of non-zero features in
+vectors. 'RENt predicts a L?F HR advantage because
+the matching ofthe more uncon1mon features associated 'W'"ith LF words produces greater
+evidence that the item is old than the matching of the more COOlmon features associated
+with H.F words..For foils~ however~ every teature match is due to chance; such matching
+occurs n10re frequently for HF tl1an LF \vords because HF features are ,nore common
+[12]. TIlis factor outweighs the higher diagnosticity of matches tl1f theLF words, andHF
+vV'otds are predicted to have higher FARs than L?F '\vords~
+
+an
+
+Much evidence points to the critical role of the hippocampal region in
+storing episodic memory' traces ['I, 14, l5, ] 6 20]. Interestingly, f\.1idazolam has
+been sho\vn to affect the storage, but not the retrieval of memory traces [22]. As
+described above, there are tw'o parameters in R.EM that affect the storage offeatures
+in tnemory: 11* detennines the nuolber of features that get stored, ~nd ?. deternlines
+the accuracy with which features get stored. In order to lower performance, it could
+be assun1ed that Midazolanl reduces the values of eitl1er or both oftl1eseparameters.
+Ho\vever, Hirshulan et at '8 data constrain wl11ch of these possibil ities is viable.
+l
+
+Let us assutne that MidazoJam only causes the hippocampal region to store
+fe\ver features, relative to the saline condition (i.e. ll* is reduced). In REM~ this
+
+causes te\\>Ter terms in the product given by .Eq. 4~ and a lO\\>Tervalue for tlle result~
+on the average. Het1ce~ if Midazolam causes fe\ver features to be stored~ subjects
+should approach chance-le,\tel performance for both HF and .LF \-'lords: LF{FA.R) ~
+H.F(F..A.R) . ..,/ L-F(HR) . . ~ HF(HR). However, Hirshnlan et a1 found that the difference
+in the LF and H'F FA.Rs \?as not affected b:y 1\1idazolam. In RETvl this difference
+would n.ot be much affected; if at al1~ 'by changes in criterion, or c.hanges in & that
+one 1111ght assume Midazolam induces. Thus \vithin the fratnework of R.ENf, the
+main effect of l\1idazolam on the functioning of the hippocampal region is not to
+reduce the n.umber of features "that get stored.
+
+Alternatively let us assunle that Midazolam causes tIle hippocalTIpal region
+to store '~nQisier" episodic traces, as o.pposed to traces wi th feV~ter :non-zero features~
+instantiated in RE?Tvf by d.ecreasing the valu.e of th.e ~ parameter (that governs coo-ect
+copying of a feature value). Decreasing Q only slightly affects the false alann rates~
+because these FARs are based on chance matches 1 .HO\\feVer, decreasing ~ causes
+the LF an.d .HF old-itenl distributions (see Figure 3) to ~pproacb. the L~F and HF ne\\L..
+item distrihutions; \vhen. the decrease is large en.oug:h.~ this factor tnust cause the LF
+and .HF old-item distributions to reverse position. The reversal occ.urs bee-ause the
+H,F retrieval cues used to prope melTIOry have more comnlon features (on average)
+than the LF retrieval cues, a factor that cornes to dominate \vhen the true 'signar
+(mate-hing features in the target trace) begins to disintegrate into noise (due to
+l.o\vering of~).
+4
+
+Figure 1. shows predictions of a REM nlodel incorporating the? assumption
+that only ~ \taries benveen the saline a.nd IVIidazolalTI groups~ a.nd only at storage,
+.For retrieval the same ~ value \vas used iri both the saline and Midazolanl conditions
+to calculate the likelihoods in E,q~ation 4 (an assumptioll consistent with retrieval
+tuned to the partiei.pant's lifetime learning, and consistent ,vith prior findings
+sh{)~ring that Midazolam affec.ts the storage of traces and not their retrieval [17].
+The criterion for an. oldlnc\v judgment '--va.s set to ;,92~ rather than. tlle nornlatively
+optimal value of I ~O!lin order to obtain a good qua.ntitative fit, but the criterion did
+not vary betw~een. the 1v1idazolarn and saline gro~ps, and therefore is 110t of
+consequence tor the present article \Vithin the RE,M framework; then; the main
+effect of Midazolan1 is to ca?use the hippocampal region to store more noisy episodic
+traces. These conclusions are based on the recognition data. 'h7 e tum next to the
+remenlber/kno\v judgments.
+x
+
+\Ve chose to model renlenlber.. kno\v judgments in "vhat is probably the
+shnplest way. The approach is based on the olodels described by Donaldson [41 and
+.Hirsbrnan and Master [10, II]. As described above~ an totd t decision is given when
+the familiarity (Le~ a,ctivation~ or in RE1vf tenns the odds) a.ssociated '\vith a test
+'word exceeds tb.e yes-no criterion. \\7Jlen this happens, th.en. it is aSSUllled th.at a
+higher remember/kl10\V criterion is set. \llords ,,,bose familiarity exceeds the higher
+renlenlherllo,O\v" criterion a.re given the ?'renlenlber" response, and a "knowH
+response is givenw'hen the remember/kno\? criterion is 110t exceeded. Figure 2
+shows that this lnodel predicts the effects of MidazQlam and saline both
+qualitatively and qua,ntitatively?. TIllS fit was obtained by' using slightly different
+renlenlber~know criteria in the saline and 'Midazolam conditions (1.40 and 1.26 in
+the saline and Midazolam conditions, respectively), but aJl the qualitative effects are
+predicted correctly even\vhen the same criterion is adopted for remembetlknow.
+
+1
+
+Slight din-'erences are predicted depending on the interrelations of ,g~ gl1f~ and
+
+gLf
+
+These predictions pro'lide a.n existence proof that Hirshman et aL [9] were a bit
+hasty in. usin.g tlleir data to reject single.. process tnodels of the present type [4, 11]:t
+an.d sho\v that single- versus dual-process models \\lQuld hav?e to be distinguished on
+the basis of other sorts of studies. There is already a large literature devoted to this
+as-yet-unresolved issue [10], and spa.ce prevents discussion here.
+Thus far we detnonstrated tlle sufticien.cy of a model assulning that
+lVHdazolanl reduc.es storage acc?uracy rathe-r than storage quantity, an.d have argued
+that the reverse assumption cannot 'Vvork. \Vhat degree of Inixture of tllese
+assumptions tnight be conlpatible with the data'? A.l1 ans"ver "~lould require an
+exhaust.ive ex:ploration. of the paralnet.er s.pace" but \?e found that tD.e use of a 50~/Q
+reduced value of y* for the Midazola.m group (11* suI == .02; Y*rrti*i == .01) predicted an
+LF-Fi\R. advantage that deviated from the data by bein.g noticeably snlaller in. the
+Midazolanl than saline condition. Within. the RE.1\1 fratnework this result suggests
+the maill effect of l\1idazolalu (possibly all tIle effect) is on ~ (accuracy of storage)
+rather than Otll1* (quantity of storage).
+AJtern.atively~ i.t is possible to conceive of a much more complex RE?M
+model that assurnes that the effect of IVIidazolatll is to reduce the aOlount of storage.
+Accordillg1.y~ one might assunle th.at relatively little in.f1)rnlation is stored. in. m.emory
+in the Mid.azo]am. cOl1dition.~ an.d that the retrieval cue is Inatch.ed primarily aga.inst
+traces stored prior to tl1e experiment Such a modeL Inightpredict Hirshman et at "5
+tin.din.gs bec.ause? once again. targets will only be randonlly similar to contents of
+m.emory.. Ho\vever, suell a lTIodel is far tnore com:plex. than. the InQdel described
+above. Perhaps, future research will provide data that requires a Olore complex
+m.odel~ but for n.O\V the simple m.odel presented here is sufficien.t+
+
+4 Neurosc.ientific. Speculations
+
+The }lippocatnpus (proper) consists of approximately 'I O~/~ C] ABAergic
+intern.euron.s, and these intern.eurons are th.ought to control tbe firing of the
+remaining 909/~ of the hippocan1pal principle neurons [21]. Some of the principle
+neur011S are gra.nule neurons and SOlne are pyramidal neurons~ The granule cells are
+associated ,vitb. a rhythmic pattern of neuronal activity k~llown as theta,,vaves [1]~
+Tl1eta \\laves are associated ",tith exploratory activities in both animals [1.6] and
+hUlnans [2]~ activities in \vhic.h infortnation about novel situations is being acquired.
+Midazolam is a. benzodiazepine~ and benzodiazepines inhibit the tiring of
+(]ABAergic interneurons in the hippocampus [3]. Hence, if tv1idazolan) inhibits the
+tiring of those cells that regulate the orderly firing of the vac;t majority of
+hippocampal cel1s!l then it is a reasonable to speculate that the result is a "noisier"
+episodic memory trace~
+The a.rgUlnent that?vt idazolaln causes noisier storage rather than less
+storage raises tb.e question whether a sitnilar process produces th.e silnilar effects
+caused by hippocampal lesions or other sorts of datnage (e.g.. Korsakoff's
+syndrolne). l'hi8 question could be explored in future research.
+Refel~ences
+
