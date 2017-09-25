@@ -1,104 +1,102 @@
 #!/usr/bin/env python
-import sqlite3
-import sys
 from utils.text_cleaner import Cleaner
 from utils.printer import Printer
+import utils.index_models as models
+import config_ntokens as conf
 
 DEBUG = False
 
-def compute_lower_n_tokens_per_doc(lower_n, for_all, first_id, last_id):
 
-    database_file = '../data/database.sqlite'
-    db_connection = sqlite3.connect(database_file)
-    cursor = db_connection.cursor()
+def ids_to_query(first_id, n, max_id):
+    ids = []
+    last_id = first_id + n
+    if first_id + n > max_id:
+        last_id = max_id + 1
+        
+    for current_id in range(first_id, last_id):
+        ids.append(current_id)
 
-    select_cmd = ''
-    if for_all:
-        select_cmd = 'SELECT pdf_name, paper_text from papers;'
-    else:    
-        select_cmd = 'SELECT pdf_name, paper_text from papers WHERE id >= ' + str(first_id)  + ' AND id <= ' + str(last_id) + ';'
+    return ids
 
+def compute_lower_n_tokens_per_doc(lower_n, first_id, last_id):
+
+    models.connect_to_db(conf.DATABASE_FILENAME)
     cleaner = Cleaner()
     lower_n_tokens_per_paper = {}
-    
-    for counter, row in enumerate(cursor.execute(select_cmd)):
-        if DEBUG and counter % 100 == 0:
-            print("Processing pdf text number: {0}".format(counter))
-            
-        pdf_name = row[0]
-        tokens = cleaner.tokenize(row[1])
-        token_frequencies = {}
-        for token in tokens:
-            if token not in token_frequencies:
-                token_frequencies[token] = 1
-            else:
-                token_frequencies[token] = token_frequencies[token] + 1
 
-        sorted_tokens = [(k, token_frequencies[k]) for k in sorted(token_frequencies, key=token_frequencies.get, reverse=True)]
-        lower_n_tokens_per_paper[pdf_name] = sorted_tokens[-1*lower_n:]
+    for i in range(first_id, last_id + 1, increments):
+        papers_to_process = ids_to_query(i, increments, last_id)
+        for paper_id in papers_to_process:
+            paper_query = models.Papers_NR.select().where(models.Papers.id == paper_id)
+            if DEBUG:
+                print(paper_query)
+                print(len(paper_query))
 
-    db_connection.close()
+            if len(paper_query) > 0:
+                paper_content = paper_query[0].paper_text
+                pdf_name = paper_query[0].paper_name
+                tokens = cleaner.tokenize(paper_content)
+                token_frequencies = {}
+                for token in tokens:
+                    if token not in token_frequencies:
+                        token_frequencies[token] = 1
+                    else:
+                        token_frequencies[token] = token_frequencies[token] + 1
+
+                sorted_tokens = [(k, token_frequencies[k]) for k in sorted(token_frequencies, key=token_frequencies.get, reverse=True)]
+                lower_n_tokens_per_paper[pdf_name] = sorted_tokens[-1*lower_n:]
+
+    models.close_connection()
     printer = Printer()
     printer.print_dict(lower_n_tokens_per_paper)
 
 
 def compute_lower_n_tokens_for_collection(lower_n):
     
-    database_file = '../data/database.sqlite'
-    db_connection = sqlite3.connect(database_file)
-    cursor = db_connection.cursor()
-
-    select_cmd = 'SELECT pdf_name, paper_text from papers;'
+    models.connect_to_db(conf.DATABASE_FILENAME)
+    first_id = 1
+    last_id_query = models.Papers_NR.select().order_by(models.Papers_NR.id.desc()).limit(1)
+    last_id = last_id_query[0].id
+    increments = 10
+    
     cleaner = Cleaner()
     token_frequencies = {}
-    
-    for counter, row in enumerate(cursor.execute(select_cmd)):
-        if DEBUG and counter % 100 == 0:
-            print("Processing pdf text number: {0}".format(counter))
-            
-        pdf_name = row[0]
-        tokens = cleaner.tokenize(row[1])
-        for token in tokens:
-            if token not in token_frequencies:
-                token_frequencies[token] = 1
-            else:
-                token_frequencies[token] = token_frequencies[token] + 1
 
-    db_connection.close()
+    for i in range(first_id, last_id + 1, increments):
+        papers_to_process = ids_to_query(i, increments, last_id)
+        for paper_id in papers_to_process:
+            paper_query = models.Papers.select().where(models.Papers.id == paper_id)
+
+            if DEBUG:
+                print(paper_query)
+                print(len(paper_query))
+
+            if len(paper_query) > 0:
+                paper_content = paper_query[0].paper_text
+                paper_pdf_name = paper_query[0].pdf_name
+                tokens = cleaner.tokenize(paper_content)
+    
+                for token in tokens:
+                    if token not in token_frequencies:
+                        token_frequencies[token] = 1
+                    else:
+                        token_frequencies[token] = token_frequencies[token] + 1
+
+    models.close_connection()
     sorted_tokens = [(k, token_frequencies[k]) for k in sorted(token_frequencies, key=token_frequencies.get, reverse=True)]
     lower_n_tokens = sorted_tokens[-1*lower_n:]
-    print(lower_n_tokens)
+    printer = Printer()
+    printer.print_token_frequency(lower_n_tokens)
     
 
 if __name__ == '__main__':
 
-    instructions = "\nThere are three ways to use this script to compute the lower n tokens that appear in the pdfs' text contained in the database\n"
-    instructions += "1) To compute the lower n tokens for a range of pdfs run the following command:\n"
-    instructions += "\tpython3 lowern_tokens n [lower_n] [first_paper_id] [last_paper_id]\n"
-    instructions += "2) To compute the lower n tokens for each of the pdfs run the following command:\n"
-    instructions += "\tpython3 lowern_tokens each [lower_n]\n"
-    instructions += "3) To compute the lower n tokens for all the pdfs run the following command:\n"
-    instructions += "\tpython3 lowern_tokens all [lower_n]\n\n"
-    instructions += "Where:\n\t[lower_n] corresponds to the number of the least frequent tokens you want to see,\n"
-    instructions += "\t[first_paper_id] corresponds to the first paper that will be queried from the database, and\n"
-    instructions += "\t[last_paper_id] corresponds to the last paper that will be queried from the database\n"
-    
-    if len(sys.argv) >= 3:
-        option = sys.argv[1].strip()
-        lower_n = int(sys.argv[2].strip())
-        if option == 'n' and len(sys.argv) == 5:
-            first_paper_id = int(sys.argv[3].strip())
-            last_paper_id = int(sys.argv[4].strip())
-            compute_lower_n_tokens_per_doc(lower_n, False, first_paper_id, last_paper_id)
-        elif option == 'each':
-            compute_lower_n_tokens_per_doc(lower_n, True, None, None)
-        elif option == 'all':
-            compute_lower_n_tokens_for_collection(lower_n)
-        else:
-            print(instructions)
-            exit(1)
+    if conf.LOWERN_OPTION == "all":
+        compute_lower_n_tokens_for_collection(conf.LOWERN_NUMBER_OF_TOKENS)
+    elif conf.LOWERN_OPTION == "each":
+        compute_lower_n_tokens_per_doc(conf.LOWERN_NUMBER_OF_TOKENS,
+                                          conf.LOWERN_FIRST_PAPER_ID,
+                                          conf.LOWERN_LAST_PAPER_ID)
     else:
-        print(instructions)
+        print("Invalid option {0}".format(conf.LOWERN_OPTION))
         exit(1)
-
-    
