@@ -71,7 +71,6 @@ def clean_papers_from_db():
     models.connect_to_db(DATABASE_FILENAME)
     last_id_query = models.Papers.select().order_by(models.Papers.id.desc()).limit(1)
     first_id = 1
-    #last_id = 8
     last_id = last_id_query[0].id
     increments = 10
 

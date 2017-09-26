@@ -78,16 +78,18 @@ class Cleaner:
 
     # split by =, -?, 
     def clean_text(self, text):
-        original_tokens = self.tokenize(text)
-        cleaned_tokens = self.remove_stopwords(original_tokens)
-        cleaned_tokens = self.encode_initials(cleaned_tokens)
-        cleaned_tokens = self.clean_years(cleaned_tokens)
-        cleaned_tokens = self.remove_invalid_tokens(cleaned_tokens)
-        cleaned_tokens = self.strip_special_characters(cleaned_tokens)
-        cleaned_tokens = self.remove_stopwords(cleaned_tokens)
-        cleaned_tokens = self.decode_initials(cleaned_tokens)
-        return " ".join(cleaned_tokens)
-    
+        if len(text) > 0:
+            original_tokens = self.tokenize(text)
+            cleaned_tokens = self.remove_stopwords(original_tokens)
+            cleaned_tokens = self.encode_initials(cleaned_tokens)
+            cleaned_tokens = self.clean_years(cleaned_tokens)
+            cleaned_tokens = self.remove_invalid_tokens(cleaned_tokens)
+            cleaned_tokens = self.strip_special_characters(cleaned_tokens)
+            cleaned_tokens = self.remove_stopwords(cleaned_tokens)
+            cleaned_tokens = self.decode_initials(cleaned_tokens)
+            return " ".join(cleaned_tokens)
+
+        return ""
     
     
 class TokenStructure:
