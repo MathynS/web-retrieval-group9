@@ -16,7 +16,7 @@ def initialize_tables():
     clsmembers = [c for c in clsmembers if c[0] != 'BaseModel' and not c[1].table_exists()]
     for clsmember in clsmembers:
         clsmember[1].create_table(True)
-        print("Creted table: {table_name}".format(table_name=clsmember[0].lower()))
+        print("Created table: {table_name}".format(table_name=clsmember[0].lower()))
 
 
 class BaseModel(pw.Model):
@@ -47,10 +47,20 @@ class Paper_authors(BaseModel):
 
 class Citations(BaseModel):
     id = pw.PrimaryKeyField()
-    source_paper = pw.ForeignKeyField(Papers, related_name='sorce')
+    source_paper = pw.ForeignKeyField(Papers, related_name='source')
     cited_paper = pw.ForeignKeyField(Papers, related_name='cited')
+
+
+class Labels(BaseModel):
+    id = pw.PrimaryKeyField()
+    name = pw.TextField()
+
+
+class Papers_labels(BaseModel):
+    id = pw.PrimaryKeyField()
+    paper_id = pw.ForeignKeyField(Papers)
+    label_id = pw.ForeignKeyField(Labels)
 
 
 if __name__ == '__main__':
     connect_to_db('nips-papers.db')
-
