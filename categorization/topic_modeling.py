@@ -15,21 +15,21 @@ from peewee import fn
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer
-from nltk.stem.porter import PorterStemmer
-from nltk.stem.snowball import SnowballStemmer
+# from nltk.stem.porter import PorterStemmer
+# from nltk.stem.snowball import SnowballStemmer
 from gensim import corpora
 from gensim.models.ldamodel import LdaModel
 from gensim.models.ldamulticore import LdaMulticore
 
 sys.path.insert(0, '../')
-from models import connect_to_db, Papers
+from models import connect_to_db, Papers, Labels, Papers_labels
 
 stop_words = set(stopwords.words('english'))
 exclude = set(string.punctuation)
 lemma = WordNetLemmatizer()
 tokenizer = RegexpTokenizer(r'\w+')
-p_stemmer = PorterStemmer()
-s_stemmer = SnowballStemmer('english')
+# p_stemmer = PorterStemmer()
+# s_stemmer = SnowballStemmer('english')
 
 
 def clean(doc: str) -> list:
@@ -45,8 +45,8 @@ def clean(doc: str) -> list:
     raw = doc.lower()
     tokens = tokenizer.tokenize(raw)
     stopped_tokens = [i for i in tokens if i not in stop_words and not i.isdigit() and len(i) > 2]
-    return stopped_tokens
-    return [s_stemmer.stem(i) for i in stopped_tokens]
+    return [lemma.lemmatize(s) for s in stopped_tokens]
+    # return [s_stemmer.stem(i) for i in stopped_tokens]
 
 
 def train_classifier(papers: list, num_topics: int) -> LdaModel:
@@ -72,6 +72,7 @@ def train_classifier(papers: list, num_topics: int) -> LdaModel:
         unique_words = set(topic_words)
         models.append(ldamodel)
         print(x, len(unique_words), len(unique_words)/float(len(topic_words)))
+    x = 1
     while True:
         try:
             x = int(input("Enter the model you want to train labels for:\n"))
@@ -82,7 +83,7 @@ def train_classifier(papers: list, num_topics: int) -> LdaModel:
             print("Model does not exist")
         else:
             break
-    return models[x-1]
+    return models[x-1], dictionary
 
 
 def geturl(url: str, headers: dict=None, tries: int=3, timeout: int=15) -> requests.Response:
@@ -145,8 +146,6 @@ def get_wikipedia_titles(search_terms: list) -> list:
         return []
     except ValueError as e:
         return []
-    # if 'suggestion' in json_data['query']['searchinfo']:
-    #     return get_wikipedia_titles(json_data['query']['searchinfo']['suggestion'].split(' '))
     return [t['title'] for t in json_data['query']['search'][:8]]  # Max 8 titles, could be less
 
 
@@ -259,13 +258,13 @@ def extract_topics(model: LdaModel) -> list:
 
 def rate_labels(names: list, content: dict, topic_words: list) -> str:
     """
-
+    Rate each of the labels bases on the words they contain and the words in the topics
     Args:
-        names:
-        content:
-        topic_words:
+        names: list of possible label names
+        content: content of each possible label name
+        topic_words: the topic words for a specific topic
 
-    Returns:
+    Returns: best matching label
 
     """
     best_label, best_score = "", 0
@@ -278,34 +277,67 @@ def rate_labels(names: list, content: dict, topic_words: list) -> str:
                 for topic_word in topic_words:
                     if topic_word[0] in word:  # Because they are stemmed!
                         score += topic_word[1]
-            norm_score = score / len(corpus)
-            # print(name, score, len(corpus), norm_score)
+            norm_score = score / math.sqrt(len(corpus))
             if norm_score > best_score:
                 best_score = norm_score
                 best_label = name
     return best_label
 
 
+def label_documents(model: LdaModel, topic_labels: list, dictionary: corpora.Dictionary):
+    """
+    Labels the documents in the database including the documents not present in the training set
+    Args:
+        model: the trained ldaModel
+        topic_labels: list with labels of the topics
+        dictionary: dictionary that is used when scanning the training data
+
+    """
+    papers = Papers.select().order_by(fn.Random()).limit(100)
+    for paper in papers:
+        text, title, paper_id = paper.paper_text, paper.title, paper.id
+        cleaned_text = clean(text)
+        text_dict = dictionary.doc2bow(cleaned_text)
+        topic_scores = model[text_dict]
+        labels = []
+        for topic_score in topic_scores:
+            if topic_score[1] > 1/len(topic_scores):
+                Papers_labels.get_or_create(paper_id=paper_id, label_id=topic_score[0])
+                labels.append(topic_labels[topic_score[0]])
+        print(title, labels)
+
+
+def create_database_labels(labels: list):
+    """
+    Creates a table in the database with labels
+    Args:
+        labels: list of labels from the topic modeling
+
+    """
+    for label in labels:
+        Labels.get_or_create(name=label)
+
+
 def main():
     if not os.path.isfile('ldamodel.pkl'):
         papers = [p.paper_text for p in Papers.select().order_by(fn.Random()).limit(200)]
-        ldamodel = train_classifier(papers, 20)
+        ldamodel, dictionary = train_classifier(papers, 20)
         pickle.dump(ldamodel, open('ldamodel.pkl', 'wb'))
+        pickle.dump(dictionary, open('dictionary.pkl', 'wb'))
     else:
         ldamodel = pickle.load(open('ldamodel.pkl', 'rb'))
-    topic_labels = extract_topics(ldamodel)
+        dictionary = pickle.load(open('dictionary.pkl', 'rb'))
+    if not os.path.isfile('labels.txt'):
+        topic_labels = extract_topics(ldamodel)
+        with open('labels.txt', 'w') as f:
+            f.write("\n".join(topic_labels))
+    else:
+        with open('labels.txt', 'w') as f:
+            topic_labels = json.loads(f.read().splitlines())
+    create_database_labels(topic_labels)
     print(topic_labels)
-    # for topic in ldamodel.print_topics(num_topics=3, num_words=10):
-    #     print(topic[0], topic[1])
-    # print(ldamodel.get_topic_terms(1, 10))
-    # print(ldamodel.show_topic(1))
-    # print(ldamodel.num_topics)
+    label_documents(ldamodel, topic_labels, dictionary)
 
-    # Actually test the LDA
-    # test_paper = Papers.select().order_by(fn.Random()).limit(1).get()
-    # test_paper = clean(test_paper.paper_text)
-    # test_paper = dictionary.doc2bow(test_paper)
-    # print(ldamodel[test_paper])
 
 if __name__ == '__main__':
     connect_to_db('../nips-papers.db')
