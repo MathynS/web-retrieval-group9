@@ -7,6 +7,7 @@ import socket
 import json
 import os
 import pickle
+import math
 
 from typing import Union
 from lxml import etree
@@ -15,6 +16,7 @@ from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem.porter import PorterStemmer
+from nltk.stem.snowball import SnowballStemmer
 from gensim import corpora
 from gensim.models.ldamodel import LdaModel
 from gensim.models.ldamulticore import LdaMulticore
@@ -27,6 +29,7 @@ exclude = set(string.punctuation)
 lemma = WordNetLemmatizer()
 tokenizer = RegexpTokenizer(r'\w+')
 p_stemmer = PorterStemmer()
+s_stemmer = SnowballStemmer('english')
 
 
 def clean(doc: str) -> list:
@@ -42,7 +45,8 @@ def clean(doc: str) -> list:
     raw = doc.lower()
     tokens = tokenizer.tokenize(raw)
     stopped_tokens = [i for i in tokens if i not in stop_words and not i.isdigit() and len(i) > 2]
-    return [p_stemmer.stem(i) for i in stopped_tokens]
+    return stopped_tokens
+    return [s_stemmer.stem(i) for i in stopped_tokens]
 
 
 def train_classifier(papers: list, num_topics: int) -> LdaModel:
@@ -62,7 +66,7 @@ def train_classifier(papers: list, num_topics: int) -> LdaModel:
     doc_term_matrix = [dictionary.doc2bow(paper) for paper in papers_clean]
     models = []
     print("Start generating models")
-    for x in range(1, num_topics + 1):
+    for x in range(13, 14):
         ldamodel = LdaMulticore(doc_term_matrix, num_topics=x, id2word=dictionary, passes=50)
         topic_words = [w[0] for x in range(ldamodel.num_topics) for w in ldamodel.show_topic(x)]
         unique_words = set(topic_words)
@@ -71,7 +75,7 @@ def train_classifier(papers: list, num_topics: int) -> LdaModel:
     while True:
         try:
             x = int(input("Enter the model you want to train labels for:\n"))
-        except:
+        except ValueError:
             print("not an integer")
             continue
         if x > len(models) or x < 1:
@@ -141,6 +145,8 @@ def get_wikipedia_titles(search_terms: list) -> list:
         return []
     except ValueError as e:
         return []
+    # if 'suggestion' in json_data['query']['searchinfo']:
+    #     return get_wikipedia_titles(json_data['query']['searchinfo']['suggestion'].split(' '))
     return [t['title'] for t in json_data['query']['search'][:8]]  # Max 8 titles, could be less
 
 
@@ -189,8 +195,8 @@ def retrieve_article(url: str) -> Union[str, None]:
         matches = content.xpath('.//{r}'.format(r=removal))
         for match in matches:
             match.getparent().remove(match)
-    text = [w for w in list(content.itertext()) if w not in ['\n', '']]
-    return "".join(text)
+    text = [w.strip() for w in list(content.itertext()) if w.strip() not in ['\n', '']]
+    return " ".join(text)
 
 
 def retrieve_content(titles: list) -> dict:
@@ -239,6 +245,7 @@ def extract_topics(model: LdaModel) -> list:
     topic_list = []
     for x in range(model.num_topics):
         words = model.show_topic(x, topn=10)
+        print(words)
         titles = get_wikipedia_titles([w[0] for w in words[:6]])  # TODO alter?
         possible_labels = chunk(titles)
         print(possible_labels)
@@ -266,11 +273,13 @@ def rate_labels(names: list, content: dict, topic_words: list) -> str:
         score = 0
         if name in content:
             corpus = content[name].split(' ')
+            # print(name, corpus)
             for word in corpus:
                 for topic_word in topic_words:
                     if topic_word[0] in word:  # Because they are stemmed!
                         score += topic_word[1]
             norm_score = score / len(corpus)
+            # print(name, score, len(corpus), norm_score)
             if norm_score > best_score:
                 best_score = norm_score
                 best_label = name

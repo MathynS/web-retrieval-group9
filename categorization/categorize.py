@@ -1,12 +1,12 @@
 #!/usr/bin/python3.5
 
 import sys
+import os
 import numpy as np
 
 from matplotlib import pyplot as plt
 from sklearn.metrics.pairwise import cosine_distances
 from sklearn.feature_extraction.text import TfidfTransformer, HashingVectorizer 
-from sklearn.cluster import KMeans
 from sklearn.pipeline import make_pipeline
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import dendrogram, linkage
@@ -28,7 +28,7 @@ def cluster(dm, labels):
     dendrogram(
             Z,
             leaf_rotation=90.,  # rotates the x axis labels
-            leaf_font_size=8.,  # font size for the x axis labels
+            leaf_font_size=8,  # font size for the x axis labels
             labels=labels
             )
     plt.show()
@@ -39,12 +39,15 @@ def compute_distance(a, b):
 
 
 def create_distance_matrix(data):
-    n = data.shape[0] 
-    distance_array = np.array([compute_distance(data[x], data[y]) if x != y else
-        0 for x in
-            range(n) for y in range(n)])
-    distance_matrix = distance_array.reshape(n, n)
-    return squareform(distance_matrix)
+    if os.path.isfile('dm.npy'):
+        return np.load('dm.npy')
+    else:
+        n = data.shape[0] 
+        distance_array = np.array([compute_distance(data[x], data[y]) if x != y else
+                                   0 for x in range(n) for y in range(n)])
+        distance_matrix = squaresform(distance_array.reshape(n, n))
+        np.save('dm.npy', distance_matrix)
+        return distance_matrix
 
 
 def extract_features(data):
@@ -53,7 +56,7 @@ def extract_features(data):
                                norm=None, binary=False)
     vectorizer = make_pipeline(hasher, TfidfTransformer())
     return vectorizer.fit_transform(data)
-	
+
 
 def main():
     papers = Papers.select().limit(100)
@@ -64,3 +67,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
