@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('search');
 });
+
+Route::prefix('api')->group(function() {
+	Route::post('search', 'QueryController@retrieve');
+});
