@@ -293,7 +293,7 @@ def label_documents(model: LdaModel, topic_labels: list, dictionary: corpora.Dic
         dictionary: dictionary that is used when scanning the training data
 
     """
-    papers = Papers.select().order_by(fn.Random()).limit(100)
+    papers = Papers.select().where(Papers.id < 100)
     for paper in papers:
         text, title, paper_id = paper.paper_text, paper.title, paper.id
         cleaned_text = clean(text)
@@ -332,8 +332,8 @@ def main():
         with open('labels.txt', 'w') as f:
             f.write("\n".join(topic_labels))
     else:
-        with open('labels.txt', 'w') as f:
-            topic_labels = json.loads(f.read().splitlines())
+        with open('labels.txt', 'r') as f:
+            topic_labels = f.read().splitlines()
     create_database_labels(topic_labels)
     print(topic_labels)
     label_documents(ldamodel, topic_labels, dictionary)

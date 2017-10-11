@@ -58,8 +58,8 @@ class Labels(BaseModel):
 
 class Papers_labels(BaseModel):
     id = pw.PrimaryKeyField()
-    paper_id = pw.ForeignKeyField(Papers)
-    label_id = pw.ForeignKeyField(Labels)
+    paper = pw.ForeignKeyField(Papers)
+    label = pw.ForeignKeyField(Labels)
 
 
 if __name__ == '__main__':
