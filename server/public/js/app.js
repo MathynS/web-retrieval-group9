@@ -897,6 +897,7 @@ window.Vue = __webpack_require__(36);
 Vue.component('example', __webpack_require__(37));
 Vue.component('searchbar', __webpack_require__(40));
 Vue.component('searchresults', __webpack_require__(43));
+Vue.component('author-field', __webpack_require__(56));
 
 var app = new Vue({
   el: '#app'
@@ -42314,6 +42315,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -42367,7 +42370,10 @@ var render = function() {
           _vm._l(doc.authors, function(author) {
             return _c("span", [
               _c("span", { staticClass: "glyphicon glyphicon-user" }),
-              _vm._v("\n            " + _vm._s(author.name) + "\n        ")
+              _vm._v(" "),
+              _c("a", { attrs: { href: "/authors/" + author.id } }, [
+                _vm._v(" " + _vm._s(author.name) + " ")
+              ])
             ])
           }),
           _vm._v(" "),
@@ -42384,8 +42390,12 @@ var render = function() {
           _c("strong", [_vm._v("Tags:")]),
           _vm._v(" "),
           _vm._l(doc.labels, function(label) {
-            return _c("span", { staticClass: "tag label label-info" }, [
-              _vm._v("\n            " + _vm._s(label.name) + " \n        ")
+            return _c("a", { attrs: { href: "/labels/" + label.id } }, [
+              _c("span", { staticClass: "tag label label-info" }, [
+                _vm._v(
+                  "\n                " + _vm._s(label.name) + " \n            "
+                )
+              ])
             ])
           })
         ],
@@ -42409,6 +42419,113 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 47 */,
+/* 48 */,
+/* 49 */,
+/* 50 */,
+/* 51 */,
+/* 52 */,
+/* 53 */,
+/* 54 */,
+/* 55 */,
+/* 56 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(57)
+/* template */
+var __vue_template__ = __webpack_require__(58)
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/AuthorField.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] AuthorField.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-052cdae8", Component.options)
+  } else {
+    hotAPI.reload("data-v-052cdae8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            result: null
+        };
+    },
+    mounted: function mounted() {
+        var url = window.location.href;
+        var regex = /authors\/(\d+)/;
+        var author_id = regex.exec(url)[1];
+        axios.post('/api/get-author-fields', {
+            author_id: author_id
+        }).then(function (response) {
+            return console.log(response);
+        }).catch(function (error) {
+            return console.log(error);
+        });
+    }
+});
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div")
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-052cdae8", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

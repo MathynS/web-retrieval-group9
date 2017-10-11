@@ -4,15 +4,17 @@
             <h3>{{ doc.title }}</h3>
             <span v-for="author in doc.authors">
                 <span class="glyphicon glyphicon-user"></span>
-                {{ author.name }}
+                <a :href="'/authors/' + author.id"> {{ author.name }} </a>
             </span>
             <br><br>
             <p v-html="highlightQuery(doc.snippet)"></p>
             <small>Published in {{ doc.year }}</small><br />
             <strong>Tags:</strong>
-            <span class="tag label label-info" v-for="label in doc.labels">
-                {{ label.name }} 
-            </span>
+            <a v-for="label in doc.labels" :href="'/labels/' + label.id">
+                <span class="tag label label-info">
+                    {{ label.name }} 
+                </span>
+            </a>
         </div>
     </div>
 </template>

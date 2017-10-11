@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('search');
 });
 
+Route::get('/authors/{author}', 'AuthorController@show');
+Route::get('/labels/{label}', 'LabelController@show');
+
 Route::prefix('api')->group(function() {
 	Route::post('search', 'QueryController@retrieve');
+	Route::post('get-author-fields', 'AuthorController@retrieve');
 });
