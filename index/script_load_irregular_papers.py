@@ -18,7 +18,7 @@ def save_cleaned_files(input_directory):
         paper_id = extract_id_from_filename(filename)
         paper_pdf_name = create_pdf_filename(filename)
         file_path = conf.IRREGULAR_PAPERS_DIRECTORY + "/" + filename
-        paper_content = io.load_file(file_path)
+        paper_content = io.load_file_rows(file_path)
         new_entry = models.Papers_NR.create(id=paper_id,
                                             pdf_name=paper_pdf_name,
                                             paper_text=paper_content)

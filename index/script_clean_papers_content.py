@@ -2,7 +2,7 @@
 
 import utils.index_models as models
 import time
-import config_text_cleaner as conf
+import config_clean_papers as conf
 import utils.text_cleaner as text_cleaner
 
 
@@ -21,9 +21,10 @@ def clean_papers():
     last_id_query = models.Papers_NR.select().order_by(models.Papers_NR.id.desc()).limit(1)
     first_id = 1
     last_id = last_id_query[0].id
-    increments = 10
+    increments = 50
     paper_cleaner = text_cleaner.Cleaner()
-    
+
+    counter = 0
     for i in range(first_id, last_id + 1, increments):
         papers_to_process = create_list_of_ids(i, increments, last_id)
         for paper_id in papers_to_process:
@@ -32,7 +33,7 @@ def clean_papers():
             if len(paper_query) > 0:
                 paper_content = paper_query[0].paper_text
                 paper_pdf_name = paper_query[0].pdf_name
-                print("Cleaning content for paper id: {0}".format(paper_id))
+                #print("Cleaning content for paper id: {0}".format(paper_id))
                 
                 rows_to_clean = paper_content.split("\n")
                 cleaned_content = ""
@@ -42,11 +43,15 @@ def clean_papers():
                     if len(cleaned_row) > 0:
                         cleaned_content += cleaned_row + "\n"
                 
-                print("Saving new paper_text into papers_NR_NSW")
+                #print("Saving new paper_text into papers_NR_NSW")
                 new_entry = models.Papers_NR_NSW.create(id=paper_id,
                                                         pdf_name=paper_pdf_name,
                                                         paper_text=cleaned_content)
-                print("Number of rows modified: {0}".format(new_entry.save()))
+                new_entry.save()
+                #print("Number of rows modified: {0}".format(new_entry.save()))
+
+        counter += increments
+        print("Number of documents cleaned: {0}".format(counter))
 
         print("Sleeping for one second ...")
         time.sleep(1)
