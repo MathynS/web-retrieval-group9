@@ -1,0 +1,3 @@
+dbUrl=jdbc:sqlite:[projectDir]/index/data/database.sqlite
+indexDirectory=[projectDir]/index/indexed-data
+idsOffset=10

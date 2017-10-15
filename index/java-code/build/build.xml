@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project java-code with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR file Export Wizard-->
+    <!--ANT 1.7 is required-->
+    <!--define folder properties-->
+	<property file = "build.properties"/>
+	<property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="${dirWorkspace}"/>
+    <property name="dir.jarfile" value="${dirProject}/web-retrieval-group9/index/java-code/executable"/>
+	
+    <target name="create_run_jar">
+    	<delete file="${dir.jarfile}/indexengine.jar"/>
+        <jar destfile="${dir.jarfile}/indexengine.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="indexengine.IndexEngine"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ sqlite-jdbc-3.20.0.jar lucene-core-7.0.1.jar lucene-queryparser-7.0.1.jar"/>
+            </manifest>
+            <zipfileset src="jar-in-jar-loader.zip"/>
+            <fileset dir="${dirProject}/web-retrieval-group9/index/java-code"/>
+            <zipfileset dir="${dirProject}/web-retrieval-group9/index/java-code/lib" includes="sqlite-jdbc-3.20.0.jar"/>
+            <zipfileset dir="${dirProject}/web-retrieval-group9/index/java-code/lib/lucene-7.0.1/core" includes="lucene-core-7.0.1.jar"/>
+            <zipfileset dir="${dirProject}/web-retrieval-group9/index/java-code/lib/lucene-7.0.1/queryparser" includes="lucene-queryparser-7.0.1.jar"/>
+        </jar>
+    </target>
+</project>

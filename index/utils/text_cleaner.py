@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import config_text_cleaner as conf
+import utils.config_text_cleaner as conf
 import re
 
 class Cleaner:
@@ -11,11 +11,11 @@ class Cleaner:
     def tokenize(self, text):
         return text.strip().split()
 
-    def remove_stopwords(self, tokens):
+    def remove_noise(self, tokens):
         modified_tokens = []
         for token in tokens:
             #if token in stopwords continue to the next token
-            if token in conf.stopwords:
+            if token in conf.noise:
                 continue
             modified_tokens.append(token)        
 
@@ -80,12 +80,12 @@ class Cleaner:
     def clean_text(self, text):
         if len(text) > 0:
             original_tokens = self.tokenize(text)
-            cleaned_tokens = self.remove_stopwords(original_tokens)
+            cleaned_tokens = self.remove_noise(original_tokens)
             cleaned_tokens = self.encode_initials(cleaned_tokens)
             cleaned_tokens = self.clean_years(cleaned_tokens)
             cleaned_tokens = self.remove_invalid_tokens(cleaned_tokens)
             cleaned_tokens = self.strip_special_characters(cleaned_tokens)
-            cleaned_tokens = self.remove_stopwords(cleaned_tokens)
+            cleaned_tokens = self.remove_noise(cleaned_tokens)
             cleaned_tokens = self.decode_initials(cleaned_tokens)
             return " ".join(cleaned_tokens)
 
