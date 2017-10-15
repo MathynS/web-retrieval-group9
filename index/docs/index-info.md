@@ -19,4 +19,4 @@ To create the index run the following command in a command line `python3 script_
 
 
 ## Search documents in the index
-To search documents in the index run the following command in a command line `python3 script_index_engine_controller.py QUERY [words] [number of docs]`. Where `[words]` is a sequence of words like "neural networks", "optimization process", or "information retrieval with genetic algorithms", and `[number of docs]` is the maximum number of document ids you want to retrieve from the index.
+To search documents in the index run the following command in a command line. <br/> `python3 script_index_engine_controller.py QUERY [words] [number of docs]` <br/> Where `[words]` is a sequence of words like "neural networks", "optimization process", or "information retrieval with genetic algorithms", and `[number of docs]` is the maximum number of document ids you want to retrieve from the index.
