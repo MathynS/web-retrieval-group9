@@ -15,7 +15,8 @@ The operations required to create the index database are detailed below.
 At this point the `Papers_NR_NSW` is ready to be used to create the index.
 
 ## Create the index
-To create the index run the following command in a command line `python3 script_index_engine_controller.py CREATE_INDEX`.
+To create the index run the following command in a command line.<br/>
+`python3 script_index_engine_controller.py CREATE_INDEX`
 
 
 ## Search documents in the index
