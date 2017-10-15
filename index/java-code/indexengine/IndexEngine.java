@@ -9,6 +9,8 @@ public class IndexEngine {
 	private IndexGenerator indexGenerator;
 	
 	private DocumentRetriever documentRetriever;
+	
+	private static final int DEFAULT_NUMBER_OF_DOCS = 10;
 
 	private static final Logger logger = Logger.getLogger(IndexEngine.class.getName());
 
@@ -25,20 +27,18 @@ public class IndexEngine {
 		}
 	}
 	
-	public void retrieveDocumentIds(String queryInputString){
+	public void retrieveDocumentIds(String queryInputString, int numberOfDocs){
 		List<Integer> selectedDocuments;
 		try {
-			selectedDocuments = documentRetriever.searchDocuments(queryInputString);
+			selectedDocuments = documentRetriever.searchDocuments(queryInputString, numberOfDocs);
+			// Print selected documents
+			for (Integer id: selectedDocuments){
+				System.out.println(id);
+			}
 		} catch (Exception e) {
 			logger.log(Level.INFO, "There was a problem when querying the index", e);
 		}
-		
-		// Print selected documents
-		/**
-		for (Integer id: selectedDocuments){
-			System.out.println(id);
-		}
-		**/
+				
 	}
 	
 	public static void main(String[] args){
@@ -50,7 +50,14 @@ public class IndexEngine {
 			if (command.equals("CREATE_INDEX")){
 				engine.generateIndex();
 			} else if (command.equals("QUERY")){
-				engine.retrieveDocumentIds(args[1]);
+				String queryData = args[1];
+				int numberOfDocs;
+				try {
+					numberOfDocs = Integer.parseInt(args[2]);
+				} catch (NumberFormatException nfe){
+					numberOfDocs = DEFAULT_NUMBER_OF_DOCS;
+				}
+				engine.retrieveDocumentIds(queryData, numberOfDocs);
 			} else {
 				System.out.println(usage);
 			}

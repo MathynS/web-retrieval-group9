@@ -56,16 +56,16 @@ public class DocumentRetriever {
 		return searcher;
 	}
 		
-	private TopDocs searchByText(String queryInputString, IndexSearcher searcher) throws Exception {
+	private TopDocs searchByText(String queryInputString, IndexSearcher searcher, int numberOfDocs) throws Exception {
 		QueryParser queryParser = new QueryParser("paper_text", new StandardAnalyzer());
 		Query textQuery = queryParser.parse(queryInputString);
-		TopDocs hits = searcher.search(textQuery, 10);
+		TopDocs hits = searcher.search(textQuery, numberOfDocs);
 		return hits;
 	}
 	
-	public List<Integer> searchDocuments(String queryInputString) throws Exception {
+	public List<Integer> searchDocuments(String queryInputString, int numberOfDocs) throws Exception {
 		IndexSearcher searcher = createSearcher();
-		TopDocs foundDocs = searchByText(queryInputString, searcher);
+		TopDocs foundDocs = searchByText(queryInputString, searcher, numberOfDocs);
 		//System.out.println("Total Results :: " + foundDocs.totalHits);
 		
 	   	List<Integer> selectedDocuments = new ArrayList<Integer>();    	
@@ -86,7 +86,7 @@ public class DocumentRetriever {
 				
 		DocumentRetriever documentRetriever = new DocumentRetriever();
 		String queryInputString = "weakened british";
-		List<Integer> selectedDocuments = documentRetriever.searchDocuments(queryInputString);
+		List<Integer> selectedDocuments = documentRetriever.searchDocuments(queryInputString, 10);
 		
 		// Print selected documents
 		for (Integer id: selectedDocuments){
