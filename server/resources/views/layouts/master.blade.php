@@ -26,7 +26,18 @@
         </div>
       </section>
 
-      @yield('content')
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-1"></div>
+
+          <div class="col-lg-10">
+            @yield('content')
+          </div>
+
+          <div class="col-lg-1"></div>
+        </div>
+      </div>
+
 
       <footer class="text-muted">
 
@@ -34,5 +45,6 @@
     </div>
 
   <script src="{!! asset('js/app.js') !!}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.js"></script>
   </body>
 </html>

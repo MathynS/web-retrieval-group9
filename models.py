@@ -41,8 +41,8 @@ class Authors(BaseModel):
 
 class Paper_authors(BaseModel):
     id = pw.PrimaryKeyField()
-    paper_id = pw.ForeignKeyField(Papers)
-    author_id = pw.ForeignKeyField(Authors) 
+    paper = pw.ForeignKeyField(Papers)
+    author = pw.ForeignKeyField(Authors) 
 
 
 class Citations(BaseModel):

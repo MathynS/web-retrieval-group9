@@ -2,6 +2,10 @@ body {
   min-height: 75rem; /* Can be removed; just added for demo purposes */
 }
 
+pre{
+    white-space: pre-wrap;
+}
+
 .tag{
   margin-left:5px;
 }
