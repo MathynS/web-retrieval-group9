@@ -19,7 +19,7 @@ Vue.component('example', require('./components/Example.vue'));
 Vue.component('searchbar', require('./components/SearchBar.vue'));
 Vue.component('searchresults', require('./components/SearchResults.vue'));
 Vue.component('author-field', require('./components/AuthorField.vue'));
-
+Vue.component('author-graph', require('./components/AuthorGraph.vue'));
 
 const app = new Vue({
     el: '#app'

@@ -3,6 +3,8 @@
 *.pyc
 #*#
 .#*
+*.csv
+*.swp
 data/*.csv
 data/*.zip
 data/*.sqlite

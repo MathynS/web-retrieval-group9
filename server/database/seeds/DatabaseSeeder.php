@@ -61,22 +61,25 @@ class DatabaseSeeder extends Seeder
 
     public function run()
     {
-    	$papers = $this->csv_to_array(public_path() . '/csv/ex_papers.csv');
-        $authors = $this->csv_to_array(public_path() . '/csv/ex_authors.csv');
-        $paper_authors = $this->csv_to_index(public_path() . '/csv/ex_paper_authors.csv');
-        $paper_labels = $this->csv_to_index(public_path() . '/csv/ex_paper_labels.csv');
-        $labels = $this->csv_to_array(public_path() . '/csv/ex_labels.csv');
+    	$papers = $this->csv_to_array(public_path() . '/csv/papers.csv');
+        $authors = $this->csv_to_array(public_path() . '/csv/authors.csv');
+        $paper_authors = $this->csv_to_index(public_path() . '/csv/paper_authors.csv');
+        $paper_labels = $this->csv_to_index(public_path() . '/csv/paper_labels.csv');
+        $labels = $this->csv_to_array(public_path() . '/csv/labels.csv');
 
         DB::table('authors')->insert($authors);
         DB::table('labels')->insert($labels);
+        
         foreach ($papers as $paper){
-            $doc = Document::create($paper);
-            if (array_key_exists($paper['id'], $paper_authors)){
-                $doc->authors()->sync($paper_authors[$paper['id']]);
-            }
-            if (array_key_exists($paper['id'], $paper_labels)){
-                $doc->labels()->sync($paper_labels[$paper['id']]);
-            }
+            try{
+                $doc = Document::create($paper);
+                if (array_key_exists($paper['id'], $paper_authors)){
+                    $doc->authors()->sync($paper_authors[$paper['id']]);
+                }
+                if (array_key_exists($paper['id'], $paper_labels)){
+                    $doc->labels()->sync($paper_labels[$paper['id']]);
+                }
+            }catch(\Illuminate\Database\QueryException $e){}
         }
         //DB::table('documents')->insert($papers);
         //DB::table('document_author')->insert($paper_authors);

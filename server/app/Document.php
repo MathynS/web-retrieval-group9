@@ -26,15 +26,15 @@ class Document extends Model
 		return $this->belongsToMany('App\Label', 'document_label', 'paper_id', 'label_id');
 	}
  //->select('id', 'title', 'year')
-    public function get($id, $query)
+    public function getSnippet($document, $query)
     {
-    	$document = Document::with('authors')->with('labels')->where('id', '=', $id)->select('id', 'title', 'year')->first();
+    	#$document = Document::with('authors')->with('labels')->where('id', '=', $id)->select('id', 'title', 'year')->first();
     	$snippet_command = array(
     		env('APP_LOCATION') . 'snippets/snippet_creator.py',
     		'--query',
     		$query,
     		'--document',
-    		$id
+    		$document->id
     		);
     	$builder = new ProcessBuilder();
     	$builder->setArguments($snippet_command)->getProcess()->getCommandLine();
@@ -45,8 +45,43 @@ class Document extends Model
             throw new ProcessFailedException($process);
         }
 
-        $document['snippet'] = $process->getOutput();
+        return $process->getOutput();
+    }
 
-    	return $document;
+    public function filter($documents, $searchTerm, $searchEntity, $searchParam, $operator, $delimiter){
+        $response = array();
+        $whereStatements = array();
+        $searchTerm = explode(":", $searchTerm, 2)[1];
+        if (substr($searchTerm, 0, 1) === "\""){
+            $searchTerm = substr($searchTerm, 1, -1);
+        }
+        foreach (explode($delimiter, $searchTerm) as $term) {
+            if ($operator == "LIKE"){
+                $term = "%$term%";
+            }
+            $whereStatements[] = ["$searchEntity.$searchParam", $operator, $term];
+        }
+        if ($searchEntity == 'documents'){
+            $result = $documents->where(function($q) use($whereStatements){
+                foreach($whereStatements as $whereStatement){
+                    $q->orWhere($whereStatement[0], $whereStatement[1], $whereStatement[2]);
+                }
+            });
+        }
+        else{
+            $result = $documents->whereHas($searchEntity, function($q) use($whereStatements){
+                    #foreach($whereStatements as $whereStatement){
+                    #    var_dump($whereStatement);
+                        $q->Where($whereStatements[0][0], $whereStatements[0][1], $whereStatements[0][2]);
+                        foreach(array_slice($whereStatements, 1) as $whereStatement){
+                            $q->orWhere($whereStatement[0], $whereStatement[1], $whereStatement[2]);
+                        }
+                    #}
+                });
+        }
+        return $result;
+        // $response['amount'] = $result->count();
+        // $response['docs'] = $result->skip(0)->limit(10)->get();
+        // return $response;
     }
 }
