@@ -29,16 +29,17 @@ public class IndexEngine {
 	
 	public void retrieveDocumentIds(String queryInputString, int numberOfDocs){
 		List<Integer> selectedDocuments;
+		StringBuilder builder = new StringBuilder();
 		try {
 			selectedDocuments = documentRetriever.searchDocuments(queryInputString, numberOfDocs);
 			// Print selected documents
 			for (Integer id: selectedDocuments){
-				System.out.println(id);
+				builder.append(Integer.toString(id) + " ");
 			}
 		} catch (Exception e) {
 			logger.log(Level.INFO, "There was a problem when querying the index", e);
 		}
-				
+		System.out.println(builder.toString());
 	}
 	
 	public static void main(String[] args){

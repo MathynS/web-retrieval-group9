@@ -2,14 +2,22 @@
 
 import subprocess
 import sys
+from subprocess import PIPE
 
 def create_index(command):
     print("Executing: java -jar java-code/executable/indexengine.jar {0}".format(command))
     subprocess.call(['java', '-jar', 'java-code/executable/indexengine.jar', command])
+    
 
 def search_documents(command, data, number_of_docs):
-    print("Executing: java -jar java-code/executable/indexengine.jar {0} {1} {2}".format(command, data, number_of_docs)) 
-    subprocess.call(['java', '-jar', 'java-code/executable/indexengine.jar', command, data, number_of_docs])
+    print("Executing: java -jar java-code/executable/indexengine.jar {0} {1} {2}".format(command, data, number_of_docs))
+    search = subprocess.Popen(['java', '-jar', 'java-code/executable/indexengine.jar',
+                               command, data, number_of_docs],
+                              stdout=subprocess.PIPE)
+    output = search.communicate()
+    ids = str(output[0], 'utf-8').strip().split()
+    print(ids)
+    #subprocess.call(['java', '-jar', 'java-code/executable/indexengine.jar', command, data, number_of_docs])
 
           
 if __name__ == '__main__':
