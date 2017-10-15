@@ -7,4 +7,3 @@ build/jar-in-jar-loader.zip
 build/build.properties.local
 conf/IndexConfig.properties.local
 lib/*
-executable/*
