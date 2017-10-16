@@ -42172,27 +42172,42 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            query: null
+            query: null,
+            page: 1,
+            order: 'relevance'
         };
     },
     mounted: function mounted() {
         this.query = this.getParameterByName('q');
-        console.log(this.query);
+        this.page = this.getParameterByName('page');
+        this.order = this.getParameterByName('order');
+        if (this.page == null) {
+            this.page = 1;
+        }
+        if (this.order == null) {
+            this.order = 'relevance';
+        }
+        console.log(this.query, this.page, this.order);
         if (this.query != null) {
             this.submitQuery();
         }
     },
 
     methods: {
-        submitQuery: function submitQuery(page) {
+        manualSubmit: function manualSubmit() {
+            this.page = 1;
+            this.order = 'relevance';
+            this.submitQuery();
+        },
+        submitQuery: function submitQuery() {
             var _this = this;
 
-            page = typeof page !== 'undefined' ? page : 0;
             var pathname = window.location.pathname;
             if (pathname == '/search') {
                 axios.post('/api/search', {
                     query: this.query,
-                    page: page
+                    page: this.page,
+                    order: this.order
                 }).then(function (response) {
                     return _this.$parent.$emit('query-results', response.data);
                 }).catch(function (error) {
@@ -42253,7 +42268,11 @@ var render = function() {
         {
           staticClass: "btn btn-primary",
           attrs: { type: "button" },
-          on: { click: _vm.submitQuery }
+          on: {
+            click: function($event) {
+              _vm.manualSubmit()
+            }
+          }
         },
         [_vm._v("Go!")]
       )
@@ -42366,13 +42385,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+var sort_translate = {
+    'relevance': 'Relevance',
+    'citations': 'Citations',
+    'year_asc': 'Date (old to new)',
+    'year_desc': 'Date (new to old)'
+};
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
+            sortOrder: 'Relevance',
             documents: [],
             query: null,
-            amount: 0,
+            amount: -1,
             page: 1,
             warning: null
         };
@@ -42386,6 +42431,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        changeOrder: function changeOrder(sortOrder) {
+            window.location.replace('/search?q=' + this.query + '&page=' + this.page + '&order=' + sortOrder);
+        },
         handleResponse: function handleResponse(data) {
             if ('error' in data) {
                 this.warning = data.error;
@@ -42393,7 +42441,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.documents = data.docs;
                 this.amount = data.amount;
                 this.query = data.query;
+                this.page = data.page;
+                this.visualOrder = sort_translate[data.order];
+                this.sortOrder = data.order;
             }
+            console.log(this.page + 5);
+            console.log(Math.max(this.page - 5, 1), Math.min(this.page + 5, Math.ceil(this.amount / 10)));
         },
         highlightQuery: function highlightQuery(text) {
             if (text != null && this.query != null) {
@@ -42409,7 +42462,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return "";
         },
         navigateTo: function navigateTo(page) {
-            this.page = page;
+            window.location.replace('/search?q=' + this.query + '&page=' + page + '&order=' + this.sortOrder);
         }
     }
 });
@@ -42425,7 +42478,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _vm.amount > 0
+      _vm.amount >= 0
         ? _c("div", { staticClass: "alert alert-success" }, [
             _vm._v(
               "\n      Found " +
@@ -42442,6 +42495,89 @@ var render = function() {
             _vm._v("\n      " + _vm._s(_vm.warning) + "\n    ")
           ])
         : _vm._e(),
+      _vm._v(" "),
+      _vm.documents.length > 0
+        ? _c("span", { staticClass: "pull-right" }, [
+            _c("div", { staticClass: "dropdown" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary dropdown-toggle",
+                  attrs: { type: "button", "data-toggle": "dropdown" }
+                },
+                [
+                  _vm._v(_vm._s(_vm.visualOrder) + "\n                "),
+                  _c("span", { staticClass: "caret" })
+                ]
+              ),
+              _vm._v(" "),
+              _c("ul", { staticClass: "dropdown-menu" }, [
+                _c("li", [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.changeOrder("relevance")
+                        }
+                      }
+                    },
+                    [_vm._v("Relevance")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.changeOrder("citations")
+                        }
+                      }
+                    },
+                    [_vm._v("Citations")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.changeOrder("year_asc")
+                        }
+                      }
+                    },
+                    [_vm._v("Date (old to new)")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", [
+                  _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.changeOrder("yearc_desc")
+                        }
+                      }
+                    },
+                    [_vm._v("Date (new to old)")]
+                  )
+                ])
+              ])
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("br"),
+      _c("br"),
       _vm._v(" "),
       _vm._l(_vm.documents, function(doc) {
         return _c(
@@ -42476,6 +42612,11 @@ var render = function() {
                 _vm._v("Published in " + _vm._s(doc.year))
               ])
             ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "pull-right" }, [
+              _vm._v("Cited by " + _vm._s(doc.citations) + " papers")
+            ]),
+            _vm._v(" "),
             _c("br"),
             _vm._v(" "),
             _c("strong", [_vm._v("Tags:")]),
@@ -42496,70 +42637,85 @@ var render = function() {
         )
       }),
       _vm._v(" "),
-      _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
-        _c(
-          "ul",
-          { staticClass: "pagination" },
-          [
+      _vm.documents.length > 0
+        ? _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
             _c(
-              "li",
-              {
-                staticClass: "page-item",
-                class: { disabled: _vm.page == 1 },
-                on: {
-                  click: function($event) {
-                    _vm.navigateTo(_vm.page - 1)
-                  }
-                }
-              },
+              "ul",
+              { staticClass: "pagination" },
               [
-                _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                  _vm._v("Previous")
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _vm._l((1, Math.ceil(_vm.amount / 10)), function(i) {
-              return _c(
-                "li",
-                {
-                  staticClass: "page-item",
-                  class: { active: _vm.page == i },
-                  on: {
-                    click: function($event) {
-                      _vm.navigateTo(i)
+                _c(
+                  "li",
+                  {
+                    staticClass: "page-item",
+                    class: { disabled: _vm.page == 1 },
+                    on: {
+                      click: function($event) {
+                        _vm.navigateTo(_vm.page - 1)
+                      }
                     }
+                  },
+                  [
+                    _c(
+                      "a",
+                      { staticClass: "page-link", attrs: { href: "#" } },
+                      [_vm._v("Previous")]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._l(
+                  (Math.max(5, 1),
+                  Math.min(
+                    Math.max(10, _vm.page + 5),
+                    Math.ceil(_vm.amount / 10)
+                  )),
+                  function(i) {
+                    return _c(
+                      "li",
+                      {
+                        staticClass: "page-item",
+                        class: { active: _vm.page == i },
+                        on: {
+                          click: function($event) {
+                            _vm.navigateTo(i)
+                          }
+                        }
+                      },
+                      [
+                        _c(
+                          "a",
+                          { staticClass: "page-link", attrs: { href: "#" } },
+                          [_vm._v(_vm._s(i))]
+                        )
+                      ]
+                    )
                   }
-                },
-                [
-                  _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                    _vm._v(_vm._s(i))
-                  ])
-                ]
-              )
-            }),
-            _vm._v(" "),
-            _c(
-              "li",
-              {
-                staticClass: "page-item",
-                class: { disabled: _vm.page == Math.ceil(_vm.amount / 10) },
-                on: {
-                  click: function($event) {
-                    _vm.navigateTo(_vm.page + 1)
-                  }
-                }
-              },
-              [
-                _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-                  _vm._v("Next")
-                ])
-              ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "li",
+                  {
+                    staticClass: "page-item",
+                    class: { disabled: _vm.page == Math.ceil(_vm.amount / 10) },
+                    on: {
+                      click: function($event) {
+                        _vm.navigateTo(_vm.page + 1)
+                      }
+                    }
+                  },
+                  [
+                    _c(
+                      "a",
+                      { staticClass: "page-link", attrs: { href: "#" } },
+                      [_vm._v("Next")]
+                    )
+                  ]
+                )
+              ],
+              2
             )
-          ],
-          2
-        )
-      ])
+          ])
+        : _vm._e()
     ],
     2
   )

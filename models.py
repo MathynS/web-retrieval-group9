@@ -32,6 +32,7 @@ class Papers(BaseModel):
     pdf_name = pw.TextField()
     abstract = pw.TextField()
     paper_text = pw.TextField()
+    citations = pw.IntegerField()
 
     
 class Authors(BaseModel):

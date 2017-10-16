@@ -2,7 +2,7 @@
     <div class="input-group">
         <input type="text" class="form-control" placeholder="Enter a search query" v-model="query">
         <span class="input-group-btn">p
-            <button @click="submitQuery" class="btn btn-primary" type="button">Go!</button>
+            <button @click="manualSubmit()" class="btn btn-primary" type="button">Go!</button>
         </span>
     </div>
 </template>
@@ -11,24 +11,39 @@
     export default {
         data: function(){
             return{
-                query: null
+                query: null,
+                page: 1,
+                order: 'relevance'
             }
         },
         mounted() {
             this.query = this.getParameterByName('q');
-            console.log(this.query);
+            this.page = this.getParameterByName('page')
+            this.order = this.getParameterByName('order');
+            if (this.page == null){
+                this.page = 1
+            }
+            if (this.order == null){
+                this.order = 'relevance';
+            }
+            console.log(this.query, this.page, this.order);
             if (this.query != null){
                 this.submitQuery();
             }
         },
         methods: {
-            submitQuery(page) {
-                page = typeof page !== 'undefined' ? page : 0;
+            manualSubmit(){
+                this.page = 1;
+                this.order = 'relevance';
+                this.submitQuery();
+            },
+            submitQuery() {
                 var pathname = window.location.pathname;
                 if (pathname == '/search'){
                     axios.post('/api/search', {
                         query: this.query,
-                        page: page
+                        page: this.page,
+                        order: this.order
                     })
                     .then(response => this.$parent.$emit('query-results', response.data))
                     .catch(error => console.log(error));

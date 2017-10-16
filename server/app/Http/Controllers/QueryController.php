@@ -15,9 +15,27 @@ class QueryController extends Controller
     public function retrieve(Request $request)
     {
     	$this->validate($request, [
-    		'query' => 'required|string'
+    		'query' => 'required|string',
+            'page' => 'required|int',
+            'order' => 'required|string'
     		]);
+
         $query = $request->input('query');
+        $page = $request->input('page');
+        $orig_order = $request->input('order');
+        $order = explode('_', $orig_order);
+        if (count($order) == 1){
+            $order = $order[0];
+            $mode = 'desc';
+        }
+        elseif(count($order == 2)){
+            $mode = $order[1];
+            $order = $order[0];
+        }
+        if ($order === 'relevance'){
+            $order = 'id';
+        }
+
         $terms = explode(' ', $query);
         $queryTerm = null;
         $i = 0;
@@ -54,14 +72,15 @@ class QueryController extends Controller
             }
         }
         $response['amount'] = $documents->count();
-        $documents = $documents->limit(10)->get();
+        $documents = $documents->skip(($page-1) * 10)->limit(10)->orderBy($order, $mode)->get();
 
         if ($queryTerm != null){
             foreach ($documents as $document){
                 $document['snippet'] = $this->document->getSnippet($document, $query);
             }
         }
-
+        $response['order'] = $orig_order;
+        $response['page'] = intval($page);
         $response['docs'] = $documents;
         $response['query'] = $query;
 		return $response;

@@ -22,6 +22,7 @@ class CreateDocumentsTable extends Migration
             $table->string('pdf_name');
             $table->string('abstract');
             $table->longText('paper_text');
+            $table->integer('citations');
         });
     }
 

@@ -14,7 +14,9 @@
 @endforeach
 
 <br>
-<small>Published in <a href="/search?q=year:{{$document->year}}">{{ $document->year }}</a></small><br />
+<small>Published in <a href="/search?q=year:{{$document->year}}">{{ $document->year }}, </a></small>
+<small>Cited by {{ $document->citations }} papers</small>
+<br />
 
 <strong>Tags:</strong>
 
