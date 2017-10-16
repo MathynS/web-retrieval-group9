@@ -4,20 +4,23 @@ import subprocess
 import sys
 from subprocess import PIPE
 
-def create_index(command):
-    print("Executing: java -jar java-code/executable/indexengine.jar {0}".format(command))
-    subprocess.call(['java', '-jar', 'java-code/executable/indexengine.jar', command])
+query_cmd = 'QUERY'
+create_index_cmd = 'CREATE_INDEX'
+
+def create_index():
+    print("Executing: java -jar java-code/executable/indexengine.jar {0}".format(create_index_cmd))
+    subprocess.call(['java', '-jar', 'java-code/executable/indexengine.jar', create_index_cmd])
     
 
-def search_documents(command, data, number_of_docs):
-    print("Executing: java -jar java-code/executable/indexengine.jar {0} {1} {2}".format(command, data, number_of_docs))
+def search_documents(data, number_of_docs):
+    print("Executing: java -jar java-code/executable/indexengine.jar {0} {1} {2}".format(query_cmd, data, number_of_docs))
     search = subprocess.Popen(['java', '-jar', 'java-code/executable/indexengine.jar',
-                               command, data, number_of_docs],
+                               query_cmd, data, number_of_docs],
                               stdout=subprocess.PIPE)
     output = search.communicate()
     ids = str(output[0], 'utf-8').strip().split()
     print(ids)
-    #subprocess.call(['java', '-jar', 'java-code/executable/indexengine.jar', command, data, number_of_docs])
+    return ids
 
           
 if __name__ == '__main__':
@@ -27,14 +30,14 @@ if __name__ == '__main__':
 """ 
     if len(sys.argv) >= 2:
         command = sys.argv[1]
-        if command == "CREATE_INDEX":
-            create_index(command)
-        elif command == "QUERY" and len(sys.argv) == 4:
+        if command == create_index_cmd:
+            create_index()
+        elif command == query_cmd and len(sys.argv) == 4:
             data = sys.argv[2]
             number_of_docs = sys.argv[3]
             if not number_of_docs.isdigit():
                 number_of_docs = '10'
-            search_documents(command, data, number_of_docs)
+            search_documents(data, number_of_docs)
         else:
             print(usage)
     else:
