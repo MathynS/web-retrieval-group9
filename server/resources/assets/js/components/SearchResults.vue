@@ -17,7 +17,7 @@
                     <li><a @click="changeOrder('relevance')" href="#">Relevance</a></li>
                     <li><a @click="changeOrder('citations')" href="#">Citations</a></li>
                     <li><a @click="changeOrder('year_asc')" href="#">Date (old to new)</a></li>
-                    <li><a @click="changeOrder('yearc_desc')" href="#">Date (new to old)</a></li>
+                    <li><a @click="changeOrder('year_desc')" href="#">Date (new to old)</a></li>
                 </ul>
             </div>
         </span>

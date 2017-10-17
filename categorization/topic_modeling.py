@@ -135,17 +135,26 @@ def get_wikipedia_titles(search_terms: list) -> list:
         The titles of the 8 most relevant search results
 
     """
-    search_qsp = "+".join(search_terms)
-    search_url = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch={search}"\
-        .format(search=search_qsp)
-    print(search_url)
-    try:
-        r = geturl(search_url)
-        json_data = r.json()
-    except json.decoder.JSONDecodeError as e:
-        return []
-    except ValueError as e:
-        return []
+    print(search_terms)
+    while True:
+        used_index = input("enter id of the terms to work with separated by ,")
+        used_index = [int(x)-1 for x in used_index.split(',')]
+        used_terms = [search_terms[i] for i in used_index]
+        search_qsp = "+".join(used_terms)
+        search_url = "https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch={search}"\
+            .format(search=search_qsp)
+        print(search_url)
+        try:
+            r = geturl(search_url)
+            json_data = r.json()
+        except json.decoder.JSONDecodeError as e:
+            return []
+        except ValueError as e:
+            return []
+        print([t['title'] for t in json_data['query']['search'][:8]])
+        answer = input("Happy?")
+        if answer in ['Y', 'y']:
+            break
     return [t['title'] for t in json_data['query']['search'][:8]]  # Max 8 titles, could be less
 
 
@@ -245,7 +254,7 @@ def extract_topics(model: LdaModel) -> list:
     for x in range(model.num_topics):
         words = model.show_topic(x, topn=10)
         print(words)
-        titles = get_wikipedia_titles([w[0] for w in words[:6]])  # TODO alter?
+        titles = get_wikipedia_titles([w[0] for w in words[:10]])  # TODO alter?
         possible_labels = chunk(titles)
         print(possible_labels)
         labels_content = retrieve_content(possible_labels)
@@ -293,7 +302,7 @@ def label_documents(model: LdaModel, topic_labels: list, dictionary: corpora.Dic
         dictionary: dictionary that is used when scanning the training data
 
     """
-    papers = Papers.select().where(Papers.id < 100)
+    papers = Papers.select()
     for paper in papers:
         text, title, paper_id = paper.paper_text, paper.title, paper.id
         cleaned_text = clean(text)

@@ -29,7 +29,7 @@ class Document extends Model
     public function getSnippet($document, $query)
     {
     	#$document = Document::with('authors')->with('labels')->where('id', '=', $id)->select('id', 'title', 'year')->first();
-    	$snippet_command = array(
+        $snippet_command = array(
     		env('APP_LOCATION') . 'snippets/snippet_creator.py',
     		'--query',
     		$query,
@@ -46,6 +46,35 @@ class Document extends Model
         }
 
         return $process->getOutput();
+    }
+
+    public function searchIndex($documents, $queryTerm, $order, $mode){
+        $index_command = array(
+            env('APP_LOCATION') . 'index/script_index_engine_controller.py',
+            "--command",
+            "QUERY",
+            "--query",
+            $queryTerm,
+            "--amount",
+            100
+            );
+
+        $builder = new ProcessBuilder();
+        $builder->setArguments($index_command)->getProcess()->getCommandLine();
+        $process = $builder->getProcess();
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+        $result = $process->getOutput();
+        $result_ids = array_map('intval', explode(' ', $result));
+        if ($order == 'relevance'){
+            return $documents->whereIn('id', $result_ids)->orderByRaw('Field(id,' . implode(",", $result_ids) . ')');
+        }
+        else{
+            return $documents->whereIn('id', $result_ids)->orderBy($order, $mode);
+        }
     }
 
     public function filter($documents, $searchTerm, $searchEntity, $searchParam, $operator, $delimiter){

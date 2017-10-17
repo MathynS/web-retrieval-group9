@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Document;
+use App\Label;
+use DB;
 
 class QueryController extends Controller
 {
@@ -24,6 +26,7 @@ class QueryController extends Controller
         $page = $request->input('page');
         $orig_order = $request->input('order');
         $order = explode('_', $orig_order);
+        $response = array();
         if (count($order) == 1){
             $order = $order[0];
             $mode = 'desc';
@@ -32,10 +35,6 @@ class QueryController extends Controller
             $mode = $order[1];
             $order = $order[0];
         }
-        if ($order === 'relevance'){
-            $order = 'id';
-        }
-
         $terms = explode(' ', $query);
         $queryTerm = null;
         $i = 0;
@@ -63,6 +62,13 @@ class QueryController extends Controller
             }
             elseif(substr($term, 0, 6) === "label:"){
                 $documents = $this->document->filter($documents, $term, 'labels', 'name', '=', '","');
+                $searchTerm = explode(":", $term, 2)[1];
+                if (substr($searchTerm, 0, 1) === "\""){
+                    $searchTerm = substr($searchTerm, 1, -1);
+                }
+                $response['label_data'] = Document::with('labels')->whereHas('labels', function($q) use($searchTerm) {
+                    $q->where('labels.name', '=', $searchTerm);
+                })->select('year', DB::raw('count(*) as count'))->groupBy('year')->get();
             }
             elseif(substr($term, 0, 5) == "year:"){
                 $documents = $this->document->filter($documents, $term, 'documents', 'year', '=', ',');
@@ -71,8 +77,15 @@ class QueryController extends Controller
                 $queryTerm = $term;
             }
         }
+
+        if ($queryTerm != null){
+            $documents = $this->document->searchIndex($documents, $queryTerm, $order, $mode);
+        }
+        elseif ($order != 'relevance'){
+            $documents = $documents->orderBy($order, $mode);
+        }        
         $response['amount'] = $documents->count();
-        $documents = $documents->skip(($page-1) * 10)->limit(10)->orderBy($order, $mode)->get();
+        $documents = $documents->skip(($page-1) * 10)->limit(10)->get();
 
         if ($queryTerm != null){
             foreach ($documents as $document){

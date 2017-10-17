@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import json
 import subprocess
 import sys
 from subprocess import PIPE
@@ -7,20 +8,30 @@ from subprocess import PIPE
 query_cmd = 'QUERY'
 create_index_cmd = 'CREATE_INDEX'
 
+from optparse import OptionParser
+
+parser = OptionParser()
+parser.add_option("-q", "--query", dest="query", help="Enter the search query", default=None)
+parser.add_option("-c", "--command", dest="command", help="Enter the search query")
+parser.add_option("-a", "--amount-document", dest="amount", help="Enter the document comma separated", default=None)
+(options, args) = parser.parse_args()
+
+
 def create_index():
-    print("Executing: java -jar java-code/executable/indexengine.jar {0}".format(create_index_cmd))
-    subprocess.call(['java', '-jar', 'java-code/executable/indexengine.jar', create_index_cmd])
+    # print("Executing: java -jar java-code/executable/indexengine.jar {0}".format(create_index_cmd))
+    subprocess.call(['java', '-jar', '/home/mathyn/Documents/web-retrieval-group9/index/java-code/executable/indexengine.jar', create_index_cmd])
     
 
-def search_documents(data, number_of_docs):
-    print("Executing: java -jar java-code/executable/indexengine.jar {0} {1} {2}".format(query_cmd, data, number_of_docs))
-    search = subprocess.Popen(['java', '-jar', 'java-code/executable/indexengine.jar',
-                               query_cmd, data, number_of_docs],
+# TODO Add stemming for query & stopword removal
+
+
+def search_documents():
+    # print("Executing: java -jar java-code/executable/indexengine.jar {0} {1} {2}".format(query_cmd, data, number_of_docs))
+    search = subprocess.Popen(['java', '-jar', '/home/mathyn/Documents/web-retrieval-group9/index/java-code/executable/indexengine.jar',
+                               options.command, options.query, options.amount],
                               stdout=subprocess.PIPE)
     output = search.communicate()
-    ids = str(output[0], 'utf-8').strip().split()
-    print(ids)
-    return ids
+    print(output[0])
 
           
 if __name__ == '__main__':
@@ -29,15 +40,10 @@ if __name__ == '__main__':
 * To search documents in the index run: python3 QUERY [QUERY_DATA] [NUMBER_OF_DOCUMENTS]
 """ 
     if len(sys.argv) >= 2:
-        command = sys.argv[1]
-        if command == create_index_cmd:
+        if options.command == create_index_cmd:
             create_index()
-        elif command == query_cmd and len(sys.argv) == 4:
-            data = sys.argv[2]
-            number_of_docs = sys.argv[3]
-            if not number_of_docs.isdigit():
-                number_of_docs = '10'
-            search_documents(data, number_of_docs)
+        elif options.command == query_cmd and options.query is not None and options.amount is not None:
+            search_documents()
         else:
             print(usage)
     else:

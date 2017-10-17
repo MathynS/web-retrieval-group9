@@ -42564,7 +42564,7 @@ var render = function() {
                       attrs: { href: "#" },
                       on: {
                         click: function($event) {
-                          _vm.changeOrder("yearc_desc")
+                          _vm.changeOrder("year_desc")
                         }
                       }
                     },
