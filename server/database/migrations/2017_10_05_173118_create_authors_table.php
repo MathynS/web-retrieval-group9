@@ -17,6 +17,7 @@ class CreateAuthorsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('name');
+            $table->float('pagerank');
         });
     }
 

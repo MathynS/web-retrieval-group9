@@ -50,14 +50,14 @@ def create_snippets(document_words: list, query_words_positions: list) -> list:
     best_score = 0
     tmp_snip = []
     for position in query_words_positions:
-        part = range(position, position + options.max_words)
+        part = range(position, position + int(options.max_words))
         snip_positions = [p for p in query_words_positions if p in part]
         # Prefer text elements where query words are sequential
         subseq_words = [s for s in snip_positions if s + 1 in snip_positions]
         score = len(snip_positions) + 2 * len(subseq_words)
         if score > best_score:
             best_score = score
-            tmp_snip = document_words[position: position + options.max_words]
+            tmp_snip = document_words[position: position + int(options.max_words)]
     return " ".join(tmp_snip)
 
 

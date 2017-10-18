@@ -42403,6 +42403,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 var sort_translate = {
     'relevance': 'Relevance',
@@ -42419,7 +42421,8 @@ var sort_translate = {
             query: null,
             amount: -1,
             page: 1,
-            warning: null
+            warning: null,
+            barHeight: 0
         };
     },
     mounted: function mounted() {
@@ -42435,6 +42438,7 @@ var sort_translate = {
             window.location.replace('/search?q=' + this.query + '&page=' + this.page + '&order=' + sortOrder);
         },
         handleResponse: function handleResponse(data) {
+            this.barHeight = 0;
             if ('error' in data) {
                 this.warning = data.error;
             } else {
@@ -42444,6 +42448,10 @@ var sort_translate = {
                 this.page = data.page;
                 this.visualOrder = sort_translate[data.order];
                 this.sortOrder = data.order;
+            }
+            if ('label_data' in data) {
+                this.barHeight = 300;
+                this.drawChart(data.label_data);
             }
             console.log(this.page + 5);
             console.log(Math.max(this.page - 5, 1), Math.min(this.page + 5, Math.ceil(this.amount / 10)));
@@ -42463,6 +42471,50 @@ var sort_translate = {
         },
         navigateTo: function navigateTo(page) {
             window.location.replace('/search?q=' + this.query + '&page=' + page + '&order=' + this.sortOrder);
+        },
+        drawChart: function drawChart(data) {
+            var margin = { top: 20, right: 20, bottom: 70, left: 40 },
+                width = 1000 - margin.left - margin.right,
+                height = 300 - margin.top - margin.bottom;
+
+            // Parse the date / time
+            var parseDate = d3.time.format("%Y").parse;
+
+            var x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
+
+            var y = d3.scale.linear().range([height, 0]);
+
+            var xAxis = d3.svg.axis().scale(x).orient("bottom").tickFormat(d3.time.format("%Y"));
+
+            var yAxis = d3.svg.axis().scale(y).orient("left").ticks(10);
+
+            var svg = d3.select("svg");
+
+            data.forEach(function (d) {
+                console.log(d);
+                d.date = parseDate(d.year.toString());
+                d.value = +d.count;
+            });
+            console.log(data);
+
+            x.domain(data.map(function (d) {
+                return d.date;
+            }));
+            y.domain([0, d3.max(data, function (d) {
+                return d.value;
+            })]);
+
+            svg.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").call(xAxis).selectAll("text").style("text-anchor", "end").attr("dx", "-.8em").attr("dy", "-.55em").attr("transform", "rotate(-90)");
+
+            svg.append("g").attr("class", "y axis").call(yAxis).append("text").attr("transform", "rotate(-90)").attr("y", 6).attr("dy", ".71em").style("text-anchor", "end");
+
+            svg.selectAll("bar").data(data).enter().append("rect").style("fill", "steelblue").attr("x", function (d) {
+                return x(d.date);
+            }).attr("width", x.rangeBand()).attr("y", function (d) {
+                return y(d.value);
+            }).attr("height", function (d) {
+                return height - y(d.value);
+            });
         }
     }
 });
@@ -42578,6 +42630,8 @@ var render = function() {
       _vm._v(" "),
       _c("br"),
       _c("br"),
+      _vm._v(" "),
+      _c("svg", { attrs: { width: "100%", height: _vm.barHeight } }),
       _vm._v(" "),
       _vm._l(_vm.documents, function(doc) {
         return _c(
@@ -42914,6 +42968,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var options = {
                 autoResize: true,
                 nodes: {
+                    scaling: {
+                        label: {
+                            min: 12,
+                            max: 20
+                        }
+                    },
                     borderWidth: 1,
                     color: {
                         border: '#222222'
@@ -42929,7 +42989,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 physics: {
                     solver: 'barnesHut',
                     barnesHut: {
-                        avoidOverlap: 0.4
+                        avoidOverlap: 0.3
                     },
                     stabilization: {
                         iterations: 10,

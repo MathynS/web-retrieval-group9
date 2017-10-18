@@ -27,6 +27,12 @@
                 var options = {
                     autoResize: true,
                     nodes: {
+                      scaling:{
+                        label: {
+                          min:12,
+                          max:20
+                        }
+                      },
                       borderWidth:1,
                       color: {
                         border: '#222222',
@@ -42,7 +48,7 @@
                     physics: {
                         solver: 'barnesHut',
                         barnesHut: {
-                            avoidOverlap: 0.4,
+                            avoidOverlap: 0.3,
                         },
                         stabilization: {
                             iterations: 10,

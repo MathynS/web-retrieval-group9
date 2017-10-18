@@ -46,5 +46,6 @@
 
   <script src="{!! asset('js/app.js') !!}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.js"></script>
+  <script src="https://d3js.org/d3.v2.js"></script>
   </body>
 </html>

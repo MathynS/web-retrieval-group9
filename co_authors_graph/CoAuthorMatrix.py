@@ -1,19 +1,23 @@
+#!/usr/bin/python3.5
+
+import sys
 import numpy as np
 import networkx as nx
 
-with open('authors.csv', 'r') as f:
-    amount_authors = 10000
+sys.path.insert(0, '../')
+from models import connect_to_db, Paper_authors, Authors
+
+amount_authors = 10000
 
 author_matrix = np.zeros([amount_authors, amount_authors])
 paper_index = {}
 
 # Create co-author matrix
 
-with open('paper_authors.csv', 'r') as f:
-    lines = f.read().splitlines()
+connect_to_db('../nips-papers.db')
 
-for line in lines[1:]:
-    _, paper, author = line.split(',')
+for entry in Paper_authors.select():
+    paper, author = entry.paper_id, entry.author_id
     try:
         author = int(author)
     except ValueError:
@@ -41,5 +45,8 @@ G1 = nx.DiGraph(G_mat)
     #nx.write_edgelist(G1,'edges.csv',delimiter=',' ,data=False)
 
 # Calculate PageRank per author with parameter alpha = 0.8
-Pagerank = nx.pagerank(G1, alpha=0.8)
-print(Pagerank)
+pagerank = nx.pagerank(G1, alpha=0.8)
+for author in Authors.select():
+    author.pagerank = pagerank[author.id]
+    author.save()
+

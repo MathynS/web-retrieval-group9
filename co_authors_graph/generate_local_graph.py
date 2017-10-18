@@ -1,15 +1,16 @@
 #!/usr/bin/python3.5
+
 import sys
 import json
+import random
 import numpy as np
-from typing import Union, Any
-#import networkx as nx
 
+from typing import Union, Any
 from optparse import OptionParser
 
 parser = OptionParser()
 parser.add_option("-a", '--author', dest="author", help="Enter an author id", default=30)
-parser.add_option("-m", '--max-depth', dest="max_depth", help="Max distance to the base author", default=1)
+parser.add_option("-m", '--max-depth', dest="max_depth", help="Max distance to the base author", default=2)
 (options, args) = parser.parse_args()
 
 sys.path.insert(0, '/home/mathyn/Documents/web-retrieval-group9')
@@ -69,7 +70,9 @@ def add_authors_to_graph(nodes: list, edges: list, author_ids: Union[list, int],
         new_node = {
             "id": author.id,
             "label": author.name,
-            "shape": "circle",
+            "shape": "dot",
+            "value": author.pagerank,
+            "font": "14px arial black",
             "color": '#97C2FC' if author.id == int(options.author) else '#FB7E81'
         }
         if new_node not in nodes:
@@ -100,7 +103,7 @@ def process_author(author_id: int, nodes: list, edges: list,  depth: int=0) -> (
     co_authors = get_co_authors(author_id)
     nodes, edges = add_authors_to_graph(nodes, edges, co_authors, author_id)
     for co_author in co_authors:
-        if depth < int(options.max_depth) and len(nodes) < 50:
+        if depth < int(options.max_depth) and len(nodes) < 150:
             nodes, edges = process_author(co_author, nodes, edges, depth=depth+1)
     return nodes, edges
 

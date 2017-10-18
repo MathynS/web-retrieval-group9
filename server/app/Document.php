@@ -34,7 +34,9 @@ class Document extends Model
     		'--query',
     		$query,
     		'--document',
-    		$document->id
+    		$document->id,
+            '--max-words',
+            '100'
     		);
     	$builder = new ProcessBuilder();
     	$builder->setArguments($snippet_command)->getProcess()->getCommandLine();

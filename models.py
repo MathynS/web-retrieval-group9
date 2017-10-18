@@ -38,6 +38,7 @@ class Papers(BaseModel):
 class Authors(BaseModel):
     id = pw.PrimaryKeyField()
     name = pw.TextField()
+    pagerank = pw.FloatField()
 
 
 class Paper_authors(BaseModel):
