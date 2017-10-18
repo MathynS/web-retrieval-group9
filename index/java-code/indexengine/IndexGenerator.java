@@ -108,6 +108,7 @@ public class IndexGenerator {
         			doc.add(new Field("id", rs.getString("id"), TextField.TYPE_STORED));
         			doc.add(new Field("pdf_name", rs.getString("pdf_name"), TextField.TYPE_STORED));
         			doc.add(new Field("paper_text", rs.getString("paper_text"), TextField.TYPE_STORED));
+        			doc.add(new Field("paper_title", rs.getString("paper_title"), TextField.TYPE_STORED));
         			indexWriter.addDocument(doc);
         			//System.out.println(rs);
         		}	

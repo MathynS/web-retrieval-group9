@@ -63,6 +63,7 @@ class Papers_NR_NSW(BaseModel):
     id = pw.PrimaryKeyField()
     pdf_name = pw.TextField()
     paper_text = pw.TextField()
+    paper_title = pw.TextField()
 
 # tables for papers without reference content and without stopwords
 # and with a stemming process applied
@@ -70,6 +71,7 @@ class Papers_NR_NSW_STE(BaseModel):
     id = pw.PrimaryKeyField()
     pdf_name = pw.TextField()
     paper_text = pw.TextField()
+    paper_title = pw.TextField()
     
 DATABASE_FILENAME = "../data/database.sqlite"
 if __name__ == '__main__':
