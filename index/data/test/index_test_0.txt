@@ -1,0 +1,2880 @@
+query sentence: bullet size in millimeters from lowresolution picture
+---------------------------------------------------------------------
+title: 2381-a-sampled-texture-prior-for-image-super-resolution.pdf
+
+A Sampled Texture Prior for Image
+Super-Resolution
+Lyndsey C. Pickup Stephen J. Roberts and Andrew Zisserman
+Robotics Research Group
+Department of Engineering Science
+University of Oxford
+Parks Road Oxford OX1 3PJ
+elle,sjrob,az}@robots.ox.ac.uk
+Abstract
+Super-resolution aims to produce a high-resolution image from a set of
+one or more low-resolution images by recovering or inventing plausible
+high-frequency image content Typical approaches try to reconstruct a
+high-resolution image using the sub-pixel displacements of several lowresolution images usually regularized by a generic smoothness prior over
+the high-resolution image space Other methods use training data to learn
+low-to-high-resolution matches and have been highly successful even
+in the single-input-image case Here we present a domain-specific image prior in the form of a based upon sampled images and show
+that for certain types of super-resolution problems this sample-based
+prior gives a significant improvement over other common multiple-image
+super-resolution techniques
+Introduction
+The aim of super-resolution is to take a set of one or more low-resolution input images of
+a scene and estimate a higher-resolution image If there are several low resolution images
+available with sub-pixel displacements then the high frequency information of the superresolution image can be increased
+In the limiting case when the input set is just a single image it is impossible to recover
+any high-frequency information faithfully but much success has been achieved by training models to learn patchwise correspondences between low-resolution and possible highresolution information and stitching patches together to form the super-resolution image A second approach uses an unsupervised technique where latent variables are
+introduced to model the mean intensity of groups of surrounding pixels
+In cases where the high-frequency detail is recovered from image displacements the
+models tend to assume that each low-resolution image is a subsample from a true highresolution image or continuous scene The generation of the low-resolution inputs can then
+be expressed as a degradation of the super-resolution image usually by applying an image
+homography convolving with blurring functions and subsampling
+Unfortunately the ML maximum likelihood super-resolution images obtained by revers
+ing the generative process above tend to be poorly conditioned and susceptible to highfrequency noise Most approaches to multiple-image super-resolution use a MAP maximum a-posteriori approach to regularize the solution using a prior distribution over the
+high-resolution space Gaussian process priors Gaussian MRFs Markov Random
+Fields and Huber MRFs have all been proposed as suitable candidates
+In this paper we consider an image prior based upon samples taken from other images
+inspired by the use of non-parametric sampling methods in texture synthesis This
+texture synthesis method outperformed many other complex parametric models for texture
+representation and produces perceptively correct-looking areas of texture given a sample
+texture seed It works by finding texture patches similar to the area around a pixel of
+interest and estimating the intensity of the central pixel from a histogram built up from
+similar samples We turn this approach around to produce an image prior by finding areas
+in our sample set that are similar to patches in our super-resolution image and evaluate
+how well they match building up a over the high-resolution image In short given
+a set of low resolution images and example images of textures in the same class at the
+higher resolution our objective is to construct a super-resolution image using a prior that
+is sampled from the example images
+Our method differs from the previous super-resolution methods of in two ways first
+we use our training images to estimate a distribution rather than learn a discrete set of lowresolution to high-resolution matches from which we must build up our output image second since we are using more than one image we naturally fold in the extra high-frequency
+information available from the low-resolution image displacements
+We develop our model in section and expand upon some of the implementation details
+in section as well as introducing the Huber prior model against which most of the comparisons in this paper are made In section we display results obtained with our method
+on some simple images and in section we discuss these results and future improvements
+The model
+In this section we develop the mathematical basis for our model The main contribution
+of this work is in the construction of the prior over the super-resolution image but first we
+will consider the generative model for the low-resolution image generation which closely
+follows the approaches of and We have low-resolution images which we
+assume are generated from the super-resolution image by
+and is the noise precision
+where is a vector of Gaussians
+The construction of involves mapping each low-resolution pixel into the space of the
+super-resolution image and performing a convolution with a point spread function The
+constructions given in and are very similar though the former uses bilinear interpolation to achieve a more accurate approximation
+We begin by assuming that the image registration parameters may be determined a priori
+so each input image has a corresponding set of registration parameters We may now
+construct the likelihood function
+p(y
+exp
+where each input image is assumed to have pixels and the super-resolution image
+pixels
+The ML solution for can be found simply by maximizing equation with respect to
+which is equivalent to minimizing the negative log likelihood
+log
+though super-resolved images recovered in this way tend to be dominated by a great deal
+of high-frequency noise
+To address this problem a prior over the super-resolution image is often used In
+the authors restricted themselves to Gaussian process priors which made their estimation
+of the registration parameters tractable but encouraged smoothness across without
+any special treatment to allow for edges The Huber Prior was used successfully in
+to penalize image gradients while being less harsh on large image discontinuities than a
+Gaussian prior Details of the Huber prior are given in section
+If we assume a uniform prior over the input images the posterior distribution over is of
+the form
+p(y
+To build our expression for we adopt the philosophy of and sample from other
+example images rather than developing a parametric model A similar philosophy was used
+in for image-based rendering Given a small image patch around any particular pixel
+we can learn a distribution for the central pixel?s intensity value by examining the values
+at the centres of similar patches from other images Each pixel has a neighbourhood
+region R(xi consisting of the pixels around it but not including itself For each R(xi
+we find the closest neighbourhood patch in the set of sampled patches and find the central
+pixel associated with this nearest neighbour LR The intensity of our original pixel
+is then assumed to be Gaussian distributed with mean equal to the intensity of this central
+pixel and with some precision
+LR
+leading us to a prior of the form
+exp
+LR
+Inserting this prior into equation the posterior over and taking the negative log we
+have
+log
+LR
+where the right-hand side has been scaled to leave a single unknown ratio between the
+data error term and the prior term and includes an arbitrary constant Our super-resolution
+image is then just arg minx where
+LR
+Implementation details
+We optimize the objective function of equation using scaled conjugate gradients SCG
+to obtain an approximation to our super-resolution image This requires an expression for
+the gradient of the function with respect to For speed we approximate this by
+dL
+LR
+dx
+which assumes that small perturbations in the neighbours of will not change the value
+returned by LR This is obviously not necessarily the case but leads to a more efficient
+algorithm The same k-nearest-neighbour variation introduced in could be adopted to
+smooth this response
+Our image patch regions R(xi are square windows centred on and pixels near the edge
+of the image are supported using the average image of extending beyond the edge of the
+super-resolution image To compute the nearest region in the example images patches are
+normalized to sum to unity and centre weighted as in by a 2-dimensional Gaussian
+The width of the image patches used and of the Gaussian weights depends very much
+upon the scales of the textures present in the image Our images intensities were in the
+range and all the work so far has been with grey-scale images
+Most of our results with this sample-based prior are compared to super-resolution images
+obtained using the Huber prior used in Other edge-preserving functions are discussed
+in though the Huber function performed better than these as a prior in this case The
+Huber potential function is given by
+if
+otherwise
+If is a matrix which pre-multiplies to give a vector of first-order approximations to the
+magnitude of the image gradient in the horizontal vertical and two diagonal directions
+then the Huber prior we use is of the form
+4N
+exp
+for some prior strength is the partition function and is the 4N column
+vector of approximate derivatives of in the four directions mentioned above
+Plugging this into the posterior distribution of equation leads to a Huber MAP image
+which minimizes the negative log probability
+LH
+4N
+where again the has been scaled so that is the single unknown ratio parameter We
+also optimize this by SCG using the full analytic expression for dL
+dx
+Preliminary results
+To test the performance of our texture-based prior and compare it with that of the Huber
+prior we produced sets of input images by running the generative model of equation in
+the forward direction introducing sub-pixel shifts in the and y-directions and a small
+rotation about the viewing axis We added varying amounts of Gaussian noise
+and grey levels and took varying number of these images to
+produce nine separate sets of low-resolution inputs from each of our initial ground-truth
+high resolution images Figure shows three pixel ground truth images each
+accompanied by corresponding pixel low-resolution images generated from the
+ground truth images at half the resolution with levels of noise Our aim was to
+reconstruct the central pixel section of the original ground truth image Figure
+shows the example images from which our texture samples patches were taken note that
+these do not overlap with the sections used to generate the low-resolution images
+Text Truth
+Brick Truth
+Beads Truth
+Text Low?res
+Brick Low?res
+Beads Low?res
+Figure Left to right ground truth text ground truth brick ground truth beads low-res
+text low-res brick and low-res beads
+Figure Left Text sample pixels Centre Brick sample pixels
+Right Beads sample pixels
+Figure shows the difference in super-resolution image quality that can be obtained using
+the sample-based prior over the Huber prior using identical input sets as described above
+For each Huber super-resolution image we ran a set of reconstructions varying the Huber
+parameter and the prior strength parameter The image shown for each input number/noise level pair is the one which gave the minimum RMS error when compared to the
+ground-truth image these are very close to the best images chosen from the same sets by
+a human subject
+The images shown for the sample-based prior are again the best the sense of having
+minimal RMS error of several runs per image We varied the size of the sample patches
+from to 13 pixels in edge length computational cost meant that larger patches were not
+considered Compared to the Huber images we tried relatively few different patch size and
+value combinations for our sample-based prior again this was due to our method taking
+longer to execute than the Huber method Consequently the Huber parameters are more
+likely to lie close to their own optimal values than our sample-based prior parameters are
+We also present images recovered using a wrong texture We generated ten lowresolution images from a picture of a leaf and used texture samples from a small black-andwhite spiral in our reconstruction Figure A selection of results are shown in Figure
+where we varied the parameter governing the prior?s contribution to the output image
+Text grabbed from Greg Egan?s novella Oceanic published online at the author?s website Brick
+image from the Brodatz texture set Beads image from http://textures.forrest.cz
+Texture prior
+HMAP prior
+Number of Images
+Number of Images
+Noise grey levels
+Texture prior
+Number of Images
+Number of Images
+HMAP prior
+Noise grey levels
+Texture prior
+Noise grey levels
+HMAP prior
+Number of Images
+Number of Images
+Noise grey levels
+Noise grey levels
+32
+Noise grey levels
+32
+Figure Recovering the super-resolution images at a zoom factor of using the texturebased prior left column of plots and the Huber MRF prior right column of plots The text
+and brick datasets contained grey levels of noise while the beads dataset used
+and 32 grey levels Each image shown is the best of several attempts with varying prior
+strengths Huber parameter for the Huber MRF prior images and patch neighbourhood
+sizes for the texture-based prior images
+Using a low value gives an image not dissimilar to the ML solution using a significantly
+higher value makes the output follow the form of the prior much more closely and here this
+means that the grey values get lost as the evidence for them from the data term is swamped
+by the black-and-white pattern of the prior
+Figure The original high-resolution image left and the pixel wrong
+texture sample image right
+Figure Four super-resolution images are shown on the lower row reconstructed
+using different values of the prior strength parameter from left to
+right
+Discussion and further considerations
+The images of Figure show that our prior offers a qualitative improvement over the
+generic prior especially when few input images are available
+Quantitively our method gives an RMS error of approximately grey levels from only
+input images with grey levels of additive Gaussian noise on the text input images whereas
+the best Huber prior super-resolution image for that image set and noise level uses all
+available input images and still has an RMS error score of almost grey levels
+Figure plots the RMS errors from the Huber and sample-based priors against each other
+In all cases the sample-based method fares better with the difference most notable in the
+text example
+In general larger patch sizes pixels give smaller errors for the noisy inputs
+while small patches are better for the less noisy images Computational costs mean
+we limited the patch size to no more than 13 13 and terminated the SCG optimization
+algorithm after approximately iterations
+In addition to improving the computational complexity of our algorithm implementation
+we can extend this work in several directions Since in general the textures for the prior
+will not be invariant to rotation and scaling consideration of the registration of the input
+images will be necessary The optimal patch size will be a function of the image textures
+so learning this as a parameter of an extended model in a similar way to how learns the
+point-spread function for a set of input images is another direction of interest
+Comparison of RMSE grey levels
+Texture?based RMS
+equal?error line
+text dataset
+brick dateset
+bead dataset
+Huber RMS
+Figure Comparison of RMS errors in reconstructing the text brick and bead images
+using the Huber and sample-based priors
+
+----------------------------------------------------------------
+
+title: 2449-training-fmri-classifiers-to-detect-cognitive-states-across-multiple-human-subjects.pdf
+
+Training fMRI Classifiers to Discriminate
+Cognitive States across Multiple Subjects
+Xuerui Wang Rebecca Hutchinson and Tom M. Mitchell
+Center for Automated Learning and Discovery
+Carnegie Mellon University
+Forbes Avenue Pittsburgh PA
+xuerui.wang rebecca.hutchinson tom.mitchell}@cs.cmu.edu
+Abstract
+We consider learning to classify cognitive states of human subjects
+based on their brain activity observed via functional Magnetic Resonance
+Imaging fMRI This problem is important because such classifiers constitute virtual sensors of hidden cognitive states which may be useful
+in cognitive science research and clinical applications In recent work
+Mitchell have demonstrated the feasibility of training such
+classifiers for individual human subjects to distinguish whether the
+subject is reading an ambiguous or unambiguous sentence or whether
+they are reading a noun or a verb Here we extend that line of research
+exploring how to train classifiers that can be applied across multiple human subjects including subjects who were not involved in training the
+classifier We describe the design of several machine learning approaches
+to training multiple-subject classifiers and report experimental results
+demonstrating the success of these methods in learning cross-subject
+classifiers for two different fMRI data sets
+Introduction
+The advent of functional Magnetic Resonance Imaging fMRI has made it possible to
+safely non-invasively observe correlates of neural activity across the entire human brain at
+high spatial resolution A typical fMRI session can produce a three dimensional image of
+brain activation once per second with a spatial resolution of a few millimeters yielding
+tens of millions of individual fMRI observations over the course of a twenty-minute session This fMRI technology holds the potential to revolutionize studies of human cognitive
+processing provided we can develop appropriate data analysis methods
+Researchers have now employed fMRI to conduct hundreds of studies that identify which
+regions of the brain are activated on average when a human performs a particular cognitive
+task reading puzzle solving Typical research publications describe summary statistics of brain activity in various locations calculated by averaging together fMRI observations collected over multiple time intervals during which the subject responds to repeated
+stimuli of a particular type
+Our interest here is in a different problem training classifiers to automatically decode the
+subject?s cognitive state at a single instant or interval in time If we can reliably train such
+classifiers we may be able to use these as virtual sensors of hidden cognitive states to
+observe previously hidden cognitive processes in the brain
+In recent work Mitchell have demonstrated the feasibility of training such
+classifiers Whereas their work focussed primarily on training a different classifier for each
+human subject our focus in this paper is on training a single classifier that can be used
+across multiple human subjects including humans not involved in the training process
+This is challenging because different brains have substantially different sizes and shapes
+and because different people may generate different brain activation given the same cognitive state Below we briefly survey related work describe a range of machine learning
+approaches to this problem and present experimental results showing statistically significant cross-subject classifier accuracies for two different fMRI studies
+Related Work
+As noted above Mitchell describe methods for training classifiers of cognitive states focussing primarily on training subject-specific classifiers More specifically
+they train classifiers that distinguish among a set of predefined cognitive states based on a
+single fMRI image or fixed window of fMRI images collected relative to the presentation
+of a particular stimulus For example they report on successful classifiers to distinguish
+whether the object presented to the subject is a sentence or a picture whether the sentence
+being viewed is ambiguous or unambiguous whether an isolated word is a noun or a verb
+and whether an isolated noun is about a person building animal etc They used several
+different classifiers and report that dimensionality reduction methods are essential given
+the high dimensional sparse training data They propose specific methods for dimensionality reduction that take advantage of data collected during rest periods between stimuli
+and demonstrate that these outperform standard methods for feature selection such as those
+based on mutual information Despite these positive results there remain several limitations classifiers are trained and applied over a fixed time window of data classifiers are
+trained only to discriminate among predefined classes of cognitive states and they deal
+only with single cognitive states rather than multiple states evolving over time
+In earlier work Wagner report that they have been able to predict whether
+a verbal experience will be remembered later based on the magnitude of activity within
+certain parts of left prefrontal and temporal cortices during that experience Haxby
+show that different patterns of fMRI activity are generated when a subject views a
+photograph of a face versus a house etc and show that by dividing the fMRI data for each
+photograph category into two samples they could automatically match the data samples
+related to the same category Recent work on brain computer interfaces see also
+seeks to decode observed brain activity often EEG or direct neural recordings rather than
+fMRI typically for the purpose of controlling external devices
+Approach
+Learning Method
+In this paper we explore the use of machine learning methods to approximate classification
+functions of the following form
+hI1 In CognitiveState
+where hI1 In is a sequence of fMRI images collected during a contiguous time interval and where CognitiveState is the set of cognitive states to be discriminated We explore
+a number of classifier training methods including
+Gaussian Naive Bayes This classifier learns a class-conditional Gaussian
+generative model for each feature1 New examples are classified using Bayes rule
+and the assumption that features are conditionally independent given the class
+see for instance
+Support Vector Machine We employ a linear kernel Support Vector Machine see for instance
+Nearest Neighbor(kNN We use Nearest Neighbor with a Euclidean distance
+metric considering values of and for see for instance
+Classifiers were evaluated using a leave one subject out cross validation procedure in
+which each of the human subjects was used as a test subject while training on the remaining subjects and the mean accuracy over these held out subjects was calculated
+Feature Extraction
+In general each input image may contain many thousands of voxels We explored a variety
+of approaches to reducing the dimensionality of the input feature vector including methods
+that select a subset of available features methods that replace multiple feature values by
+their mean and methods that use both of these extractions In the latter two cases we
+take means over values found within anatomically defined brain regions dorsolateral
+prefrontal cortex which are referred to as Regions of Interest or ROIs
+We considered the following feature extraction methods
+Average For each ROI calculate the mean activity over all voxels in the ROI. Use
+these ROI means as the input features
+ActiveAvg(n For each ROI select the most active voxels2 then calculate the
+mean of their values Again use these ROI means as the input features Here the
+most active voxels are those whose activity while performing the task varies the
+most from their activity when the subject is at rest for details
+Active(n Select the most active voxels over the entire brain Use only these
+voxels as input features
+Registering Data from Multiple Subjects
+Given the different sizes and shapes of different brains it is not possible to directly map the
+voxels in one brain to those in another We considered two different methods for producing
+representations of fMRI data for use across multiple subjects
+ROI Mapping Abstract the voxel data in each brain using the Average or ActiveAvg(n feature extraction method described above Because each brain contains the same set of anatomically defined ROIs we can use the resulting representation of average activity per ROI as a canonical representation across subjects
+Talairach coordinates The coordinate system of each brain is transformed geometrically morphed into the coordinate system of a standard brain known as the
+Talairach-Tournoux coordinate system After this transformation each brain
+has the same shape and size though the transformation is usually imperfect
+It is well known that the Gaussian model does not accurately fit fMRI data Some non-Gaussian
+models such as Generalized Gaussian model which makes use of the kurtosis of the data and tdistribution which is more heavy-tailed are in our future plan
+The fMRI data used here are first preprocessed by FIASCO http://www.stat.cmu.edu/?fiasco
+and the active voxels are determined by t-test
+There are significant differences in these two approaches First note they differ in their
+spatial resolution and in the dimension of the resulting input feature vector ROI Mapping results in just one feature per ROI we work with at most 35 ROIs per brain at each
+timepoint whereas Talairach coordinates retain the voxel-level resolution on the order of
+voxels per brain Second the approaches have different noise characteristics ROI
+Mapping reduces noise by averaging voxel activations whereas the Talairach transformation effectively introduces new noise due to imperfections in the morphing transformation
+Thus the approaches have complementary advantages and disadvantages Notice both of
+these transformations require background knowledge about brain anatomy in order to identify anatomical landmarks or ROIs
+Case Studies
+This section describes two fMRI case studies used for training classifiers detailed in
+Sentence versus Picture Study
+In this fMRI study thirteen normal subjects performed a sequence of trials During
+each trial they were first shown a sentence and a simple picture then asked whether the
+sentence correctly described the picture We used this data set to explore the feasibility of
+training classifiers to distinguish whether the subject is examining a sentence or a picture
+during a particular time interval
+In half of the trials the picture was presented first followed by the sentence which we will
+refer to as PS data set In the remaining trials the sentence was presented first followed
+by the picture which we will call SP data set Pictures contained geometric arrangements
+of two of the following symbols Sentences were descriptions such as It is true
+that the star is below the plus or It is not true that the star is above the plus
+The learning task we consider here is to train a classifier to determine given a particular
+16-image interval of fMRI data whether the subject was viewing a sentence or a picture
+during this interval In other words we wish to learn a classifier of the form
+hI1 Picture Sentence
+where I1 is the image captured at the time of stimulus picture or sentence onset In this
+case we restrict the classifier input to most relevant ROIs3 determined by a domain expert
+Syntactic Ambiguity Study
+In this fMRI study subjects were presented with ambiguous and unambiguous sentences and were asked to respond to a yes-no question about the content of each sentence
+The questions were designed to ensure that the subject was in fact processing the sentence
+Five normal subjects participated in this study which we will refer to as SA data set
+We are interested here in learning a classifier that takes as input an interval of fMRI activity
+and determines whether the subject was currently reading an unambiguous or ambiguous
+sentence An example ambiguous sentence is The experienced soldiers warned about the
+dangers conducted the midnight raid An example of an unambiguous sentence is The
+experienced soldiers spoke about the dangers before the midnight raid We train classifiers
+of the form
+hI1 Ambiguous Unambiguous
+They are pars opercularis of the inferior frontal gyrus pars triangularis of the inferior frontal
+gyrus intra-parietal sulcus inferior temporal gyri and sulci inferior parietal lobule dorsolateral prefrontal cortex and an area around the calcarine sulcus respectively
+where I1 is the image captured at the time when the sentence is first presented to the subject
+In this case we restrict the classifier input to ROIs4 considered to be the most relevant
+Experimental Results
+The primary goal of this work is to determine whether and how it is possible to train classifiers of cognitive states across multiple human subjects We experimented using data
+from the two case studies described above measuring the accuracy of classifiers trained for
+single subjects as well as those trained for multiple subjects Note we might expect the
+multiple subject classification accuracies to be lower due to differences among subjects or
+to be higher due to the larger number of training examples available
+In order to test the statistical significance of our results consider the confidence intervals5 of the accuracies Assuming that errors on test examples are Bernoulli(p
+distributed the number of observed correct classifications will follow a Binomial(n distribution where is the number of test examples Table displays the lowest accuracies
+that are statistically significant at the confidence level where the expected accuracy
+due to chance is given the equal number of examples from both classes We will not
+report confidence interval individually for each accuracy because they are very similar
+Table The lowest accuracies that are significantly better than chance at the level
+of examples
+Lowest accuracy
+SP
+PS
+SP+PS
+SA
+ROI Mapping
+We first consider the ROI Mapping method for merging data from multiple subjects Table
+shows the classifier accuracies for the Sentence versus Picture study when training across
+subjects and testing on the subject withheld from the training set For comparison it also
+shows parentheses the average accuracy achieved by classifiers trained and tested on
+single subjects All results are highly significant compared to the accuracy expected
+by chance demonstrating convincingly the feasibility of training classifiers to distinguish
+cognitive states in subjects beyond the training set In fact the accuracy achieved on the left
+out subject for the multiple-subject classifiers is often very close to the average accuracy of
+the single-subject classifiers and in several cases it is significantly better This surprisingly
+positive result indicates that the accuracy of the multiple-subject classifier when tested on
+new subjects outside the training set is comparable to the average accuracy achieved when
+training and testing using data from a single subject Presumably this can be explained by
+the fact that it is trained using an order of magnitude more training examples from twelve
+subjects rather than one The increase in training set size apparently compensates for the
+variability among subjects
+A second trend apparent in Table is that the accuracies in SP or PS data sets are better
+than the accuracies when using their union Presumably this is due to the fact that
+the context in which the stimulus picture or sentence appears is more consistent when we
+restrict to data in which these stimuli are presented in the same sequence
+They include pars opercularis of the inferior frontal gyrus pars triangularis of the inferior frontal
+gyrus Wernicke?s area and the superior temporal gyrus
+Under cross validation we learn classifiers and the accuracy we reported is the mean accuracy
+of these classifiers The size of the confidence interval we compute is the upper bound of the size of
+Table Multiple-subject accuracies in the Sentence versus Picture study ROI mapping
+Numbers in parenthesis are the corresponding mean accuracies of single-subject classifiers
+METHOD
+Average
+Average
+Average
+Average
+Average
+ActiveAvg(20
+ActiveAvg(20
+ActiveAvg(20
+ActiveAvg(20
+CLASSIFIER
+GNB
+SVM
+1NN
+3NN
+5NN
+GNB
+1NN
+3NN
+5NN
+SP
+PS
+SP+PS
+Table Multiple-subject accuracies in the Syntactic Ambiguity study ROI mapping
+Numbers in parenthesis are the corresponding mean accuracies of single-subject classifiers
+To choose in ActiveAvg(n we explored all even numbers less than reporting the best
+METHOD
+Average
+Average
+Average
+Average
+Average
+ActiveAvg(n
+ActiveAvg(n
+ActiveAvg(n
+ActiveAvg(n
+ActiveAvg(n
+CLASSIFIER
+GNB
+SVM
+1NN
+3NN
+5NN
+GNB
+SVM
+1NN
+3NN
+5NN
+ACCURACY
+Classifier accuracies for the Syntactic Ambiguity study are shown in Table Note accuracies above are significantly better than chance The accuracies for both singlesubject and multiple-subject classifiers are lower than in the first study perhaps due in part
+to the smaller number of subjects and training examples Although we cannot draw strong
+conclusions from the results of this study it provides modest additional support for the feasibility of training multiple-subject classifiers using ROI mapping Note that accuracies of
+the multiple-subject classifiers are again comparable to those of single subject classifiers
+Talairach Coordinates
+Next we explore the Talairach coordinates method for merging data from multiple subjects
+Here we consider the Syntactic Ambiguity study only6 Note one difficulty in utilizing the
+Talairach transformation here is that slightly different regions of the brain were scanned for
+different subjects Figure shows the portions of the brain that were scanned for two of the
+subjects along with the intersection of these regions from all five subjects In combining
+data from multiple subjects we used only the data in this intersection
+the true confidence interval of the mean accuracy which can be shown using the Lagrangian method
+We experienced technical difficulties in applying the Talairach transformation software to the
+Sentence versus Picture study for details
+Subject
+Subject
+Intersecting all subjects
+Figure The two leftmost panels show in color the scanned portion of the brain for two
+subjects Syntactic Ambiguity study in Talairach space in sagittal view The rightmost
+panel shows the intersection of these scanned bands across all five subjects
+The results of training multiple-subject classifiers based on the Talairach coordinates
+method are shown in Table Notice the results are comparable to those achieved by the
+earlier ROI Mapping method in Table Based on these results we cannot state that one
+of these methods is significantly more accurate than the other When using the Talairach
+method we found the most effective feature extraction approach was the Active(n feature
+selection approach which chooses the most active voxels from across the brain Note
+that it is not possible to use this feature selection approach with the ROI Mapping method
+because the individual voxels from different brains can only be aligned after performing
+the Talairach transformation
+Table Multiple-subject accuracies in the Syntactic Ambiguity study Talairach coordinates Numbers in parenthesis are the mean accuracies of single-subject classifiers For
+in Active(n we explored all even numbers less than reporting the best
+METHOD
+Active(n
+Active(n
+Active(n
+Active(n
+Active(n
+CLASSIFIER
+GNB
+SVM
+1NN
+3NN
+5NN
+ACCURACY
+Summary and Conclusions
+The primary goal of this research was to determine whether it is feasible to use machine
+learning methods to decode mental states across multiple human subjects The successful
+results for two case studies indicate that this is indeed feasible
+Two methods were explored to train multiple-subject classifiers based on fMRI data ROI
+mapping abstracts fMRI data by using the mean fMRI activity in each of several anatomically defined ROIs to map different brains in terms of ROIs The transformation to Talairach coordinates morphs brains into a standard coordinate frame retaining the approximate spatial resolution of the original data Using these approaches it was possible to
+train classifiers to distinguish whether the subject was viewing a picture or a sentence
+describing a picture and to apply these successfully to subjects outside the training set
+In many cases the classification accuracy for subjects outside the training set equalled or
+exceeded the accuracy achieved by training on data from just the single subject The results using the two methods showed no statistically significant difference in the Syntactic
+Ambiguity study
+It is important to note that while our empirical results demonstrate the ability to successfully
+distinguish among a predefined set of states occurring at specific times while the subject
+performs specific tasks they do not yet demonstrate that trained classifiers can reliably detect cognitive states occurring at arbitrary times while the subject performs arbitrary tasks
+We intend to pursue this more general goal in future work We foresee many opportunities
+for future machine learning research in this area For example we plan to next learn models of temporal behavior in contrast to the work reported here which considers only data
+at a single time interval Machine learning methods such as Hidden Markov Models and
+Dynamic Bayesian Networks appear relevant A second research direction is to develop
+learning methods that take advantage of data from multiple studies in contrast to the single
+study efforts described here
+Acknowledgments
+We are grateful to Marcel Just for providing the fMRI data for these experiments and
+for many valuable discussions and suggestions We would like to thank Francisco Pereira
+and Radu S. Niculescu for providing much code to run our experiments and Vladimir
+Cherkassky Joel Welling Erika Laing and Timothy Keller for their instruction on techniques related to Talairach transformation
+
+----------------------------------------------------------------
+
+title: 5945-teaching-machines-to-read-and-comprehend.pdf
+
+Teaching Machines to Read and Comprehend
+Karl Moritz Hermann Tom?as Ko?cisk?y Edward Grefenstette
+Lasse Espeholt Will Kay Mustafa Suleyman Phil Blunsom
+Google DeepMind University of Oxford
+kmh,tkocisky,etg,lespeholt,wkay,mustafasul,pblunsom}@google.com
+Abstract
+Teaching machines to read natural language documents remains an elusive challenge Machine reading systems can be tested on their ability to answer questions
+posed on the contents of documents that they have seen but until now large scale
+training and test datasets have been missing for this type of evaluation In this
+work we define a new methodology that resolves this bottleneck and provides
+large scale supervised reading comprehension data This allows us to develop a
+class of attention based deep neural networks that learn to read real documents and
+answer complex questions with minimal prior knowledge of language structure
+Introduction
+Progress on the path from shallow bag-of-words information retrieval algorithms to machines capable of reading and understanding documents has been slow Traditional approaches to machine
+reading and comprehension have been based on either hand engineered grammars or information
+extraction methods of detecting predicate argument triples that can later be queried as a relational
+database Supervised machine learning approaches have largely been absent from this space due
+to both the lack of large scale training datasets and the difficulty in structuring statistical models
+flexible enough to learn to exploit document structure
+While obtaining supervised natural language reading comprehension data has proved difficult some
+researchers have explored generating synthetic narratives and queries Such approaches allow
+the generation of almost unlimited amounts of supervised data and enable researchers to isolate the
+performance of their algorithms on individual simulated phenomena Work on such data has shown
+that neural network based models hold promise for modelling reading comprehension something
+that we will build upon here Historically however many similar approaches in Computational
+Linguistics have failed to manage the transition from synthetic data to real environments as such
+closed worlds inevitably fail to capture the complexity richness and noise of natural language
+In this work we seek to directly address the lack of real natural language training data by introducing a novel approach to building a supervised reading comprehension data set We observe that
+summary and paraphrase sentences with their associated documents can be readily converted to
+context?query?answer triples using simple entity detection and anonymisation algorithms Using
+this approach we have collected two new corpora of roughly a million news stories with associated
+queries from the CNN and Daily Mail websites
+We demonstrate the efficacy of our new corpora by building novel deep learning models for reading
+comprehension These models draw on recent developments for incorporating attention mechanisms
+into recurrent neural network architectures This allows a model to focus on the aspects of
+a document that it believes will help it answer a question and also allows us to visualises its inference
+process We compare these neural models to a range of baselines and heuristic benchmarks based
+upon a traditional frame semantic analysis provided by a state-of-the-art natural language processing
+CNN
+train valid
+Daily Mail
+test
+train
+valid
+Top
+CNN Daily Mail
+test
+months
+95
+56
+documents
+queries
+Max entities
+Avg entities
+Avg tokens
+Vocab size
+Cumulative
+Table Percentage of time that
+the correct answer is contained in
+Table Corpus statistics Articles were collected starting in the top most frequent entities
+April for CNN and June for the Daily Mail both until in a given document
+the end of April Validation data is from March test data
+from April Articles of over tokens and queries whose
+answer entity did not appear in the context were filtered out
+NLP pipeline Our results indicate that the neural models achieve a higher accuracy and do so
+without any specific encoding of the document or query structure
+Supervised training data for reading comprehension
+The reading comprehension task naturally lends itself to a formulation as a supervised learning
+problem Specifically we seek to estimate the conditional probability where is a context
+document a query relating to that document and a the answer to that query For a focused
+evaluation we wish to be able to exclude additional information such as world knowledge gained
+from co-occurrence statistics in order to test a model?s core capability to detect and understand the
+linguistic relationships between entities in the context document
+Such an approach requires a large training corpus of document?query?answer triples and until now
+such corpora have been limited to hundreds of examples and thus mostly of use only for testing
+This limitation has meant that most work in this area has taken the form of unsupervised approaches
+which use templates or syntactic/semantic analysers to extract relation tuples from the document to
+form a knowledge graph that can be queried
+Here we propose a methodology for creating real-world large scale supervised training data for
+learning reading comprehension models Inspired by work in summarisation we create two
+machine reading corpora by exploiting online newspaper articles and their matching summaries We
+have collected articles from the CNN1 and articles from the Daily Mail2 websites Both
+news providers supplement their articles with a number of bullet points summarising aspects of the
+information contained in the article Of key importance is that these summary points are abstractive
+and do not simply copy sentences from the documents We construct a corpus of document?query
+answer triples by turning these bullet points into Cloze style questions by replacing one entity
+at a time with a placeholder This results in a combined corpus of roughly 1M data points Table
+Code to replicate our datasets?and to apply this method to other sources?is available online3
+Entity replacement and permutation
+Note that the focus of this paper is to provide a corpus for evaluating a model?s ability to read
+and comprehend a single document not world knowledge or co-occurrence To understand that
+distinction consider for instance the following Cloze form queries created from headlines in the
+Daily Mail validation set The hi-tech bra that helps you beat breast Could Saccharin help
+beat Can fish oils help fight prostate An ngram language model trained on the Daily Mail
+would easily correctly predict that cancer regardless of the contents of the context document
+simply because this is a very frequently cured entity in the Daily Mail corpus
+www.cnn.com
+www.dailymail.co.uk
+http://www.github.com/deepmind/rc-data
+Original Version
+Anonymised Version
+Context
+The BBC producer allegedly struck by Jeremy
+Clarkson will not press charges against the Top
+Gear host his lawyer said Friday Clarkson who
+hosted one of the most-watched television shows
+in the world was dropped by the BBC Wednesday
+after an internal investigation by the British broadcaster found he had subjected producer Oisin Tymon
+to an unprovoked physical and verbal attack
+the producer allegedly struck by will
+not press charges against the host his
+lawyer said friday who hosted one of the
+most watched television shows in the world was
+dropped by the wednesday after an internal
+investigation by the broadcaster found he
+had subjected producer to an unprovoked
+physical and verbal attack
+Query
+Producer will not press charges against Jeremy
+Clarkson his lawyer says
+producer will not press charges against
+his lawyer says
+Answer
+Oisin Tymon
+Table Original and anonymised version of a data point from the Daily Mail validation set The
+anonymised entity markers are constantly permuted during training and testing
+To prevent such degenerate solutions and create a focused task we anonymise and randomise our
+corpora with the following procedure use a coreference system to establish coreferents in each
+data point replace all entities with abstract entity markers according to coreference randomly
+permute these entity markers whenever a data point is loaded
+Compare the original and anonymised version of the example in Table Clearly a human reader can
+answer both queries correctly However in the anonymised setup the context document is required
+for answering the query whereas the original version could also be answered by someone with the
+requisite background knowledge Therefore following this procedure the only remaining strategy
+for answering questions is to do so by exploiting the context presented with each question Thus
+performance on our two corpora truly measures reading comprehension capability Naturally a
+production system would benefit from using all available information sources such as clues through
+language and co-occurrence statistics
+Table gives an indication of the difficulty of the task showing how frequent the correct answer is
+contained in the top entity markers in a given document Note that our models don?t distinguish
+between entity markers and regular words This makes the task harder and the models more general
+Models
+So far we have motivated the need for better datasets and tasks to evaluate the capabilities of machine
+reading models We proceed by describing a number of baselines benchmarks and new models to
+evaluate against this paradigm We define two simple baselines the majority baseline maximum
+frequency picks the entity most frequently observed in the context document whereas the exclusive majority exclusive frequency chooses the entity most frequently observed in the
+context but not observed in the query The idea behind this exclusion is that the placeholder is
+unlikely to be mentioned twice in a single Cloze form query
+Symbolic Matching Models
+Traditionally a pipeline of NLP models has been used for attempting question answering that is
+models that make heavy use of linguistic annotation structured world knowledge and semantic
+parsing and similar NLP pipeline outputs Building on these approaches we define a number of
+NLP-centric models for our machine reading task
+Frame-Semantic Parsing Frame-semantic parsing attempts to identify predicates and their arguments allowing models access to information about who did what to whom Naturally this kind
+of annotation lends itself to being exploited for question answering We develop a benchmark that
+makes use of frame-semantic annotations which we obtained by parsing our model with a state-ofthe-art frame-semantic parser As the parser makes extensive use of linguistic information
+we run these benchmarks on the unanonymised version of our corpora There is no significant advantage in this as the frame-semantic approach used here does not possess the capability to generalise
+through a language model beyond exploiting one during the parsing phase Thus the key objective
+of evaluating machine comprehension abilities is maintained Extracting entity-predicate triples
+denoted as e2 from both the query and context document we attempt to resolve queries
+using a number of rules with an increasing recall/precision trade-off as follows Table
+Strategy
+Exact match
+match
+Correct frame
+Permuted frame
+Matching entity
+Back-off strategy
+Pattern
+Pattern
+Example Cloze Context
+loves Suse Kim loves Suse
+is president Mike is president
+won Oscar Tom won Academy Award
+met Suse Suse met Tom
+likes candy Tom loves candy
+Pick the most frequent entity from the context that doesn?t appear in the query
+Table Resolution strategies using PropBank triples denotes the entity proposed as answer is
+a fully qualified PropBank frame Strategies are ordered by precedence and answers
+determined accordingly This heuristic algorithm was iteratively tuned on the validation data set
+For reasons of clarity we pretend that all PropBank triples are of the form e2 In practice
+we take the argument numberings of the parser into account and only compare like with like except
+in cases such as the permuted frame rule where ordering is relaxed In the case of multiple possible
+answers from a single rule we randomly choose one
+Word Distance Benchmark We consider another baseline that relies on word distance measurements Here we align the placeholder of the Cloze form question with each possible entity in the
+context document and calculate a distance measure between the question and the context around the
+aligned entity This score is calculated by summing the distances of every word in to their nearest
+aligned word in where alignment is defined by matching words either directly or as aligned by the
+coreference system We tune the maximum penalty per word on the validation data
+Neural Network Models
+Neural networks have successfully been applied to a range of tasks in NLP. This includes classification tasks such as sentiment analysis or POS tagging as well as generative problems such
+as language modelling or machine translation We propose three neural models for estimating
+the probability of word type a from document answering query
+exp
+a
+where is the vocabulary and indexes row a of weight matrix and through a slight
+abuse of notation word types double as indexes Note that we do not privilege entities or variables
+the model must learn to differentiate these in the input sequence The function returns a
+vector embedding of a document and query pair
+The Deep LSTM Reader Long short-term memory LSTM networks have recently seen
+considerable success in tasks such as machine translation and language modelling When used
+for translation Deep LSTMs have shown a remarkable ability to embed long sequences into
+a vector representation which contains enough information to generate a full translation in another
+language Our first neural model for reading comprehension tests the ability of Deep LSTM encoders
+to handle significantly longer sequences We feed our documents one word at a time into a Deep
+LSTM encoder after a delimiter we then also feed the query into the encoder Alternatively we also
+experiment with processing the query then the document The result is that this model processes
+each document query pair as a single long sequence Given the embedded document and query the
+network predicts which token in the document answers the query
+The vocabulary includes all the word types in the documents questions the entity maskers and the question unknown entity marker
+Mary
+went
+to
+England
+visited England
+Mary
+Attentive Reader
+went
+to
+England
+visited England
+Impatient Reader
+visited England
+Mary went
+to England
+A two layer Deep LSTM Reader with the question encoded before the document
+Figure Document and query embedding models
+We employ a Deep LSTM cell with skip connections from each input to every hidden layer
+and from every hidden layer to the output
+Wkxi Wkhi h(t Wkci c(t bki
+Wkxf Wkhf h(t Wkcf c(t bkf
+tanh Wkxc Wkhc h(t
+k)c(t
+Wkxo Wkho h(t
+tanh
+bkc
+Wkco bko
+Wky bky
+where indicates vector concatenation is the hidden state for layer at time and
+are the input forget and output gates respectively Thus our Deep LSTM Reader is defined by
+LSTM with input the concatenation of and separated by the delimiter
+The Attentive Reader The Deep LSTM Reader must propagate dependencies over long distances
+in order to connect queries to their answers The fixed width hidden vector forms a bottleneck for
+this information flow that we propose to circumvent using an attention mechanism inspired by recent
+results in translation and image recognition This attention model first encodes the document
+and the query using separate bidirectional single layer LSTMs
+We denote the outputs of the forward and backward LSTMs as
+and respectively The
+encoding of a query of length is formed by the concatenation of the final forward and backward
+outputs
+yq yq
+For the document the composite output for each token at position is
+The
+representation of the document is formed by a weighted sum of these output vectors These
+weights are interpreted as the degree to which the network attends to a particular token in the document when answering the query
+tanh Wym yd Wum
+exp wms
+yd
+where we are interpreting yd as a matrix with each column being the composite representation yd
+of document token The variable is the normalised attention at token Given this attention
+score the embedding of the document is computed as the weighted sum of the token embeddings
+The model is completed with the definition of the joint document and query embedding via a nonlinear combination
+AR tanh Wrg Wug
+The Attentive Reader can be viewed as a generalisation of the application of Memory Networks to
+question answering That model employs an attention mechanism at the sentence level where
+each sentence is represented by a bag of embeddings The Attentive Reader employs a finer grained
+token level attention mechanism where the tokens are embedded given their entire future and past
+context in the input document
+The Impatient Reader The Attentive Reader is able to focus on the passages of a context document that are most likely to inform the answer to the query We can go further by equipping the
+model with the ability to reread from the document as each query token is read At each token
+of the query the model computes a document representation vector using the bidirectional
+embedding yq
+yq yq
+tanh Wdm yd Wrm r(i Wqm yq
+exp wms
+r0 yd tanh Wrr r(i
+The result is an attention mechanism that allows the model to recurrently accumulate information
+from the document as it sees each query token ultimately outputting a final joint document query
+representation for the answer prediction
+IR tanh Wrg Wqg
+Empirical Evaluation
+Having described a number of models in the previous section we next evaluate these models on our
+reading comprehension corpora Our hypothesis is that neural models should in principle be well
+suited for this task However we argued that simple recurrent models such as the LSTM probably
+have insufficient expressive power for solving tasks that require complex inference We expect that
+the attention-based models would therefore outperform the pure LSTM-based approaches
+Considering the second dimension of our investigation the comparison of traditional versus neural
+approaches to NLP we do not have a strong prior favouring one approach over the other While numerous publications in the past few years have demonstrated neural models outperforming classical
+methods it remains unclear how much of that is a side-effect of the language modelling capabilities
+intrinsic to any neural model for NLP. The entity anonymisation and permutation aspect of the task
+presented here may end up levelling the playing field in that regard favouring models capable of
+dealing with syntax rather than just semantics
+With these considerations in mind the experimental part of this paper is designed with a threefold aim First we want to establish the difficulty of our machine reading task by applying a wide
+range of models to it Second we compare the performance of parse-based methods versus that of
+neural models Third within the group of neural models examined we want to determine what each
+component contributes to the end performance that is we want to analyse the extent to which an
+LSTM can solve this task and to what extent various attention mechanisms impact performance
+All model hyperparameters were tuned on the respective validation sets of the two corpora.5 Our
+experimental results are in Table with the Attentive and Impatient Readers performing best across
+both datasets
+For the Deep LSTM Reader we consider hidden layer sizes depths initial learning
+rates 5E 1E 5E batch sizes and dropout We evaluate two types of
+feeds In the cqa setup we feed first the context document and subsequently the question into the encoder
+while the qca model starts by feeding in the question followed by the context document We report results on
+the best model underlined hyperparameters qca setup For the attention models we consider hidden layer
+sizes single layer initial learning rates 5E 1E batch sizes
+and dropout For all models we used asynchronous RmsProp with a momentum of
+and a decay of See Appendix A for more details of the experimental setup
+CNN
+valid
+Daily Mail
+test valid
+test
+Maximum frequency
+Exclusive frequency
+Frame-semantic model
+Word distance model
+Deep LSTM Reader
+Uniform Reader
+Attentive Reader
+Impatient Reader
+Table Accuracy of all the models and benchmarks on the CNN and Daily Mail datasets The
+Uniform Reader baseline sets all of the parameters to be equal
+Figure Precision@Recall for the attention
+models on the CNN validation data
+Frame-semantic benchmark While the one frame-semantic model proposed in this paper is
+clearly a simplification of what could be achieved with annotations from an NLP pipeline it does
+highlight the difficulty of the task when approached from a symbolic NLP perspective
+Two issues stand out when analysing the results in detail First the frame-semantic pipeline has a
+poor degree of coverage with many relations not being picked up by our PropBank parser as they
+do not adhere to the default predicate-argument structure This effect is exacerbated by the type
+of language used in the highlights that form the basis of our datasets The second issue is that
+the frame-semantic approach does not trivially scale to situations where several sentences and thus
+frames are required to answer a query This was true for the majority of queries in the dataset
+Word distance benchmark More surprising perhaps is the relatively strong performance of the
+word distance benchmark particularly relative to the frame-semantic benchmark which we had
+expected to perform better Here again the nature of the datasets used can explain aspects of this
+result Where the frame-semantic model suffered due to the language used in the highlights the word
+distance model benefited Particularly in the case of the Daily Mail dataset highlights frequently
+have significant lexical overlap with passages in the accompanying article which makes it easy for
+the word distance benchmark For instance the query Tom Hanks is friends with X?s manager
+Scooter Brown has the phrase turns out he is good friends with Scooter Brown manager for
+Carly Rae Jepson in the context The word distance benchmark correctly aligns these two while
+the frame-semantic approach fails to pickup the friendship or management relations when parsing
+the query We expect that on other types of machine reading data where questions rather than Cloze
+queries are used this particular model would perform significantly worse
+Neural models Within the group of neural models explored here the results paint a clear picture
+with the Impatient and the Attentive Readers outperforming all other models This is consistent with
+our hypothesis that attention is a key ingredient for machine reading and question answering due to
+the need to propagate information over long distances The Deep LSTM Reader performs surprisingly well once again demonstrating that this simple sequential architecture can do a reasonable
+job of learning to abstract long sequences even when they are up to two thousand tokens in length
+However this model does fail to match the performance of the attention based models even though
+these only use single layer LSTMs.6
+The poor results of the Uniform Reader support our hypothesis of the significance of the attention
+mechanism in the Attentive model?s performance as the only difference between these models is
+that the attention variables are ignored in the Uniform Reader The precision@recall statistics in
+Figure again highlight the strength of the attentive approach
+We can visualise the attention mechanism as a heatmap over a context document to gain further
+insight into the models performance The highlighted words show which tokens in the document
+were attended to by the model In addition we must also take into account that the vectors at each
+Memory constraints prevented us from experimenting with deeper Attentive Readers
+Figure Attention heat maps from the Attentive Reader for two correctly answered validation set
+queries the correct answers are ent23 and respectively Both examples require significant
+lexical generalisation and co-reference resolution in order to be answered correctly by a given model
+token integrate long range contextual information via the bidirectional LSTM encoders Figure
+depicts heat maps for two queries that were correctly answered by the Attentive Reader.7 In both
+cases confidently arriving at the correct answer requires the model to perform both significant lexical
+generalsiation killed deceased and co-reference or anaphora resolution was
+killed he was identified However it is also clear that the model is able to integrate these signals
+with rough heuristic indicators such as the proximity of query words to the candidate answer
+Conclusion
+The supervised paradigm for training machine reading and comprehension models provides a
+promising avenue for making progress on the path to building full natural language understanding
+systems We have demonstrated a methodology for obtaining a large number of document-queryanswer triples and shown that recurrent and attention based neural networks provide an effective
+modelling framework for this task Our analysis indicates that the Attentive and Impatient Readers are able to propagate and integrate semantic information over long distances In particular we
+believe that the incorporation of an attention mechanism is the key contributor to these results
+The attention mechanism that we have employed is just one instantiation of a very general idea
+which can be further exploited However the incorporation of world knowledge and multi-document
+queries will also require the development of attention and embedding mechanisms whose complexity to query does not scale linearly with the data set size There are still many queries requiring
+complex inference and long range
+
+----------------------------------------------------------------
+
+title: 5780-galileo-perceiving-physical-object-properties-by-integrating-a-physics-engine-with-deep-learning.pdf
+
+Galileo Perceiving Physical Object Properties by
+Integrating a Physics Engine with Deep Learning
+Jiajun Wu
+EECS MIT
+jiajunwu@mit.edu
+Joseph J. Lim
+EECS MIT
+lim@csail.mit.edu
+Ilker Yildirim
+BCS MIT The Rockefeller University
+ilkery@mit.edu
+William T. Freeman
+EECS MIT
+billf@mit.edu
+Joshua B. Tenenbaum
+BCS MIT
+jbt@mit.edu
+Abstract
+Humans demonstrate remarkable abilities to predict physical events in dynamic
+scenes and to infer the physical properties of objects from static images We
+propose a generative model for solving these problems of physical scene understanding from real-world videos and images At the core of our generative model
+is a 3D physics engine operating on an object-based representation of physical
+properties including mass position 3D shape and friction We can infer these
+latent properties using relatively brief runs of MCMC which drive simulations in
+the physics engine to fit key features of visual observations We further explore
+directly mapping visual inputs to physical properties inverting a part of the generative process using deep learning We name our model Galileo and evaluate it on a
+video dataset with simple yet physically rich scenarios Results show that Galileo
+is able to infer the physical properties of objects and predict the outcome of a variety of physical events with an accuracy comparable to human subjects Our study
+points towards an account of human vision with generative physical knowledge at
+its core and various recognition models as helpers leading to efficient inference
+Introduction
+Our visual system is designed to perceive a physical world that is full of dynamic content Consider
+yourself watching a Rube Goldberg machine unfold as the kinetic energy moves through the machine you may see objects sliding down ramps colliding with each other rolling entering other
+objects falling many kinds of physical interactions between objects of different masses materials and other physical properties How does our visual system recover so much content from the
+dynamic physical world What is the role of experience in interpreting a novel dynamical scene
+Recent behavioral and computational studies of human physical scene understanding push forward
+an account that people?s judgments are best explained as probabilistic simulations of a realistic but
+mental physics engine Specifically these studies suggest that the brain carries detailed but
+noisy knowledge of the physical attributes of objects and the laws of physical interactions between
+objects Newtonian mechanics To understand a physical scene and more crucially to predict
+the future dynamical evolution of a scene the brain relies on simulations from this mental physics
+engine Even though the probabilistic simulation account is very appealing there are missing practical and conceptual leaps First as a practical matter the probabilistic simulation approach is shown
+to work only with synthetically generated stimuli either in 2D worlds or in 3D worlds but each
+Indicates equal contribution The authors are listed in the alphabetical order
+object is constrained to be a block and the joint inference of the mass and friction coefficient is not
+handled Second as a conceptual matter previous research rarely clarifies how a mental physics
+engine could take advantage of previous experience of the agent It is the case that humans
+have a life long experience with dynamical scenes and a fuller account of human physical scene
+understanding should address it
+Here we build on the idea that humans utilize a realistic physics engine as part of a generative
+model to interpret real-world physical scenes We name our model Galileo The first component of
+our generative model is the physical object representations where each object is a rigid body and
+represented not only by its 3D geometric shape volume and its position in space but also by its
+mass and its friction All of these object attributes are treated as latent variables in the model and
+are approximated or estimated on the basis of the visual input
+The second part is a fully-fledged realistic physics engine in this paper specifically the Bullet
+physics engine The physics engine takes a scene setup as input specification of each of the
+physical objects in the scene which constitutes a hypothesis in our generative model and physically
+simulates it forward in time generating simulated velocity profiles and positions for each object
+The third part of Galileo is the likelihood function We evaluate the observed real-world videos
+with respect to the model?s hypotheses using the velocity vectors of objects in the scene We use a
+standard tracking algorithm to map the videos to the velocity space
+Now given a video as observation to the model physical scene understanding in the model corresponds to inverting the generative model by probabilistic inference to recover the underlying physical object properties in the scene Here we build a video dataset to evaluate our model and humans
+on real-world data which contains videos of different objects with a range of materials and
+masses over a simple yet physically rich scenario an object sliding down an inclined surface and
+potentially collide with another object on the ground Note that in the fields of computer vision
+and robotics there have been studies on predicting physical interactions or inferring 3D properties
+of objects for various purposes including 3D reasoning and tracking However none
+of them focused on learning physical properties directly and nor they have incorporated a physics
+engine with representation learning
+Based on the estimates we derived from visual input with a physics engine a natural extension is
+to generate or synthesize training data for any automatic learning systems by bootstrapping from
+the videos already collected and labeling them with estimates of Galileo This is a self-supervised
+learning algorithm for inferring generic physical properties and relates to the wake/sleep phases in
+Helmholtz machines and to the cognitive development of infants Extensive studies suggest that
+infants either are born with or can learn quickly physical knowledge about objects when they are very
+young even before they acquire more advanced high-level knowledge like semantic categories of
+objects Young babies are sensitive to physics of objects mainly from the motion of foreground
+objects from background in other words they learn by watching videos of moving objects But
+later in life and clearly in adulthood we can perceive physical attributes in just static scenes without
+any motion
+Here building upon the idea of Helmholtz machiness our approach suggests one potential computational path to the development of the ability to perceive physical content in static scenes Following the recent work we train a recognition model sleep cycle that is in the form of a
+deep convolutional network where the training data is generated in a self-supervised manner by the
+generative model itself wake cycle real-world videos observed by our model and the resulting
+physical inferences Interestingly this computational solution asserts that the infant starts with a
+relatively reliable mental physics engine or acquires it soon after birth
+Our work makes three contributions First we propose Galileo a novel model for estimating physical properties of objects from visual inputs by incorporating the feedback of a physics engine in
+the loop We demonstrate that it achieves encouraging performance on a real-world video dataset
+Second we train a deep learning based recognition model that leads to efficient inference in the
+generative model and enables the generative model to predict future dynamical evolution of static
+scenes how would that scene unfold in time Third we test our model and compare it to humans on a variety of physical judgment tasks Our results indicate that humans are quite successful
+in these tasks and our model closely matches humans in performance but also consistently makes
+RA
+Physical object
+NA
+NB
+GA
+NA
+NB
+GA
+GB
+IB
+A
+IA
+NA
+NB
+GA
+GB
+RA
+GB
+Mass
+Friction coefficient
+3D shape
+Position offset
+Draw two
+physical objects
+3D Physics engine
+Simulated velocities
+Likelihood function
+Observed velocities
+Tracking algorithm
+Figure Snapshots of the dataset Overview of the model Our model formalizes a hypothesis space of physical object representations where each object is defined by its mass friction
+coefficient 3D shape and a positional offset an origin To model videos we draw exactly two
+objects from that hypothesis space into the physics engine The simulations from the physics engine
+are compared to observations in the velocity space a much nicer space than pixels
+similar errors as humans do providing further evidence in favor of the probabilistic simulation account of human physical scene understanding
+Scenario
+We seek to learn physical properties of objects by observing videos Among many scenarios we
+consider an introductory setup an object is put on an inclined surface it may either slide down or
+keep static due to gravity and friction and may hit another object if it slides down
+This seemingly simple scenario is physically highly involved The observed outcome of these scenario are physical values which help to describe the scenario such as the velocity and moving
+distance of objects Causally underlying these observations are the latent physical properties of objects such as the material density mass and friction coefficient As shown in Section our Galileo
+model intends to model the causal generative relationship between these observed and unobserved
+variables
+We collect a real-world video dataset of about objects sliding down a ramp possibly hitting
+another object Figure 1a provides some exemplar videos in the dataset The results of collisions
+including whether it will happen or not are determined by multiple factors such as material density
+and friction coefficient size and shape volume and slope of surface gravity Videos in our
+dataset vary in all these parameters
+Specifically there are different materials cardboard dough foam hollow rubber hollow
+wood metal coin metal pole plastic block plastic doll plastic ring plastic toy porcelain rubber
+wooden block and wooden pole For each material there are to objects of different sizes and
+shapes The angle between the inclined surface and the ground is either or When an object
+slides down it may hit either a cardboard box or a piece of foam or neither
+Galileo A Physical Object Model
+The gist of our model can be summarized as probabilistically inverting a physics engine in order
+to recover unobserved physical properties of objects We collectively refer to the unobserved latent
+variables of an object as its physical representation For each object Ti consists of its mass mi
+friction coefficient ki 3D shape Vi and position offset pi an origin in 3D space
+We place uniform priors over the mass and the friction coefficient for each object mi
+and ki Uniform(0 respectively
+For 3D shape Vi we have four variables a shape type ti and the scaling factors for three dimensions
+zi We simplify the possible shape space in our model by constraining each shape type ti to
+be one of the three with equal probability a box a cylinder and a torus Note that applying scaling
+differently on each dimension to these three basic shapes results in a large space of shapes.1 The
+scaling factors are chosen to be uniform over the range of values to capture the extent of different
+shapes in the dataset
+Remember that our scenario consists of an object on the ramp and another on the ground The
+position offset pi for each object is uniform over the set This indicates that
+for the object on the ramp its position can be perturbed along the ramp in at most units
+upwards or downwards from its starting position which is units upwards on the ramp from the
+ground
+The next component of our generative model is a fully-fledged realistic physics engine that we
+denote as Specifically we use the Bullet physics engine following the earlier related work
+The physics engine takes a specification of each of the physical objects in the scene within the
+basic ramp setting as input and simulates it forward in time generating simulated velocity vectors
+for each object in the scene vs1 and vs2 respectively among other physical properties such as
+position rendered image of each simulation step etc
+In light of initial qualitative analysis we use velocity vectors as our feature representation in evaluating the hypothesis generated by the model against data We employ a standard tracking algorithm
+KLT point tracker to lift the visual observations to the velocity space That is for each
+video we first run the tracking algorithm and we obtain velocities by simply using the center locations of each of the tracked moving objects between frames This gives us the velocity vectors for
+the object on the ramp and the object on the ground vo1 and vo2 respectively
+Given a pair of observed velocity vectors vo1 and vo2 the recovery of the physical object representations T1 and T2 for the two objects via physics-based simulation can be formalized as
+T2 vo2 vo2 vs2 vs2 T2 T2
+where we define the likelihood function as vo2 vs2 vo vs where vo is the
+concatenated vector of vo1 vo2 and vs is the concatenated vector of vs1 vs2 The dimensionality of
+vo and vs are kept the same for a video by adjusting the number of simulation steps we use to obtain
+vo according to the length of the video But from video to video the length of these vectors may
+vary In all of our simulations we fix to which is the only free parameter in our model
+Tracking algorithm as a recognition model
+The posterior distribution in Equation is intractable In order to alleviate the burden of posterior
+inference we use the output of our recognition model to predict and fix some of the latent variables
+in the model
+Specifically we determine the Vi or ti zi using the output of the tracking algorithm and
+fix these variables without further sampling them Furthermore we fix values of pi also on the
+basis of the output of the tracking algorithm
+For shape type box and zi could all be different values for shape type torus we constrained the
+scaling factors such that zi and for shape type cylinder we constrained the scaling factors such that
+zi
+Dough Cardboard
+Pole
+Figure Simulation results Each row represents one video in the data the first frame of the
+video the last frame of the video the first frame of the simulated scene generated by Bullet
+the last frame of the simulated scene the estimated object with larger mass the estimated
+object with larger friction coefficient
+Inference
+Once we initialize and fix the latent variables using the tracking algorithm as our recognition model
+we then perform single-site Metropolis Hasting updates on the remaining four latent variables
+m1 m2 k1 and At each MCMC sweep we propose a new value for one of these random
+variables where the proposal distribution is In order to help with mixing
+we also use a broader proposal distribution Uniform(?0.5 at every MCMC sweeps
+Simulations
+For each video as mentioned earlier we use the tracking algorithm to initialize and fix the shapes
+of the objects S1 and S2 and the position offsets p1 and p2 We also obtain the velocity vector for
+each object using the tracking algorithm We determine the length of the physics engine simulation
+by the length of the observed video that is the simulation runs until it outputs a velocity vector
+for each object that is as long as the input velocity vector from the tracking algorithm
+As mentioned earlier we collect videos uniformly distributed across different object categories
+We perform MCMC simulations for a single video each of which was 75 MCMC sweeps long
+We report the results with the highest log-likelihood score across the chains the MAP estimate
+In Figure we illustrate the results for three individual videos Every two frame of the top row
+shows the first and the last frame of a video and the bottom row images show the corresponding
+frames from our model?s simulations with the MAP estimate We quantify different aspects of
+our model in the following behavioral experiments where we compare our model against human
+subjects judgments Furthermore we use the inferences made by our model here on the videos
+to train a recognition model to arrive at physical object perception in static scenes with the model
+Importantly note that our model can generalize across a broad range of tasks beyond the ramp
+scenario For example once we infer the density of our object we can make a buoyancy prediction
+about it by simulating a scenario in which we drop the object into a liquid We test some of the
+generalizations in Section
+Bootstrapping to efficiently see physical objects in static scenes
+Based on the estimates we derived from the visual input with a physics engine we bootstrap from the
+videos already collected by labeling them with estimates of Galileo This is a self-supervised learning algorithm for inferring generic physical properties As discussed in Section this formulation
+is also related to the wake/sleep phases in Helmholtz machines and to the cognitive development of
+infants
+initialization with recognition model
+random initialization
+MSE
+Corr
+Oracle
+Galileo
+Uniform
+Log Likelihood
+Mass
+Methods
+Figure Mean squared errors of oracle estimation our estimation and uniform estimations of mass on a log-normalized scale
+and the correlations between estimations and
+ground truths
+Number of MCMC sweeps
+Figure The log-likelihood traces of several chains with and without recognition-model
+LeNet based initializations
+Here we focus on two physical properties mass and friction coefficient To do this we first estimate
+these physical properties using the method described in earlier sections Then we train LeNet a
+widely used deep neural network for small-scale datasets using image patches cropped from videos
+based on the output of the tracker as data and estimated physical properties as labels The trained
+model can then be used to predict these physical properties of objects based on purely visual cues
+even though they might have never appeared in the training set
+We also measure masses of all objects in the dataset which makes it possible for us to quantitatively
+evaluate the predictions of the deep network We choose one object per material as our test cases
+use all data of those objects as test data and the others as training data We compare our model
+with a baseline which always outputs a uniform estimate calculated by averaging the masses of
+all objects in the test data and with an oracle algorithm which is a LeNet trained using the same
+training data but has access to the ground truth masses of training objects as labels Apparently the
+performance of the oracle model can be viewed as an upper bound of our Galileo system
+Table compares the performance of Galileo the oracle algorithm and the baseline We can observe
+that Galileo is much better than baseline although there is still some space for improvement
+Because we trained LeNet using static images to predict physical object properties such as friction
+and mass ratios we can use it to recognize those attributes in a quick bottom-up pass at the very first
+frame of the video To the extent that the trained LeNet is accurate if we initialize the MCMC chains
+with these bottom-up predictions we expect to see an overall boost in our log-likelihood traces We
+test by running several chains with and without LeNet-based initializations Results can be seen in
+Figure Despite the fact that LeNet is not achieving perfect performance by itself we indeed get a
+boost in speed and quality in the inference
+Experiments
+In this section we conduct experiments from multiple perspectives to evaluate our model Specifically we use the model to predict how far objects will move after the collision whether the object
+will remain stable in a different scene and which of the two objects is heavier based on observations
+of collisions For every experiment we also conduct behavioral experiments on Amazon Mechanical
+Turk so that we may compare the performance of human and machine on these tasks
+Outcome Prediction
+In the outcome prediction experiment our goal is to measure and compare how well human and
+machines can predict the moving distance of an object if only part of the video can be observed
+Human
+Galileo
+Uniform
+Error in pixels
+ea
+le
+oo
+de
+po
+bl
+oo
+de
+po
+rc
+la
+to
+oc
+in
+ll
+do
+as
+tic
+pl
+tic
+as
+bl
+oc
+pl
+pl
+as
+tic
+po
+le
+al
+al
+llo
+oo
+co
+ug
+do
+ho
+ca
+rd
+oa
+rd
+Figure Mean errors in numbers of pixels of human predictions Galileo outputs and a uniform
+estimate calculated by averaging ground truth ending points over all test cases
+Figure Heat maps of user predictions Galileo outputs orange crosses and ground truths white
+crosses
+Specifically for behavioral experiments on Amazon Mechanical Turk we first provide users four full
+videos of objects made of a certain material which contain complete collisions In this way users
+may infer the physical properties associated with that material in their mind We select a different
+object but made of the same material show users a video of the object but only to the moment
+of collision We finally ask users to label where they believe the target object either cardboard or
+foam will be after the collision how far the target will move We tested users per case
+Given a partial video for Galileo to generate predicted destinations we first run it to fit the part of
+the video to derive our estimate of its friction coefficient We then estimate its density by averaging
+the density values we derived from other objects with that material by observing collisions that they
+are involved We further estimate the density mass and friction coefficient of the target object by
+averaging our estimates from other collisions We now have all required information for the model
+to predict the ending point of the target after the collision Note that the information available to
+Galileo is exactly the same as that available to humans
+We compare three kinds of predictions human feedback Galileo output and as a baseline a uniform estimate calculated by averaging ground truth ending points over all test cases Figure shows
+the Euclidean distance in pixels between each of them and the ground truth We can see that human
+predictions are much better than the uniform estimate but still far from perfect Galileo performs
+similar to human in the average on this task Figure shows for some test cases heat maps of user
+predictions Galileo outputs orange crosses and ground truths white crosses
+Mass Prediction
+The second experiment is to predict which of two objects is heavier after observing a video of a
+collision of them For this task we also randomly choose objects we test each of them on
+users For Galileo we can directly obtain its guess based on the estimates of the masses of the
+objects
+Figure demonstrates that human and our model achieve about the same accuracy on this task We
+also calculate correlations between different outputs Here as the relation is highly nonlinear we
+Human
+Galileo
+Mass
+Human vs Galileo
+Human vs Truth
+Galileo vs Truth
+Spearman?s Coeff
+Will it move
+Human vs Galileo
+Human vs Truth
+Galileo vs Truth
+Mass
+Will it move
+Figure Average accuracy of human predictions and Galileo outputs on the tasks of mass
+prediction and will it move prediction Error
+bars indicate standard deviations of human accuracies
+Pearson?s Coeff
+Table Correlations between pairs of outputs in
+the mass prediction experiment Spearman?s
+coefficient and in the will it move prediction
+experiment Pearson?s coefficient
+calculate Spearman?s coefficients From Table we notice that human responses machine outputs
+and ground truths are all positively correlated
+Will it move prediction in a novel setup
+Our third experiment is to predict whether a certain object will move in a different scene after
+observing one of its collisions On Amazon Mechanical Turk we show users a video containing a
+collision of two objects In this video the angle between the inclined surface and the ground is
+degrees We then show users the first frame of a 10-degree video of the same object and ask them to
+predict whether the object will slide down the surface in this case We randomly choose objects
+for the experiment and divide them into lists of objects per user and get each of the item tested
+on users overall
+For Galileo it is straightforward to predict the stability of an object in the 10-degree case using
+estimates from the 20-degree video Interestingly both humans and the model are at chance on this
+task Figure and their responses are reasonably correlated Table Moreover both subjects
+and the model show a bias towards saying it will move Future controlled experimentation and
+simulations will investigate what underlies this correspondence
+Conclusion
+This paper accomplishes three goals first it shows that a generative vision system with physical
+object representations and a realistic 3D physics engine at its core can efficiently deal with real-world
+data when proper recognition models and feature spaces are used Second it shows that humans
+intuitions about physical outcomes are often accurate and our model largely captures these intuitions
+but crucially humans and the model make similar errors Lastly the experience of the model
+that is the inferences it makes on the basis of dynamical visual scenes can be used to train a deep
+learning model which leads to more efficient inference and to the ability to see physical properties
+in the static images Our study points towards an account of human vision with generative physical
+knowledge at its core and various recognition models as helpers to induce efficient inference
+Acknowledgements
+This work was supported by NSF Robust Intelligence Reconstructive Recognition and the
+Center for Brains Minds and Machines funded by NSF STC award
+
+----------------------------------------------------------------
+
+title: 588-an-analog-vlsi-chip-for-radial-basis-functions.pdf
+
+An Analog VLSI Chip for Radial Basis Functions
+lohn C. Platt
+Synaptics Inc.
+Orchard Parkway
+San Jose CA
+aneen Anderson
+David B. Kirk
+Abstract
+We have designed fabricated and tested an analog VLSI chip
+which computes radial basis functions in parallel We have developed a synapse circuit that approximates a quadratic function
+We aggregate these circuits to form radial basis functions These
+radial basis functions are then averaged together using a follower
+aggregator
+INTRODUCTION
+Radial basis functions RBFs are a mel hod for approximating a function from
+scattered training points Powell RBFs have been used to solve recognition
+and prediction problems with a fair amonnt of success Lee Moody
+Platt The first layer of an RBF network computes t.he distance of the input
+to the network to a set of stored memories Each basis function is a non-linear
+function of a corresponding distance Tht basis functions are then added together
+with second-layer weights to produce the output of the network The general form
+of an RBF is
+Yi
+hii<l>i Iii Cj Ii
+where Yi is the output of the network ij is the second-layer weight is the
+non-linearity is the jth memory stored in the network and is the input to
+Current address Caltech Computer Graphics Group Caltech Pasadena CA
+Anderson Platt and Kirk
+output of network
+exp
+p,xp
+exp
+I
+quadratic synapse
+exp
+input to network
+linear synapse
+Figure The architecture of a Gaussian RBF network
+the network Many researchers use Gaussians to create basis functions that have a
+localized effect in input space Poggio
+The architecture of a Gaussian RBF network is shown in figure
+RBFs can be implemented either via software or hardware If high speed is not necessary then computing all of the basis functions in software is adequate However
+if an application requires many inputs or high speed then hardware is required
+RBFs use a lot of operations more complex than simply multiplication and addition
+For example a Gaussian RBF requires an exponential for every basis function
+Using a partition of unity requires a divide for every basis function Analog VLSI
+is an attractive way of computing these complex operations very quickly we can
+compute all of the basis functions in parallel using a few transistors per synapse
+This paper discusses an analog VLSI chip that computes radial basis functions
+We discuss how we map the mathematica.l model of an RBF into compact analog
+hardware We then present results from a test chip that was fabricated We discuss
+possible applications for the hardware architecture and future theoretical work
+MAPPING RADIAL BASIS FUNCTIONS INTO
+HARDWARE
+In order to create an analog VLSI chip we must map the idea of radial basis
+functions into transistors In order to create a high-density chip the mathematics
+of RBFs must be modified to be computed more naturally by transistor physics
+This section discusses the mapping from Gaussian RBFs into CMOS circuitry
+An Analog VLSI Chip for Radial Basis Functions
+input to network
+output to layer
+Vref
+Figure Circuit diagram for first-layer neuron showing t.hree Gaussian synapses
+and the sense amplifier
+Computing Quadratic Distance
+Ideally the first-layer synapses in figure would compute a quadratic dist.ance of
+the input to a stored value Quadratics go to infinity for large values of their input
+hence are hard to build in analog hardware and are not robust against outliers in tlw
+input data Therefore it is much more desirable to use a saturating non-linearity
+we will use a Gaussian for a first-layer synapse which approxima.tes a quadratic
+near its peak
+We implement the first-layer Gaussian synapse llsing an inverter figure The
+current running through each inverter from the voltage rail to ground is a Gaussian
+function of the inverter's input with the peak of the Gaussian occurring halfway
+between the voltage rail and ground Mead
+To adjust the center of the Gaussian we place a capacitor between the input to thf
+synapse and the input of the inverter The inverter thus has a floating gat.e input
+We adjust the charge on the floating gate by using a combination of tunneling and
+non-avalanche hot electron injection Anderson Anderson
+All of the Gaussian synapses for one neuron share a voltage rail The sense amplifier
+holds t.hat voltage rail at a particular volt.agf l/ref The output of the sense amplifier is a voltage which is linear in t.he total current being drawn by the Gaussian
+synapses We use a floating gate in the sense amplifier to ensure that the output
+of the sense amplifier is known when the input to the network is at a known state
+Again we adjust the floating gate via tunneling and injection
+Figure shows the output of the sense amplifier for four different neurons The
+data was taken from a real chip described in section The figure shows that the
+top of a Gaussian approximates a quadratic reasonably well Also thf width and
+heights of the outputs of each first-layer neuron ma.tch very well because the circuit
+is operated above threshold
+Anderson Platt and Kirk
+bl
+So
+cn
+Input Voltage
+Figure Measured output of set of four first-layer neurons All of the synapses of
+each neuron are programmed to peak at the same voltage The x-axis is the input
+voltage and the y-axis is the voltage output of the sense amplifier
+Computing the Basis Function
+To comput.e a Gaussian basis function t.he distance produced by the first layer
+needs to be exponentiated Since the output of the sense amplifier is a voltage
+negatively proportional to the distance a subthreshold transistor can perform this
+exponentiation
+However subthreshold circuits can be slow Also the choice of a Gaussian basis
+function is somewhat arbitrary Poggio Therefore we choose to adjust the
+sense amplifier to produce a voltage that is both above and below threshold The
+basis function that the chip comput.es can be expressed as
+S?J
+Lk Gaussian(Ik Cjk
+if Sj
+otherwise
+where is a threshold that is set by how much current is required by the sense
+amplifier to produce an output equal to thf threshold voltage of a N-type transistor
+Equations and have an intuitive explanation Each first-layer synapse votes on
+whether its input matched its stored value The sum of these votes is Sj. If the
+sum Sj is less than a threshold then the basis function cPj is zero However
+if the number of votes exceeds the threshold then the basis function turns on
+Therefore one can adjust the dimensionality of the basis function by adjusting
+the dimensionality is where is the numher of inputs to the network
+Figure shows how varying changes the basis function for The input to
+the network is a two-dimensional space represented by loca.tion on the page The
+value of the basis function is represented by t.he darkness of the ink Setting
+yields the basis function on the left which is a fuzzy O-dimnnsional point Setting
+yields the basis function on the right which is a union of fuzzy I-dimensional
+lines
+An Analog VLSI Chip for Radial Basis Functions
+Figure Examples of two simulated basis functions with differing dimensionality
+Having an adjustable dimension for basis functions is useful because it increases the
+robustness of the basis function A Gaussian radial basis function is non-zero only
+when all elements of the input vector roughly match the center of the Gaussian By
+using a hardware basis function we can allow certain inputs not t.o match while
+still turning on the basis function
+Blending the Basis Functions
+To make the blending of the basis functions easier to implement in analog VLSI
+we decided to use an alternative method for basis function combination called the
+partition of unity Moody
+The partition of unity suggests that the second layer should compute a weighted
+average of first-layer outputs not just a weighted sum We can t:ompute a weighted
+average reasonably well with a follower aggregator used in the linear region Mead
+Equations and can both be implemented by using a wide-range amplifier as a
+synapse figure The bias of the amplifier is the outpu of the semje amplifier
+That way the above-threshold non-linearity of the bias transist.or is applied to the
+output of the first layer and implements quation The amplifier then attempts
+to drag the output of the second-layer neuron towards a stored value hij and implements equation We store the value on a floating gate using tunneling and
+injection
+The follower aggregator does not implement equation perfectly the amplifiers
+saturate hence introduce a non-linearity A follower aggregator implements
+tanh(a(h ij
+yd)</Jj
+Anderson Platt and Kirk
+output of network
+Figure Circuit diagram for second-layer synapses
+We use a capacitive divider to increase the linear range decrease of the amplifiers
+However the non-linearity of the amplifiers may be beneficial because it reduces
+the effect of outliers in the stored values
+RESULTS
+We fabricated the chip in micron CMOS The current version of the chip has
+inputs basis functions and outputs The chip size is millimeters by
+millimeters
+The core radial basis function circuitry works end-to-end By measuring the output
+of the sense amplifier we can measure the response of the first layer which is shown
+in figure Experiments show that the average width of the first-layer Gaussians
+is volts with a standard deviation of 23 millivolts The centers of the firstlayer Gaussians can be programmed more accurately than millivolts which is
+the resolution of the test setup for this chip Further experiments show that the
+second-layer followers are linear to within over volts Due to one mis-sized
+transistor programming the second layer accurately is difficult
+We have successfully tested the chip at 90 kHz which is the speed limit of the
+current test setup We have not yet tested the chip at its full speed The static
+power dissipation of the chip is milliwatts
+Figure shows an example of real end-to-end output of the chip All synapses for
+each first-layer neuron are programmed to the same value The first-Ia.yer neurons
+are programmed to a ramp each neuron is programmed to respond t.o a voltage
+32 millivolts higher than the previous neuron The second layer neurons are programnled t.o values shown by y-values of the dots in figure The output of the
+chip is shown as the solid line in figure The output is measured as all of the
+inputs to the chip are swept simultaneously The chip splines and smooths out the
+noisy stored second-layer values Notice that the stored second-layer values are low
+for inputs near the output of a chip is correspondingly lower
+An Analog VLSI Chip for Radial Basis Functions
+a
+Input Voltage
+Figure Example of end-to-end output measured from the chip
+FUTURE WORK
+The mathematical model of the hardware network suggests interesting theoretical
+future work There are t.wo novel features of this model the variable dimensionality of the basis functions and the non-linearity in the partition of unity More
+simulation work needs to be done to see how much of an benefit these features yield
+The chip architecture discussed in this paper is suitable for many mediumdimensional function mapping problems where radial basis functions are appropriate For example the chip is useful for high speed control optical character
+recognition and robotics
+One application of the chip we have studied further is the antialiasing of printed
+characters with proportional spacing multiple fonts and a.rbitrary scaling Each
+antialiased pixel has an intensity which is the integral of the character's partial
+coverage of that pixel convolved with some filter The chip could perform a function
+int.erpolation for each pixel of each character The function being interpolated is the
+intensity integral based on the subpixel coverage convolv('d with the antialiasing
+filter kernel Figure shows the results of the anti-aliasing of the character using a
+simulation of the chip
+CONCLUSIONS
+We have described a multi-layer analog LSI neural network chip that computes
+radial basis functions in parallel We use inverters as first-layer synapses to compute
+Gaussians that approximate quadratics Ve use follower aggregators a.'55econd-Iayer
+neurons to compute the basis functions and to blend the ba.'5is functions using a
+partition of unity Preliminary experiments with a test chip shows that the core
+radial basis function circuitry works In he future we will explore the new basis
+function model suggested by the hardware and further investigate applications of
+the chip
+Anderson Platt and Kirk
+Figure Three images of the letter The image on the left is the high resolution
+anti-aliased version of the character The middle image is a smaller version of the
+left image The right image is the chip simulation trained to be close to the middle
+image by using the left image as the training data
+Acknowledgements
+We would like to thank Federico Faggin and Carver Mead for their good advice
+Thanks to John Lazzaro who gave us a new version of Until a graphics editor
+We would also like to thank Steven Rosenberg and Bo Curry of Hewlett-Packard
+Laboratories for their suggestions and support
+
+----------------------------------------------------------------
+
+title: 71-centric-models-of-the-orientation-map-in-primary-visual-cortex.pdf
+
+62
+Centric Models of the Orientation Map in Primary Visual Cortex
+William Baxter
+Department of Computer Science at Buffalo NY
+Bruce Dow
+Department of Physiology at Buffalo NY
+Abstract
+In the visual cortex of the monkey the horizontal organization of the preferred
+orientations of orientation-selective cells follows two opposing rules neighbors tend
+to have similar orientation preferences and many different orientations are observed
+in a local region Several orientation models which satisfy these constraints are found
+to differ in the spacing and the topological index of their singularities Using the rate
+of orientation change as a measure the models are compared to published experimental
+results
+Introduction
+It has been known for some years that there exist orientation-sensitive neurons in
+the visual cortex of cats and mOnkeysl,2 These cells react to highly specific patterns of
+light occurring in narrowly circumscribed regiOns of the visual field the cell's
+receptive field The best patterns for such cells are typically not diffuse levels of
+illumination but elongated bars or edges oriented at specific angles An individual cell
+responds maximally to a bar at a particular orientation called the preferred orientation Its response declines as the bar or edge is rotated away from this preferred orientation
+Orientation-sensitive cells have a highly regular organization in primary cortex
+Vertically as an electrode proceeds into the depth of the cortex the column of tissue
+contains cells that tend to have the same preferred orientation at least in the upper
+layers Horizontally as an electrode progresses across the cortical surface the preferred
+orientations change in a smooth regular manner so that the recorded orientations
+appear to rotate with distance It is this horizontal structure we are concerned with
+hereafter referred to as the orientation map An orientation map is defined as a twodimensional surface in which every point has associated with it a preferred orientation
+ranging from In discrete versions such as the array of cells in the cortex or
+the discrete simulations in this paper the orientation map will be considered to be a
+sampled version of the underlying continuous surface The investigations of this paper
+are confined to the upper layers of macaque striate cortex
+Detailed knowledge of the two-dimensional layout of the orientation map has
+implications for the architecture development and function of the visual cortex The
+organization of orientation-sensitive cells reflects to some degree the organization of
+intracortical connections in striate cortex Plausible orientation maps can be generated
+by models with lateral connections that are uniformly exhibited by all cells in the
+layer4,5 or by models which presume no specific intracortical connections only
+appropriate patterns of afferent input6 In this paper we examine models in which
+intracortical connections produce the orientation map but the orientation-controlling
+circuitry is not displayed by all cells Rather it derives from localized centers which
+are distributed across the cortical surface with uniform spacing7,8,9
+American Institute of Physics
+63
+The orientation map also represents a deformation in the retinotopy of primary
+visual cortex Since the early sixties it has been known that V1 refiects a topographic
+map of the retina and hence the visual field There is some global distortion of this
+mapping but generally spatial relations between points in the visual field are
+maintained on the cortical surface This well-known phenomenon is only accurate for
+a medium-grain description of however At a finer cellular level there is considerable scattering of receptive fields at a given cortical location The notion of the hypercolumn proposes that such scattering permits each region of the visual field to be
+analyzed by a population of cells consisting of all the necessary orientations and with
+inputs from both eyes A quantitative description of the orientation map will allow
+prediction of the distances between iso-orientation zones of a particular orientation
+and suggest how much cortical machinery is being brought to bear on the analysis of a
+given feature at a given location in the visual field
+Models of the Orientation Map
+Hubel and Wiesel's Parallel Stripe Model
+The classic model of the orientation map is the parallel stripe model first published by Hubel and Wiesel in This model has been reproduced several times in
+their publications3,16,17 and appears in many textbooks The model consists of a series of
+parallel slabs one slab for each orientation which are postulated to be orthogonal to
+the ocular dominance stripes The model predicts that a microelectrode advancing
+tangentially horizontally through the tissue should encounter steadily changing
+orientations The rate of change which is also called the orientation drift rate 18 is
+determined by the angle of the electrode with respect to the array of orientation
+stripes
+The parallel stripe model does not account for several phenomena reported in
+long tangential penetrations through striate cortex in macaque monkeys First as
+pointed out by Swindale the model predicts that some penetrations will have fiat or
+very low orientation drift rates over lateral distances of hundreds of micrometers
+This is because an electrode advancing horizontally and perpendicular to the ocular
+dominance stripes and therefore parallel to the orientation stripes would be expected
+to remain within a single orientation column over a considerable distance with its
+orientation drift rate equal to zero Such results have never been observed Second
+reversals in the direction of the orientation drift from clockwise to counterclockwise
+or vice versa are commonly seen yet this phenomenon is not addressed by the parallel
+stripe model Wavy stripes in the ocular dominace system do not by themselves
+introduce reversals Third there should be a negative correlation between the orientation drift rate and the ocularity drift rate That is when orientation is changing
+rapidly the electrode should be confined to a single ocular dominance stripe low ocularity drift rate whereas when ocularity is changing rapidly the electrode should be
+confined to a single orientation stripe low orientation drift rate This is clearly not
+evident in the recent studies of Uvingstone and Hubel 17 especially their figs
+where both orientation and ocularity often have high drift rates in the same
+electrode track they show a positive correlation Anatomical studies with 2deoxyglucose also fail to show that the orientation and ocular dominance column systems are orthogonal 22
+64
+Centric Models and the Topological Index
+Another model proposed by Braitenberg and Braitenberg in has the orientations arrayed radially around centers like spokes in a wheel The centers are spaced at
+distances of about This model produces reversals and also the sinusoidal progressions frequently encountered in horizontal penetrations However this approach
+suggests other possibilities in fact an entire class of centric models The organizing
+centers form discontinuities in the otherwise smooth field of orientations Different
+topological types of discontinuity are possible characterized by their topological
+index 23 The topological index is a parameter computed by taking a path around a
+discontinuity and recording the rotation of the field elements figure The value of
+the index indicates the amount of rotation the sign indicates the direction of rotation
+An index of signifies that the orientations rotate through an index of
+signifies a rotation A positive index indicates that the orientations rotate in the
+same sense as a path taken around the singularity a negative index indicates the
+reverse rotation
+Topological singularities are stable under orthogonal transformations so that if
+the field elements are each rotated the index of the singUlarity remains unchanged
+Thus a singularity may have orientations radiating out from it like spokes from a
+wheel or it may be at the center of a series of concentric circles Only four types of
+discontinuities are considered here since these are the most stable i.e
+their neighborhoods are characterized by smooth change
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+figure Topological singularities A positive index indicates that the orientations rotate
+in the same direction as a path taken around the singularity a negative index indicates
+the reverse rotation Orientations rotate through around centers around
+centers
+Cytochrome Oxidase Puffs
+At topological singularities the change in orientation is discontinuous which
+violates the structure of a smoothly changing orientation map modellers try to
+minimize discontinuities in their models in order to satisfy the smoothness constraint
+Interestingly in the upper layers of striate cortex of monkeys zones with little or no
+orientation selectivity have been discovered These zones are notable for their high
+cytochrome oxidase reactivity 24 and have been referred to as cytochrome oxidase puffs
+dots spots patches or We will refer to them as puffs If the organizing
+centers of centric models are located in the cytochrome oxidase puffs then the discontinuities in the orientation map are effectively eliminated but see below Braitenberg
+has indicated 28 that the centers of his model should correspond to the puffs Dow
+and Bauer proposed a model with and centers in alternating puffs Gotz proposed
+a similar model with alternating and centers in the puffs The last two
+models manage to eliminate all discontinuities from the interpuff zones but they
+65
+assume a perfect rectangular lattice of cytochrome oxidase puffs
+A Set of Centric Models
+There are two parameters for the models considered here Whether the positive singularities are placed in every puff or in alternate puffs and whether the
+singularities are or This gives four centric models figure
+El
+Al
+Elh
+Alh
+centers in puffs centers in the interpuff zones
+ooth and centers in the puffs interdigitated in a checkerboard fashion
+centers in the puffs centers in the interpuff zones
+ooth and centers in the puffs as in At.
+The El model corresponds to the Braitenberg model transposed to a rectangular array
+rather than an hexagonal one in accordance with the observed organization of the
+cytochrome oxidase regions 27 In fact the rectangular version of the Braitenberg model
+is pictured in figure 49 The Al model was originally proposed by Dow and
+Bauer and is also pictured in an article by Mitchison29 The model was proposed
+by Gotz It should be noted that the El and Al models are the same model rotated
+and scaled a bit the Ph and A 1h have the same relationship
+E1
+At
+A 1h
+figure The four centric models Dark ellipses represent cytochrome oxidase puffs
+Dots in interpuff zones of El indicate singularities at those points
+66
+Simulations
+Simulated horizontal electrode recordings were made in the four models to compare their orientation drift rates with those of published recordings In the computer
+simulations figure the interpuff distances were chosen to correspond to histological
+measurements 27 Puff centers are separated by along their long axes along
+the short axes The density of the arrays was chosen to approximate the sampling frequency observed in Hubel and Wiesel's horizontal electrode recording experiments 19
+about cells per millimeter Therefore the cell density of the simulation arrays was
+about six times that shown in the figure
+All of the models produce simulated electrode data that qualitatively resemble
+the published recording resUlts they contain reversals and runs of constantly
+changing orientations The orientation drift rate and number of reversals vary in the
+different models
+The models of figure are shown in perfectly rectangular arrays Some important characteristics of the models such as the absence of discontinuites in interpuff
+zones are dependent on this regularity However the real arrangement of cytochrome
+oxidase puffs is somewhat irregular as in Horton's figure 27 A small set of puffs from
+the parafoveal region of Horton's figure was enlarged and each of the centric models
+was embedded in this irregular array The E1 model and a typical simulated electrode
+track are shown in figure Several problems are encountered when models developed
+in a regular lattice are implemented in the irregular lattice of the real system the
+models have appreciably different properties The singularities in interpuff
+zones have been reduced to the A1 and models now have some interpuff
+discontinuities where before they had none
+Quantitative Comparisons
+Measurement of the Orientation Drift Rate
+There are two sets of centric models in the computer simulations a set in the perfectly rectangular array figure and a set in the irregular puff array as in figure
+At this point we can generate as many tracks in the simulation arrays as we wish
+How can this information be compared to the published records The orientation drift
+rate or slope is one basis for distinguishing between models In real electrode tracks
+however the data are rather noisy perhaps from the measuring process or from
+inherent unevenness of the orientation map The typical approach is to fit a straight
+line and use the slope of this line Reversals in the tracks require that lines be fit piecewise the approach used by Hubel and Wiese1 Because of the unevenness of the data
+it is not always clear what constitutes a reversal Livingstone and Hubel 17 report that
+the track in their figure has only two reversals in millimeters Yet there seem to be
+numerous microreversals between the 1st and 3rd mj11jmeter of their track At what
+point is a change in slope considered a true reversal rather than just noise
+The approach used here was to use a local slope measure and ignore the problem
+of reversals this permitted the fast calculation of slope by computer A single electrode track usually several millimeters long was assigned a single slope the average
+of the derivative taken at each point of the track Since these are discrete samples the
+local derivative must be approximated by taking measurements over a small neighborhood How large should this neighborhood be If too small it will be susceptible to
+noise in the orientation measures if too large it will flatten out true reversals Slope
+67
+EI
+MM
+figure A centric model in a realistic puff array from 27 A simulated electrode track
+and resulting data are shown Only the El model is shown here but other models
+were similarly embedded in this array
+68
+measures using neighborhoods of several sizes were applied to six published horizontal
+electrode tracks from the foveal and parafoveal upper layers of macaque striate cortex
+figures from 17 figure from3 figure from A neighborhood of O.lmm
+which attempts to fit a line between virtually every pair of points gave abnormally
+high slopes Larger neighborhoods tended to give lower slopes especially to those
+tracks which contained reversals The smallest window that gave consistent measures
+for all six tracks was therefore this window was chosen for comparisons
+between published data and the centric models This measure gave an average slope of
+degrees per millimeter in the six published samples of track data compared to
+Hubel Wiesel's measure of deg/mm for the penetrations in their paper19
+Slope measures of the centric models
+The slope measure was applied to several thousand tracks at random locations
+and angles in the simulation arrays and a slope was computed for each simulated electrode track Average slopes of the models are shown in Table Generally models
+with centers have higher slopes than those with lh centers models with centers
+in every puff have higher slopes than the alternate puff models Thus EI showed the
+highest orientation drift rate the lowest with A1 and having intermediate
+rates The E1 model in both the rectangular and irregular arrays produced the most
+realistic slope values
+TABLE I
+EI
+Al
+Ph
+Alh
+Average slopes of the centric models
+RectangUlar
+array
+Irregular
+array
+Numbers are in degrees/mm Slope measure window applied
+to published records yielded an average slope of degrees/mm
+Discussion
+Constraints on the Orientation Map
+Our original definition of the orientation map permits each cell to have an orientation preference whose angle is completely independent of its neighbors But this is
+much too general Looking at the results of tangential electrode penetrations there are
+two striking constraints in the data The first of these is reflected in the smoothness of
+the graphs Orientation changes in a regular manner as the electrode moves horizontally through the upper layers neighboring cells have similar orientation preferences
+Discontinuities do occur but are rare The other constraint is the fact that the orientation is always changing with distance although the rate of change may vary
+Sequences of constant orientation are very rare and when they do occur they never
+carryon for any appreciable distance This is one of the major reasons why the parallel stripe model is untenable The two major constraints on the orientation map may
+be put informally as follows
+69
+The smoothness constraint neighboring points have similar orientation
+preferences
+The heterogeneity constraint all orientations should be represented
+within a small region of the cortical surface
+This second constraint is a bit stronger than the data imply The experimental results
+only show that the orientations change regularly with distance not that all orientations must be present within a region But this constraint is important with respect to
+visual processing and the notion of hypercolumns
+These are opposing constraints the first tends to minimize the slope or orientation drift rate while the second tends to maximize this rate Thus the organization of
+the orientation map is analogous to physical systems that exhibit frustration that is
+the elements must satisfy conflicting constraints31 One of the properties of such systems is that there are many near-optimal solutions no one of which is significantly
+better than the others As a result there are many plausible orientation maps any map
+that satisfies these two constraints will generate qualitatively plausible simulated electrode tracks This points out the need for quantitative comparisons between models
+and experimental results
+Centric models and the two constraints
+What are some possible mechanisms of the constraints that generate the orientation map Smoothness is a local property and could be attributed to the workings of
+individual cells It seems to be a fundamental property of cortex that adjacent cells
+respond to similar stimuli The heterogeneity requirement operates at a slightly larger
+scale that of a hypercolumn rather than a minicolumn While the first constraint may
+be modeled as a property of individual cells the second constraint is distributed over a
+region of cells How can such a collection of cells insure that its members cycle
+through all the required orientations The topological singularities discussed earlier by
+definition include all orientations within a restricted region By distributing these
+centers across the surface of the cortex the heterogeneity constraint may be satisfied In
+fact the amount of orientation drift rate is a function of the density of this distribution more centers per unit area give higher drift rates
+It has been noted that the El and the Al organizations are the same topological
+model but on different scales the low drift rates of the At model may be increased by
+increasing the density of the centers to that of the El model The same relationship
+holds for the and models It is also possible to obtain realistic orientation drift
+rates by increasing the density of centers or by mixing and However
+these alternatives increase the number of interpuff singularities And given the possible
+combinations of centers it may be more than coincidental that a set of centers at
+just the spacing of the cytochrome oxidase regions results in realistic orientation drift
+rates
+Cortical Architecture and Types o/Circuitry
+Thus far we have not addressed the issue of how the preferred orientations are
+generated The mechanism is presently unknown but attempts to depict it have traditionally been of a geometric nature alluding to the dendritic morphology More
+recently computer simulations have shown that orientation-sensitive units may be
+obtained from asymmetries in the receptive fields of afferents6 or developed using
+70
+simple Hebbian rules for altering synaptic weights5 That is given appropriate network parameters orientation tuning arises an as inherent property of some neural networks Centric models propose a quite different approach in which an originally
+untuned cell is programmed by a center located at some distance to respond to a
+specific orientation So for an individual cell does orientation develop locally or is it
+imposed from without Both of these mechanisms may be in effect acting synergistically to produce the final orientation map The map may spontaneously form on the
+embryonic cortex but with cells that are nonspecific and broadly tuned The organization imposed by the centers could have two effects on this incipient map First the
+additional inft.uence from centers could tighten up the tuning curves making the
+cells more specific Second the spacing of the centers specifies a distinct and uniform
+scale for the heterogeneity of the map An unsupervised developing orientation map
+could have broad expanses of iso-orientation zones mixed with regions of rapidly
+changing orientations The spacing of the puffs hence the architecture of the cortex
+insures that there is an appropriate variety of feature sensitive cells at each location
+This has implications for cortical functioning given the distances of lateral connectivity for a cell of a given orientation we can estimate how many other isoorientation zones of that same orientation the cell may be communicating with For a
+given orientation the E1 model has twice as many iso-orientation zones per unit area
+as At.
+Ever since the discovery of orientation-specific cells in visual cortex there have
+been attempts to relate the distribution of cell selectivities to architectural features of
+the cortex Hubel and Wiesel originally suggested that the orientation slabs followed
+the organization of the ocular dominance slabs15 The Braitenbergs suggested in their
+original mode1 that the centers might be identified with the giant cells of Meynert
+Later centric models have identified the centers with the cytochrome oxidase regiOns
+again relating the orientation map to the ocular dominance array since the puffs themselves are closely related to this array
+While biologists have habitually related form to function workers in machine
+vision have traditionally relied on general-purpose architectures to implement a
+variety of algorithms related to the processing of visual information33 More recently
+many computer scientists designing artificial vision systems have turned their attention towards connectionist systems and neural networks There is great interest in
+how the sensitivities to different features and how the selectivities to different values
+of those features may be embedded in the system architecture 34 Linsker has proposed this volume that the development of feature spaces is a natural concomitance
+of layered networks providing a generic organizing principle for networks Our work
+deals with more specific cortical architectonics but we are convinced that the study of
+the cortical layout of feature maps will provide important insights for the design of
+artificial systems
+
+----------------------------------------------------------------
+
+title: 2315-bayesian-image-super-resolution.pdf
+
+Bayesian Image Super-Resolution
+Michael E. Tipping and Christopher M. Bishop
+Microsoft Research
+Cambridge CB3 OFB U.K.
+mtipping cmbishop @microsoft.com
+http://research.microsoft.com mtipping,cmbishop
+Abstract
+The extraction of a single high-quality image from a set of lowresolution images is an important problem which arises in fields
+such as remote sensing surveillance medical imaging and the extraction of still images from video Typical approaches are based
+on the use of cross-correlation to register the images followed by
+the inversion of the transformation from the unknown high resolution image to the observed low resolution images using regularization to resolve the ill-posed nature of the inversion process In
+this paper we develop a Bayesian treatment of the super-resolution
+problem in which the likelihood function for the image registration parameters is based on a marginalization over the unknown
+high-resolution image This approach allows us to estimate the
+unknown point spread function and is rendered tractable through
+the introduction of a Gaussian process prior over images Results
+indicate a significant improvement over techniques based on MAP
+maximum a-posteriori point optimization of the high resolution
+image and associated registration parameters
+Introduction
+The task in super-resolution is to combine a set of low resolution images of the
+same scene in order to obtain a single image of higher resolution Provided the
+individual low resolution images have sub-pixel displacements relative to each other
+it is possible to extract high frequency details of the scene well beyond the Nyquist
+limit of the individual source images
+Ideally the low resolution images would differ only through small sub-pixel translations and would be otherwise identical In practice the transformations may be
+more substantial and involve rotations or more complex geometric distortions In
+addition the scene itself may change for instance if the source images are successive frames in a video sequence Here we focus attention on static scenes in which
+the transformations relating the source images correspond to translations and rotations such as can be obtained by taking several images in succession using a hand
+held digital camera Our approach is readily extended to more general projective
+transformations if desired Larger changes in camera position or orientation can be
+handled using techniques of robust feature matching constrained by the epipolar
+geometry but such sophistication is unnecessary in the present context
+Most previous approaches for example perform an initial registration of
+the low resolution images with respect to each other and then keep this registration
+fixed They then formulate probabilistic models of the image generation process
+and use maximum likelihood to determine the pixel intensities in the high resolution
+image A more convincing approach is to determine simultaneously both the low
+resolution image registration parameters and the pixel values of the high resolution
+image again through maximum likelihood
+An obvious difficulty of these techniques is that if the high resolution image has too
+few pixels then not all of the available high frequency information is extracted from
+the observed images whereas if it has too many pixels the maximum likelihood
+solution becomes ill conditioned This is typically resolved by the introduction of
+penalty terms to regularize the maximum likelihood solution where the regularization coefficients may be set by cross-validation The regularization terms are
+often motivated in terms of a prior distribution over the high resolution image
+in which case the solution can be interpreted as a MAP maximum a-posteriori
+optimization
+Baker and Kanade have tried to improve the performance of super-resolution
+algorithms by developing domain-specific image priors applicable to faces or text
+for example which are learned from data In this case the algorithm is effectively
+hallucinating perceptually plausible high frequency features Here we focus on general purpose algorithms applicable to any natural image for which the prior encodes
+only high level information such as the correlation of nearby pixels
+The key development in this paper which distinguishes it from previous approaches
+is the use of Bayesian rather than simply MAP techniques by marginalizing over
+the unknown high resolution image in order to determine the low resolution image
+registration parameters Our formulation also allows the choice of continuous values
+for the up-sampling process as well the shift and rotation parameters governing the
+image registration
+The generative process by which the high resolution image is smoothed to obtain a
+low resolution image is described by a point spread function It has often been
+assumed that the point spread function is known in advance which is unrealistic
+Some authors have estimated the PSF in advance using only the low resolution
+image data and then kept this estimate fixed while extracting the high resolution
+image A key advantage of our Bayesian marginalization is that it allows us to
+determine the point spread function alongside both the registration parameters and
+the high resolution image in a single coherent inference framework
+As we show later if we attempt to determine the PSF as well as the registration
+parameters and the high resolution image by joint optimization we obtain highly biased over-fitted results By marginalizing over the unknown high resolution image
+we are able to determine the PSF and the registration parameters accurately and
+thereby reconstruct the high resolution image with subjectively very good quality
+Bayesian Super-resolution
+Suppose we are given low-resolution intensity images the extension to 3-colour
+images is straightforward We shall find it convenient notationally to represent
+the images as vectors of length where obtained by raster
+scanning the pixels of the images Each image is shifted and rotated relative to a
+
+----------------------------------------------------------------
+
+title: 2927-scaling-laws-in-natural-scenes-and-the-inference-of-3d-shape.pdf
+
+Scaling Laws in Natural Scenes and the
+Inference of 3D Shape
+Brian Potetz
+Department of Computer Science
+Center for the Neural Basis of Cognition
+Carnegie Mellon University
+Pittsburgh PA
+bpotetz@cs.cmu.edu
+Tai Sing Lee
+Department of Computer Science
+Center for the Neural Basis of Cognition
+Carnegie Mellon University
+Pittsburgh PA
+tai@cnbc.cmu.edu
+Abstract
+This paper explores the statistical relationship between natural images
+and their underlying range depth images We look at how this relationship changes over scale and how this information can be used to enhance
+low resolution range data using a full resolution intensity image Based
+on our findings we propose an extension to an existing technique known
+as shape recipes and the success of the two methods are compared
+using images and laser scans of real scenes Our extension is shown
+to provide a two-fold improvement over the current method Furthermore we demonstrate that ideal linear shape-from-shading filters when
+learned from natural scenes may derive even more strength from shadow
+cues than from the traditional linear-Lambertian shading cues
+Introduction
+The inference of depth information from single images is typically performed by devising models of image formation based on the physics of light interaction and then inverting
+these models to solve for depth Once inverted these models are highly underconstrained
+requiring many assumptions such as Lambertian surface reflectance smoothness of surfaces uniform albedo or lack of cast shadows Little is known about the relative merits
+of these assumptions in real scenes A statistical understanding of the joint distribution of
+real images and their underlying 3D structure would allow us to replace these assumptions
+and simplifications with probabilistic priors based on real scenes Furthermore statistical
+studies may uncover entirely new sources of information that are not obvious from physical models Real scenes are affected by many regularities in the environment such as
+the natural geometry of objects the arrangements of objects in space natural distributions
+of light and regularities in the position of the observer Few current shape inference algorithms make use of these trends Despite the potential usefulness of statistical models
+and the growing success of statistical methods in vision few studies have been made into
+the statistical relationship between images and range depth images Those studies that
+have examined this relationship in nature have uncovered meaningful and exploitable statistical trends in real scenes which may be useful for designing new algorithms in surface
+inference and also for understanding how humans perceive depth in real scenes
+In this paper we explore some of the properties of the statistical relationship between
+images and their underlying range depth images in real scenes using images acquired by
+laser scanner in natural environments Specifically we will examine the cross-covariance
+between images and range images and how this structure changes over scale We then
+illustrate how our statistical findings can be applied to inference problems by analyzing
+and extending the shape recipe depth inference algorithm
+Shape recipes
+We will motivate our statistical study with an application Often we may have a highresolution color image of a scene but only a low spatial resolution range image range
+images record the 3D distance between the scene and the camera for each pixel This often
+happens if our range image was acquired by applying a stereo depth inference algorithm
+Stereo algorithms rely on smoothness constraints either explicitly or implicitly and so
+the high-frequency components of the resulting range image are not reliable Lowresolution range data may also be the output of a laser range scanner if the range scanner is
+inexpensive or if the scan must be acquired quickly range scanners typically acquire each
+pixel sequentially taking up to several minutes for a high-resolution scan
+It should be possible to improve our estimate of the high spatial frequencies of the range
+image by using monocular cues from the high-resolution intensity color image Shape
+recipes provide one way of doing this The basic principle of shape recipes is that
+a relationship between shape and light intensity could be learned from the low resolution
+image pair and then extrapolated and applied to the high resolution intensity image to
+infer the high spatial frequencies of the range image One advantage of this approach is
+that hidden variables important to inference from monocular cues such as illumination
+direction and material reflectance properties might be implicitly learned from the lowresolution range and intensity images However for this approach to work we require
+some model of how the relationship between shape and intensity changes over scale which
+we discuss below
+For shape recipes both the high resolution intensity image and the low resolution range
+image are decomposed into steerable wavelet filter pyramids linearly breaking the image
+down according to scale and orientation Linear regression is then used between the
+highest frequency band of the available low-resolution range image and the corresponding
+band of the intensity image to learn a linear filter that best predicts the range band from
+the image band The hypothesis of the model is that this filter can then be used to predict high frequency range bands from the high frequency image bands We describe the
+implementation in more detail below
+Let and be steerable filter pyramid subbands of the intensity and range image
+respectively at spatial resolution and orientation both are integers Number the band
+levels so that is the highest frequency subband of the intensity image and m=n is
+the highest available frequency subband of the low-resolution range image Thus higher
+level numbers correspond to lower spatial frequencies Shape
+recipes work by learning a
+linear filter at level by minimizing sum-squared error where
+denotes convolution Higher resolution subbands of the range image are inferred by
+cn?m
+where The choice of in the shape recipe model is motivated by the linear
+Lambertian shading model We will discuss this choice of constant in section
+The underlying assumption of shape recipes is that the convolution kernel should be
+roughly constant over the four highest resolution bands of the steerable filter pyramid This
+is based on the idea that shape recipe kernels should vary slowly over scale In this section
+we show mathematically that this model is internally inconsistent To do this we first reexpress the shape recipe process in the Fourier domain The operations of shape recipes
+pyramid decomposition convolution and image reconstruction are all linear operations
+and so they can be combined into a single linear convolution In other words we can think
+of shape recipes as inferring the high resolution range data zhigh via a single convolution
+Zhigh Krecipe
+where I is the Fourier transform of the intensity image In general we will use capital
+letters to denote functions in the Fourier domain Krecipe is a filter in the Fourier domain
+of the same size as the image whose construction is discussed below Note that Krecipe is
+zero in the low frequency bands where Zlow is available Once zhigh the inverse Fourier
+transform of Zhigh is estimated it can be combined with the known low-resolution range
+data simply by adding them together zrecipe zlow zhigh
+For shorthand we will write v)I as II(u and v)I as ZI(u
+is also known as the power spectrum and it is the Fourier transform of the autocorrelation of the intensity image ZI is the Fourier transform of the cross-correlation between
+the intensity and range images and it has both real and imaginary parts Let ZI/II
+Observe that I is a perfect reconstruction of the original high resolution range image
+as long as II(u Because we do not have the full-resolution range image we
+can only compute the low spatial frequencies of ZI(u Let Klow ZIlow where
+ZIlow is the Fourier transform of the cross-correlation between the low-resolution range
+image and a low-resolution version of the intensity image Klow is zero in the high frequency bands We can then think of Krecipe as an approximation of ZI/II formed
+by extrapolating Klow into the higher spatial frequencies
+In the appendix we show that shape recipes implicitly perform this extrapolation by learning the highest available frequency octave of Klow and duplicating this octave into all
+successive octaves of Krecipe multiplied by a scale factor However there is a problem
+with this approach First there is no reason to expect that features in the range/intensity
+relationship should repeat once every octave Figure 1a shows a plot of ZI from a scene in
+our database of ground-truth range data to be described in section The fine structures
+in real[K do not duplicate themselves every octave Second and more importantly octave
+duplication violates Freeman and Torralba?s assumption that shape recipe kernels should
+change slowly over scale which we take to mean over all scales not just over successive
+octaves Even if octave of is made identical to octave it is mathematically impossible
+for fractional octaves of like to also be identical unless ZI/II is completely smooth
+and devoid of fine structure The fine structures in therefore cannot possibly generalize
+over all scales
+In the next section we use laser scans of real scenes to study the joint statistics of range
+and intensity images in greater detail and use our results to form a statistically-motivated
+model of ZI. We believe that a greater understanding of the joint distribution of natural
+images and their underlying 3D structure will have a broad impact on the development
+of robust depth inference algorithms and also on understanding human depth perception
+More immediately our statistical observations lead to a more accurate way to extrapolate
+Klow which in turn results in a more accurate shape recipe method
+Scaling laws in natural scene statistics
+To study the correlational structures between depth and intensity in natural scenes we
+have collected a database of coregistered intensity and high-resolution range images corresponding pixels of the two images correspond to the same point in space Scans were
+collected using the Riegl laser range scanner with integrated color photosensor
+Example BK vs degrees counter-clockwise from horizontal
+real[ZI
+Figure A log-log polar plot of real[ZI from a scene in our database ZI contains
+extensive fine structures that do not repeat at each octave However along all orientations
+the general form of real[ZI is a power-law imag[ZI similarly obeys a power-law
+A plot of BK for the scene in figure real[BK is drawn in black and
+imag[BK in grey This plot is typical of most scenes in our database As predicted
+by equation imag[BK reaches its minima at the illumination direction this case
+to the extreme left almost Also typical is that real[BK is uniformly negative
+most likely caused by cast shadows in object concavities
+Scans were taken of a variety of rural and urban scenes All images were taken outdoors
+under sunny conditions while the scanner was level with ground The shape recipe model
+was intended for scenes with homogenous albedo and surface material To test this algorithm in real scenes of this type we selected 28 single-texture image sections from our
+database These textures include statue surfaces and faceted building exteriors such as
+archways and church facades scenes rocky terrain and rock piles and leafy foliage No logarithm or other transformation was applied to the intensity or range data
+measured in meters as this would interfere with the Lambertian model that motivates the
+shape recipe technique Average size of these textures was pixels per image
+We show a log-log polar plot of real[ZI(r from one image in our database in figure
+As can be seen in the figure this structure appears to closely follow a power law We
+claim that ZI can be reasonably modeled by where is spatial frequency in polar
+coordinates and is a parameter of the model with both real and imaginary parts that
+depends only on polar angle We test this claim by dividing the Fourier plane into four
+octants vertical forward diagonal horizontal and backward diagonal and measuring
+the drop-off rate in each octant separately For each octant we average over the octant?s
+included orientations and fit the result to a power-law The resulting values of averaged
+over all 28 images are listed in the table below
+orientation
+horizontal
+forward diagonal
+vertical
+backward diagonal
+mean
+real[ZI
+imag[ZI
+ZZ
+For each octant the correlation coefficient between the power-law fit and the actual spectrum ranged from to demonstrating that each octant is well-fit by a power-law
+Note that averaging over orientation smooths out some fine structures in each spectrum
+Furthermore varies little across orientations showing that our model fits ZI closely
+The above findings predict that ZI/II also obeys a power-law Subtracting from
+real[ZI and imag[ZI we find that real[K drops off at and imag[K drops off at
+Thus we have that BK
+Now that we know that can be fit roughly by a power-law we can offer some
+insight into why tends to approximate this general form The drop-off in the
+imaginary part of can be explained by the linear Lambertian model of shading with
+oblique lighting conditions This argument was used by Freeman and Torralba in
+their theoretical motivation for choosing The linear Lambertian model is obtained
+by taking only the linear terms of the Taylor series of the Lambertian equation Under
+this model if constant albedo is assumed and no occlusion is present then with lighting from above a z/?y,?where a is some constant In the Fourier domain
+a2?jvZ(u where Thus we have that
+ZI(r
+II(r
+In other words under this model obeys a power-law This means that each octave
+of is half of the octave before it Our empirical finding that the imaginary part of
+obeys a power-law confirms Freeman and Torralba?s reasoning behind choosing
+for shape recipes
+However the linear Lambertian shading model predicts that only the imaginary part of ZI
+should obey a power-law In fact according to equation this model predicts that the real
+part of ZI should be zero Yet in our database the real part of ZI was typically stronger
+than the imaginary part The real part of ZI is the Fourier transform of the even-symmetric
+part of the cross-correlation function and it includes the direct correlation cov[i In
+a previous study of the statistics of natural range images we have found that darker
+pixels in the image tend to be farther away resulting in significantly negative cov[i
+We attributed this phenomenon to cast shadows in complex scenes object interiors and
+concavities are farther away than object exteriors and these regions are the most likely
+to be in shadow This effect can be observed wherever shadows are found such as the
+crevices of figure However the effect appears strongest in complex objects with many
+shadows and concavities like folds of cloth or foliage We found that the real part of ZI
+is especially likely to be strongly negative in images of foliage Such correlation between
+depth and darkness has been predicted theoretically for diffuse lighting conditions such as
+cloudy days when viewed from directly above The fact that all of our images were
+taken under cloudless sunny conditions and with oblique lighting from above suggests that
+this cue may be more important than at first realized Psychophysical experiments have
+demonstrated that in the absence of all other cues darker image regions appear farther
+suggesting that the human visual system makes use of this cue for depth inference
+for a review also We believe that the drop-off rate observed in real[K is due to
+the fact that concavities with smaller apertures but equal depths tend to be darker In other
+words for a given level of darkness a smaller aperture corresponds to a more shallow hole
+Inference using power-law models
+Armed with a better understanding of the statistics of real scenes we are better prepared to
+develop successful depth inference algorithms We now know that fine details in ZI/II do
+not generalize across scales but that its coarse structure roughly follows a power-law
+We can exploit this statistical trend directly We can simply fit our BK power law to
+ZIlow and then use this estimate of to reconstruct the high frequency range data
+Specifically from the low-resolution range and intensity image we compute low resolution
+spectra of ZI and II. From the highest frequency octave of the low-resolution images we
+estimate BII and BZI Any standard interpolation method will work to estimate
+these functions We chose a cos3 basis function based on steerable filters
+Original Intensity Image
+Low-Resolution Range Data Power-law Shape Recipe
+Krecipe
+Kpowerlaw
+Figure An example intensity image from our database A Lambertian rendering of
+the corresponding low resolution range image Power-law method output Shape recipe
+reconstructions show a similar amount of texture but tests show that texture generated by
+the power-law method is more highly correlated with the true texture The imaginary
+parts of Krecipe and Kpowerlaw for the same scene Dark regions are negative light
+regions are positive The grey center region in each estimate of corresponds to the low
+spatial frequencies where range data is not inferred because it is already known Notice
+that Krecipe oscillates over scale
+We now can estimate the high spatial frequencies of the range image Define
+Kpowerlaw Fhigh BZI
+Zpowerlaw Zlow I Kpowerlaw
+where Fhigh is the high-pass filter associated with the two highest resolution bands of the
+steerable filter pyramid of the full-resolution image
+Empirical evaluation
+In this section we compare the performance of shape recipes with our new approach using our ground-truth database of high-resolution range and intensity image pairs described
+in section For each range image in our database a low-resolution but still full-sized
+range image zlow was generated by setting to zero the top two steerable filter pyramid layers Both algorithms accepted as input the low-resolution range image and high-resolution
+intensity image and the output was compared with the original high-resolution range image The high resolution output corresponds to a 4-fold increase in spatial resolution a
+16-fold increase in total size
+Although encouraging enhancements of stereo output were given by the authors shape
+recipes has not been evaluated with real ground-truth high resolution range data To maximize its performance we implemented shape recipes using ridge regression with the ridge
+coefficient obtained using cross-validation Linear kernels were learned and the output
+evaluated over a region of the image at least pixels from the image border
+For each high-resolution output we measured the sum squared error between the reconstruction zrecipe or zpowerlaw and the original range image We compared this with
+the sum-squared error of the low-resolution range image zlow to get the percent reduction
+errlow errrecipe
+in sum-squared error error reductionrecipe
+This measure of error
+errlow
+reflects the performance of the method independently of the variance or absolute depth of
+the range image On average shape recipe reconstructions had less mean-squared
+error than zlow Shape recipes improved of the 28 images Our new approach had
+less mean-squared error than zlow and improved 26 of the 28 images
+We cannot expect the error reduction values to be very high partly because our images
+are highly complex natural scenes and also because some noise was present in both the
+range and intensity images Therefore it is difficult to assess how much of the remaining
+error could be recovered by a superior algorithm and how much is simply due to sensor
+noise As a comparison we generated an optimal linear reconstruction zoptlin by learning
+shape recipe kernels for the two high resolution pyramid bands directly from
+the ground-truth high resolution range image This reconstruction provides a loose upper
+bound on the degree of improvement possible by linear shape methods We then measured
+the percentage of linearly achievable improvement for each image improvementrecipe
+errlow errrecipe
+errlow erroptlin Shape recipes yielded an average improvement of Our approach
+achieved an improvement of nearly a two-fold enhancement over shape recipes
+The relative strengths of shading and shadow cues
+Earlier we showed that Lambertian shading alone predicts that the real part of ZI in natural
+scenes is empty of useful correlations between images and range images Yet in our database the real part of ZI which we believe is related to shadow cues was often stronger
+than the imaginary component Our depth-inference algorithm offers an opportunity to
+compare the performance of shading cues versus shadow cues We ran our algorithm again
+except that we set the real part of Kpowerlaw to zero This yielded only a improvement
+However when we ran the algorithm after setting imag[K to zero improvement was
+achieved Thus of the algorithm?s total improvement was due to shadow cues When
+the database is broken down into categories the real part of ZI is responsible for of
+total improvement in foliage scenes in rocky terrain scenes and in urban scenes
+statue surfaces and building facades As expected the algorithm relies more heavily on
+the real part of ZI in environments rich in cast shadows These results show that shadow
+cues are far more useful than was previously expected and also that they can be exploited
+more easily than was previously thought possible using only simple linear relationships
+that might easily be incorporated into linear shape-from-shading techniques We feel that
+these insights into natural scene statistics are the most important contributions of this paper
+Discussion
+The power-law extension to shape recipes not only offers a substantial improvement in
+performance but it also greatly reduces the number of parameters that must be learned The
+original shape recipes required one kernel or parameters for each orientation of
+the steerable filters The new algorithm requires only two parameters for each orientation
+the real and the imaginary parts of BK This suggests that the new approach has
+captured only those components of that generalize across scales disregarding all others
+While it is encouraging that the power-law algorithm is highly parsimonious it also means
+that fewer scene properties are encoded in the shape recipe kernels than was previously
+hoped For example complex properties of the material and surface reflectance cannot
+be encoded We believe that the parameter of the power-law model can be determined
+almost entirely by the direction of illumination and the prominence of cast shadows figure This suggests that the power-law algorithm of this paper would work equally well
+for scenes with multiple materials To capture more complex material properties nonlinear
+methods and probabilistic methods may achieve greater success However when designing
+these more sophisticated methods care must be taken to avoid the same pitfall encountered
+by shape recipes not all properties of a scene can be scale-invariant simultaneously
+Appendix
+Shape recipes infer each high resolution band of the range using equation Let
+If we take the Fourier transform of equation we get
+I
+Zhigh n?m
+where is the Fourier transform of the steerable filter at level and orientation and
+Zhigh is the inferred high spatial frequency components of the range image If we take the
+steerable pyramid decomposition of Zhigh and then transform it back we get Zhigh again
+and so
+m<n
+I Krecipe Zhigh
+Zhigh
+I
+m<n
+cn?m
+The steerable filters at each levelare simply a dilation of the steerable filters of preceding
+levels Thus recalling that we have
+m<n
+Krecipe
+cn?m
+The steerable filters are band-pass filters and they are essentially zero outside of
+octave Thus each octave of Krecipe is identical to the octave before it except reduced
+by a constant scale factor In other words shape recipes extrapolate Klow by copying the
+highest available octave of Klow some estimation of it into each successive octave An
+example of Krecipe can be seen in figure
+This research was funded in part by NSF Penn Dept of Health-MPC
+Brian Potetz is supported by an NSF Graduate Research Fellowship
+
+----------------------------------------------------------------
+
+title: 3037-bayesian-image-super-resolution-continued.pdf
+
+Bayesian Image Super-resolution Continued
+Lyndsey C. Pickup David P. Capel Stephen J. Roberts Andrew Zisserman
+Information Engineering Building Dept of Eng. Science Parks Road Oxford OX1 UK
+elle,sjrob,az}@robots.ox.ac.uk
+d.capel@2d3.com
+Abstract
+This paper develops a multi-frame image super-resolution approach from a
+Bayesian view-point by marginalizing over the unknown registration parameters
+relating the set of input low-resolution views In Tipping and Bishop?s Bayesian
+image super-resolution approach the marginalization was over the superresolution image necessitating the use of an unfavorable image prior By integrating over the registration parameters rather than the high-resolution image our
+method allows for more realistic prior distributions and also reduces the dimension of the integral considerably removing the main computational bottleneck of
+the other algorithm In addition to the motion model used by Tipping and Bishop
+illumination components are introduced into the generative model allowing us
+to handle changes in lighting as well as motion We show results on real and
+synthetic datasets to illustrate the efficacy of this approach
+Introduction
+Multi-frame image super-resolution refers to the process by which a group of images of the same
+scene are fused to produce an image or images with a higher spatial resolution or with more visible
+detail in the high spatial frequency features Such problems are common with everything from
+holiday snaps and DVD frames to satellite terrain imagery providing collections of low-resolution
+images to be enhanced for instance to produce a more aesthetic image for media publication
+or for higher-level vision tasks such as object recognition or localization
+Limits on the resolution of the original imaging device can be improved by exploiting the relative
+sub-pixel motion between the scene and the imaging plane No matter how accurate the registration
+estimate there will be some residual uncertainty associated with the parameters We propose a
+scheme to deal with this uncertainty by integrating over the registration parameters and demonstrate
+improved results on synthetic and real digital image data
+Image registration and super-resolution are often treated as distinct processes to be considered sequentially Hardie demonstrated that the low-resolution image registration can be
+updated using the super-resolution image estimate and that this improves a Maximum a Posteriori
+MAP super-resolution image estimate More recently Pickup used a similar joint MAP
+approach to learn more general geometric and photometric registrations the super-resolution image
+and values for the prior?s parameters simultaneously Tipping and Bishop?s Bayesian image
+super-resolution work uses a Maximum Likelihood point estimate of the registration parameters and the camera imaging blur found by integrating the high-resolution image out of the
+registration problem and optimizing the marginal probability of the observed low-resolution images
+directly This gives an improvement in the accuracy of the recovered registration measured against
+known truth on synthetic data compared to the MAP approach
+The image-integrating Bayesian super-resolution method is extremely costly in terms of computation time requiring operations that scale with the cube of the total number of high-resolution
+pixels severely limiting the size of the image patches over which they perform the registration they
+use pixel patches The marginalization also requires a form of prior on the super-resolution
+image that renders the integral tractable though priors such as Tipping and Bishop?s chosen Gaussian form are known to be poor for tasks such as edge preservation and much super-resolution work
+has employed other more favorable priors
+It is generally more desirable to integrate over the registration parameters rather than the superresolution image because it is the registration that constitutes the nuisance parameters and the
+super-resolution image that we wish to estimate We derive a new view of Bayesian image superresolution in which a MAP high-resolution image estimate is found by marginalizing over the
+uncertain registration parameters Memory requirements are considerably lower than the imageintegrating case while the algorithm is more costly than a simple MAP super-resolution estimate it
+is not infeasible to run on images of several hundred pixels in size
+Sections and develop the model and the proposed objective function Section evaluates results on synthetically-generated sequences with ground truth for comparison and on a real data
+example A discussion of this approach and concluding remarks can be found in section
+Generative model
+The generative model for multi-frame super-resolution assumes a known scene vectorized size
+and a given registration vector These are used to generate a vectorized low-resolution
+image with pixels through a system matrix Gaussian noise with precision is
+then added to
+I
+Photometric parameters and provide a global affine correction for the scene illumination and
+is simply an vector filled out with the value of Each row of constructs a single
+pixel in and the row?s entries are the vectorized and point-spread function PSF response
+for each low-resolution pixel in the frame of the super-resolution image The PSF is
+usually assumed to be an isotropic Gaussian on the imaging plane though for some motion models
+planar projective this does not necessarily lead to a Gaussian distribution on the frame of
+For an individual low-resolution image given registrations and the data likelihood is
+M2
+exp
+When the registration is known approximately for instance by pre-registering inputs the uncertainty
+for each image?s parameter
+can be modeled as a Gaussian perturbation about the mean estimate
+set with covariance which we restrict to be a diagonal matrix
+exp
+A Huber prior is assumed for the directional image gradients Dx in the super-resolution image
+the horizontal vertical and two diagonal directions
+exp
+if
+otherwise
+where is a parameter of the Huber potential function and is the prior strength parameter This
+belongs to a family of functions often favored over Gaussians for super-resolution image priors
+because the Huber distribution?s heavy tails mean image edges are penalized less severely
+The difficulty in computing the partition function Zx is a consideration when marginalizing over
+as in though for the MAP image estimate a value for this scale factor is not required
+Regardless of the exact forms of these probability distributions probabilistic super-resolution algorithms can usually be interpreted in one of the following ways
+The most popular approach to super-resolution
+is to
+obtain a MAP estimate typically using an
+iterative scheme to maximize with respect to where
+QK
+and the denominator is an unknown scaling factor
+Tipping and Bishop?s approach takes an ML estimate of the registration by marginalizing over
+then calculates the super-resolution estimate as in While Tipping and Bishop did not include a
+photometric model the equivalent expression to be maximized with respect to and is
+dx
+Note that Tipping and Bishop?s work does employ the same data likelihood expression as in
+which forced them to select a Gaussian form for rather than a more suitable image prior in
+order to keep the integral tractable
+Finally in this paper we find through
+marginalizing
+over and so that a MAP estimate of can
+be obtained by maximizing directly with respect to This is achieved by finding
+which is developed further in the next section Note that the integral does not involve the prior
+Marginalizing over registration parameters
+In order to obtain an expression for
+from expressions and above the
+parameter variations
+must be integrated out of the problem Registration estimates
+and can be obtained using classical registration methods either intensity-based or estimation
+from image points and the diagonal matrix is constructed to reflect the confidence in each
+parameter estimate This might mean a standard deviation of a tenth of a low-resolution pixel on
+image translation parameters or a few gray levels shift on the illumination model for instance
+The integral performed is
+KM
+Kn
+exp
+Zx
+exp
+where and all the and parameters are functions of as in
+Expanding the data error term in the exponent for each low-resolution image as a second-order
+Taylor series about the estimated geometric registration parameter yields
+G(k)T
+Values for and can be found numerically
+for geometric
+registrations or analytically for
+the photometric parameters from and Thus the whole exponent of
+becomes
+GT
+where the omission of image superscripts indicates stacked matrices and is therefore a blockdiagonal nK nK sparse matrix and is comprised of the repeated diagonal of C.
+Finally letting
+2H
+exp
+exp
+exp
+nK
+exp exp
+The objective function to be minimized with respect to is obtained by taking the negative log
+of using the result from and neglecting the constant terms
+log
+G.
+This can be optimized using Scaled Conjugate Gradients SCG noting that the gradient can be
+expressed
+dL
+dx
+dF
+dG
+dx
+dx
+dx
+dvecH
+vec
+GT GT
+dx
+where derivatives of and with respect to can be found analytically for photometric parameters and numerically using the analytic gradient of with respect to with respect
+to the geometric parameters
+Implementation notes
+Notice that the value from is simply the reprojection error of the current estimate of at
+the mean registration parameter values and that gradients of this expression with respect to the
+parameters and with respect to can both be found analytically To find the gradient with respect to
+a geometric registration parameter and elements of the Hessian involving it a central difference
+scheme involving only the th image is used
+Mean values for the registration are computed by standard registration techniques and is initialized
+using around iterations of SCG to find the maximum likelihood solution evaluated at these mean
+parameters Additionally pixel values are scaled to lie between and and the ML solution is
+bounded to lie within these values in order to curb the severe overfitting usually observed in ML
+super-resolution results
+In our implementation the parameters representing the values are scaled so that they share the
+same standard deviations as the parameters which represent the sub-pixel geometric registration
+shifts which makes the matrix a multiple of the identity The scale factors are chosen so that one
+standard deviation in gives a 10-gray-level shift and one standard deviation in varies pixel
+values by around gray levels at mean image intensity
+Results
+The first experiment takes a sixteen-image synthetic dataset created from an eyechart image Data is
+generated at a zoom factor of using a 2D translation-only motion model and the two-parameter
+global affine illumination model described above giving a total of four registration parameters per
+low-resolution image Gaussian noise with standard deviation equivalent to gray levels is added
+to each low-resolution pixel independently The sub-pixel perturbations are evenly spaced over a
+grid up to plus or minus one half of a low-resolution pixel giving a similar setup to that described
+in but with additional lighting variation The ground truth image and two of the low-resolution
+images appear in the first row of Figure
+Geometric and photometric registration parameters were initialized to the identity and the images
+were registered using an iterative intensity-based scheme The resulting parameter values were used
+to recover two sets of super-resolution images one using the standard Huber MAP algorithm and
+the second using our extension integrating over the registration uncertainty The Huber parameter
+was fixed at for all runs and was varied over a range of possible values representing ratios
+between and the image noise precision
+The images giving lowest RMS error from each set are displayed in the second row of Figure
+Visually the differences between the images are subtle though the bottom row of letters is better
+defined in the output from the new algorithm Plotting the RMSE as a function of in Figure
+we see that the proposed registration-integrating approach achieves a lower error compared to the
+ground truth high-resolution image than the standard Huber MAP algorithm for any choice of prior
+strength in the optimal region
+ground truth high?res
+best Huber err
+input
+input
+best err
+Figure Ground truth image Only the central recoverable part is shown low-resolution
+images The variation in intensity is clearly visible and the sub-pixel displacements necessary for
+multi-frame image super-resolution are most apparent on the characters to the right of each image The best minimum MSE see Figure image from the regular Huber MAP algorithm
+having super-resolved the dataset multiple times with different prior strength settings The best
+result using out approach of integrating over and As well as having a lower RMSE note the
+improvement in black-white edge detail on some of the letters on the bottom line
+The second experiment uses real data with a 2D translation motion model and an affine lighting
+model exactly as above The first and last images appear on the top row of Figure Image registration was carried out in the same manner as before and the geometric parameters agree with the
+provided homographies to within a few hundredths of a pixel Super-resolution images were created
+RMSE comparison
+23
+Standard Huber MAP
+Integrating over registrations and illumination
+22
+RMSE in gray levels
+19
+18
+17
+ratio of prior strength parameter and noise precision
+Figure Plot showing the variation of RMSE with prior strength for the standard Huber-prior MAP
+super-resolution method and our approach integrating over and The images corresponding to
+the minima of the two curves are shown in Figure
+for a number of values the equivalent values to those quoted in were found subjectively to be
+the most suitable
+The covariance of the registration values was chosen to be similar to that used in the synthetic
+experiments Finally Tipping and Bishop?s method was extended to cover the illumination model
+and used to register and super-resolve the dataset using the same PSF standard deviation lowresolution pixels as the other methods
+The three sets of results on the real data sequence are shown in the middle and bottom rows of
+Figure To facilitate a better comparison a sub-region of each is expanded to make the letter
+details clearer The Huber prior tends to make the edges unnaturally sharp though it is very successful at regularizing the solution elsewhere Between the Tipping and Bishop image and the
+registration-integrating approach the text appears more clear in our method and the regularization
+in the constant background regions is slightly more successful
+Discussion
+It is possible to interpret the extra terms introduced into the objective function in the derivation
+of this method as an extra regularizer term or image prior Considering the first two terms
+are identical to the standard MAP super-resolution problem using a Huber image prior The two
+additional terms constitute an additional distribution over in the cases where is not dominated
+by as the distribution over and tightens to a single point the terms tend to constant values
+The intuition behind the method?s success is that this extra prior resulting from the final two terms
+of will favor image solutions which are not acutely sensitive to minor adjustments in the image
+registration The images of figure illustrate the type of solution which would score poorly To
+create the figure one dataset was used to produce two super-resolved images using two independent
+sets of registration parameters which were randomly perturbed by an Gaussian vector with a
+standard deviation of only low-resolution pixels The checker-board pattern typical of ML
+super-resolution images can be observed and the difference image on the right shows the drastic
+contrast between the two image estimates
+input
+integrating
+regular Huber detailed region
+input
+integrating detailed region
+Tipping Bishop detailed region
+Figure First and last images from a real data sequence containing images acquired on a
+rig which constrained the motion to be pure translation in The full super-resolution output
+from our algorithm Detailed region of the central letters again with our algorithm Detailed
+region of the regular Huber MAP super-resolution image using parameter values suggested in
+which are also found to be subjectively good choices The edges are slightly artificially crisp but the
+large smooth regions are well regularized Close-up of letter detail for comparison with Tipping
+and Bishop?s method of marginalization The Gaussian form of their prior leads to a more blurred
+output or one that over-fits to the image noise on the input data if the prior?s influence is decreased
+Conclusion
+This work has developed an alternative approach for Bayesian image super-resolution with several
+advantages over Tipping and Bishop?s original algorithm These are namely a formal treatment of
+registration uncertainty the use of a much more realistic image prior and the computational speed
+and memory efficiency relating to the smaller dimension of the space over which we integrate
+The results on real and synthetic images with this method show an advantage over the popular
+MAP approach and over the result from Tipping and Bishop?s method largely owing to our more
+favorable prior over the super-resolution image
+It will be a straightforward extension of the current approach to incorporate learning for the pointspread function covariance though it will result in a less sparse Hessian matrix because each
+row and column associated with the PSF parameter(s has the potential to be full-rank assuming a
+common camera configuration is shared across all the frames
+Finally the best way of learning the appropriate covariance values for the distribution over given
+the observed data and how to assess the trade-off between its prior-like effects and the need for a
+standard Huber-style image prior are still open questions
+Acknowledgements
+The real dataset used in the results section is due to Tomas Pajdla and Daniel Martinec CMP Prague
+and is available at http://www.robots.ox.ac.uk/?vgg/data4.html
+truth
+ML image
+ML image
+difference
+Figure An example of the effect of tiny changes in the registration parameters Ground truth
+image from which a 16-image low-resolution dataset was generated Two ML super-resolution
+estimates In both cases the same dataset was used but the registration parameters were perturbed
+by an vector with standard deviation of just low-resolution pixels The difference
+between the two solutions In all these images values outside the valid image intensity range have
+been rounded to white or black values
+This work was funded in part by EC Network of Excellence PASCAL
+
+----------------------------------------------------------------
+
+title: 1646-memory-capacity-of-linear-vs-nonlinear-models-of-dendritic-integration.pdf
+
+Memory Capacity of Linear Nonlinear
+Models of Dendritic Integration
+Panayiota Poirazi
+Biomedical Engineering Department
+University of Southern California
+Los Angeles CA
+Bartlett W. Mel
+Biomedical Engineering Department
+University of Southern California
+Los Angeles CA
+poirazi@sc usc edu
+mel@lnc.usc.edu
+Abstract
+Previous biophysical modeling work showed that nonlinear interactions among nearby synapses located on active dendritic trees can
+provide a large boost in the memory capacity of a cell Mel
+The aim of our present work is to quantify this boost by
+estimating the capacity of a neuron model with passive dendritic integration where inputs are combined linearly across the
+entire cell followed by a single global threshold and an active
+dendrite model in which a threshold is applied separately to the
+output of each branch and the branch subtotals are combined linearly We focus here on the limiting case of binary-valued synaptic
+weights and derive expressions which measure model capacity by
+estimating the number of distinct input-output functions available
+to both neuron types We show that the application of a fixed
+nonlinearity to each dendritic compartment substantially increases
+the model's flexibility for a neuron of realistic size the capacity
+of the nonlinear cell can exceed that of the same-sized linear cell by
+more than an order of magnitude and the largest capacity boost
+occurs for cells with a relatively large number of dendritic subunits
+of relatively small size We validated the analysis by empirically
+measuring memory capacity with randomized two-class classification problems where a stochastic delta rule was used to train both
+linear and nonlinear models We found that large capacity boosts
+predicted for the nonlinear dendritic model were readily achieved
+in practice
+http://lnc.usc.edu
+P. Poirazi and B. W. Mel
+Introduction
+Both physiological evidence and connectionist theory support the notion that in
+the brain memories are stored in the pattern of learned synaptic weight values
+Experiments in a variety of neuronal preparations however inQicate that the efficacy of synaptic transmission can undergo substantial fluctuations up or down
+or both during brief trains of synaptic stimuli Large fluctuations in synaptic efficacy on short time scales seem inconsistent with the conventional connectionist
+assumption of stable high-resolution synaptic weight values Furthermore a recent
+experimental study suggests that excitatory synapses in the hippocampus-a region
+implicated in certain forms of explicit memory-may exist in only a few long-term
+stable states where the continuous grading of synaptic strength seen in standard
+measures of long-term potentiation LTP may exist only in the average over a large
+population of two-state synapses with randomly staggered thresholds for learning
+Petersen Malenka Nicoli Hopfield According to conventional connectionist notions the possibility that individual synapses hold only one or two bits of
+long-term state information would seem to have serious implications for the storage
+capacity of neural tissue Exploration of this question is one of the main themes of
+this paper
+In a related vein we have found in previous biophysical modeling studies that
+nonlinear interactions between synapses co-activated on the same branch of an active dendritic tree could provide an alternative form of long-term storage capacity
+This capacity which is largely orthogonal to that tied up in conventional synaptic
+weights is contained instead in the spatial permutation of synaptic connections
+onto the dendritic tree-which could in principle be modified in the course of learning or development Mel In a more abstract setting we recently
+showed that a large repository of model flexibility lies in the choice as to which of
+a large number of possible interaction terms available in high dimension is actually
+included in a learning machine's discriminant function and that the excess capacity contained in this choice flexibility can be quantified using straightforward
+counting arguments Poirazi Mel
+Two Alternative Models of Dendritic Integration
+In this paper we use a similar function-counting approach to address the more
+biologically relevant case of a neuron with mUltiple quasi-independent dendritic
+compartments fig Our primary objective has been to compare the memory
+capacity of a cell assuming two different modes of dendritic integration According
+to the linear model the neuron's activation level aL(x prior to thresholding is
+given by a weighted sum of of its inputs over the cell as a whole According to the
+nonlinear model the synaptic inputs to each branch are first combined linearly
+a static sigmoidal nonlinearity is applied to each of the branch subtotals
+and the resulting branch outputs are summed to produce the cell's overall activity
+The expressions for aL and aN were written in similar form to emphasize that the
+models have an identical number of synaptic weights differing only in the presence
+or absence of a fixed nonlinear function applied to the branch subtotals Though
+individual synaptic weights in both models are constrained to have a value of
+any of the input lines may form multiple connections on the same or different
+Memory Capacity of Linear Nonlinear Models of Dendritic Integration
+I
+Figure A cell is modeled as a set of identical branches connected to a soma
+where each branch contains synaptic contacts driven by one of distinct input
+lines
+branches as a means of representing graded synaptic strengths Similarly an input
+line which forms no connection has an implicit weight of In light of this restriction
+to positive zero weight values both the linear and nonlinear models are split
+into two opponent channels a and a dedicated to positive negative coefficients
+respectively This leads to a final output for each model
+yL(x sgn
+YN(X sgn aiV(x
+where the sgn operator maps the total activation level into a class label of I}.
+In the following we derive expressions for the number of distinct parameter st.ates
+available to the linear nonlinear models a measure which we have found to be
+a reliable predictor of storage capacity under certain restrictions Poirazi Mel
+Based on these expressions we compute the capacity boost provided by
+the branch nonlinearity as a function of the number of branches synaptic sites
+per branch and input space dimensionality Finally we test the predictions of
+the analytical model by training both linear and nonlinear models on randomized
+classification problems using a stochastic delta rule and empirically measure and
+compare the storage capacities of the two models
+Results
+Counting Parameter States Linear Nonlinear Model
+We derived expressions for BLand which estimate the total number of parameter bits available to the linear nonlinear models respectively
+2log2
+BL 2log
+These expressions estimate the number of non-redundant states in each neuron
+type those assignments of input lines to dendritic sites which yield distinct
+Poirazi and B. Mel
+input-output functions YL or YN
+These formulae are plotted in figure 2A with where each curve represents
+a cell with a fixed number of branches indicated by In each case the capacity increases steadily as the number of synapses per branch is increased The
+logarithmic growth in the capacity of the linear model evident in an asymptotic
+analysis of the expression for is shown at the bottom of the graph circles
+from which it may be seen that the boost in capacity provided by the dendritic
+branch nonlinearity increases steadily with the number of synaptic sites For a cell
+with branches containing synaptic sites each the capacity boost relative to
+the linear model exceeds a factor of
+Figure 2B shows that for a given total number of synaptic sites in this case
+the capacity of the nonlinear cell is maximized for a specific choice
+of and The peak of each of the three curves computed for different values
+of occurs for a cell containing branches with synapses each However
+the capacity is only moderately sensitive to the branch count the capacity of a cell
+with branches of synapses each for example lies within a factor of two of
+the optimal configuration The linear cell capacities can be found at the far right
+edge of the plot since a nonlinear model with one synapse per branch
+has a number of trainable states identical to that of a linear model
+Validating the Analytical Model
+To test the predictions of the analytical model we trained both linear and nonlinear cells on randomized two-class classification problems Training samples were
+drawn from a 40-dimensional spherical Gaussian distribution and were randomly
+assigned positive or negative labels-in some runs training patterns were evenly
+divided between positive and negative labels with similar results Each of the
+original input dimensions was recoded using a set of I-dimensional binary nonoverlapping receptive fields with centers spaced along each dimension such that all
+receptive fields would be activated equally often This manipulation mapped the
+original 40-dimensional learning problem into dimensions thereby increasing
+the discriminability of the training samples The relative memory capacity of linear
+nonlinear cells was then determined empirically by comparing the number of
+training patterns learnable at a fixed error rate of
+The learning rule used for both cell types was similar to the clusteron learning
+rule described in Mel and involved two mechanisms known to contribute to
+neural development random activity-independent synapse formation and
+activity-dependent synapse stabilization In each iteration a set of synapses was
+chosen at random and the worst synapse was identified based on the correlation
+over the training set of the input's pre-synaptic activity the post-synaptic
+activity the local nonlinear branch response for the nonlinear energy model or
+a constant of for the linear model and iii a global delta signal with a value
+of a if the cell responded correctly to the input pattern or if the cell responded
+incorrectly The poorest-performing synapse on the branch was then targeted for
+replacement with a new synapse drawn at random from the input lines The
+probability that the replacement actually occurred was given by a Boltzmann equation based on the difference in the training set error rates before and after the
+replacement A temperature variable was gradually lowered over the course of
+the simulation which was terminated when no further improvement in error rates
+was seen
+Results of the learning runs are shown in fig where the analytical capacity measured in bits was scaled to the numerical capacity measured in training patterns
+Memory Capacity ofLinear Nonlinear Models ofDendritic Integration
+Capacity of Linear VS. Nonlinear Model
+A Capacity of Linear Nonlinear
+Model for Various Geometries
+for Different Input Space Dimensions
+Nonlinear Model
+Hr
+m=lOOO
+lOO
+Nonlinear Model
+co
+Linear del
+Linear Model
+Syn:p:c Sires
+Number of Branches
+Figure Comparison of linear nonlinear model capacity as a function of branch
+geometry A. Capacity in bits for linear and several nonlinear cells with different
+branch counts for For each curve indexed by branch count sites per
+branch increases from left to right as indicated iconically beneath the x-axis For
+all cells capacity increases with an increasing number of sites though the capacity
+of the linear model grows logarithmically leading to an increasingly large capacity
+boost for the size-matched nonlinear cells B. Capacity of a nonlinear model with
+sites for different values of input space dimension Branch count grows
+along the x-axis Cells at right edge of plot contain only one synapse per branch
+and thus have a number of modifiable parameters and hence capacity equivalent
+to that of the linear model All three curves show that there exist an optimal
+geometry which maximizes the capacity of the nonlinear model this case
+branches with synapses each
+learned at error Two key features of the theoretical curves dashed lines are
+echoed in the empirical performance curves solid lines including the much larger
+storage capacity of the nonlinear cell model and the specific cell geometry which
+maximizes the capacity boost
+Discussion
+We found using both analytical and numerical methods that in the limit of lowresolution synaptic weights application of a fixed output nonlinearity to each compartment of a dendritic tree leads to a significant boost in capacity relative to a
+cell whose post-synaptic integration is linear For example given a cell with
+synaptic contacts originating from distinct input lines the analysis predicts a
+23-fold increase in capacity for the nonlinear cell while numerical simulations using
+a stochastic delta rule actually achieve a I5-fold boost
+Given that a linear and a nonlinear model have an identical number of synaptic contacts with uniform synaptic weight values what accounts for the capacity boost
+The principal insight gained in this work is that the attachment of a fixed nonlinearity to each branch in a neuron substantially increases its underlying model
+P. Poirazi and B. W. Mel
+Figure Comparison of capacity boost predicted by analysis that observed empirically
+when linear and nonlinear models
+were trained using the same
+Analytical
+stochastic
+delta rule Dashed
+70
+lines analytical curves for linNumerical
+ear nonlinear model for a cell
+I
+Training Patterns
+with sites show capacity
+I
+for varying cell geometries Solid
+lines empirical performance for
+Nonlinear Model
+same two cells at error cri
+03
+terion using a subunit nonlinearity lO similar
+sults were seen using a sigmoidal
+nonlinearity though the param
+eters of the optimal sigmoid depended on the cell geometry
+Linear Model
+For both analytical and numeri
+cal curves peak capacity is seen
+oo 70 90 for cell with branches
+Number of Branches
+synapses per branch Cap~city
+exceeds that of same-sIzed lmear
+model by a factor of at the
+peak and by more than a factor
+of for cells ranging from about
+to synapses per branch horizontal dotted line
+flexibility confers upon the cell a much larger choice of distinct input-output
+relations from which to select during learning This may be illustrated as follows
+For the linear model branching structure is irrelevant so that YL depends only on
+the number of input connections formed from each of the input lines All spatial
+permutations of a set of input connections are thus interchangeable and produce
+identical cell responses This massive redundancy confines the capacity of the linear
+model to grow only logarithmically with an increasing number of synaptic sites fig
+an unfortunate limitation for a brain in which the formation of large numbers of synaptic contacts between neurons is routine In contrast the model with
+nonlinear subunits contains many fewer redundancies most spatial permutations
+of the same set of input connections lead to non-identical values of YN since an
+input swapped from branch bi to branch b2 leads to the elimination of the
+interaction terms involving on branch bi and the creation of new interaction
+terms on branch b2
+Interestingly the particular form of the branch nonlinearity has virtually no effect
+on the capacity of the cell as far as the counting arguments are concerned though
+it can have a profound effect on the cell's representational bias"-see below since
+the principal effect of the nonlinearity in our capacity calculations is to break the
+symmetry among the different branches
+The issue of representational bias is a critical one however and must be considered
+when attempting to predict absolute or relative performance rates for particular
+classifiers confronted with specific learning problems Thus intrinsic differences in
+the geometry of linear nonlinear discriminant functions mean that the param
+Memory Capacity ofLinear Nonlinear Models ofDendritic Integration
+eters available to the two models may be better or worse suited to solve a given
+learning problem even if the two models were equated for total parameter flexibility
+While such biases are not taken into account in our analysis they could nonetheless
+have a substantial effect on measured error rates-and could thus throw a performance advantage to one machine or the other One danger is that performance
+differences measured empirically could be misinterpreted as arising from differences
+in underlying model capacity when in fact they arise from differential suitability
+of the two classifiers for the learning problem at hand To avoid this difficulty the
+random classification problems we used to empirically assess memory capacity were
+chosen to level the playing field for the linear nonlinear cells since in a previous
+study we found that the coefficients on linear nonlinear quadratic terms were
+about equally efficient as featUres for this task In this way differences in measured
+performance on these tasks were primarily attributable to underlying capacity differences rather than differences in representational bias This experimental control
+permitted more meaningful comparisons between our analytical and empirical tests
+fig
+The problem of representational bias crops up in a second guise wherein the analytical expressions for capacity in eq can significantly overestimate the actual
+performance of the cell This occurs when a particular ensemble of learning problems fails to utilize all of the entropy available in the cell's parameter space-for
+example by requiring the cell to visit only a small subset of its parameter states relatively often This invalidates the maximum parameter entropy assumption made
+in the derivation of eq so that measured performance will tend to fall below
+predicted values The actual performance of either model when confronted with
+an ensemble of learning problems will thus be determined by the number of
+trainable parameters available to the neuron as measured by eq the suitability of the neuron's parameters for solving the assigned learning problems and
+the utilization of parameters which relates to the entropy in the joint probability of the parameter values averaged over the ensemble of learning problems In
+our comparisons here of linear and nonlinear cells we we have calculated and
+have attempted to control for and
+In conclusion our results build upon the results of earlier biophysical simulations
+and indicate that in the limit of a large number of low-resolution synaptic weights
+nonlinear dendritic processing could nonetheless have a major impact on the storage
+capacity of neural tissue
+
+----------------------------------------------------------------
+

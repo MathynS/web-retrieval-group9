@@ -1,0 +1,2078 @@
+query sentence: digital-to-analog microelectronic converters used in automobiles
+---------------------------------------------------------------------
+title: 1123-silicon-models-for-auditory-scene-analysis.pdf
+
+Silicon Models
+for
+A uditory Scene Analysis
+John Lazzaro and John Wawrzynek
+CS Division
+UC Berkeley
+Berkeley CA
+lazzaroOcs.berkeley.edu johnvOcs.berkeley.edu
+Abstract
+We are developing special-purpose low-power analog-to-digital
+converters for speech and music applications that feature analog
+circuit models of biological audition to process the audio signal
+before conversion This paper describes our most recent converter
+design and a working system that uses several copies ofthe chip to
+compute multiple representations of sound from an analog input
+This multi-representation system demonstrates the plausibility of
+inexpensively implementing an auditory scene analysis approach to
+sound processing
+INTRODUCTION
+The visual system computes multiple representations of the retinal image such as
+motion orientation and stereopsis as an early step in scene analysis Likewise
+the auditory brainstem computes secondary representations of sound emphasizing
+properties such as binaural disparity periodicity and temporal onsets Recent
+research in auditory scene analysis involves using computational models of these
+auditory brainstem representations in engineering applications
+Computation is a major limitation in auditory scene analysis research the complete auditory processing system described in Brown and Cooke operates at
+approximately times real time running under UNIX on a Sun SPARCstation
+Standard approaches to hardware acceleration for signal processing algorithms
+could be used to ease this computational burden in a research environment a variety
+of parallel fixed-point hardware products would work well on these algorithms
+J. LAZZARO J. WAWRZYNEK
+However hardware solutions appropriate for a research environment may not be
+well suited for accelerating algorithms in cost-sensitive battery-operated consumer
+products Possible product applications of auditory algorithms include robust
+pitch-tracking systems for musical instrument applications and small-vocabulary
+speaker-independent wordspotting systems for control applications
+In these applications the input takes an analog form a voltage signal from a
+microphone or a guitar pickup Low-power analog circuits that compute auditory
+representations have been implemented and characterized by several research groups
+these working research prototypes include several generation of cochlear models
+Lyon and Mead periodicity models and binaural models These circuits
+could be used to compute auditory representations directly on the analog signal in
+real-time using these low-power area-efficient analog circuits
+Using analog computation successfully in a system presents many practical difficulties the density and power advantages of the analog approach are often lost in the
+process of system integration One successful Ie architecture that uses analog computation in a system is the special-purpose analog to digital converter that includes
+analog non-linear pre-processing before or during data conversion For example
+converters that include logarithmic waveform compression before digitization are
+commercially viable components
+Using this component type as a model we have been developing special-purpose
+low-power analog-to-digital converters for speech and audio applications this paper
+describes our most recent converter design and a working system that uses several
+copies of the chip to compute multiple representations of sound
+CONVERTER DESIGN
+Figure shows an architectural block diagram of our current converter design The
+transistor chip was fabricated in the n-well process of Orbit Semiconductor broke red through MOSIS the circuit is fully functional Below is a summary
+of the general architectural features ofthis chip unless otherwise referenced circuit
+details are similar to the converter design described in Lazzaro
+An analog audio signal serves as input to the chip dynamic range is to
+l-lOmV to IV peak dependent on measurement criteria
+This signal is processed by analog circuits that model cochlear processing Lyon
+and Mead and sensory transduction the audio signal is transformed into
+wavelet-filtered half-wave rectified non-linearly compressed audio signals The
+cycle-by-cycle waveform of each signal is preserved no temporal smoothing is performed
+Two additional analog processing blocks follow this initial cochlear processing
+a temporal autocorrelation processor and a temporal adaptation processor Each
+block transforms the input array into a new representation of equal size alternatively the block can be programmed to pass its input vector to its output without
+alteration
+The output circuits of the final processing block are pulse generators which code
+the signal as a pattern of fixed-width fixed-height spikes All the information in
+the representation is contained in the onset times of the pulses
+Silicon Models for Auditory Scene Analysis
+The activity on this array is sent off-chip via an asynchronous parallel bus The
+converter chip acts as a sender on the bus a digital host processor is the receiver
+The converter initiates a transaction on the bus to communicate the onset of a pulse
+in the array the data value on the bus is a number indicating which unit in the
+array pulsed The time of transaction initiation carries essential information This
+coding method is also known as the address-event representation
+Many converters can be used in the same system sharing the same asynchronous
+output bus Lazzaro and Wawrzynek No extra components are needed to
+implement bus sharing the converter bus design includes extra signals and logic that
+implements multi-chip bus arbitration This feature is a major difference between
+this design and Lazzaro
+The converter includes a digitally-controllable parameter storage and generation
+system tunable parameters control the behavior of the analog processing blocks
+Programmability supports the creation of multi-converter systems that use a single
+chip design each chip receives the same analog signal but processes the signal in
+different ways as determined by the parameter values for each chip
+Non-volatile analog storage elements are used to store the parameters parameters
+are changeable via Fowler-Nordhiem tunneling using a 5V control input bus Many
+converters can share the same control bus Parameter values can be sensed by activating a control mode which sends parameter information on the converter output
+bus Apart from two high-voltage power supply pins and a trimming input pin
+for tunneling pulse width all control voltages used in this converter are generated
+on-chip
+Trim
+DO
+Dl
+D2
+D3
+D4
+D5
+D6
+CS
+WR
+VDD
+GND
+VDD
+GND
+VDD
+GND
+Audio In
+A
+DO
+Dl
+D2
+D3
+D4
+D5
+D6
+AR
+rJl
+RR
+AL
+RL
+AM
+en
+RM
+DL
+DR
+til
+KO
+KM
+Figure Block diagram of the converter chip Most of the pins of the chip are
+dedicated to the data output and control input buses and to the control signals for
+coordinating bus sharing in multi-converter systems
+J. LAZZAR9 J. WAWRZYNEK
+SYSTEM DESIGN
+Figure shows a block diagram of a system that uses three copies of the converter
+chip to compute multiple representations of sound the system acts as a real-time
+audio input device to a Sun workstation An analog audio input connects to each
+converter this input can be from a pre-amplified microphone for spontaneous input
+or from the analog audio signal of the workstation for controlled experiments
+The asynchronous output buses from the three chips are connected together to
+produce a single output address space for the system no external components are
+needed for output bus sharing and arbitration The onset time of a transaction
+carries essential information on this bus additional logic on this board adds a 16bit timestamp to each bus transaction coding the onset time with resolution
+The control input buses for the three chips are also connected together to produce
+a single input address space using external logic for address decoding We use a
+commercial interface board to link the workstation with these system buses
+SYSTEM PERFORMANCE
+We designed a software environment Aer to support real-time low-latency data
+visualization of the multi-converter system Using Aer we can easily experiment
+with different converter tunings Figure shows a screen from Aer showing data
+from the three converters as a function of time the input sound for this screen is
+a short Hz tone burst followed by a sinusoid sweep from Hz to Khz.
+The top Spectral Shape and bottom Onset representations are raw data
+from converters and as marked on Figure tuned for different responses The
+output channel number is plotted vertically each dot represents a pulse
+The top representation codes for periodicity-based spectral shape for this representation the temporal autocorrelation block Figure is activated and the
+temporal adaptation block is inactivated Spectral frequency is mapped logarithmically on the vertical dimension from Hz to Khz the activity in each
+channel is the periodic waveform present at that frequency The difference between
+a periodicity-based spectral method and a resonant spectral method can be seen
+in the response to the Hz sinusoid onset the periodicity representation shows
+activity only around the Hz channels whereas a spectral representation would
+show broadband transient activity at tone onset
+Multi-Converter System
+Bus
+Out
+aa
+aaa
+aa aaaaaaaaaD aaa
+aaaaaaaaaD aao
+aa a
+Sound Input
+Figure Block diagram of the multi-converter system
+aa
+Silicon Models for Auditory Scene Analysis
+Khz
+Spectral
+log
+Shape
+Hz
+Oms
+linear
+Summary
+Auto
+I
+Corr
+ttJrC
+ms
+Khz
+log
+Onset
+Hz
+ms
+Figure Data from the multi-converter system in response to a pure
+tone followed by a sinusoidal sweep from to 3Khz
+J. LAZZARO J. WAWRZYNEK
+De
+Oms
+rJ
+Khz
+til
+ms
+Figure Data from the multi-converter system in response to the word five
+followed by the word nine
+Silicon Models for Auditory Scene Analysis
+The bottom representation codes for temporal onsets for this representation the
+temporal adaptation block is activated and the temporal autocorrelation block is
+inactivated The spectral filtering of the representation reflects the silicon cochlea
+tuning a low-pass response with a sharp cutoff and a small resonant peak at the
+best frequency of the filter The black wideband lines at the start of the Hz
+tone and the sinusoid sweep illustrate the temporal adaptation
+The middle Summary Auto Corr representation is a summary autocorrelogram useful for pitch processing and voiced/unvoiced decisions in speech recognition This representation is not raw data from a converter software post-processing
+is performed on the converter output to produce the final result The frequency response of converter is set as in the bottom representation the temporal adaptation
+response however is set to a millisecond time constant The converter output
+pulse rates are set so that the cycle-by-cycle waveform information for each output
+channel is preserved in the output
+To complete the representation a set of running autocorrelation functions
+is computed for for each of the output channels
+These autocorrelation functions are summed over all output channels to produce
+the final representation is plotted as a linear function of time on the vertical axis
+The correlation multiplication can be efficiently implemented by integer subtraction
+and comparison of pulse timestamps the summation over channels is simply the
+merging of lists of bus transactions The middle representation in Figure shows
+the qualitative characteristics of the summary autocorrelogram a repetitive band
+structure in response to periodic sounds
+Figure shows the output response of the multi-converter system in response to
+telephone-bandwidth-limited speech the phonetic boundaries of the two words
+five and nine are marked by arrows The vowel formant information is shown
+most clearly by the strong peaks in the spectral shape representation the wideband
+information in the offive is easily seen in the onset representation The summary
+autocorrelation representation shows a clear texture break between vowels and the
+voiced and sounds
+Acknowledgements
+Thanks to Richard Lyon and Peter Cariani for summary autocorrelogram discussions Funded by the Office of Naval Research
+
+----------------------------------------------------------------
+
+title: 2967-large-margin-multi-channel-analog-to-digital-conversion-with-applications-to-neural-prosthesis.pdf
+
+Large Margin Multi-channel Analog-to-Digital
+Conversion with Applications to Neural Prosthesis
+Amit Gore and Shantanu Chakrabartty
+Department of Electrical and Computer Engineering
+Michigan State University
+East Lansing MI
+goreamit,shantanu}@egr.msu.edu
+Abstract
+A key challenge in designing analog-to-digital converters for cortically implanted
+prosthesis is to sense and process high-dimensional neural signals recorded by
+the micro-electrode arrays In this paper we describe a novel architecture for
+analog-to-digital conversion that combines conversion with spatial
+de-correlation within a single module The architecture called multiple-input
+multiple-output MIMO is based on a min-max gradient descent optimization of a regularized linear cost function that naturally lends to an A/D formulation Using an online formulation the architecture can adapt to slow variations in cross-channel correlations observed due to relative motion of the microelectrodes with respect to the signal sources Experimental results with real
+recorded multi-channel neural data demonstrate the effectiveness of the proposed
+algorithm in alleviating cross-channel redundancy across electrodes and performing data-compression directly at the A/D converter
+Introduction
+Design of cortically implanted neural prosthetic sensors CINPS)is an active area of research in
+the rapidly emerging field of brain machine interfaces BMI The core technology used in
+these sensors are micro-electrode arrays MEAs that facilitate real-time recording from thousands
+of neurons simultaneously These recordings are then actively processed at the sensor shown in Figure and transmitted to an off-scalp neural processor which controls the movement of a prosthetic
+limb A key challenge in designing implanted integrated circuits for CINPS is to efficiently
+process high-dimensional signals generated at the interface of micro-electrode arrays Sensor arrays consisting of more than recording elements are common which significantly
+increase the transmission rate at the sensor A simple strategy of recording parallel data conversion and transmitting the recorded neural signals at a sampling rate of KHz can easily exceed
+the power dissipation limit of determined by local heating of biological tissue In
+addition to increased power dissipation high-transmission rate also adversely affects the real-time
+control of neural prosthesis
+One of the solutions that have been proposed by several researchers is to perform compression of
+the neural signals directly at the sensor to reduce its wireless transmission rate and hence its power
+dissipation In this paper we present an approach where de-correlation or redundancy elimination is performed directly at analog-to-digital converter It has been shown that neural cross-talk and
+common-mode effects introduces unwanted redundancy at the output of the electrode array As
+a result neural signals typically occupy only a small sub-space within the high-dimensional space
+spanned by the micro-electrode signals An optimal strategy for designing a multi-channel analogto-digital converter is to identify and operate within the sub-space spanned by the neural signals
+and in the process eliminate cross-channel redundancy To achieve this goal in this paper we pro
+Figure Functional architecture of a cortically implanted neural prosthesis illustrating the interface
+of the data converter to micro-electrode arrays and signal processing modules
+pose to use large margin principles which have been highly successful in high-dimensional
+information processing Our approach will be to formalize a cost function consisting of
+L1 norm of the internal state vector whose gradient updates naturally lends to a digital time-series
+expansion Within this framework the correlation distance between the channels will be minimized
+which amounts to searching for signal spaces that are maximally separated from each other
+The architecture called multiple-input multiple-output MIMO converter is the first reported
+data conversion technique to embed large margin principles The approach however is generic and
+can be extended to designing higher order ADC. To illustrate the concept of MIMO A/D conversion
+the paper is organized as follows section introduces a regularization framework for the proposed
+MIMO data converter and introduces the min-max gradient descent approach Section applies the
+technique to simulated and recorded neural data Section concludes with final remarks and future
+directions
+Regularization Framework and Generalized Converters
+In this section we introduce an optimization framework for deriving MIMO converters For the
+sake of simplicity we will first assume that the input to converter is a dimensional vector RM
+where each dimension represents a single channel in the multi-electrode array It is also assumed
+that the vector is stationary with respect to discrete time instances The validity and limitation
+of this assumption is explained briefly at the end of this section Also denote a linear transformation
+matrix A RM and an regression weight vector RM Consider the following optimization
+problem
+min A
+where
+A wT Ax
+and represents a column vector whose elements are unity The cost function in equation consists
+of two factors the first factor is an L1 regularizer which constrains the norm of the vector and the
+second factor that maximizes the correlation between vector and an input vector transformed
+using a linear projection denoted by matrix A. The choice of L1 norm and the form of cost function
+in equation will become clear when we present its corresponding gradient update rule To ensure
+that the optimization problem in equation is well defined the norm of the input vector
+will be assumed to be bounded
+Under bounded condition the closed form solution to optimization problem in equation can be
+found to be From the perspective of A/D conversion we will show that the iterative steps
+leading towards solution to the optimization problem in equation are more important than the final
+solution itself Given an initial estimate of the state vector the online gradient descent step for
+Figure Architecture of the proposed first-order MIMO converter
+minimizing at iteration is given by
+where is defined as the learning rate The choice of L1 norm in optimization function in
+equation ensures that for the iteration exhibits oscillatory behavior around the solution
+Combining equation with equation the following recursion is obtained
+w[n
+w[n
+sgn(w[n
+where
+and sgn(u denotes an element-wise signum operation such that represents a
+digital time-series The iterations in represents the recursion step for first-order converters coupled together by the linear transform A. If we assume that the norm of matrix
+is bounded it can be shown that Following update steps the recursion given by
+equation yields
+Ax
+which using the bounded property of asymptotically leads to
+Ax
+as
+Therefore consistent with the theory of conversion the moving average of vector digital
+sequence converges to the transformed input vector Ax as the number of update steps
+increases It can also be shown that update steps yields a digital representation which is log2
+bits accurate
+Online adaptation and compression
+The next step is to determine the form of the matrix A which parameterize the family of linear
+transformations spanning the signal space The aim of optimizing for A is to find multi-channel
+signal configuration that is maximally separated from each other For this purposes we denote one
+channel as a
+
+----------------------------------------------------------------
+
+title: 586-ann-based-classification-for-heart-defibrillators.pdf
+
+ANN Based Classification for Heart Defibrillators
+M. Jabri S. Pickard P. Leong Z. Chi B. Flower and Y. Xie
+Sydney University Electrical Engineering
+NSW Australia
+Abstract
+Current Intra-Cardia defibrillators make use of simple classification algorithms to determine patient conditions and subsequently to enable proper
+therapy The simplicity is primarily due to the constraints on power dissipation and area available for implementation Sub-threshold implementation
+of artificial neural networks offer potential classifiers with higher performance than commercially available defibrillators In this paper we explore
+several classifier architectures and discuss micro-electronic implementation
+issues
+INTRODUCTION
+Intra-Cardia Defibrillators lCDs represent an important therapy for people with heart disease These devices are implanted and perform three types of actions
+l.monitor the heart
+pace the heart
+apply high energy/high voltage electric shock
+1bey sense the electrical activity of the heart through leads attached to the heart tissue Two
+types of sensing are commooly used
+Single Chamber Lead attached to the Right Ventricular Apex RVA
+Dual Chamber An additional lead is attached to the High Right Atrium
+The actions performed by defibrillators are based on the outcome of a classification procedure
+based on the heart rhythms of different heart diseases abnormal rhythms or arrhythmias
+Jabri Pickard Leong Chi Flower and Xie
+There are tens of different arrhythmias of interest to cardiologists They are clustered into
+three groups according to the three therapies actions that ICDs perform
+Figure shows an example of a Normal Sinus Rhythm Note the regularity in the beats Of
+interest to us is what is called the QRS complex which represents the electrical activity in the
+ventricle during a beat The point represents the peak and the distance between two heart
+beats is usually referred to as the RR interval
+FIGURE A Normal Sinus Rhythm NSR waveform
+Figure shows an example of a Ventricular Tachycardia more precisely a Ventricular Tachycardia Slow or VTS Note that the beats are faster in comparison with an NSR.
+Ventricular Fibrillation is shown in Figure Note the chaotic behavior and the absence
+of well defined heart beats
+FIGURE A Ventricular Tachycardia wavefonn
+The three waveforms discussed above are examples of Intra-Cardia Electro-Grams ICEG
+NSR VT and VF are representative of the type of action a defibrillator has to takes For an
+NSR. an action of continue monitoring is used For a VT an action of pacing is perfonned whereas for VF a high energy/high voltage shock is issued Because they are nearfield signals ICEGs are different from external Eltro-Cardio-Grams As a result classification algorithms developed for ECG patterns may not be necessarily valuable for lCEG recognition
+The difficulties in ICEG classification lie in that many arrhythmias share similar features and
+fuzzy situations often need to be dealt with For instance many ICDs make use of the heart
+rate as a fundamental feature in the arrhythmia classificatioo process But several arrhythmias
+that require different type of therapeutic actions have similar heart rates For example a Sinus
+Tachycardia is an arrhythmia characterized with a heart rate that is higher than that of an
+NSR and in the vicinity of a VT. Many classifier would classify an ST as VT leading to a therapy of pacing whereas an ST is supposed to be grouped under an NSR type of therapy
+Another example is a fast VT which may be associated with heart rates that are indicative of
+ANN Based Classification for Heart Defibrillators
+VF. In this case the defibrillator would apply a VF type of therapy when only a vr type therapy is required pacing
+FIGURE A Ventricular Fibrillation waveform
+The overlap of the classes when only heart rate is used as the main classification feature highlights the necessity of the consideration of further features with higher discrimination capabilities Features that are commonly used in addition to the heart rate are
+I.average heart rate over a period of time
+2.arrhythmia onset
+3.arrhythmia probability density nmctions
+Because of the limited power budget and area arrhythmia classifiers in ICDs are kept
+extremely simple with respect to what could be achieved with more relaxed implementation
+constraints As a result false positive pacing or defibrillation when none is required may be
+high and error rates may reach
+Artificial neural network techniques offer the potential of higher classification performance In
+order to maintain as lower power consumption as possible VLSI micro-power implementation
+techniques need to be considered
+In this paper we discuss several classifier architectures and sub-threshold implementation
+techniques Both single and dual chamber based classifications are considered
+DATA
+Data used in our experiments were collected from Electro-Physiological Studies EPS at hospitals in Australia and the UK. Altogether and depending on whether single or dual chamber
+is considered data from over 70 patients is available Cardiologists from our commercial collaborator have labelled this data All tests were performed on a testing set that was not used in
+classifier Mlding Arrhythmias recorded during EPS are produced by stimulation As a result
+no natural transitions are captured
+SINGLE CHAMBER CLASSIFICATION
+We have evaluated several approaches for single chamber classification It is important to note
+here that in the case of single chamber not all arrhythmias could be correctly classified not
+even by truman experts This is because data from the RVA lead represents mainly the ventricular electrical activity and many atrial arrhythmias require atrial information for proper diagnosis
+Jabri Pickard Leong Chi Flower and Xie
+MULTI?LAYER PERCEPTRONS
+Table shows the performance of multi-layer perceptrons MLP trained using vanilla backpropagation coojugate gradient and a specialized limited precision training algorithm that we
+call Combined Search Algorithm Xie and labri The input to the MLP are features
+extracted from the time domain There are three outputs representing three main groupings
+NSR VT and VF. We do not have the space here to elaborate on the choice of the input features Interested readers are referenced to Oli and labri Leong and labri
+TABLE Perfonnance of Multi-layer Perceptron Based CIMsifiers
+Network
+Training
+Algorithm
+Precision
+Average
+Performance
+backprop
+unlimited
+conj.-grad
+unlimited
+CSA
+bits
+The summary here indicates that a high performance single chamber based c1assificatioo can
+be achieved for ventricular arrhythmias It also indicates that limited precision training does
+not Significantly degrade this performance In the case of limited precision MLP bits plus a
+sign bit are used to represent network activities and weights
+INDUCTION OF DECISION TREES
+The same training data used to train the MLP was used to create a decision tree using the
+program developed by Ross Quinlan derivative of the ID3 algorithm The resultant tree
+was then tested and the performance was correct classification In order to achieve this
+high performance the whole training data had to be used in the induction process windowing
+disabled This has a negative side effect in that the trees generated tend to be large
+The implementation of decision trees in VLSI is not a difficult procedure The problem however is that because of the binary decision process the branching thresholds are difficult to be
+implemented in digital for large trees and even more difficult to be implemented in micropower analog The latter implementation technique would be possible if the induction process
+can take advantage of the hardware characteristics in a similar way that in-loop training of
+sub-threshold VLSI MLP achieves the same objective
+DUAL CHAMBER BASED CLASSIFIERS
+Two architectures for dual chamber based classifiers have been investigated Multi-ModuleNeural Networks and a hybrid Decision Tree/MLP The difference between the classifier architectures is a function of which arrhythmia group is being targetted for classification
+ANN Based Classification for Heart Defibrillators
+MULTI-MODULE NEURAL NETWORK
+The multi-module neural network architecture aims at improving the performance with respect
+to the classification of Supra-Ventricular Tachycardia The architecture is shown in
+Figure with the classifier being the right most block
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+IU1
+I
+I
+NSI
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+I
+1I
+I
+MIn
+I
+I
+I
+VT
+vr
+FIGURE Multi-Module Neural Network Classifier
+The idea behind this architecture is to divide the classification problem into that of discriminating between NSR and SVT on one hand and VF and VT on the other The details of the
+operation and the training of this structured classifier can be fotllld in Oli and Jabri
+In order to evaluate the performance of the MMNN classifier a single large MLP was also
+developed The single large MLP makes use of the same input features as the MMNN and targets the same classes The performance comparison is shown in Table which clearly shows
+that a higher performance is achieved using the MMNN
+HYBRID DECISION TREEIMLP
+The hybrid decision tree/multi-Iayer perceptron mimics the classification process as performed by cardiologists The architecture of the classifier is shown in Figure The decision
+tree is used to produce a judgement on
+1.The rate aspects of the ventricular and atrial channels
+2.The relative timing between the atrial and ventricular beats
+In parallel with the decision tree a morphology based classifier is used to perform template
+matching The morphology classifier is a simple MLP with input that are signal samples sampled at half the speed of the normal sampling rate of the signal
+The output of the timing and morphology classifiers are fed into an arbitrator which produces
+the class of the arrhythmia being observed An out of classifier is used to smooth out the
+Jabri Pickard Leong Chi Flower and Xie
+TABLE Performance of Multi-Module Neural Network
+Classifier and comparison with that of a single large MLP.
+Rhythms
+MMNN
+Best
+MMNN
+Worst
+Single
+MLP
+NSR
+ST
+svr
+AT
+AF
+vr
+VTF
+VF
+97
+97
+Average
+SD
+classification output by the arbitrator and to produce an averaged final output class Further
+details on the implementation and the operation of the hybrid classifier can be fOtllld in Leong
+and Jabri
+This classifier achieves a high performance classification over several types of arrhythmia
+Table shows the performance on a multi-patient database and indicate a performance of over
+correct classification
+born
+RVA
+plobr
+QRS
+Deuct
+funl Hrtwo:rk Clusifiu
+Hz
+Albitntr
+XoutofY
+FIHAL
+CLASS
+fiom
+plobr
+Dtttct
+TitniDi Clmif"lu
+FIGURE Architecture of the hybrid dec~ion treelneural network classifier
+MICROELECTRONIC IMPLEMENTATIONS
+In all our classifier architecture investigations micro-electronic implementation consider
+ations were a constant constraint Many other architectures that can achieve competitive performance were not discussed in this paper because of their unsuitability for low power/small
+area implementation The main challenge in a low power/small area VLSI implementation of
+classifiers similar to those discussed above is how to implement in very low power a MLP
+architecture that can reliably learn and achieve a performance comparable to that of the func
+ANN Based Classification for Heart Defibrillators
+tiona similations Several design strategies can achieve the low power and small area objectives
+TABLE Performance 01 the hybrid decision treelMLP dassifier for dual
+chamber classification
+SubClass
+Class
+NSR
+svr
+VT
+VF
+NSR
+NSR
+ST
+NSR
+24
+svr
+SVT
+AT
+SVT
+52
+AP
+SVT
+VT
+VT
+VT
+VT
+VF
+VF
+VTF
+VF
+Both digital and analog implementation techniques are bemg investigated and we report here
+on our analog implementation efforts only Our analog implementations make use of the subthreshold operation mode of MOS transistors in order to maintain a very low power dissipation
+MASTER PERTURBATOR CHIP
+The architecture of this chip is shown in Figure Weights are implemented using a differ
+ential capacitor scheme refreshed from digital RAM. Synapses are implemented as four quadrant Gilbert multipliers Pickard al The chip has been fabricated and is currently being
+tested TIle building blocks have so far been successfully tested Two networks are implemented a total of synapses and a small single layer network The single layer network has been successfully trained to perfonn simple logic operations using the Weight
+Perturbation algorithm Jabri and Flower
+THE BOURKE CHIP
+The BOURKE chip Leong and Jahri makes use of Multiplying Digital to Analog Con
+verters to implement the synapses Weights are stored in digital registers All neurons were
+implemented as external resistors for the sake of evaluation Figure shows the schematics
+of a synapse The BOURKE chip has a small network and has been successfully tested
+it was successfully trained to perfonn an XOR A larger version of this chip with a
+network is being fabricated
+Conclusions
+We have presented in this paper several architectures for single and dual chamber arrhythmia
+Jabri Pickard Leong Chi Flower and Xie
+I
+hi
+ID
+I
+I
+FIGURE Architecture of the Master Perturbator chip Schematics 01 the
+BOURKE chip synapse implementation
+classifiers In both cases a good classification performance was achieved In particular for the
+case of dual chamber classification the complexity of the problem calls on more structured
+classifier architectures Two microelectronic low power implementation were briefly presented Progress so far indicates that micro-power VLSI ANNs offer a technology that will
+enable the use of powerful classification strategies in implantable defibrillators
+Acknowledgment
+Work presented in this paper was supported by the Australian Department of Industry Technology Commerce Telectronics Pacing Systems and the Australian Research Council
+
+----------------------------------------------------------------
+
+title: 155-an-analog-self-organizing-neural-network-chip.pdf
+
+AN ANALOG SELF-ORGANIZING
+NEURAL NElWORK CHIP
+James R. Mann
+MIT Lincoln Laboratory
+Wood Street
+Lexington MA
+Sheldon Gilbert
+West Estes
+Lincolnwood IL
+ABSTRACT
+A design for a fully analog version of a self-organizing feature map neural
+network has been completed Several parts of this design are in fabrication
+The feature map algorithm was modified to accommodate circuit solutions
+to the various computations required Performance effects were measured
+by simulating the design as part of a frontend for a speech recognition
+system Circuits are included to implement both activation computations and
+weight adaption or learning External access to the analog weight values is
+provided to facilitate weight initialization testing and static storage This
+fully analog implementation requires an order of magnitude less area than
+a comparable digital/analog hybrid version developed earlier
+INTRODUCTION
+This paper describes an analog version of a self-organizing feature map circuit The design
+implements Kohonen's self-organizing feature map algorithm Kohonen with some
+modifications imposed by practical circuit limitations The feature map algorithm automatically
+adapts connection weights to nodes in the network such that each node comes to represent a
+distinct class of features in the input space The system also self-organizes such that neighboring
+nodes become responsive to similar input classes The prototype circuit was fabricated in two
+parts for testability a node input synaptic array and a weight adaptation and refresh
+circuit A functional simulator was used to measure the effects of design constraints This
+simulator evolved with the design to the point that actual device characteristics and process
+statistics were incorporated The feature map simulator was used as a front-end processor to
+a speech recognition system whose error rates were used to monitor the effects of parameter
+changes on performance
+This design has evolved over the past two years from earlier experiments with a perceptron
+classifier Raffel and an earlier version of a self-organizing feature map circuit Mann
+The perceptron classifier used a connection matrix built with multiplying A converters
+to perform the product operation for the sum-of-products computation common to all neural
+network algorithms The feature map circuit also used MDAC's to perform a more complicated
+calculation to realize a squared Euclidean distance measure The weights were also stored
+digitally but in a unary encoded format to simplify the weight adjustment operation This circuit
+contained all of the control necessary to perform weight adaptation except for selecting a
+maximum responder
+The new feature map circuit described in this paper replaces the digital weight storage with
+dynamic analog charge storage on a capacitor This paper will describe the circuitry and discuss
+problems associated with this approach to neural network implementations
+Reprinted with pennission of Lincoln Laboratory Massachusetts Institute of Tedmology Lexington
+Massachusetts
+Mann and Gilbert
+ALGORITHM DESCRIPTION
+The original Kohonen algorithm is based on a network topology such as shown in Figure This
+illustrates a linear array of nodes consistent with the hardware implementation being descnbed
+Each node in the circuit computes a level of activity which indicates the similarity
+between the current input vector and its respective weight vector Traditionally
+this would be the squared Euclidean distance given by the activation equation in the figure If
+the inputs are normalized a dot product operation can be substituted The node most
+representative of the current input will be the one with the minimum or maximum output
+activity classification depending on which distance measure is used The node number of the
+min.fmax responder then comes to represent that class of which the input is a member
+If the network is still in its learning phase an adaptation process is invoked This process
+updates the weights of all the nodes lying within a prescribed neighborhood of the
+selected node The weights are adjusted such that the distance between the input and weight
+vector is diminished This is accomplished by decreasing the individual differences between each
+component pair of the two vectors The rate of learningis controlled by the gain term
+Both the neighborhood and gain terms decrease during the learning process stopping when the
+gain term reaches
+The following strategy was selected for the circuit implementation First it was assumed that
+inputs are normalized thereby permitting the simpler dot product operation to be adopted
+Second weight adjustments were reducedto a simple increment decrement operation determined
+by the sign of the difference between the components of the input and weight vector Both of
+these Simplifications were tested in the simulations described earlier and had negligible effects
+on overall performance as a speech vector quantizer In addition the prototype circuits of the
+analog weight version of the feature map vector quantizer do not include either the max picker
+or the neighborhood operator To date a version of a max picker has not yet been chosen
+though many forms exist The neighborhood operator was included in the previous version of
+this design but was not repeated on this ftrst pass
+HARDWARE DESCRIPTION
+SYNAPTIC ARRAY
+A transistor constitutes the basic synaptic connection used in this design An analog input is
+represented by a voltage v(Xi on the drain of the transistor The weight is stored as charge
+q(Wij on the gate of the transistor If the gate voltage exceeds the maximum input voltage by
+an amount greater than the transistor threshold voltage the device will be operating in the
+ohmic region In this region the current through the transistor is proportional to the
+product of the input and weight voltages This effectively computes one contribution to the dot
+product By connecting many synapses to a single wire current summing is performed in
+accordance with Kirchofrs current law producing the desired sum of products activity
+Figure shows the transistor current as a function of the input and weight voltages These
+curves merely serve to demonstrate how a transistor operating in the ohmic region will
+approximate a product operation
+As the input voltage begins to approach the saturation region of the transistor the curves begin
+to bend over For use in competitive learning networks like the feature map algorithm it is
+only important that the computation be monotonically increasing These curves were the
+characteristics of the computation used in the simulations The absolute values given for output
+current do not reflect those produced in the actual circuit
+An Analog Self-Organizing Neural Network Chip
+ACTIVATION
+Dj(l
+CLASSIFICATION
+ADAPTATION
+Figure Description of Kohonen's original feature map algorithm using a
+linear array of nodes
+WEIGHT Vgs
+A
+S.OV
+J.BV
+lao
+INPUT Vds
+Figure Typical T-V curves for a transistor operating in the ohmic region
+Mann and Gilbert
+It should also be noted that there is no true zero weight even the zero weight voltage
+contnbutes to the output current But again in a competitive network it is only important that
+it contribute less than a higher weight value at that same input voltage
+In short neither small non-linearities nor offsets interfere with circuit operation if the synapse
+characteristic is monotonic with weight value and input
+SYSTEM
+Figure is a block diagram of the small four-node hardware prototype The nodes are oriented
+horizontally their outputs identified as through 13 along the right-hand edge representing the
+accumulated currents The analog inputs come in from the bottom and traveling
+vertically make connections with each node at the boxes identified as synapses Each synapse
+performs its product operation between the analog weight stored at that node and the input
+potential
+Along the top and left sides are the control circuits for accessing weight information The two
+storage registers associated with each synapse are the control signals used to select the reading
+and writing of weights Weights are accessed serially by connecting to a global read and write
+wire and respectively Besides the need for modification the weights also drift with
+time much like DRAM storage and therefore must be refreshed periodically This is also
+performed by the adaptation circuit that will be presented separately
+Control is provided by having a single bit circulating through the DRAM storage bits
+associated with each synapse This process goes on continuously in the background after being
+initialized in parallel with the activity calculations If the circuit is not being trained the
+adaptation circuit continues to refresh the existing weights
+WEIGHT MODIFICATION REFRESH
+A complete synapse along with the current to voltage conversion circuit used to read the weight
+contents is shown in Figure The current synapse is approximately the size of two tr~sistor
+static RAM bits This approximation will be used to make synaptic population estimates from
+current SRAM design experience The six transistors along the top of the synapse circuit are
+two three-transistor dynamic RAM cells used to control access to weight contents These are
+represented in Figure as the two storage elements associated with each synapse and are used
+as descnbed earlier
+READING THE WEIGHT
+The two serial vertically oriented transistors in the synapse circuit are used to sense the stored
+weight value The bottom sensing transistor's channel is modulated by the charge stored on
+the weight capacitor The sensing transistor is selected through the binary state of the 3T
+DRAM bit immediately above it These two transistors used for reading the weight are
+duplicated in the outpu circuit shown to the right of the synapse The current produced in the
+global read wire through the sensing transistor is set up in the cascode current mirror
+arrangement in the output circuit A mirrored version of the current leaving the right hand side
+of the cascode mirror is established in the duplicate transistor pair The gate of this transistor
+is controlled by the operational amplifier as shown and must be equivalent to the weight valueat
+the connection being read if the drains are both at the same potential This is guaranteed by
+the cascode mirror arrangement selected and is set by the minus input to the amplifier
+WRITING THE WEIGHT
+The lone horizontal transistor at the bottom right comer of the synapse circuit is the weight
+access transistor This connects the global write wire[W to the weight capacitor This
+An Analog Self-Organizing Neural Network Chip
+microns
+ROW?CTRl?IN
+X2
+Xl
+XO
+Figure A block diagram of the synaptic array integrated circuit
+SYNAPSE
+32 MICRONS
+dl
+RO
+I
+wrl
+wr2
+OUTPUT CIRCUIT
+I
+fiT1
+I I
+I
+rJ
+I
+IIi
+Figure Full synapse circuit Activation transistor is at bottom central
+position in the synapse circuit
+Mann and Gilbert
+occurs whenever the DRAM element directly above it is holding a When the access
+transistor is off current leakage takes place causing the voltage on the capacitor to drift with
+time
+There are two requirements on the weight drift for our application That drift rates be as slow
+as possible and that they drift in a known direction in our case toward ground This is true
+because the refresh mechanism always raises the voltage to the top of a quantized voltage bin
+A cross-section of the access transistor in Figure identifies the two major leakage components
+reverse diode leakage to the grounded substrate p-well and subthreshold channel
+conduction to the global write wire[Id The reverse diode leakage current is proportional to
+the area of the diffusion while the channel conduction leakage is proportional to the channel
+W/L ratio Maintaining a negative voltage drift can be accomplished by sizing the devices such
+that reverse diode leakage dominates the channel conduction This however would degrade the
+overall storage performance and hence the minimum refresh cycle time This can be relaxed by
+the technique of holding the global write line at some low voltage during everything but write
+cycles This then makes the average voltage seen across the channel less than the minimum
+weight voltage always resulting in a net voltage drop
+Also these leakage currents are exponentially dependent on temperature and can be decreased
+by an order of magnitude with just of degrees of cooling SChwartz
+WEIGHT REPRESENTATION
+Weights while analog are restricted to discrete voltages This permits the stored voltage to drift
+by a restricted amount bin and still be refreshed to its original value The drift rate just
+discussed combined with the bin size determined by the levels of quantization of bins and
+weight range column height determines the refresh cycle time The refresh cycle time
+in tum determines how many synapses weights can be served by a single adaptation circuit
+This means that doubling the range of the weight voltage would permit either doubling the
+number of quantization levels or doubling the number of synapses served by one adaptation
+circuit
+Weight adjustments during learning involve raising or lowering the current weight voltage to the
+bins immediately above or below the current bin This constitutes a digital increment or
+decrement operation
+ADAPTATION CIRCUITRY
+Weight adjustments are made based upon a comparison between the current weight value and
+the input voltage connected to that weight But as these two ranges are not coincident the
+comparison is made between two binary values produced by parallel flash AID converters
+Brown The two opposing AID converters in Figure produce a code used in
+the comparison The converters are composed of two stages to conserve area The fIrst stage
+performs a coarse conversion which in tum drives the upper and lower rails of the second stage
+converter The selection logic decides which of the voltages among those in the second stage
+weight conversion circuit to route back on the global write wire
+This conflguration provides an easy mechanism for setting the ranges on both the inputs and
+weights This is accomplished merely by setting the desired maximum and minimum voltages
+desired on the respective conversion circuits Xmin,Xmax Wmin,Wmax
+TEST RESULTS
+Both circuits were fabricated in MOSIS The synaptic array was fabricated in a micron metal
+CMOS process while the adaptation circuitry was fabricated in a similar micron process To
+date only the synaptic array has been tested In these tests the input was restricted to a to1
+An Analog Self-Organizing Neural Network Chip
+I
+Figure Cross-sectional view of a weight access transistor with leakage
+currents
+I
+I
+SELECT
+LOGIC
+W-mln
+Figure Block diagram of the weight adaptation and refresh circuit
+Comparison of digital A outputs and new weight selection takes
+place in the box marked SELECT LOGIC
+Mann and Gilbert
+range while the weight range was to V. Most of these early tests were done with binary
+weights either or corresponding to a O"and a
+The synapses and associated control circuitry all work as expected The circuit can be clocked
+up to MHz. The curves shown in Figure display a typical neuron output during two modes
+of operation a set of four binary weights with all of the inputs swept together over their
+operating range and a single constant input with its weight being swept through its operating
+range
+The graphs in Figure show the temporal behavior of the weight voltage stored at a single
+synapse On the left is plotted the output current to weight VOltage for converting between the
+two quantities The right hand plot is the output current of the synapse plotted against time
+If the weight VOltage bin size is set to mV range bins a to second refresh cycle
+time limit would be required This is a very lenient constraint and may permit a much finer
+quantization than expected
+The circuitry for reading the weights was tested and appears to be inoperative The casco de
+mirror requires a very high potential at the p-channel sources which causes the circuit to latch
+up when the clocks are turned on This circuit will be isolated and tested under static
+conditions
+CONCLUSIONS
+In summary a design for an analog version of a self organizing feature map has been completed
+and prototype versions of the synaptic array and the adaptation circuitry have been fabricated
+The devices are still undergoing testing and characterization but the basic DRAM control and
+synaptic operation have been demonstrated Simulations have provided the guidance on design
+choices These have been instrumental in providing information on effects due to quantization
+computational non-linearities and process variations The new design offers a significant
+increase in density over a digital/analog hybrid approach The 84 pin standard frame package
+from MOSIS will accommodate more than synapses of from to bits accuracy It
+appears that control modifications may offer even greater densities in future versions
+This work was sponsored by the Department of the Air Force and the Defense Advanced
+Research Projects Agency the views expressed are those of the author and do not reflect the
+official policy or pOSition of the U.S. Government
+
+----------------------------------------------------------------
+
+title: 4694-neuronal-spike-generation-mechanism-as-an-oversampling-noise-shaping-a-to-d-converter.pdf
+
+Neuronal Spike Generation Mechanism as Oversampling Noise shaping A-to-D Converter\n Dmitri B. Chklovskii\n Janelia Farm Research Campus\n Howard Hughes Medical Institute\n mitya@janelia.hhmi.org\n Daniel Soudry\n Department of Electrical Engineering\n Technion\n daniel.soudry@gmail.com\n Abstract\n We test the hypothesis that the neuronal spike generation mechanism is analog-to-digital converter encoding rectified low-pass filtered\n summed synaptic currents into a spike train linearly decodable in postsynaptic neurons Faithful encoding of an analog waveform by a binary\n signal requires that the spike generation mechanism has a sampling rate\n exceeding the Nyquist rate of the analog signal Such oversampling consistent with the experimental observation that the precision of the spikegeneration mechanism is an order of magnitude greater than the cut frequency of low-pass filtering in dendrites Additional improvement in the\n coding accuracy may be achieved by noise-shaping a technique used signal processing If noise-shaping were used in neurons it would reduce\n coding error relative to Poisson spike generator for frequencies below\n Nyquist by introducing correlations into spike times By using experimental\n data from three different classes of neurons we demonstrate that biological\n neurons utilize noise-shaping Therefore the spike-generation mechanism\n can be viewed as an oversampling and noise-shaping AD converter.\n The nature of the neural spike code remains a central problem in neuroscience In particular,\n no consensus exists on whether information is encoded in firing rates or individual spike\n timing On the single-neuron level evidence exists to support both points of view On the\n one hand post-synaptic currents are low-pass-filtered by dendrites with the cut-off frequency approximately Figure providing ammunition for the firing rate camp if the signal\n reaching the soma is slowly varying why would precise spike timing be necessary On the other\n hand the ability of the spike-generation mechanism to encode harmonics of the injected current to about Figure points at its exquisite temporal precision Yet in view the slow variation of the somatic current such precision may seem gratuitous and puzzling.\n The timescale mismatch between gradual variation of the somatic current and high precision spike generation has been addressed previously Existing explanations often rely on the population\n nature of the neural code Although this is a distinct possibility the question remains\n whether invoking population coding is necessary Other possible explanations for the timescale\n mismatch include the possibility that some synaptic currents for example GABAergic may generated by synapses proximal to the soma and therefore not subject to low-pass filtering or that\n the high frequency harmonics are so strong in the pre-synaptic spike that despite attenuation their\n trace is still present Although in some cases these explanations could apply for the majority synaptic inputs to typical neurons there is a glaring mismatch.\n The perceived mismatch between the time scales of somatic currents and the spike-generation\n mechanism can be resolved naturally if one views spike trains as digitally encoding analog\n somatic currents Figure Although somatic currents vary slowly information that\n could be communicated by their analog amplitude far exceeds that of binary signals such as x0cor-none spikes of the same sampling rate Therefore faithful digital encoding requires sampling\n rate of the digital signal to be much higher than the cut-off frequency of the analog signal socalled over-sampling Although the spike generation mechanism operates in continuous time the\n high temporal precision of the spikegeneration mechanism may be viewed as manifestation of oversampling which needed for the digital encoding of the\n analog signal Therefore the extra order magnitude in temporal precision available\n to the spike-generation mechanism\n relative to somatic current Figure necessary to faithfully encode the\n amplitude of the analog signal thus\n potentially reconciling the firing rate and\n the spike timing points of view Figure Hybrid digital-analog operation of neuronal circuits A. Post-synaptic currents are\n low-pass filtered and summed in dendrites black to produce a somatic current blue This analog\n signal is converted by the spike generation mechanism into a sequence of all-or-none spikes\n green a digital signal Spikes propagate along an axon and are chemically transduced across\n synapses gray into post-synatpic currents black whose amplitude reflects synaptic weights,\n thus converting digital signal back to analog B. Frequency response function for dendrites adapted from and for the spike generation mechanism green adapted from Note one\n order of magnitude gap between the cut off frequencies C. Amplitude of the summed postsynaptic currents depends strongly on spike timing If the blue spike arrives just 5ms later shown in red the EPSCs sum to a value already less Therefore the extra precision of the\n digital signal may be used to communicate the amplitude of the analog signal.\n In signal processing efficient AD conversion combines the principle of oversampling with that noise-shaping which utilizes correlations in the digital signal to allow more accurate encoding the analog amplitude This is exemplified by a family of AD converters called modulators\n of which the basic one is analogous to an integrate-and-fire neuron The analogy\n between the basic modulator and the IF neuron led to the suggestion that neurons also use\n noise-shaping to encode incoming analog current waveform in the digital spike train However the hypothesis of noise-shaping AD conversion has never been tested experimentally biological neurons.\n In this paper by analyzing existing experimental datasets we demonstrate that noise-shaping present in three different classes of neurons from vertebrates and invertebrates This lends support\n to the view that neurons act as oversampling and noise-shaping AD converters and accounts for\n the mismatch between the slowly varying somatic currents and precise spike timing Moreover show that the degree of noise-shaping in biological neurons exceeds that used by basic modulators or IF neurons and propose viewing more complicated models in the noise-shaping\n framework This paper is organized as follows We review the principles of oversampling and\n noise-shaping in Section In Section we present experimental evidence for noise-shaping conversion in neurons In Section we argue that rectification of somatic currents may improve\n energy efficiency and/or implement de-noising.\n Oversampling and noise-shaping in AD converters\n To understand how oversampling can lead to more accurate encoding of the analog signal\n amplitude in a digital form we first consider a Poisson spike encoder whose rate of spiking modulated by the signal amplitude Figure Such an AD converter samples an analog signal discrete time points and generates a spike with a probability given by the normalized signal\n amplitude Because of the binary nature of spike trains the resulting spike train encodes the signal\n with a large error even when the sampling is done at Nyquist rate the lowest rate for alias-free\n sampling.\n x0cTo reduce the encoding error a Poisson encoder can sample at frequencies fs higher than\n Nyquist fN hence the term oversampling Figure When combined with decoding by lowpass filtering down to Nyquist on the receiving end this leads to a reduction of the error which\n can be estimated as follows The number of samples over a Nyquist half-period is given the oversampling ratio:\n As the normalized signal amplitude,\n stays roughly constant over\n the Nyquist half-period it can encoded by spikes generated with fixed probability For a Poisson\n process the variance in the number spikes is equal to the mean,\n Therefore the\n mean relative error of the signal\n decoded by averaging over the Nyquist\n half-period:\n indicating that oversampling reduces\n transmission error However the weak\n dependence of the error on the\n oversampling\n frequency\n indicates\n diminishing returns on the investment\n in oversampling and motivates one search for other ways to lower the error.\n Figure Oversampling and noise-shaping in AD conversion A. Analog somatic current and its digital code green The difference between the green and the blue curves is encoding\n error B. Digital output of oversampling Poisson encoder over one Nyquist half-period C. Error\n power spectrum of a Nyquist dark green and oversampled light green Poisson encoder.\n Although the total error power is the same the fraction surviving low-pass filtering during\n decoding solid green is smaller in oversampled case D. Basic modulator E. Signal at the\n output of the integrator F. Digital output of the modulator over one Nyquist period G. Error\n power spectrum of the modulator brown is shifted to higher frequencies and low-pass filtered\n during decoding The remaining error power solid brown is smaller than for Poisson encoder.\n To reduce encoding error beyond the power of the oversampling ratio the principle of noiseshaping was put forward To illustrate noise-shaping consider a basic AD converter called Figure In the basic modulator the previous quantized signal is fed back and\n subtracted from the incoming signal and then the difference is integrated in time Rather than\n quantizing the input signal as would be done in the Poisson encoder modulator quantizes the\n integral of the difference between the incoming analog signal and the previous quantized signal,\n Figure One can see that in the oversampling regime the quantization error of the basic modulator is significantly less than that of the Poisson encoder As the variance in the number spikes over the Nyquist period is less than one the mean relative error of the signal is at most,\n which is better than the Poisson encoder.\n To gain additional insight and understand the origin of the term noise-shaping we repeat the\n above analysis in the Fourier domain First the Poisson encoder has a flat power spectrum up the sampling frequency Figure Oversampling preserves the total error power but extends the\n frequency range resulting in the lower error power below Nyquist Second a more detailed\n analysis of the basic modulator where the dynamics is linearized by replacing the quantization\n device with a random noise injection shows that the quantization noise is effectively\n differentiated Taking the derivative in time is equivalent to multiplying the power spectrum of the\n x0cquantization noise by frequency squared Such reduction of noise power at low frequencies is example of noise shaping Figure Under the additional assumption of the white quantization\n noise such analysis yields:\n which for is significantly better performance than for the Poisson encoder As mentioned previously the basic modulator Figure in the continuous-time regime nothing other than an IF neuron In the IF neuron quantization is implemented by the\n spike generation mechanism and the negative feedback corresponds to the after-spike reset Note\n that resetting the integrator to zero is strictly equivalent to subtraction only for continuous-time\n operation In discrete-time computer simulations the integrator value may exceed the threshold,\n and therefore subtraction of the threshold value rather than reset must be used Next motivated\n by the analogy we look for the signs of noise-shaping AD conversion in real neurons.\n Experimental evidence of noise-shaping AD conversion in real neurons\n In order to determine whether noise-shaping AD conversion takes place in biological neurons analyzed three experimental datasets where spike trains were generated by time-varying somatic\n currents rat somatosensory cortex L5 pyramidal neurons mouse olfactory mitral cells\n and fruit fly olfactory receptor neurons In the first two datasets the current was\n injected through an electrode in whole-cell patch clamp mode while in the third the recording\n was extracellular and the intrinsic somatic current could be measured because the glial\n compartment included only one active neuron.\n Testing the noise-shaping AD conversion hypothesis is complicated by the fact that encoded and\n decoded signals are hard to measure accurately First as somatic current is rectified by the spikegeneration mechanism only its super-threshold component can be encoded faithfully making hard to know exactly what is being encoded Second decoding in the dendrites is not accessible these single-neuron recordings.\n In view of these difficulties we start by simply computing the power spectrum of the\n reconstruction error obtained by subtracting a scaled and shifted but otherwise unaltered spike\n train from the somatic current The scaling factor was determined by the total weight of the\n decoding linear filter and the shift was optimized to maximize information capacity see below the frequencies below the error contains significantly lower power than the input signal,\n Figure indicating that the spike generation mechanism may be viewed as an AD converter.\n Furthermore the error power spectrum of the biological neuron is below that of the Poisson\n encoder thus indicating the presence of noise-shaping For dataset we also plot the error power\n spectrum of the IF neuron the threshold of which is chosen to generate the same number of spikes\n as the biological neuron.\n somatic current\n biological neuron error\n Poisson encoder error\n neuron error\n Spectral power Spectral power Frequency Frequency Figure Evidence of noise-shaping Power spectra of the somatic current blue difference\n between the somatic current and the digital spike train of the biological neuron black of the\n Poisson encoder green and of the IF neuron Left datset right dataset x0cAlthough the simple analysis presented above indicates noise-shaping subtracting the spike train\n from the input signal Figure does not accurately quantify the error when decoding involves\n additional filtering An example of such additional encoding/decoding is predictive coding which\n will be discussed below To take such decoding filter into account we computed a decoded\n waveform by convolving the spike train with the optimal linear filter which predicts the somatic\n current from the spike train with the least mean squared error.\n Our linear decoding analysis lends additional support to the noise-shaping AD conversion\n hypothesis First the optimal linear filter shape is similar to unitary post-synaptic currents,\n Figure thus supporting the view that dendrites reconstruct the somatic current of the presynaptic neuron by low-pass filtering the spike train in accordance with the noise-shaping\n principle Second we found that linear decoding using an optimal filter accounts for of the somatic current variance Naturally such prediction works better for neurons in suprathreshold regime with high firing rates an issue to which we return in Section To avoid\n complications associated with rectification for now we focused on neurons which were in suprathreshold regime by monitoring that the relationship between predicted and actual current is close\n to linear.\n somatic current\n biological neuron error\n Poisson encoder error\n Spectral power Spectral power neuron error\n Frequency Frequency Figure Linear decoding of experimentally recorded spike trains A. Waveform of somatic\n current blue resulting spike train black and the linearly decoded waveform red from dataset\n B. Top Optimal linear filter for the trace in A is representative of other datasets as well.\n Bottom Typical EPSPs have a shape similar to the decoding filter adapted from Power spectra of the somatic current blue the decdoding error of the biological neuron the Poisson encoder green and IF neuron red for dataset dataset Next we analyzed the spectral distribution of the reconstruction error calculated by subtracting the\n decoded spike train convolved with the computed optimal linear filter from the somatic\n current We found that at low frequencies the error power is significantly lower than in the input\n signal Figure This observation confirms that signals below the dendritic cut-off frequency\n of can be efficiently communicated using spike trains.\n To quantify the effect of noise-shaping we computed information capacity of different encoders:\n x0cwhere and are the power spectra of the somatic current and encoding error\n correspondingly and the sum is computed only over the frequencies for which Because the plots in Figure use semi-logrithmic scale the information capacity can estimated from the area between a somatic current blue power spectrum and an error power\n spectrum We find that the biological spike generation mechanism has higher information capacity\n than the Poisson encoder and IF neurons Therefore neurons act as AD converters with stronger\n noise-shaping than IF neurons.\n We now return to the predictive nature of the spike generation mechanism Given the causal nature\n of the spike generation mechanism it is surprising that the optimal filters for all three datasets\n carry most of their weight following a spike Figure This indicates that the spike generation\n mechanism is capable of making predictions which are possible in these experiments because\n somatic currents are temporally correlated We note that these observations make delay-free\n reconstruction of the signal possible thus allowing fast operation of neural circuits The predictive nature of the encoder can be captured by a modulator embedded in a predictive\n coding feedback loop Figure We verified by simulation that such a nested architecture\n generates a similar optimal linear filter with most of its weight in the time following a spike,\n Figure 5A right Of course such\n prediction is only possible for\n correlated inputs implying that the\n shape of the optimal linear filter\n depends on the statistics of the\n inputs The role of predictive coding\n is to reduce the dynamic range of the\n signal that enters thus avoiding\n overloading A possible biological\n implementation for such integrating\n feedback\n could\n concentration and Ca dependent\n potassium channels Figure Enhanced modulators A. modulator combined with predictive coder In such\n device the optimal decoding filter computed for correlated inputs has most of its weight following\n a spike similar to experimental measurements Figure B. Second-order modulator\n possesses stronger noise-shaping properties Because such circuit contains an internal state\n variable it generates a non-periodic spike train in response to a constant input Bottom trace shows\n a typical result of a simulation Black spikes blue input current.\n Possible reasons for current rectification energy efficiency and de-noising\n We have shown that at high firing rates biological neurons encode somatic current into a linearly\n decodable spike train However at low firing rates linear decoding cannot faithfully reproduce the\n somatic current because of rectification in the spike generation mechanism If the objective spike generation is faithful AD conversion why would such rectification exist We see two\n potential reasons energy efficiency and de-noising.\n It is widely believed that minimizing metabolic costs is an important consideration in brain design\n and operation Moreover spikes are known to consume a significant fraction of the\n metabolic budget placing a premium on their total number Thus we can postulate that\n neuronal spike trains find a trade-off between the mean squared error in the decoded spike train\n relative to the input signal and the total number of spikes as expressed by the following cost\n function over a time interval where is the analog input signal is the binary spike sequence composed of zeros and ones and\n is the linear filter.\n x0cTo demonstrate how solving would lead to thresholding let us consider a simplified\n version taken over a Nyquist period during which the input signal stays constant:\n where and normalized by Minimizing such a cost function reduces to choosing the lowest\n lying parabola for a given\n Figure Therefore thresholding is a natural outcome minimizing a cost function combining the decoding error and the energy cost In addition to energy efficiency there may be a computational reason for thresholding somatic\n current in neurons To illustrate this point we note that the cost function in for continuous\n variables st may be viewed as a non-negative version of the L1-norm regularized linear\n regression called LASSO which is commonly used for de-noising of sparse and Laplacian\n signals Such cost function can be minimized by iteratively applying a gradient descent and shrinkage steps which is equivalent to thresholding one-sided in case of non-negative\n variables Figure Therefore neurons may be encoding a de-noised input signal.\n Figure Possible reasons for rectification in neurons A. Cost function combining encoding\n error squared with metabolic expense input signal for different values of the spike number Note that the optimal number of spikes jumps from zero to one as a function of input Estimating most probable clean signal value for continuous non-negative Laplacian signal and\n Gaussian noise while setting The parabolas red illustrate the quadratic loglikelihood term in for different values of the measurement while the linear function reflects the linear log-prior term in C. The minimum of the combined cost function in is zero if and grows linearly with if Di scu ssi In this paper we demonstrated that the neuronal spike-generation mechanism can be viewed as oversampling and noise-shaping AD converter which encodes a rectified low-pass filtered\n somatic current as a digital spike train Rectification by the spike generation mechanism may\n subserve both energy efficiency and de-noising As the degree of noise-shaping in biological\n neurons exceeds that in IF neurons or basic we suggest that neurons should be modeled more advanced modulators Figure Interestingly modulators can be also viewed coders with error prediction feedback Many publications studied various aspects of spike generation in neurons yet we believe that the\n framework we adopt is different and discuss its relationship to some of the studies Our\n framework is different from previous proposals to cast neurons as predictors because different quantity is being predicted The possibility of perfect decoding from a spike train with\n infinite temporal precision has been proven in Here we are concerned with a more practical\n issue of how reconstruction error scales with the over-sampling ratio Also we consider linear\n decoding which sets our work apart from Finally previous experiments addressing noiseshaping studied the power spectrum of the spike train rather than that of the encoding error.\n Our work is aimed at understanding biological and computational principles of spike-generation\n and decoding and is not meant as a substitute for the existing phenomenological spike-generation\n models which allow efficient fitting of parameters and prediction of spike trains the theoretical framework we adopt may assist in building better models of spike\n generation for a given somatic current waveform First having interpreted spike generation as conversion we can draw on the rich experience in signal processing to attack the problem.\n Second this framework suggests a natural metric to compare the performance of different spike\n generation models in the high firing rate regime a mean squared error between the injected\n x0ccurrent waveform and the filtered version of the spike train produced by a model provided the total\n number of spikes is the same as in the experimental data The AD conversion framework adds\n justification to the previously proposed spike distance obtained by subtracting low-pass filtered\n spike trains As the framework we adopt relies on viewing neuronal computation as an analog-digital\n hybrid which requires AD and DA conversion at every step one may wonder about the reason for\n such a hybrid scheme Starting with the early days of computers the analog mode is known to advantageous for computation For example performing addition of many variables in one step possible in the analog mode simply by Kirchhoff law but would require hundreds of logical gates\n in the digital mode However the analog mode is vulnerable to noise build-up over many\n stages of computation and is inferior in precisely communicating information over long distances\n under limited energy budget While early analog computers were displaced by their digital\n counterparts evolution combined analog and digital modes into a computational hybrid thus\n necessitating efficient AD and DA conversion which was the focus of the present study.\n We are grateful to L. Abbott S. Druckmann D. Golomb T. Hu J. Magee N. Spruston Theilman for helpful discussions and comments on the manuscript to Wang D. McCormick,\n Nagel R. Wilson K. Padmanabhan N. Urban S. Tripathy H. Koendgen and M. Giugliano\n for sharing their data The work of D.S. was partially supported by the Intel Collaborative\n Research Institute for Computational Intelligence
+
+----------------------------------------------------------------
+
+title: 477-a-parallel-analog-ccdcmos-signal-processor.pdf
+
+A Parallel Analog CCD/CMOS Signal Processor
+Charles F. Neugebauer
+Amnon Yariv
+Department of Applied Physics
+California Institute of Technology
+Pasadena CA
+Abstract
+A CCO based signal processing IC that computes a fully parallel single
+quadrant vector-matrix multiplication has been designed and fabricated with a
+CCO/CMOS process The device incorporates an array of Charge
+Coupled Devices CCO which hold an analog matrix of charge encoding the
+matrix elements Input vectors are digital with bit accuracy
+INTRODUCTION
+Vector-matrix multiplication VMM is often used in neural network theories to describe
+the aggregation of signals by neurons An input vector encoding the activation levels of
+input neurons is multiplied by a matrix encoding the synaptic connection strengths to
+create an output vector The analog VLSI architecture presented here has been devised to
+perfonn the vector-matrix multiplication using CCO technology The architecture
+calculates a VMM in one clock cycle an improvement over previous semiparallel devices
+Agranat Chiang This architecture is also useful for general signal
+processing applications where moderate resolution is required such as image processing
+As most neural models have robust behavior in the presence of noise and inaccuracies
+analog VLSI offers the potential for highly compact neural circuitry Analog
+multiplication circuitry can be made much smaller than its digital equivalent offering
+substantial savings in power and IC size at the expense of limited accuracy and
+programmability Oigitall/O however is desirable as it allows the use of standard
+memory and control circuits at the system level The device presented here has digital
+input and analog output and elucidates all relevant perfonnance characteristics including
+A Parallel Analog CCD/CMOS Signal Processor
+accuracy speed power dissipation and charge retention of the VMM. In practice on-chip
+charge domain AID converters are used for converting analog output signals to facilitate
+digital communication with off-chip devices
+Matrix Charge
+I
+Q.
+I I.
+U.
+Column Gate
+Input Vector
+Figure Simplified Schematic of CID Vector Matrix Multiplier
+ARCHITECTURE DESCRIPTION
+The vector-matrix multiplier consists of a matrix of CCD cells that resemble Charge
+Injection Device CID imager pixels in that one of the cell's gates is connected vertically
+from cell to cell fonning a column electrode while another gate is connected horizontally
+fonning a row electrode The charge stored beneath the row and column gates encodes
+the matrix A simplified schematic in Figure shows the array organization
+BINARY VECTOR MATRIX MULTIPLICATION
+In its most basic configuration the VMM circuit computes the product of a binary input
+vector Uj and an analog matrix of charge The computation done by each CID cell in
+the matrix is a multiply-accumulate in which the charge Qij is multiplied by a binary
+input vector element Uj encoded on the column line and this product is summed with
+other products in the same row to fonn the vector product Ii on the row lines
+Multiplication by a binary num ber is equivalent to adding or not adding the charge at a
+Neugebauer and Yariv
+particular matrix element to its associated row line
+The matrix element operation is shown in Figure which displays a cross-section of one
+of the rows with the associated potential wells at different times in the computation
+Matrix Charge
+out
+Column Gate
+lOV
+OV
+I
+row Q/C
+OV
+IER
+row
+row Q/C
+l(floating
+rzz,Laarwul2!:ting
+Y2ZlZi;ZZU QV22lZUA
+OV
+Figure CID Cell Operation
+In the initial state prior to the VMM computation the matrix of charges Qij is moved
+A Parallel Analog CO/CMOS Signal Processor
+beneath the column electrodes by placing a positive voltage on all column lines shown
+in Figure A positive voltage creates a deep potential well for electrons At this
+point the row lines are reset to a
+
+----------------------------------------------------------------
+
+title: 237-a-reconfigurable-analog-vlsi-neural-network-chip.pdf
+
+Satyanarayana Tsividis and Graf
+A Reconfigurable Analog VLSI Neural Network
+Chip
+Srinagesh Satyanarayana and Yannis Tsividis
+Department of Electrical Engineering
+and
+Center for Telecommunications Research
+Columbia University New York NY USA
+Hans Peter Graf
+AT&T
+Bell Laboratories
+Holmdel NJ
+USA
+ABSTRACT
+distributed-neuron synapses have been integrated in an active
+area of using a double-metal single-poly
+n-well CMOS technology The distributed-neuron synapses are arranged in blocks of which we call tiles Switch matrices
+are interleaved between each of these tiles to provide programmability of interconnections With a small area overhead the
+units of the network can be rearranged in various configurations Some of the possible configurations are a network
+a network two networks etc the numbers separated by dashes indicate the number of units per layer including
+the input layer Weights are stored in analog form on MaS capacitors The synaptic weights are usable to a resolution of of
+their full scale value The limitation arises due to charge injection
+from the access switch and charge leakage Other parameters like
+gain and shape of nonlinearity are also programmable
+Introduction
+A wide variety of ptoblems can be solved by using the neural network framework
+However each of these problems requires a different topology and weight set
+At a much lower system level the performance of the network can be improved
+by selecting suitable neuron gains and saturation levels Hardware realizations of
+A Reconfigurable Analog VLSI Neural Network Chip
+hidcMn
+NtUYOftS
+inputs
+inputs
+Inputs
+Figure Reconfigurability
+neural networks provide a fast means of solving the problem We have chosen
+analog circuits to implement neural networks because they provide high synapse
+density and high computational speed In order to provide a general purpose hardware for solving a wide variety of problems that can be mapped into the neural
+network framework it is necessary to make the topology weights and other neurosynaptic parameters programmable Weight programmability has been extensively
+dealt in several implementations However features like programmable topology neuron gains and saturation levels have not been addressed extensively We
+have designed fabricated and tested an analog VLSI neural network in which the
+topology weights and neuron gains and saturations levels are all programmable
+Since the process of design fabrication and testing is time-consuming and expensive
+redesigning the hardware for each application is inefficient Since the field of neural
+networks is still in its infancy new solutions to problems are being searched for
+everyday These involve modifying the topology and finding the best weight
+set In such an environment a computational tool that is fully programmable is
+very desirable
+The Concept of Reconfigurability
+We define reconfigurabilityas the ability to alter the topology the number oflayers
+number of neurons per layer interconnections from layer to layer and interconnections within a layer of the network The topology of a network does not describe
+the value of each synaptic weight It only specifies the presence or absence of a
+synapse between two neurons However in the special case of binary weight
+defining the topology specifies the weight The ability to alter the synaptic weight
+can be defined as weight programmability Figure illustrates reconfigurability
+whereas Figure shows how the weight value is realized in our implementation
+The Voltage Vw across the capacitor represents the synaptic weight Altering this
+voltage makes weight programmability possible
+Why is On-Chip Reconfigurability Important
+Synapses neurons and interconnections occupy real estate on a chip Chip sizes
+are limited due to various factors like yield and cost Hence only a limited number
+Satyanarayana Tsividis and Graf
+Figure Weight programmability
+of synapses can be integrated in a given chip area Currently the most compact
+realizations considering more than bits of synaptic accuracy permit us to integrate only a few thousand synapses per cm In such a situation every zero-valued
+inactive synapse represents wasted area and decreases the computational ability
+per unit area of the chip If a fixed topology network is used for different problems
+it will be underutilized as long as some synapses are set to zero value On the
+other hand if the network is reconfigurable the limited resources on-chip can be
+reallocated to build networks with different topologies more efficiently For example
+the network with topology-2 of Figure requires synapses If the network was
+reconfigurable we could utilize these synapses to build a two-layer network with
+synapses in the first layer and in the second layer In a similar fashion we could
+also build the network with topology-3 which is a network with localized receptive
+fields
+The Distributed-Neuron Concept
+In order to provide reconfigurability on-chip we have developed a new cell called the
+distributed-neuron synapse In addition to making reconfiguration easy it has
+other advantages like being modular hence making design easy provides automatic
+gain scaling avoids large current build-up at any point and makes possible a fault
+tolerant system
+Figure shows a lumped neuron with synaptic inputs We call it lumped
+because the circuit that provides the nonlinear function is lumped into one block
+Yout
+Figure A lumped neuron with synaptic inputs
+A Recontigurable Analog VLSI Neural Network Chip
+The synapses are assumed to be voltage-to-current transconductor cells and the
+neuron is assumed to be a current-to-voltage cell Summation is achieved through
+addition of the synapse output currents in the parallel connection
+Figure shows the equivalent distributed-neuron with synaptic inputs It is
+called distributed because the circuit that functions as the neuron is split into
+parts One of these parts is integrated with each synapse This new block that
+contains a a synapse and a fraction of the neuron is called the distributed-neuron
+synapse Details of the distributed-neuron concept are described in It has to
+be noted that the splitting of the neuron to form the distributed-neuron synapse
+is done at the summation point where the computation is linear Hence the two
+realizations of the neuron are computationally equivalent However the distributedneuron implementation offers a number of advantages as is now explained
+Yout
+Distribut.d
+N.uron
+Disiribui.d-n.uron
+s~nllps
+Figure A distributed-neuron with synaptic inputs
+Modularity of the design
+As is obvious from Figure the task of building a complete network involves designing one single distributed-neuron synapse module and interconnecting several of
+them to form the whole system Though at a circuit level a fraction of the neuron
+has to be integrated with each synapse the system level design is simplified due to
+the modularity
+Automatic gain normalization
+In the distributed-neuron each unit of the neuron serves as a load to the output
+of a synapse As the number of synapses at the input of a neuron increases the
+number of neuron elements also increases by the same number The neuron output
+is given by
+Yj
+WijXi
+Where Yj is the output of the ph neuron Wij is the weight from the ith synaptic
+input and 8j is the threshold implemented by connecting in parallel an appropriate number of distributed-neuron synapses with fixed inputs Assume for the
+Satyanarayana Tsividis and Graf
+Distri buted neuron
+synapse
+Figure Switches used for reconfiguration in the distributed-neuron implementation
+moment that all the inputs are at a maximum possible value Then it is easily
+seen that Yj is independent of This is the manifestation of the automatic gain
+normalization that is inherent to the idea of distributed-neuron synapses
+Ease of reconfiguration
+In a distributed-neuron implementation reconfiguration involves interconnecting a
+set of distributed-neuron synapse modules Figure A neuron of the right size
+gets formed when the outputs of the required number of synapses are connected
+In a lumped neuron implementation reconfiguration involves interconnecting a set
+of synapses with a set of neurons This involves more wiring switches and logic
+control blocks
+A voiding large current build-up in the neuron
+In our implementation the synaptic outputs are currents These currents are summed
+by Kirchoffs current law and sent to the neuron Since the neuron is distributed the
+total current is divided into equal parts where is the number of distributedneuron synapses One of these part flows through each unit of the distributed neuron
+as illustrated in Figure This obviates the need for large current summation wires
+and avoids other problems associated with large currents at any single point
+Fault tolerance
+On a VLSI chip defects are commonly seen Some of these defects can short wires
+hence corrupting the signals that are carried on them Defects can also render some
+synapses and neurons defective In our implementation we have integrated switches
+in-between groups of distributed-neuron synapses which we call tiles to make the
+chip reconfigurable Figure This makes each tile of the chip externally testable
+The defective sections of the chip can be isolated and the remaining synapses can
+thus be reconfigured into another topology as shown in Figure
+Circuit Description of the Distributed-Neuron Synapse
+Figure shows a distributed-neuron synapse constructed around a differential-input
+differential-output transconductance multiplier A weight converter is used to con
+A Reconfigurable Analog VLSI Neural Network Chip
+Figure Improved fault tolerance in the distributed-neuron system
+Figure The distributed-neuron synapse circuit
+vert the single-ended weight controlling voltage Vw into a set of differential currents
+that serve as the bias currents of the multiplier The weight is stored on aMOS
+capacitor
+The differential nature of the circuit offers several advantages like improved rejection
+of power supply noise and linearity of multiplication Common-mode feedback is
+provided at the output of the synapse An amplitude limiter that is operational
+only when the weighted sum exceeds a certain range serves as the distributed-neuron
+part The saturation levels of the neuron can be programmed by adjusting VN1 and
+VN Gains can be set by adjusting the bias current IB and/or a load not shown
+The measured synapse characteristics are shown in Figure
+Satyanarayana Tsividis and Graf
+If
+a
+III
+Difterential Input
+wt I FS wt FS wt O.OIFS
+wt FS wt FS
+Individual curVElS are for different
+eIght values I FS Full Scale I
+Figure Measured characteristics of the distributed-neuron synapse
+Distributed-neuron synapse
+output
+wlr
+i$a$l:a:ml:ttn
+SYMBOLIC
+DIAGRAM
+ACTUAL ON-CHIP
+WIRING OF A
+DODD
+DODO
+TILE
+horizontal
+swi tch matri
+DODD
+DODD
+DODO
+DODD
+DODO
+DODO
+DODO
+DODO
+DODO
+SYNAPSES
+IN GROUPS OF
+Figure Organization of the distributed-neurons and switches on chip
+A Reconfigurable Analog VLSI Neural Network Chip
+Organization of the Chip
+Figure shows how the distributed-neuron synapses are arranged on-chip
+distributed-neuron synapses have been arranged in a crossbar fashion to
+form a 4-input-4-output network We call this a tile Input and output
+wires are available on all four sides of the tile This makes interconnections to adjacent blocks easy Vertical and horizontal switch matrices are interleaved in-between
+the tiles to select one of the various possible modes of interconnections These
+modes can be configured by setting the bits of memory in each switch matrix
+distributed-neuron synapses have been integrated in an active area of
+using a double-metal single-poly n-well CMOS technology
+The Weight Update/Refresh Scheme
+Weights are stored in analog form on a MOS capacitor A semi-serial-parallel weight
+update scheme has been built pins of the chip are used to distribute the weights
+to the capacitors on the chip Each pin can refresh capacitors contained
+in a row of tiles The capacitors in each tile-row are selected one at a time by a
+decoder The maximum refresh speed depends on the time needed to charge up the
+weight storage capacitor and the parasitic capacitances One complete refresh of all
+weights on the chip is possible in about J.l seconds However one could refresh
+at a much slower rate the lower limit of which is decided by the charge leakage For
+a 7-bit precision in the weight at room temperature a refresh rate in the order of
+milliseconds should be adequate Charge injection due to the parasitic capacitances
+has been kept low by using very small switches In the first version of the chip
+only the distributed-neuron synapses the switches used for reconfiguration and
+the topology memory have been integrated Weights are stored outside the chip in
+digital form in a 1K RAM. The contents of the RAM are continuously read and
+converted into analog form using a bank of off-chip A converters An advantage
+of our scheme is that the forward-pass operation is not interrupted by the weight
+refresh mechanism A fast weight update scheme of the type used here is very
+desirable while executing learning algorithms at a high speed The complete block
+diagram of the weight refresh/update and testing scheme is shown in Figure
+Configuration Examples
+In Figure we show some of the network topologies that can be configured with
+the resources available on the chip The left-hand side of the figure shows the
+actual wiring on the chip and the right-hand side shows the symbolic diagram of
+the network configuration The darkened tiles have been used for implementing
+the thresholds Several other topologies like feedback networks and networks with
+localized receptive fields can be configured with this chip
+The complete system
+Figure shows how the neural network chip fits into a complete system that is
+necessary for its use and testing The Config-EPROM stores the bit pattern corre
+Satyanarayana Tsividis and Graf
+SIngle-ended to dUferenltl1
+conYerter
+WeIght
+RAn
+Neural
+Networll
+Conflg
+EPRon
+Figure Block diagram of the system for reconfiguration weight update/refresh
+and testing
+sponding to the desired topology This bit pattern is down-loaded into the memory
+cells of the switch matrices before the start of computation Input vectors are read
+out from the Data memory and converted into analog form by D/A converters
+The outputs of the A converters are further transformed into differential signals and then fed into the chip The chip delivers differential outputs which are
+converted into digital form using an A/D converter and stored in a computer for
+further analysis
+The delay in processing one layer with inputs driving another layer with an
+equal number of inputs is typically 1J.lsec Hence a network should take
+about 6J.lsecs for one forward-pass operation However external loads can slow down
+the computation considerably This problem can be solved by increasing the bias
+currents or/and using pad buffers Each block on the chip has been tested and has
+been found to function as expected Tests of the complete chip in a variety of neural
+network configurations are being planned
+Conclusions
+We have designed a reconfigurable array of distributed-neuron synapses that
+can be configured into several different types of neural networks The distributedneuron concept that is integral to this chip offers advantages in terms of modularity
+and automatic gain normalization The chip can be cascaded with several other
+chips of the same type to build larger systems
+
+----------------------------------------------------------------
+
+title: 2331-neuromorphic-bisable-vlsi-synapses-with-spike-timing-dependent-plasticity.pdf
+
+Neuromorphic Bistable VLSI Synapses with
+Spike-Timing-Dependent Plasticity
+Giacomo Indiveri
+Institute of Neuroinformatics
+University/ETH Zurich
+Zurich Switzerland
+giacomo@ini.phys.ethz.ch
+Abstract
+We present analog neuromorphic circuits for implementing bistable synapses with spike-timing-dependent plasticity STDP properties In these
+types of synapses the short-term dynamics of the synaptic efficacies are
+governed by the relative timing of the pre and post-synaptic spikes
+while on long time scales the efficacies tend asymptotically to either a
+potentiated state or to a depressed one We fabricated a prototype VLSI
+chip containing a network of integrate and fire neurons interconnected
+via bistable STDP synapses Test results from this chip demonstrate the
+synapse?s STDP learning properties and its long-term bistable characteristics
+Introduction
+Most artificial neural network algorithms based on Hebbian learning use correlations of
+mean rate signals to increase the synaptic efficacies between connected neurons To prevent uncontrolled growth of synaptic efficacies these algorithms usually incorporate also
+weight normalization constraints that are often not biophysically realistic Recently an
+alternative class of competitive Hebbian learning algorithms has been proposed based on a
+spike-timing-dependent plasticity STDP mechanism It has been argued that the STDP
+mechanism can automatically and in a biologically plausible way balance the strengths of
+synaptic efficacies thus preserving the benefits of both weight normalization and correlation based learning rules In STDP the precise timing of spikes generated by the
+neurons play an important role If a pre-synaptic spike arrives at the synaptic terminal before a post-synaptic spike is emitted within a critical time window the synaptic efficacy
+is increased Conversely if the post-synaptic spike is emitted soon before the pre-synaptic
+one arrives the synaptic efficacy is decreased
+While mean rate Hebbian learning algorithms are difficult to implement using analog circuits spike-based learning rules map directly onto VLSI In this paper we present
+compact analog circuits that combined with neuromorphic integrate and fire neurons
+and synaptic circuits with realistic dynamics implement STDP learning for short
+time scales and asymptotically tend to one of two possible states on long time scales The
+circuits required to implement STDP are described in Section The circuits that implement bistability are described in Section The network of I&F neurons used to measure
+the properties of the bistable STDP synapse is described in Section
+Long term storage of synaptic efficacies
+The circuits that drive the synaptic efficacy to one of two possible states on long time scales
+were implemented in order to cope with the problem of long term storage of analog values
+in CMOS technology Conventional VLSI capacitors the devices typically used as memory
+elements are not ideal in that they slowly loose the charge they are supposed to store due
+to leakage currents Several solutions have been proposed for long term storage of synaptic
+efficacies in analog VLSI neural networks One of the first suggestions was to use the same
+method used for dynamic RAM to periodically refresh the stored value This involves
+though discretization of the analog value to discrete levels a method for comparing the
+measured voltage to the levels and a clocked circuit to periodically refresh the value
+on the capacitor An alternative solution is to use analog-to-digital ADC converters an
+off chip RAM and digital-to-analog converters but this approach requires next
+to a discretization of the value to states bulky ADC and DAC circuits A more recent
+suggestion is the one of using floating gate devices These devices can store very precise
+analog values for an indefinite amount of time using standard CMOS technology but
+for spike-based learning rules they would require a control circuit and thus large area per
+synapse To implement dense arrays of neurons with large numbers of dendritic inputs the
+synaptic circuits should be as compact as possible
+Bistable synapses
+An alternative approach that uses a very small amount of area per synapse is to use bistable
+synapses These types of synapses contain minimum feature-size circuits that locally compare the value of the synaptic efficacy stored on the capacitor with a fixed threshold voltage
+and slowly drive that value either toward a high analog voltage or toward a low one depending on the output of the comparator Section
+The assumption that on long time scales the synaptic efficacy can only assume two values
+is not too severe for networks of neurons with large numbers of synapses It has been
+argued that also biological synapses can be indeed discrete on long time-scales These
+assumptions are compatible with experimental data and are supported by experimental
+evidence Also from a theoretical perspective it has been shown that the performance
+of associative networks is not necessarily degraded if the dynamic range of the synaptic
+efficacy is reduced even to the extreme two stable states provided that the transitions
+between stable states are stochastic
+Related work
+Bistable VLSI synapses in networks of I&F neurons have already been proposed in but
+in those circuits the synaptic efficacy is always clamped to either a high value or a low one
+also for short-term dynamics as opposed to our case in which the synaptic efficacy can
+assume any analog value between the two In the authors propose a spike-based learning circuit based on a modified version of Riccati?s equation in which the synaptic
+efficacy is a continuous analog voltage but their synapses require many more transistors
+than the solution we propose and do not incorporate long-term bistability More recently
+Bofill and Murray proposed circuits for implementing STDP within a framework of pulsebased neural network circuits But next to missing the long-term bistability properties
+their synaptic circuits require digital control signals that cannot be easily generated within
+the framework of neuromorphic networks of I&F neurons
+Vdd
+Vdd
+M3
+M4
+Vtp
+M2
+Vdd
+M5
+post
+Vpot
+Ipot
+Vw0
+Vd
+M6
+M7
+Vp
+Cw
+Idep
+Vdep
+pre
+M8
+M1
+M9
+Vtd
+Figure Synaptic efficacy STDP circuit
+The STDP circuits
+The circuit required to implement STDP in a network of I&F neurons is shown in
+This circuit increases or decreases the analog voltage Vw0 depending on the relative timing
+of the pulses pre and post The voltage Vw0 is then used to set the strength of synaptic
+circuits with realistic dynamics of the type described in The pre and post-synaptic
+pulses pre and post are generated by compact low power I&F neurons of the type described in
+The circuit of is fully symmetric upon the arrival of a pre-synaptic pulse pre a
+waveform Vpot for potentiating Vw0 is generated Similarly upon the arrival of a
+post-synaptic pulse post a complementary waveform Vdep for depotentiating Vw0
+is generated Both waveforms have a sharp onset and decay linearly with time at a rate set
+respectively by Vtp and Vtd The pre and post-synaptic pulses are also used to switch on
+two gates and that allow the currents Idep and Ipot to flow as long as the pulses
+are high either increasing or decreasing the weight The bias voltages on transistor
+and Vd on set an upper bound for the maximum amount of current that can be injected
+into or removed from the capacitor Cw If transistors operate in the subthreshold
+regime we can compute the analytical expression of Ipot and Idep
+Ipot
+Idep
+I0
+Vpot t?tpre
+Vp
+I0
+Vdep t?tpost
+UT
+where tpre and tpost are the times at which the pre-synaptic and post-synaptic spikes are
+emitted UT is the thermal voltage and is the subthreshold slope factor The change
+in synaptic efficacy is then
+I
+potCppost tspk
+if tpre tpost
+Idep tpre
+Cd tspk if tpost tpre
+where tspk is the pre and post-synaptic spike width Cp is the parasitic capacitance of
+node Vpot and Cd the one of node Vdep not shown in
+In we plot experimental data showing how changes as a function of
+tpre tpost for different values of Vtd and Vtp Similarly in we show plots
+w0
+w0
+Figure Changes in synaptic efficacy as a function of the difference between pre and
+post-synaptic spike emission times tpre tpost Curves obtained for four different
+values of Vpot the left quadrant and four different values of Vdep the right quadrant
+Typical STDP plot obtained by setting Vp to and Vd to
+Vw0
+Time
+pre
+dep
+Figure Changes in Vw0 in response to a sequence of pre-synaptic spikes top trace The
+middle trace shows how the signal Vdep triggered by the post-synaptic neuron decreases
+linearly with time The bottom trace shows the series of digital pulses pre generated with
+every pre-synaptic spike
+of versus for three different values of Vp and three different values of Vd As
+there are four independent control biases it is possible to set the maximum amplitude and
+temporal window of influence independently for positive and negative changes in w0
+The data of was obtained using a paired-pulse protocol similar to the one used in
+physiological experiments one single pair of pre and post-synaptic spikes was used
+to measure each data point by systematically changing the delay tpre tpost and
+by separating each stimulation session by a few hundreds of milliseconds to allow the
+signals to return to their resting steady-state Unlike the biological experiments in our
+VLSI setup it is possible to evaluate the effect of multiple pulses on the synaptic efficacy
+for very long successive stimulation sessions monitoring all the internal state variables
+and signals involved in the process In we show the effect of multiple pre-synaptic
+spikes succeeding a post-synaptic one plotting a trace of the voltage w0 together with the
+Vhigh
+M3
+Vw0
+Vthr
+M4
+M5
+Vw0
+M6
+Vleak
+M1
+M2
+Vlow
+Figure Bistability circuit Depending on Vw0 Vthr the comparator drives Vw0 to either
+Vhigh or Vlow The rate at which the circuit drives Vw0 toward the asymptote is controlled
+by Vleak and imposed by transistors and
+internal signal Vdep generated by the post-synaptic spike and the pulses pre generated
+by the per-synaptic neuron Note how the change in Vw0 is a positive one when the postsynaptic spike follows a pre-synaptic one at and is negative when a series
+of pre-synaptic spikes follows the post-synaptic one The effect of subsequent pre pulses
+following the first post-/pre-synaptic pair is additive and decreases with time as in
+As expected the anti-causal relationship between pre and post-synaptic neurons has the
+net effect of decreasing the synaptic efficacy
+The bistability circuit
+The bistability circuit shown in drives the voltage Vw0 toward one of two possible
+states Vhigh if Vw0 Vthr or Vlow if Vw0 Vthr The signal Vthr is a threshold
+voltage that can be set externally The circuit comprises a comparator and a mixed-mode
+analog-digital leakage circuit The comparator is a five transistor transconductance amplifier that can be designed using minimum feature-size transistors The leakage circuit
+contains two gates that act as digital switches and four transistors that set the
+two stable state asymptotes Vhigh and Vlow and that together with the bias voltage Vleak
+determine the rate at which Vw0 approaches the asymptotes The bistability circuit drives
+Vw0 in two different ways depending on how large is the distance between the value of w0
+itself and the asymptote If Vas 4UT the bistability circuit drives Vw0 toward Vas
+linearly where Vas represents either Vlow or Vhigh depending on the sign of Vthr
+leak
+if Vw0 Vthr
+Vw0 Vw0 IC
+Ileak
+Vw0 Vw0 Cw if Vw0 Vthr
+where Cw is the capacitor of and
+Ileak I0
+Vleak Vlow
+UT
+As Vw0 gets close to the asymptote and Vas 4UT transistors or of
+go out of saturation and Vw0 begins to approach the asymptote exponentially
+I
+leak
+Vw0 Vhigh Vw0 Cw UT
+if Vw0 Vthr
+Ileak
+Cw
+UT
+Vw0 Vlow Vw0
+if Vw0 Vthr
+On long time scales the dynamics of Vw0 are governed by the bistability circuit while on
+short time-scales they are governed by the STDP circuits and the precise timing of pre and
+w0
+Time
+Figure Synaptic efficacy bistability Transition of Vw0 from below threshold to above
+threshold Vthr with leakage rate set by Vleak and pre and postsynaptic neurons stimulated in a way to increase Vw0
+I1
+I2
+M1
+O1
+M2
+O2
+Figure Network of leaky I&F neurons with bistable STDP excitatory synapses and inhibitory synapses The large circles symbolize I&F neurons the small empty ones bistable
+STDP excitatory synapses and the small bars non-plastic inhibitory synapses The arrows
+in the circles indicate the possibility to inject current from an external source to stimulate
+the neurons
+post-synaptic spikes If the STDP short-term dynamics drive Vw0 above threshold we say
+that long-term potentiation LTP had been induced And if the short-term dynamics drive
+Vw0 below threshold we say that long-term depression LTD has been induced
+In we show how the synaptic efficacy Vw0 changes upon induction of LTP while
+stimulating the pre and post-synaptic neurons with uniformly distributed spike trains The
+asymptote Vlow was set to zero and Vhigh to The pre and post-synaptic neurons
+were injected with constant DC currents in a way to increase Vw0 on average As shown
+the two asymptotes Vlow and Vhigh act as two attractors or stable equilibrium points
+whereas the threshold voltage Vthr acts as an unstable equilibrium point If the synaptic efficacy is below threshold the short-term dynamics have to fight against the long-term
+bistability effect to increase Vw0 But as soon as Vw0 crosses the threshold the bistability
+circuit switches the effects of the short-term dynamics are reinforced by the asymptotic
+drive and Vw0 is quickly driven toward Vhigh
+A network of integrate and fire neurons
+The prototype chip that we used to test the bistable STDP circuits presented in this paper
+contains a symmetric network of leaky I&F neurons The experimental data
+w0
+w0
+Time
+Time
+pre
+pre
+post
+post
+Figure Membrane potentials of pre and post-synaptic neurons bottom and middle traces
+respectively and synaptic efficacy values top traces Changes in w0 for low synaptic efficacy values Vhigh and no bistability leakage currents Vleak
+Changes in Vw0 for high synaptic efficacy values Vwh and with bistability asymptotic drive Vleak
+of Figs and was obtained by injecting currents in the neurons labeled I1 and O1
+and by measuring the signals from the excitatory synapse on O1. In we show the
+membrane potential of and the synaptic efficacy Vw0 of the corresponding synapse
+in two different conditions Figure shows the changes in Vw0 when both neurons are
+stimulated but no asymptotic drive is used As shown Vw0 strongly depends on the spike
+patterns of the pre and post-synaptic neurons Figure shows a scenario in which
+only neuron I1 is stimulated but in which the weight Vw0 is close to its high asymptote
+Vhigh and in which there is a long-term asymptotic drive Vleak Even
+though the synaptic weight stays always in its potentiated state the firing rate of O1 is not
+as regular as the one of its efferent neuron This is mainly due to the small variations of
+Vw0 induced by the STDP circuit
+Discussion and future work
+The STDP circuits presented here introduce a source of variability in the spike timing of the
+I&F neurons that could be exploited for creating VLSI networks of neurons with stochastic
+dynamics and for implementing spike-based stochastic learning mechanisms These
+mechanisms rely on the variability of the input signals of Poisson distributed spike
+trains and on their precise spike-timing in order to induce LTP or LTD only to a small
+specific sub-set of the synapses stimulated In future experiments we will characterize the
+properties of the bistable STDP synapse in response to Poisson distributed spike trains and
+measure transition probabilities as functions of input statistics and circuit parameters
+We presented compact neuromorphic circuits for implementing bistable STDP synapses in
+VLSI networks of I&F neurons and showed data from a prototype chip We demonstrated
+how these types of synapses can either store their LTP or LTD state for long-term or switch
+state depending on the precise timing of the pre and post-synaptic spikes In the near
+future we plan to use the simple network of I&F neurons of present on the prototype
+chip to analyze the effect of bistable STDP plasticity at a network level On the long term
+we plan to design a larger chip with these circuits to implement a re-configurable network
+of I&F neurons of neurons and synapses and use it as a real-time tool for
+investigating the computational properties of competitive networks and selective attention
+models
+Acknowledgments
+I am grateful to Rodney Douglas and Kevan Martin for their support and to Shih-Chii Liu
+and Stefano Fusi for constructive comments on the manuscript Some of the ideas that led
+to the design and implementation of the circuits presented were inspired by the Telluride
+Workshop on Neuromorphic Engineering http://www.ini.unizh.ch/telluride
+
+----------------------------------------------------------------
+
+title: 11-microelectronic-implementations-of-connectionist-neural-networks.pdf
+
+MICROELECTRONIC IMPLEMENTATIONS OF CONNECTIONIST
+NEURAL NETWORKS
+Stuart Mackie Hans P. Graf Daniel B. Schwartz and John S. Denker
+AT&T Bell Labs Holmdel NJ
+Abstract
+In this paper we discuss why special purpose chips are needed for useful
+implementations of connectionist neural networks in such applications as pattern
+recognition and classification Three chip designs are described a hybrid
+digital/analog programmable connection matrix an analog connection matrix with
+adjustable connection strengths and a digital pipe lined best-match chip The common
+feature of the designs is the distribution of arithmetic processing power amongst the
+data storage to minimize data movement
+RAMs
+Distributed
+co mputati on
+chips
+ZO
+Conventional
+CPUs
+Node Complexity
+of Transistors
+Figure A schematic graph of addressable node complexity and size for conventional
+computer chips Memories can contain millions of very simple nodes each
+with a very few transistors but with no processing power CPU chips are
+essentially one very complex node Neural network chips are in the
+distributed computation region where chips contain many simple fixed
+instruction processors local to data storage After Reece and Treleaven
+American Institute of Physics
+Introduction
+It is clear that conventional computers lag far behind organic computers when it
+comes to dealing with very large data rates in problems such as computer vision and
+speech recognition Why is this The reason is that the brain performs a huge number
+of operations in parallel whereas in a conventional computer there is a very fast
+processor that can perform a variety of instructions very quickly but operates on only
+two pieces of data at a time
+The rest of the many megabytes of RAM is idle during any instruction cycle The
+duty cycle of the processor is close to but that of the stored data is very close to
+zero If we wish to make better use of the data we have to distribute processing
+power amongst the stored data in a similar fashion to the brain Figure illustrates
+where distributed computation chips lie in comparison to conventional computer chips
+as regard number and complexity of addressable nodes per chip
+In order for a distributed strategy to work each processing element must be small
+in order to accommodate many on a chip and communication must be local and hardwired Whereas the processing element in a conventional computer may be able to
+execute many hundred different operations in our scheme the processor is hard-wired
+to perform just one This operation should be tailored to some particular application
+In neural network and pattern recognition algorithms the dot products of an input
+vector with a series of stored vectors referred to as features or memories is often
+required The general calculation is
+Sum of Products
+L. v.J f..IJ
+where is the input vector and is one of the stored feature vectors Two
+variations of this are of particular interest In feature extraction we wish to find all the
+features for which the dot product with the input vector is greater than some threshold
+in which case we say that such features are present in the input vector
+Feature Extraction
+L. v.J f..IJ
+In pattern classification we wish to find the stored vector that has the largest dot
+product with the input vector and we say that the the input is a member of the class
+represented by that feature or simply that that stored vector is closest to input vector
+Classification
+max(V
+LV.
+IJ
+The chips described here are each designed to perform one or more of the above
+functions with an input vector and a number of feature vectors in parallel The overall
+strategy may be summed up as follows we recognize that in typical pattern recognition
+applications the feature vectors need to be changed infrequently compared to the input
+vectors and the calculation that is perfonned is fixed and low-precision we therefore
+distribute simple fixed-instruction processors throughout the data storage area thus
+minimizing the data movement and optimizing the use of silicon Our ideal is to have
+every transistor on the chip doing something useful during every instruction cycle
+Analog Sum-or-Products
+sing an idea slightly reminiscent of synapses and neurons from the brain in two
+of the chips we store elements of features as connections from input wires on which the
+elements of the input vectors appear as voltages to summing wires where a sum-ofproducts is perfonned The voltage resulting from the current summing is applied to
+the input of an amplifier whose output is then read to determine the result of the
+calculation A schematic arrangement is shown in Figure with the vertical inputs
+connected to the horizontal summing wires through resistors chosen such that the
+conductance is proportional to the magnitude of the feature element When both
+positive and negative values are required inverted input lines are also necessary
+Resistor matrices have been fabricated using amorphous silicon connections and metal
+linewidths These were programmed during fabrication by electron beam lithography
+to store names using the distributed feedback method described by Hopfield2 This
+work is described more fully elsewhere Hard-wired resistor matrices are very
+compact but also very inflexible In many applications it is desirable to be able to
+reprogram the matrix without having to fabricate a new chip For this reason a series
+of programmable chips has been designed
+Input lines
+Feature
+Feature
+oc
+Feature
+I
+Feature
+Figure A schematic arrangement for calculating parallel sum-of-products with a
+resistor matrix Features are stored as connections along summing wires and
+the input elements are applied as voltages on the input wires The voltage
+generated by the current summing is thresholded by the amplifer whose
+output is read out at the end of the calculation Feedback connections may be
+made to give mutual inhibition and allow only one feature amplifier to tum
+on or allow the matrix to be used as a distributed feedback memory
+Programmable Connection Matrix
+Figure is a schematic diagram of a programmable connection using the contents of
+two RAM cells to control current sinking or sourcing into the summing wire The
+switches are pass transistors and the resistors are transistors with gates connected to
+their drains Current is sourced or sunk if the appropriate RAM cell contains a and
+the input Vi is high thus closing both switches in the path Feature elements can
+therefore take on values where the values of a and are determined by the
+conductivities of the and p-transistors obtained during processing A matrix with
+such connections allowing full interconnection of the inputs and outputs of 54
+amplifiers was designed and fabricated in CMOS Figure Each connection
+is about the chip is 7x7mm and contains about transistors When
+loaded with 49 features kernel and presented with a input vector
+the chip performs 49 dot products in parallel in under 1Jls This is equivalent to
+billion bit operations/sec The flexibility of the design allows the chip to be operated in
+several modes The chip was programmed as a distributed feedback memory
+associative memory but this did not work well because the current sinking capability
+of the n-type transistors was times that of the p-types An associative memory was
+implemented by using a grandmother cell representation where the memories were
+stored along the input lines of amplifiers as for feature extraction but mutually
+inhibitory connections were also made that allowed only one output to tum on With
+stored vectors each bits long the best match was found in depending
+on the data The circuit can also be programmed to recognize sequences of vectors and
+to do error correction when vectors were omitted or wrong vectors were inserted into
+the sequences The details of operation of the chip are described more fully
+elsewhere This chip has been interfaced to a UNIX minicomputer and is in everyday
+use as an accelerator for feature extraction in optical character recognition of handwritten numerals The chip speeds up this time consuming calculation by a factor of
+more than The use of the chip enables experiments to be done which would be
+too time consuming to simulate
+Experience with this device has led to the design of four new chips which are
+currently being tested These have no feedback capability and are intended exclusively
+for feature extraction The designs each incorporate new features which are being
+tested separately but all are based on a connection matrix which stores 46 vectors each
+96 bits long The chip will perform a full parallel calculation in lOOns
+VDD
+Output
+Vj
+Excitatory
+Inhibitory
+Ivss
+Figure Schematic diagram of a programmable connection A current sourcing or
+sinking connection is made if a RAM cell contains a and the input Vi is
+high The currents are summed on the input wire of the amplifier
+Pads
+Row Decoders
+Connections
+ITII1 Amplifie rs
+Figure Programmable connection matrix chip The chip contains transistors
+in and was fabricated using design rules
+Adaptive Connection Matrix
+Many problems require analog depth in the connection strengths and this is
+especially important if the chip is to be used for learning where small adjustments are
+required during training Typical approaches which use transistors sized in powers of
+two to give conductance variability take up an area equivalent to the same number of
+minimum sized transistors as the dynamic range which is expensive in area and
+enables only a few connections to be put on a chip We have designed a fully analog
+connection based on a DRAM structure that can be fabricated using conventional
+CMOS technology A schematic of a connection and a connection matrix is shown in
+Figure The connection strength is represented by the difference in voltages stored
+on two MOS capacitors The capacitors are 33Jlm on edge and lose about of their
+charge in five minutes at room temperature The leakage rate can be reduced by three
+orders of magnitude by cooling the the capacitors to and by five orders of
+magnitude by cooling to The output is a current proportional to the product of
+the input voltage and the connection strength The output currents are summed on a
+wire and are sent off chip to external amplifiers The connection strengths can be
+adjusted using transferring charge between the capacitors through a chain of transistors
+The connections strengths may be of either polarity and it is expected that the
+connections will have about bits of analog depth A chip has been designed in
+CMOS containing connections in an array with 46 inputs and 24 outputs
+Input
+Weight update and decay
+by shifting charge
+02
+Input
+Output=w*lnput
+Output through external amplifiers
+Figure Analog connection The connection strength is represented by the difference
+in voltages stored on two capacitors The output is a current proprtional to
+the product of the input voltage and the connection strength
+Each connection is The design has been sent to foundry and testing is
+expected to start in April The chip has been designed to perform a network
+calculation in the chip will perform at a rate of 33 billion multiplies/sec It
+can be used simply as a fast analog convolver for feature extraction or as a learning
+engine in a gradient descent algorithm using external logic for connection strength
+adjustment Because the inputs and outputs are true analog larger networks may be
+formed by tiling chips and layered networks may be made by cascading through
+amplifiers acting as hidden units
+Digital Classifier Chip
+The third design is a digital implementation of a classifier whose architecture is not
+a connectionist matrix It is nearing completion of the design stage and will be
+fabricated using CMOS It calculates the largest five using an alldigital pipeline of identical processors each attached to one stored word Each
+processor is also internally pipelined to the extent that no stage contains more than two
+gate delays This is important since the throughput of the processor is limited by the
+speed of the slowest stage Each processor calculates the Hamming distance number
+of difference bits between an input word and its stored word and then compares that
+distance with each of the smallest values previously found for that input word An
+updated list of best matches is then passed to the next processor in the pipeline At
+the end of the pipeline the best matches overall are output
+Features stored in
+Data
+pipeline
+ring shift register
+it
+Best match list
+pipeline
+Tag register
+it Ii
+Jr it mIfl
+I[HI tm
+Pf
+Input and feature
+Accumulator
+are compared
+dumps
+distance
+bit-serially
+into comparison
+register at end
+of input word
+Pig.
+Comparator inserts
+new match and tag into
+list when better than
+old match
+Schematic of one of the processors in the digital classifier chip The
+Hamming distance of the input vector to the feature vector is calculated and
+if better than one of the five best matches found so far is inserted into the
+match list together with the tag and passed onto the next processor At the
+end of the pipeline the best five matches overall are output
+The data paths on chip are one bit wide and all calculations are bit serial This
+means that the processing elements and the data paths are compact and maximizes the
+number of stored words per chip The layout of a single processor is shown in
+The features are stored as words in ring shift registers and
+associated with each feature is a tag or name string that is stored in a static
+register The input vector passes through the chip and is compared bit-by-bit to each
+stored vector whose shift registers are cycled in tum The total number of bits
+difference is summed in an accumulator After a vector has passed through a processor
+the total Hamming distance is loaded into the comparison register together with the tag
+At this time the match list for the input vector arrives at the comparator It is an
+ordered list of the lowest Hamming distances found in the pipeline so far together
+with associated tag strings The distance just calculated is compared bit-serially with
+each of the values in the list in turn If the current distance is smaller than one of the
+ones in the list the output streams of the comparator are switched having the effect of
+inserting the current match and tag into the list and deleting the previous fifth best
+match After the last processor in the pipeline the list stream contains the best five
+distances overall together with the tags of the stored vectors that generated them The
+data stream and the list stream are loaded into wide registers ready for output
+The design enables chips to be connected together to extend the pipeline if more than
+stored vectors are required The throughput is constant irrespective of the number of
+chips connected together only the latency increases as the number of chips increases
+The chip has been designed to operate with an on-chip clock frequency of at least
+l00MHz This high speed is possible because stage sizes are very small and data paths
+have been kept short The computational efficiency is not as high as in the analog chips
+because each processor only deals with one bit of stored data at a time However the
+overall throughput is high because of the high clock speed Assuming a clock
+frequency of l00MHz the chip will produce a list of best distances with tag strings
+every with a latency of about Even if a thousand chips containing
+stored vectors were pipelined together the latency would be low
+enough for most real time applications The chip is expected to perform billion bit
+operation/sec
+While it is important to have high clock frequencies on the chip it is also important
+to have them much lower off the chip since frequencies above 50MHz are hard to deal
+on circuit boards The wide communication paths onto and off the chip ensure
+that this is not a problem here
+Conclusion
+The two approaches discussed here analog and digital represent opposites in
+computational approach In one a single global computation is performed for each
+match in the other many local calculations are done Both the approaches have their
+advantages and it remains to be seen which type of circuit will be more efficient in
+applications and how closely an electronic implementation of a neural network should
+resemble the highly interconnected nature of a biolOgical network
+These designs represent some of the first distributed computation chips They are
+characterized by having simple processors distributed amongst data storage The
+operation performed by the processor is tailored to the application It is interesting to
+note some of the reasons why these designs can now be made minimum linewidths on
+circuits are now small enough that enough processors can be put on one chip to make
+these designs of a useful size sophisticated design tools are now available that enable a
+single person to design and simulate a complete circuit in a matter of months and
+fabrication costs are low enough that highly speculative circuits can be made without
+requiring future volume production to offset prototype costs
+We expect a flurry of similar designs in the coming years with circuits becoming
+more and more optimized for particular applications However it should be noted that
+the impressive speed gain achieved by putting an algorithm into custom silicon can only
+be done once Further gains in speed will be closely tied to mainstream technological
+advances in such areas as transistor size reduction and wafer-scale integration It
+remains to be seen what influence these kinds of custom circuits will have in useful
+technology since at present their functions cannot even be simulated in reasonable time
+What can be achieved with these circuits is very limited when compared with a three
+dimensional highly complex biological system but is a vast improvement over
+conventional computer architectures
+The authors gratefully acknowledge the contributions made by L.D. Jackel and
+R.E. Howard
+
+----------------------------------------------------------------
+
+title: 471-ccd-neural-network-processors-for-pattern-recognition.pdf
+
+CCD Neural Network Processors for Pattern
+Recognition
+Alice M. Chiang
+Michael L. Chuang
+Jeffrey R. LaFranchise
+MIT Lincoln Laboratory
+Wood Street
+Lexington MA
+Abstract
+A CCD-based processor that we call the NNC2 is presented The NNC2
+implements a fully connected 32-output two-layer network and
+can be cascaded to form multilayer networks or used in parallel for additional input or output nodes The device computes connections/sec when clocked at MHz Network weights can be specified to six
+bits of accuracy and are stored on-chip in programmable digital memories
+A neural network pattern recognition system using NNC2 and CCD image feature extractor IFE devices is described Additionally we report
+a CCD output circuit that exploits inherent nonlinearities in the charge
+injection process to realize an adjustable-threshold sigmoid in a chip area
+of J.tlU
+INTRODUCTION
+A neural network chip based on charge-coupled device CCD technology the NNC2
+is presented The NNC2 implements a fully connected two-layer net and can be cascaded to form multilayer networks An image feature extractor IFE device Chiang
+and Chuang is briefly l?eviewed The IFE is suited for neural networks with
+local connections and shared weights and can also be used for image preprocessing
+tasks A neural network pattern recognition system based on feature extraction
+using IFEs and classification using NNC2s is proposed The efficacy of neural networks with local connections and shared weights for feature extraction in character
+Chiang Chuang and LaFranchise
+recognition and phoneme recognition t.asks has been demonstrated by researchers
+such as LeCun and Waibel respectively rvlore complex
+recognition tasks are likely to prove amenable to a system using locally connected
+networks as a front end with outputs generated by a highly-connected classifier
+Both the IFE and the NNC2 are hybrids composed of analog and digital components Network weights are stored digitally while neuron states and computation
+results are represented in analog form Data enter and leave the devices in digital
+form for ease of integration into digital systems
+The sigmoid is used in many network models as the nonlinear neuron output function We have designed fabricated and tested a compact CCD sigmoidal output
+circuit that is described below The paper concludes with a discussion of strategies
+for implementing networks with particularly high or low fan-in to fan-out ratios
+THE NNC2 AND IFE DEVICES
+The NNC2 is a neural network processor that implements a fully connected twolayer net with input nodes and 32 output nodes The device is an expanded
+version of a previous neural network classifier NNC chip Chiang hence the
+appellation The NNC2 consists of a 192-stage CCD tapped delay line for
+holding and shifting input values four-quadrant multipliers and 32-word
+local memories for weight storage vVhen clocked at l\iIHz the NNC2 performs
+connections/sec The device was fabricated using a minimum feature
+size double-metal double-polysilicon CCD/CMOS process The NNC2 measures
+mm and is depicted in Figure
+DIGITAL
+MEMORY
+CCDTAPPED
+DELAYUNE
+Figure Photomicrograph of the NNC2
+Tests indicate that the NNC2 has an output dynamic range exceeding 42 dB
+Figure shows the output of the NNC2 when the input consists of the cosine
+waveforms In and the weights are set to
+CCO Neural Network Processors for Pattern Recognition
+Due to the orthogonality of sinusoids of different frequencies the output correlations should yield
+scaled impulses with amplitudes of and for and only this is indeed the case as the output lower trace in Figure shows This test demonstrates
+the linearity of the weighted sum inner product computed by the NNC2
+Figure Response of the NNC2 to input cosine waveforms
+Locally connected shared weight networks can be implemented using the IFE which
+raster scans up to sets of 7x weights over an input image At every window
+position the inner product of the windowed pixels and each of the sets of weights
+is computed For additonal details see Chiang and Chuang The IFE and
+the NNC2 share a number of common features that are described below
+MDACS
+The multiplications of the inner product are performed in parallel by multiplyingD A-converters MDACs of which there are in the NNC2 and 49 in the IFE.
+Each MDAC produces a charge paclcet proportional to the product of an input and
+a digital weight The partial products are summed on an output line common to
+all the MDACs yielding a complete inner product every clock cycle The design
+and operation of an MDAC are described in detail in Chiang Using a
+design rule a four-quadrant MDAC with 8-bit weights occupies an area of
+J.lm
+WEIGHT STORAGE
+The NNC2 and IFE feature on-chip digital storage of programmable network
+weights specified to and bits respectively The NNC2 contains local memories of 32 words each while the IFE has forty-nine 20-word memories Individual
+words can be addressed by means of a row pointer and a column pointer Each bit
+of the CCD shift register memories is equipped with a feedback enable switch that
+obviates the need to refresh the volatile CCD storage medium explictly words are
+Chiang Chuang and LaFranchise
+rewritten as they are read for use in computation so that no cycles need be devoted
+to memory refresh
+INPUT BUFFER
+Inputs to the NNC2 are held in a 192-stage CCD analog floating-gate tapped delay
+line At each stage the floating gate is coupled to the input of the corresponding
+MDAC permitting inputs to be sensed nondestructively for computation The
+NNC2 delay line is composed of three 64-stage subsections Figure This
+partionning allows the NNC2 to compute either the weighted sum of inputs or
+three 64-point inner products The latter capability is well-matched to Time-Delay
+Neural Networks TDNNs that implement a moving temporal window for phoneme
+recognition Waibel The IFE contains a similar 775-stage delay line
+that holds six lines of a 128-pixel input image plus an additional seven pixels Taps
+are placed on the first seven of every stages in the IFE delay line so that the
+1-dimensionalline emulates a 2-dimensional window
+CCD SIGMOIDAL OUTPUT CIRCUIT
+A sigmoidal charge-domain nonlinear detection circuit is shown in Figure The circuit has a programmable input-threshold controlled by the amplitude of the transfer
+gate voltage VTG. If the incoming signal charge is below the threshold set by VTG
+no charge is transferred to the output port and the incoming signal is ignored If the
+input is above threshold the amount of charge transferred to the output port is the
+difference between the charge input and the threshold level The circuit design is
+based on the ability to calculate the charge transfer efficiency from an diffusion
+region over a bias gate to a receiving well as a function of device parameters and
+exploits the fact that under certain operating conditions a nonlinear dependence exists between the input and output charge Thornber The maximum output
+produced can be bounded by the size and gate voltage of the receiving well The
+predicted and measured responses of the circuit for two different threshold levels
+are shown in the bottom of Figure The circuit has an area of and
+can be integrated with the NNC2 or IFE chips to perform both the weighted-sum
+and output-nonlinearity computations on a single device
+DESIGN STRATEGIES
+The NNC2 uses a time-multiplexed output TMO structure Figure where the
+number of multipliers and the number of local memories is equal to the number
+of inputs N. The depth of each local memory is equal to the number of output
+nodes and the outputs are computed serially as each set of weights is read in
+sequence from the memories A 256-output device with 8-bit weights
+has been designed and can be realized in a chip area of mm This chip is
+reconfigurable so that a single such device can be used to implement multilayer networks If a network with a large number of input nodes is required then
+a time-multiplexed input TMI architecture with multipliers may be more suitable Figure In contrast to a TMO system that computes the inner products
+CCO Neural Network Processors for Pattern Recognition
+TGGATE
+CLOCKlllS
+CALCULATED
+MEASURED
+I
+al
+TG
+INPUT VOLTAGE
+Figure Schematic micrograph and test results of the sigmoid cIrcuit
+xl xN
+Serial Inputs
+xN
+lWE'~HTS
+yM
+Serial Outputs
+y1
+y2
+yM
+Figure Time-multiplexed output Time-multiplexed input TMI
+Chiang Chuang and LaFranchise
+sequentially the multiplications of each inner product are performed in parallel
+a TMI structure performs sets of At multiplications each all inner products
+are serially computed in parallel As each input element arrives it is broadcast to
+all At multipliers Each multiplier multiplies the input by an appropriate weight
+from its word deep local memory and places the result in an accumulator The
+inner products appear in the accumulators one cycle after receipt of the final
+Nth input
+SUMMARY
+We have presented the NNC2 a CCD chip that implements a fully connected twolayer network at the rate of connections/second The NNC2 may be used
+in concert with IFE devices to form a CCD-based neural network pattern recogniton
+system or as a co-processor to speed up neural network simulations on conventional
+computers A VME-bus board for the NNC2 is presently being constructed A
+compact CCD circuit that generates a sigmoidal output function was described
+and finally the relative merits of time-multiplexing input or output nodes in neural
+network devices were enumerated Table below is a comparison of recent neural
+network chips
+MIT LINCOLN LAB
+NNC2
+CIT
+NN
+INTEL
+ETANN
+MITSUBISHI
+NN
+AT&T
+NN
+HITACHI
+WSINN
+ADAPT SOL.
+Xl
+No. OF OUTPUT NODES
+32
+TWO 64
+64
+No. OF INPUT NODES
+TWO 64
+64
+4k
+SYNAPSE ACCURACY
+6b ANALOG
+ANALOG
+3b 6b
+8b
+PROGRAMMABLE
+SYNAPSES
+6k
+28
+4k
+THROUGHPUT RATE
+Connections/s
+MHz
+DIGITAL
+CHIP AREA mm
+CLOCK RATE
+WEIGHT STORAGE
+10MHz
+kHz
+MHz
+MHz a
+DIGITALb
+ANALOG
+ANALOG
+ANALOG
+ANALOG
+DIGITAL
+NO
+NO
+NO
+YESc
+NO
+NO
+YES
+CCD/CMOS
+CCD
+CMOS
+CMOS
+CMOS
+CMOS
+CMOS
+NIPS 91
+IJCNN 90
+IJCNN89
+ISSCC91
+ISSCC 91
+IJCNN90
+ISSCC 91
+ON CHIP LEARNING
+DESIGN RULE
+ANALOG ANALOG
+ANALOG
+ANALOG
+REPORTED AT
+NOTE
+a CLOCK RATE FOR WSINN IS EXTRAPOLATED BASED ON 1/STEP TIME
+NO DEGRADATION OBSERVED ON DIGITALLY STORED AND REFRESHED WEIGHTS
+A SIMPLIFIED BOLTZMANN MACHINE LEARNING ALGORITHM IS USED
+Table Selected neural network chips
+Acknow ledgements
+This work was supported by DARPA the Office of Naval Research and the Department of the Air Force The IFE and NN C2 were fabricated by Orbit Semiconductor
+CCD Neural Network Processors for Pattern Recognition
+
+----------------------------------------------------------------
+

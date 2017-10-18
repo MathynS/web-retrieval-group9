@@ -56,17 +56,23 @@ public class DocumentRetriever {
 		return searcher;
 	}
 		
-	private TopDocs searchByText(String queryInputString, IndexSearcher searcher, int numberOfDocs) throws Exception {
+	private TopDocs searchByContent(String queryInputString, IndexSearcher searcher, int numberOfDocs) throws Exception {
 		QueryParser queryParser = new QueryParser("paper_text", new StandardAnalyzer());
 		Query textQuery = queryParser.parse(queryInputString);
 		TopDocs hits = searcher.search(textQuery, numberOfDocs);
 		return hits;
 	}
 	
-	public List<Integer> searchDocuments(String queryInputString, int numberOfDocs) throws Exception {
+	private TopDocs searchByTitle(String queryInputString, IndexSearcher searcher, int numberOfDocs) throws Exception {
+		QueryParser queryParser = new QueryParser("paper_title", new StandardAnalyzer());
+		Query textQuery = queryParser.parse(queryInputString);
+		TopDocs hits = searcher.search(textQuery, numberOfDocs);
+		return hits;
+	}
+	
+	public List<Integer> searchDocumentsByContent(String queryInputString, int numberOfDocs) throws Exception {
 		IndexSearcher searcher = createSearcher();
-		TopDocs foundDocs = searchByText(queryInputString, searcher, numberOfDocs);
-		//System.out.println("Total Results :: " + foundDocs.totalHits);
+		TopDocs foundDocs = searchByContent(queryInputString, searcher, numberOfDocs);
 		
 	   	List<Integer> selectedDocuments = new ArrayList<Integer>();    	
 		for (ScoreDoc scoreDoc: foundDocs.scoreDocs){
@@ -82,16 +88,37 @@ public class DocumentRetriever {
 		return selectedDocuments;
 	}
 		
+	public List<Integer> searchDocumentsByTitle(String queryInputString, int numberOfDocs) throws Exception {
+		IndexSearcher searcher = createSearcher();
+		TopDocs foundDocs = searchByTitle(queryInputString, searcher, numberOfDocs);
+		
+	   	List<Integer> selectedDocuments = new ArrayList<Integer>();    	
+		for (ScoreDoc scoreDoc: foundDocs.scoreDocs){
+			Document document = searcher.doc(scoreDoc.doc);
+			//System.out.println(String.format(document.get("pdf_name")));
+			String docId = document.get("id");
+			try {
+				selectedDocuments.add(Integer.parseInt(docId));
+			} catch (NumberFormatException nfe){
+				logger.log(Level.INFO, "Document id: " + docId + " couldn't be added to list of documents", nfe);
+			}
+		}
+		return selectedDocuments;
+	}
+
+	
 	public static void main(String[] args) throws Exception {
 				
 		DocumentRetriever documentRetriever = new DocumentRetriever();
-		String queryInputString = "weakened british";
-		List<Integer> selectedDocuments = documentRetriever.searchDocuments(queryInputString, 10);
+		String queryInputString = "sampled image";
+		//List<Integer> selectedDocuments = documentRetriever.searchDocumentsByContent(queryInputString, 10);
+		List<Integer> selectedDocuments = documentRetriever.searchDocumentsByTitle(queryInputString, 10);
 		
 		// Print selected documents
 		for (Integer id: selectedDocuments){
 			System.out.println(id);
 		}
 	}
-	
+	// (2381, 2371, 5918, 6037, 6475, 4570, 3757, 922, 1516, 2315);
+
 }
