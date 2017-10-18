@@ -61,7 +61,7 @@ def tokenize_test():
 
 def load_data():
     models.connect_to_db(conf.DATABASE_FILENAME)
-    return models.Papers_NR.select() #.where(models.Papers_NR.id <= "1")
+    return models.Papers_NR_NSW.select() #.where(models.Papers_NR.id <= "1")
     #return [q.paper_text for q in query]
 
     # print(len(query))
@@ -103,7 +103,8 @@ def add_data(text):
             # is update the statement to use?
             new_entry = models.Papers_NR_NSW.update(id=paper_id,
                                                     pdf_name=paper_pdf_name,
-                                                    paper_text=new_paper_text)
+                                                    paper_text=new_paper_text
+                                                    paper_title = title)
             print("Number of rows modified: {0}".format(new_entry.save()))
     models.close_connection()
 
@@ -141,7 +142,8 @@ if __name__ == '__main__':
         stemmed_text = stemming(paper.paper_text)
         models.Papers_NR_NSW_STE.create(id=paper.id,
                                         pdf_name=paper.pdf_name,
-                                        paper_text=stemmed_text)
+                                        paper_text=stemmed_text
+                                        paper_title = title)
     #edited_content = stemming(text)
     #drop_papers_nr_nsw_table()
     #add_data(text)
