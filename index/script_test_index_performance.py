@@ -37,7 +37,8 @@ if __name__ == '__main__':
         "digital-to-analog microelectronic converters used in automobiles",
         "documentation of contaminants in agricultural activities",
         "over-simplified ethics of webspam",
-        "usage of telescope during weekends with daylight"
+        "usage of telescope during weekends with daylight",
+        "TODO: write last query"
     ]
 
     for i, query_sentence in enumerate(query_sentences):
