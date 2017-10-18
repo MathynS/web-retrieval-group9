@@ -5,8 +5,11 @@ import subprocess
 import sys
 from subprocess import PIPE
 
-query_cmd = 'QUERY'
+query_content_cmd = 'QUERY_CONTENT'
+query_title_cmd = 'QUERY_TITLE'
 create_index_cmd = 'CREATE_INDEX'
+apply_stemming = False
+
 
 from optparse import OptionParser
 
@@ -23,16 +26,25 @@ def create_index():
     
 
 # TODO Add stemming for query & stopword removal
+def stemming(data):
+    return data
 
-
-def search_documents():
+def search_per_content():
     # print("Executing: java -jar java-code/executable/indexengine.jar {0} {1} {2}".format(query_cmd, data, number_of_docs))
+    if apply_stemming:
+        query_data = stemming(options.query)
+    search = subprocess.Popen(['java', '-jar', '/home/mathyn/Documents/web-retrieval-group9/index/java-code/executable/indexengine.jar',
+                               options.command, query_data, options.amount],
+                              stdout=subprocess.PIPE)
+    output = search.communicate()
+    print(output[0])
+
+def search_per_title():
     search = subprocess.Popen(['java', '-jar', '/home/mathyn/Documents/web-retrieval-group9/index/java-code/executable/indexengine.jar',
                                options.command, options.query, options.amount],
                               stdout=subprocess.PIPE)
     output = search.communicate()
     print(output[0])
-
           
 if __name__ == '__main__':
     usage = """Usage
@@ -42,8 +54,10 @@ if __name__ == '__main__':
     if len(sys.argv) >= 2:
         if options.command == create_index_cmd:
             create_index()
-        elif options.command == query_cmd and options.query is not None and options.amount is not None:
-            search_documents()
+        elif options.command == query_content_cmd and options.query is not None and options.amount is not None:
+            search_per_content()
+        elif options.command == query_title_cmd and options.query is not None and options.amount is not None:
+            search_per_title()
         else:
             print(usage)
     else:
