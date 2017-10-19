@@ -28,7 +28,7 @@ def stemming(text):
 
     stems= [stemmer.stem(t) for t in filtered_tokens]
    # print('* print stems string')
-    print(" ".join(stems))
+    #print(" ".join(stems))
     #models.connect_to_db(conf.DATABASE_FILENAME)
     #print("Saving new paper_text into papers_NR_NSW")
    # new_entry = models.Papers_NR_NSW.create(id=item.id,
@@ -100,10 +100,11 @@ def add_data(text):
         for paper_id in papers_to_process:
             paper_query = models.Papers_NR_NSW_STE.select().where(models.Papers_NR_NSW_STE.id == paper_id)
             paper_pdf_name = paper_query[0].pdf_name
+            title = paper_query[0].paper_title
             # is update the statement to use?
             new_entry = models.Papers_NR_NSW.update(id=paper_id,
                                                     pdf_name=paper_pdf_name,
-                                                    paper_text=new_paper_text
+                                                    paper_text=new_paper_text,
                                                     paper_title = title)
             print("Number of rows modified: {0}".format(new_entry.save()))
     models.close_connection()
@@ -138,12 +139,15 @@ if __name__ == '__main__':
     drop_papers_nr_nsw_table()
     #load_data()
     papers = load_data()
+    counter = 0
     for paper in papers:
         stemmed_text = stemming(paper.paper_text)
         models.Papers_NR_NSW_STE.create(id=paper.id,
                                         pdf_name=paper.pdf_name,
-                                        paper_text=stemmed_text
-                                        paper_title = title)
+                                        paper_text=stemmed_text,
+                                        paper_title = paper.paper_title)
+        print("Saving paper {}".format(counter))
+        counter += 1
     #edited_content = stemming(text)
     #drop_papers_nr_nsw_table()
     #add_data(text)

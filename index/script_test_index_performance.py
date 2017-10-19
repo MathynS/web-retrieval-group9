@@ -1,15 +1,17 @@
 #!/usr/bin/env python
 
-import script_index_engine_controller as engine_controller
+import script_index_engine_test_interface as engine_controller
 import utils.index_models as models
 import utils.io_utils as io
 
-
 test_dir = "data/test"
 DATABASE_FILENAME = "data/database.sqlite"
+query_content_cmd = "QUERY_CONTENT"
+query_title_cmd = "QUERY_TITLE"
 
-def retrieve_documents_from_index(query_sentence, output_filename):
-    documents = engine_controller.search_documents(query_sentence,
+def retrieve_documents_per_content(query_sentence, output_filename):
+    documents = engine_controller.search_per_content(query_content_cmd,
+                                                     query_sentence,
                                                     number_of_docs)
     print(documents)
     models.connect_to_db(DATABASE_FILENAME)
@@ -38,10 +40,20 @@ if __name__ == '__main__':
         "documentation of contaminants in agricultural activities",
         "over-simplified ethics of webspam",
         "usage of telescope during weekends with daylight",
-        "TODO: write last query"
+        "fault-tolerant face-detection using logistic-regression methods",
+        "Noninfinitesimal algorithm", 
+        "Bayesian framework",
+        "Nearest neighbours search algorithm for similarity comparison", 
+        "Self-organization of associative database and its applications",
+        "Associative database",
+        "Storing covariance by the associative long-term potentiation and depression of synaptic strengths in the hippocampus", 
+        "Storing potentiation of synaptic strengths",
+        "Neural networks",
+        "Neural-network",
+        "Sentiment of tweets on twitter"
     ]
 
     for i, query_sentence in enumerate(query_sentences):
         output_filename = "index_test_" + str(i) + ".txt"
         print("query: {0}".format(query_sentence))
-        retrieve_documents_from_index(query_sentence, output_filename)
+        retrieve_documents_per_content(query_sentence, output_filename)
