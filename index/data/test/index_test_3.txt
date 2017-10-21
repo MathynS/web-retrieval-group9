@@ -361,7 +361,7 @@ Turing machine Simple neural-like systems do not lack computational power
 ACKNOWLEDGEMENTS
 This work is supported by the Natural Sciences and Engineering Council of Canada
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 49-connecting-to-the-past.pdf
 
@@ -724,7 +724,7 @@ Turing machine Simple neural-like systems do not lack computational power
 ACKNOWLEDGEMENTS
 This work is supported by the Natural Sciences and Engineering Council of Canada
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 48-a-neural-network-classifier-based-on-coding-theory.pdf
 
@@ -1160,7 +1160,7 @@ In conclusion we believe that our model forms the basis of a fast practical
 method of classification with an effiCiency greater than other previOUS neural
 network techniques
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 48-a-neural-network-classifier-based-on-coding-theory.pdf
 
@@ -1596,7 +1596,7 @@ In conclusion we believe that our model forms the basis of a fast practical
 method of classification with an effiCiency greater than other previOUS neural
 network techniques
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -1808,7 +1808,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 51-reflexive-associative-memories.pdf
 
@@ -2170,7 +2170,7 @@ The wort was partly supported by the Defense Advanced Research
 projects Agency ARPA order through Contract DAAHOI-86-C
 with the U.S. Army Missile Command
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 53-the-connectivity-analysis-of-simple-association.pdf
 
@@ -2522,7 +2522,7 @@ yields diminishing returns in terms of total cost-performance Though the rate of
 The next step is to apply these techniques to ensembles of nodes CNs operating in a
 competitive learning or feature extraction environment
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 56-discovering-structure-from-motion-in-monkey-man-and-machine.pdf
 
@@ -2753,7 +2753,7 @@ representation is a computationally efficient means to solve problems in vision 
 as a final caveat I would like to advise the creators of networks that solve
 ethologically realistic problems to use solutions that evolution has provided
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -2965,7 +2965,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 50-an-adaptive-and-heterodyne-filtering-procedure-for-the-imaging-of-moving-objects.pdf
 
@@ -3373,7 +3373,7 @@ for experimental help This research was partly supported by the Netherlands
 Organization lor the Advancement 01 Pure Research through the
 foundation Stichting voor Biolysica
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 49-connecting-to-the-past.pdf
 
@@ -3736,7 +3736,7 @@ Turing machine Simple neural-like systems do not lack computational power
 ACKNOWLEDGEMENTS
 This work is supported by the Natural Sciences and Engineering Council of Canada
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 51-reflexive-associative-memories.pdf
 
@@ -4098,7 +4098,7 @@ The wort was partly supported by the Defense Advanced Research
 projects Agency ARPA order through Contract DAAHOI-86-C
 with the U.S. Army Missile Command
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 55-mathematical-analysis-of-learning-behavior-of-neuronal-models.pdf
 
@@ -4332,7 +4332,7 @@ update equations for the synaptic weights are quadratic resulting in polynomial
 rate of convergence Simulation results also show that much faster convergence
 rate can be obtained with the MRT model
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -4544,7 +4544,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 49-connecting-to-the-past.pdf
 
@@ -4907,7 +4907,7 @@ Turing machine Simple neural-like systems do not lack computational power
 ACKNOWLEDGEMENTS
 This work is supported by the Natural Sciences and Engineering Council of Canada
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 56-discovering-structure-from-motion-in-monkey-man-and-machine.pdf
 
@@ -5138,7 +5138,7 @@ representation is a computationally efficient means to solve problems in vision 
 as a final caveat I would like to advise the creators of networks that solve
 ethologically realistic problems to use solutions that evolution has provided
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 50-an-adaptive-and-heterodyne-filtering-procedure-for-the-imaging-of-moving-objects.pdf
 
@@ -5546,7 +5546,7 @@ for experimental help This research was partly supported by the Netherlands
 Organization lor the Advancement 01 Pure Research through the
 foundation Stichting voor Biolysica
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 48-a-neural-network-classifier-based-on-coding-theory.pdf
 
@@ -5982,7 +5982,7 @@ In conclusion we believe that our model forms the basis of a fast practical
 method of classification with an effiCiency greater than other previOUS neural
 network techniques
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -6194,7 +6194,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 53-the-connectivity-analysis-of-simple-association.pdf
 
@@ -6546,7 +6546,7 @@ yields diminishing returns in terms of total cost-performance Though the rate of
 The next step is to apply these techniques to ensembles of nodes CNs operating in a
 competitive learning or feature extraction environment
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 53-the-connectivity-analysis-of-simple-association.pdf
 
@@ -6898,7 +6898,7 @@ yields diminishing returns in terms of total cost-performance Though the rate of
 The next step is to apply these techniques to ensembles of nodes CNs operating in a
 competitive learning or feature extraction environment
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 51-reflexive-associative-memories.pdf
 
@@ -7260,7 +7260,7 @@ The wort was partly supported by the Defense Advanced Research
 projects Agency ARPA order through Contract DAAHOI-86-C
 with the U.S. Army Missile Command
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -7472,7 +7472,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 54-a-method-for-the-design-of-stable-lateral-inhibition-networks-that-is-robust-in-the-presence-of-circuit-parasitics.pdf
 
@@ -7760,7 +7760,7 @@ through the Office of Naval Research under ARPA Order No.
 Contract No. and Defense Advanced Research
 Projects Agency DARPA Contract No.
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 50-an-adaptive-and-heterodyne-filtering-procedure-for-the-imaging-of-moving-objects.pdf
 
@@ -8168,7 +8168,7 @@ for experimental help This research was partly supported by the Netherlands
 Organization lor the Advancement 01 Pure Research through the
 foundation Stichting voor Biolysica
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 55-mathematical-analysis-of-learning-behavior-of-neuronal-models.pdf
 
@@ -8402,7 +8402,7 @@ update equations for the synaptic weights are quadratic resulting in polynomial
 rate of convergence Simulation results also show that much faster convergence
 rate can be obtained with the MRT model
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 48-a-neural-network-classifier-based-on-coding-theory.pdf
 
@@ -8838,7 +8838,7 @@ In conclusion we believe that our model forms the basis of a fast practical
 method of classification with an effiCiency greater than other previOUS neural
 network techniques
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -9050,7 +9050,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 53-the-connectivity-analysis-of-simple-association.pdf
 
@@ -9402,7 +9402,7 @@ yields diminishing returns in terms of total cost-performance Though the rate of
 The next step is to apply these techniques to ensembles of nodes CNs operating in a
 competitive learning or feature extraction environment
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 48-a-neural-network-classifier-based-on-coding-theory.pdf
 
@@ -9838,7 +9838,7 @@ In conclusion we believe that our model forms the basis of a fast practical
 method of classification with an effiCiency greater than other previOUS neural
 network techniques
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 53-the-connectivity-analysis-of-simple-association.pdf
 
@@ -10190,7 +10190,7 @@ yields diminishing returns in terms of total cost-performance Though the rate of
 The next step is to apply these techniques to ensembles of nodes CNs operating in a
 competitive learning or feature extraction environment
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -10402,7 +10402,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 49-connecting-to-the-past.pdf
 
@@ -10765,7 +10765,7 @@ Turing machine Simple neural-like systems do not lack computational power
 ACKNOWLEDGEMENTS
 This work is supported by the Natural Sciences and Engineering Council of Canada
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 53-the-connectivity-analysis-of-simple-association.pdf
 
@@ -11117,7 +11117,7 @@ yields diminishing returns in terms of total cost-performance Though the rate of
 The next step is to apply these techniques to ensembles of nodes CNs operating in a
 competitive learning or feature extraction environment
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 52-teaching-artificial-neural-systems-to-drive-manual-training-techniques-for-autonomous-systems.pdf
 
@@ -11401,7 +11401,7 @@ often a human expert can not put his decision making process in words or specify
 parameters that influence him The attraction or ANS based systems is that imitations of expert
 behavior emerge as a natural consequence of their training
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 49-connecting-to-the-past.pdf
 
@@ -11764,7 +11764,7 @@ Turing machine Simple neural-like systems do not lack computational power
 ACKNOWLEDGEMENTS
 This work is supported by the Natural Sciences and Engineering Council of Canada
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -11976,7 +11976,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 54-a-method-for-the-design-of-stable-lateral-inhibition-networks-that-is-robust-in-the-presence-of-circuit-parasitics.pdf
 
@@ -12264,7 +12264,7 @@ through the Office of Naval Research under ARPA Order No.
 Contract No. and Defense Advanced Research
 Projects Agency DARPA Contract No.
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 50-an-adaptive-and-heterodyne-filtering-procedure-for-the-imaging-of-moving-objects.pdf
 
@@ -12672,7 +12672,7 @@ for experimental help This research was partly supported by the Netherlands
 Organization lor the Advancement 01 Pure Research through the
 foundation Stichting voor Biolysica
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 50-an-adaptive-and-heterodyne-filtering-procedure-for-the-imaging-of-moving-objects.pdf
 
@@ -13080,7 +13080,7 @@ for experimental help This research was partly supported by the Netherlands
 Organization lor the Advancement 01 Pure Research through the
 foundation Stichting voor Biolysica
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 49-connecting-to-the-past.pdf
 
@@ -13443,7 +13443,7 @@ Turing machine Simple neural-like systems do not lack computational power
 ACKNOWLEDGEMENTS
 This work is supported by the Natural Sciences and Engineering Council of Canada
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -13655,7 +13655,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 53-the-connectivity-analysis-of-simple-association.pdf
 
@@ -14007,7 +14007,7 @@ yields diminishing returns in terms of total cost-performance Though the rate of
 The next step is to apply these techniques to ensembles of nodes CNs operating in a
 competitive learning or feature extraction environment
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 54-a-method-for-the-design-of-stable-lateral-inhibition-networks-that-is-robust-in-the-presence-of-circuit-parasitics.pdf
 
@@ -14295,7 +14295,7 @@ through the Office of Naval Research under ARPA Order No.
 Contract No. and Defense Advanced Research
 Projects Agency DARPA Contract No.
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 54-a-method-for-the-design-of-stable-lateral-inhibition-networks-that-is-robust-in-the-presence-of-circuit-parasitics.pdf
 
@@ -14583,7 +14583,7 @@ through the Office of Naval Research under ARPA Order No.
 Contract No. and Defense Advanced Research
 Projects Agency DARPA Contract No.
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 54-a-method-for-the-design-of-stable-lateral-inhibition-networks-that-is-robust-in-the-presence-of-circuit-parasitics.pdf
 
@@ -14871,7 +14871,7 @@ through the Office of Naval Research under ARPA Order No.
 Contract No. and Defense Advanced Research
 Projects Agency DARPA Contract No.
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 32-synchronization-in-neural-nets.pdf
 
@@ -15083,7 +15083,7 @@ ACKNOWLEDGEMENT
 Research supported in part by Aerojet Electro-Systems under the Aerojet-UCLA Cooperative
 Research Master Agreement No. and by NASA NAG
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
 title: 10-a-mean-field-theory-of-layer-iv-of-visual-cortex-and-its-application-to-artificial-neural-networks.pdf
 
@@ -15386,5 +15386,5 @@ This work was supported by the Office of Naval Research and
 the Army Research Office under contracts
 and
 
-----------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------
 
