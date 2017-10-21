@@ -751,6 +751,660 @@ word association norms. http://www. usf. edu/FreeAssociation, 1999.
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
 
+title: 960-non-linear-prediction-of-acoustic-vectors-using-hierarchical-mixtures-of-experts.pdf
+
+Non-linear Prediction of Acoustic Vectors
+Using Hierarchical Mixtures of Experts
+
+S.R.Waterhouse
+A.J.Robinson
+Cambridge University Engineering Department,
+Trumpington St ., Cambridge, CB2 1PZ, England.
+Tel: [+44] 223 332800, Fax: [+44] 223 332662,
+Email: srwlO01.ajr@eng.cam.ac.uk
+URL: http://svr-www.eng.cam.ac.ukr srw1001
+
+Abstract
+In this paper we consider speech coding as a problem of speech
+modelling. In particular, prediction of parameterised speech over
+short time segments is performed using the Hierarchical Mixture of
+Experts (HME) (Jordan & Jacobs 1994). The HME gives two advantages over traditional non-linear function approximators such
+as the Multi-Layer Percept ron (MLP); a statistical understanding of the operation of the predictor and provision of information
+about the performance of the predictor in the form of likelihood
+information and local error bars. These two issues are examined
+on both toy and real world problems of regression and time series
+prediction. In the speech coding context, we extend the principle
+of combining local predictions via the HME to a Vector Quantization scheme in which fixed local codebooks are combined on-line
+for each observation.
+
+1 INTRODUCTION
+We are concerned in this paper with the application of multiple models, specifically the Hierarchical Mixtures of Experts, to time series prediction, specifically the
+problem of predicting acoustic vectors for use in speech coding. There have been
+a number of applications of multiple models in time series prediction. A classic
+example is the Threshold Autoregressive model (TAR) which was used by Tong &
+
+836
+
+S. R. Waterhouse, A. J. Robinson
+
+Lim (1980) to predict sunspot activity. More recently, Lewis, Kay and Stevens
+(in Weigend & Gershenfeld (1994)) describe the use of Multivariate and Regression Splines (MARS) to the prediction of future values of currency exchange rates.
+Finally, in speech prediction, Cuperman & Gersho (1985) describe the Switched
+Inter-frame Vector Prediction (SIVP) method which switches between separate linear predictors trained on different statistical classes of speech. The form of time
+series prediction we shall consider in this paper is the single step prediction fI(t) of a
+future quantity y(t) , by considering the previous samples. This may be viewed as
+a regression problem over input-output pairs {x t), y(t)}~ where x(t) is the lag vector (y(t-I), y(t-2), ... , y(t- p ?. We may perform this regression using standard linear
+models such as the Auto-Regressive (AR) model or via nonlinear models such as
+connectionist feed-forward or recurrent networks. The HME overcomes a number of
+problems associated with traditional connectionist models via its architecture and
+statistical framework. Recently, Jordan & Jacobs (1994) and Waterhouse & Robinson (1994) have shown that via the EM algorithm and a 2nd order optimization
+scheme known as Iteratively Reweighted Least Squares (IRLS), the HME is faster
+than standard Multilayer Perceptrons (MLP) by at least an order of magnitude on
+regression and classification tasks respectively. Jordan & Jacobs also describe various methods to visualise the learnt structure of the HME via 'deviance trees' and
+histograms of posterior probabilities. In this paper we provide further examples
+of the structural relationship of the trained HME and the input-output space in
+the form of expert activation plots. In addition we describe how the HME can be
+extended to give local error bars or measures of confidence in regression and time
+series prediction problems. Finally, we describe the extension of the HME to acoustic vector prediction, and a VQ coding scheme which utilises likelihood information
+from the HME.
+
+c:
+
+2 HIERARCHICAL MIXTURES OF EXPERTS
+The HME architecture (Figure 1) is based on the principle of 'divide and conquer'
+in which a large, hard to solve problem is broken up into many, smaller, easier
+to solve problems. It consists of a series of 'expert networks' which are trained
+on different parts of the input space. The outputs of the experts are combined
+by a 'gating network' which is trained to stochastically select the expert which is
+performing best at solving a particular part of the problem. The operation of the
+HME is as follows: the gating networks receive the input vectors x(t) and produce
+as outputs probabilities P(mi/.x(t), 7'/j) for each local branch mj of assigning the current
+input to the different branches, where T/j are the gating network parameters. The
+expert networks sit at the leaves of the tree and each output a vector flJt) given
+input vector x(t) and parameters Bj . These outputs are combined in a weighted sum
+by P(mjlX<t), T/j) to give the overall output vector for this region. This procedure
+continues recursively upwards to the root node. In time series prediction, each
+expert j is a linear single layer network with the form:
+flY) = B; x (t)
+
+where B; is matrix and
+form to an AR model.
+
+x(t)
+
+is the lag vector discussed earlier, which is identical in
+
+Non-Linear Prediction of Acoustic Vectors Using Hierarchical Mixtures of Experts
+
+x
+
+x
+
+x
+
+837
+
+x
+
+Figure 1: The Hierarchical Mixture of Experts.
+
+2.1
+
+Error bars via HME
+
+Since each expert is an AR model, it follows that the output of each expert y(t) is
+the expected value of the observations y(t) at each time t. The conditional likelihood
+of yet) given the input and expert mj is
+P(y(t) Ix (t), mj,
+
+Bj)
+
+= 12:Cj I exp ( - ~ (y -
+
+yy?)T Cj(y - yjt)))
+
+where Cj is the covariance matrix for expert mj which is updated during training as:
+C = _1_ "'" h(t)(y(r) _ y(t)l (y(t) _ y~t))
+J
+' " h~t) L..J J
+]
+]
+L.Jt J
+
+t
+
+where hy) are the posterior probabilities I of each expert mj' Taking the moments of
+the overall likelihood of the HME gives the output of the HME as the conditional
+expected value of the target output yct),
+yet) = E(yct)lxct) , 0, M)
+
+=
+
+2: P(mjlxct), l1j)E(y(t)lx ct), ej,mj) =2: gY)iJ/t),
+j
+
+j
+
+Where M represents the overall HME model and
+Taking the second central moment of yct) gives,
+C
+
+=
+=
+
+e
+
+the overall set of parameters.
+
+I
+
+E?y(t) - yy?)2 xct), 0, M)
+
+2: P(mJlx(t), l1j)E?y(t) 2: gjt)(Cj + yjt). iJj(t)T),
+
+yjt))2I x (t), ej, mj)
+
+j
+
+=
+
+j
+
+lSee (Jordan & Jacobs 1994) for a fuller discussion of posterior probabilities and likelihoods in the context of the HME.
+
+838
+
+S. R. Waterhouse, A. J. Robinson
+
+which gives, in a direct fashion, the covariance of the output given the input and the
+model. If we assume that the observations are generated by an underlying model,
+which generates according to some function f(x(t)) and corrupted by zero mean
+normally distributed noise n(x) with constant covariance 1:, then the covariance of
+y(t) is given by,
+V(y(t)) =V(t o) + 1:,
+so that the covariance computed by the method above, V(y(t)) , takes into account
+the modelling error as well as the uncertainty due to the noise. Weigend & Nix
+(1994) also calculate error bars using an MLP consisting of a set of tanh hidden
+units to estimate the conditional mean and an auxiliary set of tanh hidden units
+to estimate the variance, assuming normally distributed errors. Our work differs
+in that there is no assumption of normality in the error distribution, rather that
+the errors of the terminal experts are distributed normally, with the total error
+distribution being a mixture of normal distributions.
+
+3
+
+SIMULATIONS
+
+In order to demonstrate the utility of our approach to variance estimation we consider one toy regression problem and one time series prediction problem.
+3.1
+
+Toy Problem: Computer generated data
+2,------..--....,
+
+0 . 08,------~-...,
+
+1.5
+
+O. OS
+
+N
+
+~
+
+fO.04
+
+~
+
+-0.02
+
+2
+
+x
+
+~-0.5
+-1
+
+-0.2
+
+-1.5
+
+-0.4
+
+0.8
+Q)
+
+go.S
+
+-2
+
+-O.S
+
+-2.5
+
+-0.8
+
+-3 '------'------'
+o
+2
+
+x
+
+.~
+
+~0.4
+
+-1 ' - - - - - - ' - - - - - "
+
+o
+
+2
+
+x
+
+x
+
+2
+
+Figure 2: Performance on the toy data set of a 5 level binary HME. (a) training set
+(dots) and underlying function f(x) (solid), (b) underlying function (solid) and prediction
+y(x) (dashed), (c) squared deviation of prediction from underlying function, (d) true noise
+variance (solid) and variance of prediction (dashed).
+By way of comparison, we used the same toy problem as Weigend & Nix (1994)
+which consists of 1000 training points and 10000 separate evaluation points from
+
+Non-Linear Prediction of Acoustic Vectors Using Hierarchical Mixtures of Experts
+
+839
+
+the function g(x) where g(x) consists of a known underlying function f(x) corrupted
+by normally distributed noise N(O, (J2(X)) ,
+f(x)
+
+=
+
+sin(2.5x) x sin(l. 5x),
+
+(J2(x)
+
+= 0.01 + O. 25 x [1 -
+
+sin(2. 5x)f.
+
+As can be seen by Figure 2, the HME has learnt to approximate both the underlying
+function and the additive noise variance. The deviation of the estimated variance
+from the "true" noise variance may be due to the actual noise variance being lower
+than the maximum denoted by the solid line at various points.
+
+3.2
+
+Sunspots
+
+1920
+
+1930
+
+1940
+
+1950
+
+1960
+
+1970
+
+1980
+
+Year
+
+8
+6
+t
+
+8.4
+)(
+
+w
+
+2
+
+. .
+-.-- . ?
+? ?
+?
+
+?
+
+.. ? ...
+
+II
+
+?
+
+l-
+
+?
+
+-
+
+?
+
+I ?
+
+-
+
+?
+
+-
+
+..
+
+-
+
+? -? ? ?
+
+?
+
+OL-------~--------~--------~--------L-------~--------~
+
+1920
+
+1930
+
+1940
+
+1950
+
+1960
+
+1970
+
+1980
+
+Year
+
+Figure 3: Performance on the Sunspots data set. (a) Actual Values (x) and predicted
+values (0) with error bars. (b) Activation of the expert networks; bars wide in the vertical
+axis indicate strong activation. Notice how expert 7 concentrates on the lulls in the series
+while expert 2 deals with the peaks.
+
+I METHOD I
+MLP
+TAR
+HME
+
+NMSE '
+Train
+1700-1920
+0.082
+0.097
+0.061
+
+Test
+1921-1955 1956-1979
+0.086
+0.35
+0.097
+0.28
+0.089
+0.27
+
+Table 1: Results of single step prediction on the Sunspots data set using a mixture of 7
+experts (104 parameters) and a lag vector of 12 years. NMSE' is the NMSE normalised
+by the variance of the entire record 1700 to 1979.
+
+840
+
+S. R. Waterhouse, A. J. Robinson
+
+The Sunspots2 time series consists of yearly sunspot activity from 1700 to 1979 and
+was first tackled using connectionist models by Weigend, Huberman & Rumelhart
+(1990) who used a 12-8-1 MLP (113 parameters) . Prior to this work, the TAR was
+used by Tong (1990). Our results, which were obtained using a random leave 10%
+out cross validation method, are shown in Table 1. We are considering only single
+step prediction on this problem, which involves prediction of the next value based
+on a set of previous values of the time series. Our results are evaluated in terms of
+Normalised Mean Squared Error (NMSE) (Weigend et al. 1990), which is defined
+as the ratio of the variance of the prediction on the test set to the variance of the
+test set itself.
+The HME outperforms both the TAR and the MLP on this problem, and additionally provides both information about the structure of the network after training via
+the expert activation plot and error bars of the predictions, as shown in Figure 3.
+Further improvements may be possible by using likelihood information during cross
+validation so that a joint optimisation of overall error and variance is achieved.
+
+4
+
+SPEECH CODING USING HME
+
+In the standard method of Linear Predictive Coding (LPC) (Makhoul 1975), speech
+is parametrised into a set of vectors of duration one frame (around 10 ms). Whilst
+simple scalar quantization of the LPC vectors can achieve bit rates of around 2400
+bits per second (bps), Yong, Davidson & Gersho (1988) have shown that simple
+linear prediction of Line Spectral Pairs (LSP) (Soong & Juang 1984) vectors followed
+by Vector Quantization (VQ) (Abut , Gray & Rebolledo 1984) of the error vectors
+can yield bit rates of around 800 bps. In this paper we describe a speech coding
+framework which uses the HME in two stages. Firstly, the HME is used to perform
+prediction of the acoustic vectors. The error vectors are then quantized efficiently
+by using a VQ scheme which utilises the likelihood information derived from the
+HME .
+4.1
+
+Mixing VQ codebooks ia Gating networks
+
+In a VQ scheme using a Euclidean distance measure , there is an implicit assumption
+that the inputs follow a Gaussian probability density function (pdf). This is satisfied
+if we quantize the residuals from a linear predictor , but not the residuals from an
+HME which follow a mixture of Gaussians pdf. A more efficient method is therefore
+to generate separate VQ code books for each expert in the HME and combine them
+via the priors on each expert from the gating networks. The code book for the
+overall residual vectors on the test set is then generated at each time dynamically
+by choosing the first D x gjt) codes, where D is the size of the expert codebooks and
+gY) is the prior on each expert.
+
+2 Available via anonymous
+DataSunspots.Yearly
+
+ftp at
+
+fip.cs.colorado.edu
+
+III
+
+jpub jTime-Series as
+
+Non-Linear Prediction of Acoustic Vectors Using Hierarchical Mixtures of Experts
+
+4.2
+
+841
+
+Results of Speech Coding Evaluations
+
+Initial experiments were performed using 23 Mel scale log energy frequency bins as
+acoustic vectors and using single variances Cj = (J;I as expert network covariance
+matrices. The results of training over 100 ,000 frames and evaluation over a further
+100 ,000 frames on the Resource Management (RM) corpus are shown in Table 2
+and Figure 4 which shows the good specialisation of the HME in this problem.
+METHOD
+
+Prediction
+Train
+12.07
+18.1
+20.20
+
+Linear
+1 level HME
+2 level HME
+
+Gain (dB)
+Test
+10.95
+15.55
+16.39
+
+Table 2: Prediction of Acoustic Vectors using linear prediction and binary branching
+HMEs with 1 and 2 levels. Prediction gain (Cuperman & Gersho 1985) is the ratio of the
+signal variance to prediction error variance.
+(a) Spectogram
+
+20
+!!!
+
+::3
+
+c;; 15
+
+Cf
+~
+10
+::3
+
+8
+
+<
+
+.
+
+5
+
+o
+
+10
+
+20
+
+30
+
+40
+
+50
+
+60
+
+70
+
+80
+
+90
+
+100
+
+Frame
+(b) Gating Network Decisions
+
+71---
+
+-
+
+-
+
+-
+
+I
+
+- -__.-
+
+I
+
+6~----. . . .~.---~--_ _--------_=--~~--?
+
+~5~~---------1~---.I---1IHI~I~?--. . . .~.~.----~4~~~----------------~~~~----------
+
+w3~~---------~-----. .~__------_.----------------- -
+
+2.-.---- - -- - - -11-1...---11---1- --11-1 ? ? I
+
+II
+. ....-
+
+I ?
+
+1~--------------~~~~--------------------------------~
+
+10
+
+20
+
+30
+
+40
+
+50
+
+60
+
+70
+
+80
+
+90
+
+100
+
+Frame
+
+Figure 4: The behaviour of a mixture of 7 experts at predicting Mel-scale log energy
+frequency bins over 100 16ms fram es. The top figure is a spectrogram of the speech and
+the lower figure is an expert activation plot, showmg the gating network decisions.
+We have conducted further experiments using LSPs and cepstrals as acoustic vectors , and using diagonal expert network covariance matrices, on a very large speech
+corpus. However, initial experiments show only a small improvement in gain over
+a single linear predictor and further investigation is underway. We have also coded
+acoustic vectors using 8 bits per frame with frame lengths of 12.5 ms, passing power,
+pitch and degree of voicing as side band information , without appreciable distortion over simple LPC coding. A full system will include prediction of all acoustic
+
+842
+
+S. R. Waterhouse, A. J. Robinson
+
+parameters and we anticipate further reductions on this initial figure with future
+developments.
+
+5
+
+CONCLUSION
+
+The aim of speech coding is the efficient coding of the speech signal with little
+perceptual loss. This paper has described the use of the HME for acoustic vector
+prediction. We have shown that the HME can provide improved performance over a
+linear predictor and in addition it provides a time varying variance for the prediction
+error. The decomposition of the linear prediction problem into a solution via a
+mixture of experts also allows us to construct a VQ codebook on the fly by mixing
+the codebooks of the various experts.
+We expect that the direct computation of the time varying nature of the prediction
+accuracy will find many applications. Within the acoustic vector prediction problem
+we would like to exploit this information by exploring the continuum between the
+fixed bit rate coder described here and a variable bit rate coder that produces
+constant spectral distortion.
+Acknowledgements
+This work was funded in part by Hewlett Packard Laboratories, UK. Steve Waterhouse is supported by an EPSRC Research Students hip and Tony Robinson was
+supported by a EPSRC Advanced Research Fellowship.
+
+References
+Abut, H., Gray, R. M. & Rebolledo, G. (1984), 'Vector quantization of speech and speechlike waveforms', IEEE Transactions on Acoustics, Speech, and Signal Processing.
+Cuperman, V. & Gersho, A. (1985), 'Vector predictive coding of speech at 16 kblt/s',
+IEEE Transactions on Communications COM-33, 685-696.
+Jordan, M. I. & Jacobs, R. A. (1994), 'Hierarchical Mixtures of Experts and the EM
+algorithm', Neural Computation 6, 181-214.
+Makhoiil, J. (1975), 'Linear prediction: A tutorial review', Proceedings of the IEEE
+63(4) 561-580.
+Soong~ F. k. & Juang, B. H. (1984), Line spectrum pair (LSP) and speech data compressIon.
+Tong, H. (1990), Non-linear Time Series: a dynamical systems approach, Oxford Universi~y Press.
+Tong, H. & Lim, K. (1980), 'Threshold autoregression, limit cycles and cyclical data',
+Journal of Royal Statistical Society.
+Waterhouse, S. R. & Robinson, A. J. (1994), Classification using hierarchical mixtures of
+experts, in 'IEEE Workshop on Neural Networks for SigI!al Processing'.
+Weigend, A. S. & Gershenfeld, N. A. (1994), Time Series Prediction: Forecasting the
+Future and Understanding the Past) Addison-Wesley.
+Weigend, A. S. & Nix, D. A. (1994), Predictions with confidence intervals (local error bars),
+Technical Report CU-CS-724-94, Department of Computer Science and Institute of
+Coznitive Science, University of Colorado, Boulder, CO 80309-0439.
+Weigend, A. S., Huberman, B. A. & Rumelhart, D. E. (1990), 'Predicting the future: a
+connectionist approach', International Journal of Neural Systems 1, 193-209.
+Yong, M., Davidson, G. & Gersho, A. (1988), Encoding of LPC spectral parameters using
+switched-adaptive interframe vector prediction, in 'Proceedings of the IEEE International Conference on Acoustics Speech, and Signal Processing', pp. 402-405.
+
+
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
+
 title: 5301-dynamic-rank-factor-model-for-text-streams.pdf
 
 Dynamic Rank Factor Model for Text Streams
@@ -4293,6 +4947,480 @@ Neural Networks, Neural Computation, Vol 1, No 2, p. 270, (1989).
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
 
+title: 2271-dynamic-structure-super-resolution.pdf
+
+Dynamic Structure Super-Resolution
+
+Amos J Storkey
+Institute of Adaptive and Neural Computation
+Division of Informatics and Institute of Astronomy
+University of Edinburgh
+5 Forrest Hill, Edinburgh UK
+a.storkey@ed.ac.uk
+
+Abstract
+The problem of super-resolution involves generating feasible higher
+resolution images, which are pleasing to the eye and realistic, from
+a given low resolution image. This might be attempted by using simple filters for smoothing out the high resolution blocks or
+through applications where substantial prior information is used
+to imply the textures and shapes which will occur in the images.
+In this paper we describe an approach which lies between the two
+extremes. It is a generic unsupervised method which is usable in
+all domains, but goes beyond simple smoothing methods in what it
+achieves. We use a dynamic tree-like architecture to model the high
+resolution data. Approximate conditioning on the low resolution
+image is achieved through a mean field approach.
+
+1
+
+Introduction
+
+Good techniques for super-resolution are especially useful where physical limitations
+exist preventing higher resolution images from being obtained. For example, in
+astronomy where public presentation of images is of significant importance, superresolution techniques have been suggested. Whenever dynamic image enlargement
+is needed, such as on some web pages, super-resolution techniques can be utilised.
+This paper focuses on the issue of how to increase the resolution of a single image
+using only prior information about images in general, and not relying on a specific
+training set or the use of multiple images.
+The methods for achieving super-resolution are as varied as the applications. They
+range from simple use of Gaussian or preferably median filtering, to supervised
+learning methods based on learning image patches corresponding to low resolution
+regions from training data, and effectively sewing these patches together in a consistent manner. What method is appropriate depends on how easy it is to get suitable
+training data, how fast the method needs to be and so on. There is a demand for
+methods which are reasonably fast, which are generic in that they do not rely on
+having suitable training data, but which do better than standard linear filters or
+interpolation methods.
+This paper describes an approach to resolution doubling which achieves this. The
+
+method is structurally related to one layer of the dynamic tree model [9, 8, 1] except
+that it uses real valued variables.
+
+2
+
+Related work
+
+Simple approaches to resolution enhancement have been around for some time.
+Gaussian and Wiener filters (and a host of other linear filters) have been used for
+smoothing the blockiness created by the low resolution image. Median filters tend
+to fare better, producing less blurry images. Interpolation methods such as cubicspline interpolation tend to be the most common image enhancement approach.
+In the super-resolution literature there are many papers which do not deal with the
+simple case of reconstruction based on a single image. Many authors are interested
+in reconstruction based on multiple slightly perturbed subsamples from an image [3,
+2] . This is useful for photographic scanners for example. In a similar manner other
+authors utilise the information from a number of frames in a temporal sequence [4].
+In other situations highly substantial prior information is given, such as the ground
+truth for a part of the image. Sometimes restrictions on the type of processing
+might be made in order to keep calculations in real time or deal with sequential
+transmission.
+One important paper which deals specifically with the problem tackled here is by
+Freeman, Jones and Pasztor [5]. They follow a supervised approach, learning a
+low to high resolution patch model (or rather storing examples of such maps),
+and utilising a Markov random field for combining them and loopy propagation
+for inference. Later work [6] simplifies and improves on this approach. Earlier
+work tackling the same problem includes that of Schultz and Stevenson [7], which
+performed an MAP estimation using a Gibbs prior.
+There are two primary difficulties with smoothing (eg Gaussian, Wiener, Median
+filters) or interpolation (bicubic, cubic spline) methods. First smoothing is indiscriminate. It occurs both within the gradual change in colour of the sky, say, as well
+as across the horizon, producing blurring problems. Second these approaches are
+inconsistent: subsampling the super-resolution image will not return the original
+low-resolution one. Hence we need a model which maintains consistency but also
+tries to ensure that smoothing does not occur across region boundaries (except as
+much is as needed for anti-aliasing).
+
+3
+
+The model
+
+Here the high-resolution image is described by a series of very small patches with
+varying shapes. Pixel values within these patches can vary, but will have a common
+mean value. Pixel values across patches are independent. Apriori exactly where
+these patches should be is uncertain, and so the pixel to patch mapping is allowed
+to be a dynamic one.
+The model is best represented by a belief network. It consists of three layers. The
+lowest layer consists of the visible low-resolution pixels. The intermediate layer is a
+high-resolution image (4 ? 4 the size of the low-resolution image). The top layer is
+a latent layer which is a little more than 2 ? 2 the size of the low resolution image.
+The latent variables are ?positioned? at the corners, centres and edge centres of
+the pixels of the low resolution image. The values of the pixel colour of the high
+resolution nodes are each a single sample from a Gaussian mixture (in colour space),
+where each mixture centre is given by the pixel colour of a particular parent latent
+
+Latent
+
+Hi Res
+
+Low Res
+
+Figure 1: The three layers of the model. The small boxes in the left figure (64 of
+them) give the position of the high resolution pixels relative to the low resolution
+pixels (the 4 boxes with a thick outline). The positions of the latent variable nodes
+are given by the black circles. The colour of each high resolution pixel is generated
+from a mixture of Gaussians (right figure), each Gaussian centred at its latent
+parent pixel value. The closer the parent is, the higher the prior probability of
+being generated by that mixture is.
+variable node. The prior mixing coefficients decay with distance in image space
+between the high-resolution node and the corresponding latent node.
+Another way of viewing this is that a further indicator variable can be introduced
+which selects which mixture is responsible for a given high-resolution node. We say
+a high resolution node ?chooses? to connect to the parent that is responsible for it,
+with a connection probability given by the corresponding mixing coefficient. These
+connection probabilities can be specified in terms of positions (see figure 2).
+The motivation for this model comes from the possibility of explaining away. In
+linear filtering methods each high-resolution node is determined by a fixed relationship to its neighbouring low-resolution nodes. Here if one of the latent variables
+provides an explanation for a high-resolution node which fits well with it neighbours
+to form the low-resolution data, then the posterior responsibility of the other latent
+nodes for that high-resolution pixel is reduced, and they are free to be used to model
+other nearby pixels. The high-resolution pixels corresponding to a visible node can
+be separated into two (or more) independent regions, corresponding to pixels on
+different sides of an edge (or edges). A different latent variable is responsible for
+each region. In other words each mixture component effectively corresponds to a
+small image patch which can vary in size depending on what pixels it is responsible
+for.
+Let vj ? L denote a latent variable at site j in the latent space L. Let xi ? S
+denote the value of pixel i in high resolution image space S, and let yk denote the
+value of the visible pixel k. Each of these is a 3-vector representing colour. Let V
+denote the ordered set of all vj . Likewise X denotes the ordered set of all xi and Y
+the set of all yi . In all the work described here a transformed colorspace of (gray,
+red-green, blue-yellow) is used. In other words the data is a linear transformation
+on the RGB colour values using the matrix
+!
+0.66 1 0.5
+0.66 ?1 0.5 .
+0.66 0 ?1
+The remaining component is the connectivity (i.e. the indicator for the responsibility) between the high-resolution nodes and the nodes in the latent layer. Let zij
+
+denote this connectivity with zij an indicator variable taking value 1 when vj is a
+parent of xi in the belief network. Every high resolution pixel has one and only one
+parent in the latent layer. Let Z denote the ordered set of all zij .
+3.1
+
+Distributions
+
+A uniform distribution over the range of pixel values is presumed for the latent
+variables. The high resolution pixels are given by Gaussian distributions centred
+on the pixel values of the parental latent variable. This Gaussian is presumed
+independent in each pixel component. Finally the low resolution pixels are given
+by the average of the sixteen high resolution pixels covering the site of the low
+resolution pixel. This pixel value can also be subject to some additional Gaussian
+noise if necessary (zero noise is assumed in this paper).
+It is presumed that each high resolution pixel is allowed to ?choose? its parent from
+the set of latent variables in an independent manner. A pixel has a higher probability
+of choosing a nearby parent than a far away one.
+For this we use a Gaussian integral form so that :
+
+
+Z
+Y z
+(rj ? r)2
+ij
+P (Z) =
+pij where pij ?
+dr exp ?
+,
+2?
+Bi
+ij
+
+(1)
+
+The equations for the other distributions are given here. First we have
+!
+m 2
+Y
+(xm
+1
+i ? vj )
+P (X|Z, V ) =
+exp ?zij
+.
+2?m
+(2??m )1/2
+ijm
+
+(2)
+
+where r is a position in the high resolution picture space, rj is the position of the
+jth latent variable in the high resolution image space (where these are located at
+the corners of every second pixel in each direction as described above). The integral
+is over Bi defined as the region in image space corresponding to pixel xi . ? gives
+the width (squared) over which the probability decays. The larger ? the more
+possible parents with non-negligible probability. The connection probabilities can
+be illustrated by the picture in figure 2.
+
+where ?m is a variance which determines how much each pixel must be like its
+latent parent. Here the indicator zij ensures the only contribution for each i comes
+from the parent j of i. Second
+!
+P
+2
+Y
+(ykm ? d1 i?P a(k) xm
+1
+i )
+exp ?
+(3)
+P (Y |X) =
+2?
+(2??)1/2
+km
+
+Figure 2: An illustration of the connection probabilities from a high resolution pixel
+in the position of the smaller checkered square to the latent variables centred at each
+of the larger squares. The probability is proportional to the intensity of the shading:
+darker is higher probability.
+
+with P a(k) denoting the set of all the d = 16 high resolution pixels which go to
+make up the low resolution pixel yk . In this work we let the variance ? ? 0.
+? determines the additive Gaussian noise which is in the low resolution image.
+Last, P (V ) is simply uniform over the whole of the possible values of V . Hence
+P (V ) = 1/C for C the volume of V space being considered.
+3.2
+
+Inference
+
+The belief network defined above is not tree structured (rather it is a mixture of tree
+structures) and so we have to resort to approximation methods for inference. In this
+paper a variational approach is followed. The posterior distribution is approximated
+using a factorised distribution over the latent space and over the connectivity. Only
+in the high resolution space X do we consider joint distributions: we use a joint
+Gaussian for all the nodes corresponding to one low resolution pixel. The full
+distribution can be written as Q(Z, V, X) = Q(Z)Q(V )Q(X) where
+!
+Y z
+Y
+(vjm ? ?jm )2
+1
+ij
+Q(Z) =
+qij ,
+Q(V ) =
+exp ?
+and (4)
+1/2
+2(?m
+(2??m
+j )
+j )
+ij
+jm
+
+
+Y (2?)?d/2
+1 ? m
+? m T
+m ?1
+? m
+? m
+Q(X) =
+exp ? [(x )k ? (? )k ] (?k ) [(x )k ? (? )k ]
+(5)
+1/2
+2
+|?m
+k |
+km
+
+m
+where (x? )m
+k is the vector (xi |i ? P a(k)), the joint of all d high resolution pixel
+values corresponding to a given low resolution pixel k (for a given colour component
+m
+m
+m
+m). Here qij , ?m
+i , ?j , ?j and ?i are variational parameters to be optimised.
+
+As usual, a local minima the KL divergence between the approximate distribution
+and the true posterior distribution is computed. This is equivalent to maximising
+the negative variational free energy (or variational log likelihood)
+
+
+Q(Z, V, X)
+(6)
+L(Q||P ) = log
+P (Z, V, X, Y ) Q(Z,V,X)
+
+where Y is given by the low resolution image. In this case we obtain
+L(Q||P ) = hlog Q(Z) ? log P (Z)iQ(Z) + hlog Q(V ) ? log p(V )iQ(V )
+
++ hlog Q(X)iQ(X) ? hlog P (X|Z, V )iQ(X,Z,V ) ? hlog P (Y |X)iQ(Y,X) . (7)
+Taking expectations and derivatives with respect to each of the parameters in the
+approximation gives a set of self-consistent mean field equations which we can solve
+by repeated iteration. Here for simplicity we only solve for qij and for the means ?m
+i
+and ?jm which turn out to be independent of the variational variance parameters.
+We obtain
+P
+m
+X
+m
+m
+i qij xi
+?jm = P
+and ?m
+qij vim
+(8)
+i = ?i + Dc(i) where ?i =
+q
+ij
+i
+j
+
+where c(i) is the child of i, i.e. the low level pixel which i is part of. Dk is
+a Lagrange multiplier, and is obtained through constraining the high level pixel
+values to average to the low level pixels:
+1 X m
+1 X
+?
+m
+m
+?m
+?i
+(9)
+i = y k ? Dk ? Dk = y k ?
+d
+d
+i?P a(k)
+
+i?P a(k)
+
+In the case where ? is non-zero, this constraint is softened and Dk is given by
+Dk = ?Dk? /(? + ?). The update for the qij is given by
+!
+X (xm ? v m )2
+i
+k
+qij ? pij exp ?
+(10)
+2?m
+m
+
+where the constant of proportionality is given by normalisation:
+
+P
+
+j qij
+
+= 1.
+
+Optimising the KL divergence involves iterating these equations. For each Q(Z)
+optimisation (10), equations (8a) and (8b) are iterated a number of times. Each
+optimisation loop is either done a preset number of times, or until a suitable convergence criterion is met. The former approach is generally used, as the basic criterion
+is a limit on the time available for the optimisation to be done.
+
+4
+
+Setting parameters
+
+The prior variance parameters need to be set. The variance ? corresponds to the
+additive noise. If this is not known to be zero, then it will vary from image to image,
+and needs to be found for each image. This can be done using variational maximum
+likelihood, where ? is set to maximise the variational log likelihood. ? is presumed
+to be independent of the images presented, and is set by hand by visualising changes
+on a test set. The ?m might depend on the intensity levels in the image: very dark
+images will need a smaller value of ?1 for example. However for simplicity ?m = ?
+is treated as global and set by hand. Because the primary criterion for optimal
+parameters is subjective, this is the most sensible approach, and is reasonable when
+there are only two parameters to determine. To optimise automatically based on
+the variational log likelihood is possible but does not produce as good results due to
+the complicated nature of a true prior or error-measure for images. For example, a
+highly elaborate texture offset by one pixel will give a large mean square error, but
+look almost identical, whereas a blurred version of the texture would give a smaller
+mean square error, but look much worse.
+
+5
+
+Implementation
+
+The basic implementation involves setting the parameters, running the mean field
+optimisation and then looking at the result. The final result is a downsampled
+version of the 4 ? 4 image to 2 ? 2 size: the larger image is used to get reasonable
+anti-aliasing.
+To initialise the mean field optimisation, X is set equal to the bi-cubic interpolated
+image with added Gaussian noise. The Q(Z) is initialised to P (Z). Although in
+the examples here we used 25 optimisations Q(Z), each of which involves 10 cycles
+through the mean field equations for Q(X) and Q(V ), it is possible to get reasonable
+results with only three Q(Z) optimisation cycles each doing 2 iterations through
+the mean field equations. In the runs shown here, ? is set to zero, the variance ?
+is set to 0.008, and ? is set to 3.3.
+
+6
+
+Demonstrations and assessment
+
+The method described in this paper is compared with a number of simple filtering and interpolation methods, and also with the methods of Freeman et al.
+The image from Freeman?s website is used for comparison with that work (figure 3). Full colour comparisons for these and other images can be found at
+http://www.anc.ed.ac.uk/~amos/superresolution.html. First two linear filtering approaches are considered, the Wiener filter and a Gaussian filter. The third
+method is a median filter. Bi-cubic interpolation is also given.
+Quantitative assessment of the quality of super-resolution results is always something of a difficulty because the basic criterion is human subjectivity. Even so we
+
+(a)
+
+(b)
+
+(c)
+
+(d)
+
+(e)
+
+(f)
+
+Figure 3: Comparison with approach of Freeman et al. (a) gives the 70x70 low resolution image, (b) the true image, (c) a bi-cubic interpolation (d) Freeman et al result
+(taken from website and downsampled), (e) dynamic structure super-resolution, (f)
+median filter.
+
+compare the results of this approach with standard filtering methods using a root
+mean squared pixel error on a set of 8, 128 by 96 colour images, giving 0.0486, 0.0467,
+0.0510 and 0.0452 for the original low resolution image, bicubic interpolation, the
+median filter and dynamic structure super-resolution respectively. Unfortunately
+the unavailability of code prevents representative calculations for the Freeman et al
+approach. Dynamic structure resolution requires approximately 30 ? 60 flops per
+2 ? 2 high resolution pixel per optimisation cycle, compared with, say, 16 flops for
+a linear filter, so it is more costly. Trials have been done working directly with
+2 ? 2 grids rather than with 4 ? 4 and then averaging up. This is much faster and
+the results, though not quite as good, were still an improvement on the simpler
+methods.
+Qualitatively, the results for dynamic structure super-resolution are significantly
+better than most standard filtering approaches. The texture is better represented
+because it maintains consistency, and the edges are sharper, although there is still
+some significant difference from the true image. The method of Freeman et al
+is perhaps comparable at this resolution, although it should be noted that their
+result has been downsampled here to half the size of their enhanced image. Their
+method can produce 4 ? 4 the resolution of the original, and so this does not
+accurately represent the full power of their technique. Furthermore this image is
+representative of early results from their work. However their approach does require
+learning large numbers of patches from a training set. Fundamentally the dynamic
+structure super-resolution approach does a good job at resolution doubling without
+the need for representative training data. The edges are not blurred and much of
+the blockiness is removed.
+Dynamic structure super-resolution provides a technique for resolution enhancement, and provides an interesting starting model which is different from the Markov
+random field approaches. Future directions could incorporate hierarchical frequency
+information at each node rather than just a single value.
+
+References
+[1] N. J. Adams. Dynamic Trees: A Hierarchical Probabilistic Approach to Image Modelling. PhD thesis, Division of Informatics, University of Edinburgh, 5 Forrest Hill,
+Edinburgh, EH1 2QL, UK, 2001.
+[2] S. Baker and T. Kanade. Limits on super-resolution and how to break them. In
+Proceedings of CVPR 00, pages 372?379, 2000.
+[3] P. Cheeseman, B. Kanefsky, R. Kraft, and J. Stutz. Super-resolved surface reconstruction from multiple images. Technical Report FIA-94-12, NASA Ames, 1994.
+[4] M. Elad and A. Feuer. Super-resolution reconstruction of image sequences. IEEE
+Transactions on Pattern Analysis and Machine Intelligence, 21(9):817?834, 1999.
+[5] W. T. Freeman, T. R. Jones, and E. C. Pasztor. Markov networks for super-resolution.
+Technical Report TR-2000-08, MERL, 2000.
+[6] W. T. Freeman, T. R. Jones, and E. C. Pasztor. Example-based super-resolution.
+IEEE Computer Graphics and Applications, 2002.
+[7] R. R. Schultz and R. L. Stevenson. A Bayesian approach to image expansion for
+improved definition. IEEE Transactions on Image Processing, 3:233?242, 1994.
+[8] A. J. Storkey. Dynamic trees: A structured variational method giving efficient propagation rules. In C. Boutilier and M. Goldszmidt, editors, Uncertainty in Artificial
+Intelligence, pages 566?573. Morgan Kauffmann, 2000.
+[9] C. K. I. Williams and N. J. Adams. DTs: Dynamic trees. In M. J. Kearns, S. A. Solla,
+and D. A. Cohn, editors, Advances in Neural Information Processing Systems 11. MIT
+Press, 1999.
+
+
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
+
 title: 6475-a-scalable-end-to-end-gaussian-process-adapter-for-irregularly-sampled-time-series-classification.pdf
 
 A scalable end-to-end Gaussian process adapter for
@@ -5502,480 +6630,6 @@ sources from the FIRST Survey. Astrophysical Journal, 475:479, 1997.
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
 
-title: 2271-dynamic-structure-super-resolution.pdf
-
-Dynamic Structure Super-Resolution
-
-Amos J Storkey
-Institute of Adaptive and Neural Computation
-Division of Informatics and Institute of Astronomy
-University of Edinburgh
-5 Forrest Hill, Edinburgh UK
-a.storkey@ed.ac.uk
-
-Abstract
-The problem of super-resolution involves generating feasible higher
-resolution images, which are pleasing to the eye and realistic, from
-a given low resolution image. This might be attempted by using simple filters for smoothing out the high resolution blocks or
-through applications where substantial prior information is used
-to imply the textures and shapes which will occur in the images.
-In this paper we describe an approach which lies between the two
-extremes. It is a generic unsupervised method which is usable in
-all domains, but goes beyond simple smoothing methods in what it
-achieves. We use a dynamic tree-like architecture to model the high
-resolution data. Approximate conditioning on the low resolution
-image is achieved through a mean field approach.
-
-1
-
-Introduction
-
-Good techniques for super-resolution are especially useful where physical limitations
-exist preventing higher resolution images from being obtained. For example, in
-astronomy where public presentation of images is of significant importance, superresolution techniques have been suggested. Whenever dynamic image enlargement
-is needed, such as on some web pages, super-resolution techniques can be utilised.
-This paper focuses on the issue of how to increase the resolution of a single image
-using only prior information about images in general, and not relying on a specific
-training set or the use of multiple images.
-The methods for achieving super-resolution are as varied as the applications. They
-range from simple use of Gaussian or preferably median filtering, to supervised
-learning methods based on learning image patches corresponding to low resolution
-regions from training data, and effectively sewing these patches together in a consistent manner. What method is appropriate depends on how easy it is to get suitable
-training data, how fast the method needs to be and so on. There is a demand for
-methods which are reasonably fast, which are generic in that they do not rely on
-having suitable training data, but which do better than standard linear filters or
-interpolation methods.
-This paper describes an approach to resolution doubling which achieves this. The
-
-method is structurally related to one layer of the dynamic tree model [9, 8, 1] except
-that it uses real valued variables.
-
-2
-
-Related work
-
-Simple approaches to resolution enhancement have been around for some time.
-Gaussian and Wiener filters (and a host of other linear filters) have been used for
-smoothing the blockiness created by the low resolution image. Median filters tend
-to fare better, producing less blurry images. Interpolation methods such as cubicspline interpolation tend to be the most common image enhancement approach.
-In the super-resolution literature there are many papers which do not deal with the
-simple case of reconstruction based on a single image. Many authors are interested
-in reconstruction based on multiple slightly perturbed subsamples from an image [3,
-2] . This is useful for photographic scanners for example. In a similar manner other
-authors utilise the information from a number of frames in a temporal sequence [4].
-In other situations highly substantial prior information is given, such as the ground
-truth for a part of the image. Sometimes restrictions on the type of processing
-might be made in order to keep calculations in real time or deal with sequential
-transmission.
-One important paper which deals specifically with the problem tackled here is by
-Freeman, Jones and Pasztor [5]. They follow a supervised approach, learning a
-low to high resolution patch model (or rather storing examples of such maps),
-and utilising a Markov random field for combining them and loopy propagation
-for inference. Later work [6] simplifies and improves on this approach. Earlier
-work tackling the same problem includes that of Schultz and Stevenson [7], which
-performed an MAP estimation using a Gibbs prior.
-There are two primary difficulties with smoothing (eg Gaussian, Wiener, Median
-filters) or interpolation (bicubic, cubic spline) methods. First smoothing is indiscriminate. It occurs both within the gradual change in colour of the sky, say, as well
-as across the horizon, producing blurring problems. Second these approaches are
-inconsistent: subsampling the super-resolution image will not return the original
-low-resolution one. Hence we need a model which maintains consistency but also
-tries to ensure that smoothing does not occur across region boundaries (except as
-much is as needed for anti-aliasing).
-
-3
-
-The model
-
-Here the high-resolution image is described by a series of very small patches with
-varying shapes. Pixel values within these patches can vary, but will have a common
-mean value. Pixel values across patches are independent. Apriori exactly where
-these patches should be is uncertain, and so the pixel to patch mapping is allowed
-to be a dynamic one.
-The model is best represented by a belief network. It consists of three layers. The
-lowest layer consists of the visible low-resolution pixels. The intermediate layer is a
-high-resolution image (4 ? 4 the size of the low-resolution image). The top layer is
-a latent layer which is a little more than 2 ? 2 the size of the low resolution image.
-The latent variables are ?positioned? at the corners, centres and edge centres of
-the pixels of the low resolution image. The values of the pixel colour of the high
-resolution nodes are each a single sample from a Gaussian mixture (in colour space),
-where each mixture centre is given by the pixel colour of a particular parent latent
-
-Latent
-
-Hi Res
-
-Low Res
-
-Figure 1: The three layers of the model. The small boxes in the left figure (64 of
-them) give the position of the high resolution pixels relative to the low resolution
-pixels (the 4 boxes with a thick outline). The positions of the latent variable nodes
-are given by the black circles. The colour of each high resolution pixel is generated
-from a mixture of Gaussians (right figure), each Gaussian centred at its latent
-parent pixel value. The closer the parent is, the higher the prior probability of
-being generated by that mixture is.
-variable node. The prior mixing coefficients decay with distance in image space
-between the high-resolution node and the corresponding latent node.
-Another way of viewing this is that a further indicator variable can be introduced
-which selects which mixture is responsible for a given high-resolution node. We say
-a high resolution node ?chooses? to connect to the parent that is responsible for it,
-with a connection probability given by the corresponding mixing coefficient. These
-connection probabilities can be specified in terms of positions (see figure 2).
-The motivation for this model comes from the possibility of explaining away. In
-linear filtering methods each high-resolution node is determined by a fixed relationship to its neighbouring low-resolution nodes. Here if one of the latent variables
-provides an explanation for a high-resolution node which fits well with it neighbours
-to form the low-resolution data, then the posterior responsibility of the other latent
-nodes for that high-resolution pixel is reduced, and they are free to be used to model
-other nearby pixels. The high-resolution pixels corresponding to a visible node can
-be separated into two (or more) independent regions, corresponding to pixels on
-different sides of an edge (or edges). A different latent variable is responsible for
-each region. In other words each mixture component effectively corresponds to a
-small image patch which can vary in size depending on what pixels it is responsible
-for.
-Let vj ? L denote a latent variable at site j in the latent space L. Let xi ? S
-denote the value of pixel i in high resolution image space S, and let yk denote the
-value of the visible pixel k. Each of these is a 3-vector representing colour. Let V
-denote the ordered set of all vj . Likewise X denotes the ordered set of all xi and Y
-the set of all yi . In all the work described here a transformed colorspace of (gray,
-red-green, blue-yellow) is used. In other words the data is a linear transformation
-on the RGB colour values using the matrix
-!
-0.66 1 0.5
-0.66 ?1 0.5 .
-0.66 0 ?1
-The remaining component is the connectivity (i.e. the indicator for the responsibility) between the high-resolution nodes and the nodes in the latent layer. Let zij
-
-denote this connectivity with zij an indicator variable taking value 1 when vj is a
-parent of xi in the belief network. Every high resolution pixel has one and only one
-parent in the latent layer. Let Z denote the ordered set of all zij .
-3.1
-
-Distributions
-
-A uniform distribution over the range of pixel values is presumed for the latent
-variables. The high resolution pixels are given by Gaussian distributions centred
-on the pixel values of the parental latent variable. This Gaussian is presumed
-independent in each pixel component. Finally the low resolution pixels are given
-by the average of the sixteen high resolution pixels covering the site of the low
-resolution pixel. This pixel value can also be subject to some additional Gaussian
-noise if necessary (zero noise is assumed in this paper).
-It is presumed that each high resolution pixel is allowed to ?choose? its parent from
-the set of latent variables in an independent manner. A pixel has a higher probability
-of choosing a nearby parent than a far away one.
-For this we use a Gaussian integral form so that :
-
-
-Z
-Y z
-(rj ? r)2
-ij
-P (Z) =
-pij where pij ?
-dr exp ?
-,
-2?
-Bi
-ij
-
-(1)
-
-The equations for the other distributions are given here. First we have
-!
-m 2
-Y
-(xm
-1
-i ? vj )
-P (X|Z, V ) =
-exp ?zij
-.
-2?m
-(2??m )1/2
-ijm
-
-(2)
-
-where r is a position in the high resolution picture space, rj is the position of the
-jth latent variable in the high resolution image space (where these are located at
-the corners of every second pixel in each direction as described above). The integral
-is over Bi defined as the region in image space corresponding to pixel xi . ? gives
-the width (squared) over which the probability decays. The larger ? the more
-possible parents with non-negligible probability. The connection probabilities can
-be illustrated by the picture in figure 2.
-
-where ?m is a variance which determines how much each pixel must be like its
-latent parent. Here the indicator zij ensures the only contribution for each i comes
-from the parent j of i. Second
-!
-P
-2
-Y
-(ykm ? d1 i?P a(k) xm
-1
-i )
-exp ?
-(3)
-P (Y |X) =
-2?
-(2??)1/2
-km
-
-Figure 2: An illustration of the connection probabilities from a high resolution pixel
-in the position of the smaller checkered square to the latent variables centred at each
-of the larger squares. The probability is proportional to the intensity of the shading:
-darker is higher probability.
-
-with P a(k) denoting the set of all the d = 16 high resolution pixels which go to
-make up the low resolution pixel yk . In this work we let the variance ? ? 0.
-? determines the additive Gaussian noise which is in the low resolution image.
-Last, P (V ) is simply uniform over the whole of the possible values of V . Hence
-P (V ) = 1/C for C the volume of V space being considered.
-3.2
-
-Inference
-
-The belief network defined above is not tree structured (rather it is a mixture of tree
-structures) and so we have to resort to approximation methods for inference. In this
-paper a variational approach is followed. The posterior distribution is approximated
-using a factorised distribution over the latent space and over the connectivity. Only
-in the high resolution space X do we consider joint distributions: we use a joint
-Gaussian for all the nodes corresponding to one low resolution pixel. The full
-distribution can be written as Q(Z, V, X) = Q(Z)Q(V )Q(X) where
-!
-Y z
-Y
-(vjm ? ?jm )2
-1
-ij
-Q(Z) =
-qij ,
-Q(V ) =
-exp ?
-and (4)
-1/2
-2(?m
-(2??m
-j )
-j )
-ij
-jm
-
-
-Y (2?)?d/2
-1 ? m
-? m T
-m ?1
-? m
-? m
-Q(X) =
-exp ? [(x )k ? (? )k ] (?k ) [(x )k ? (? )k ]
-(5)
-1/2
-2
-|?m
-k |
-km
-
-m
-where (x? )m
-k is the vector (xi |i ? P a(k)), the joint of all d high resolution pixel
-values corresponding to a given low resolution pixel k (for a given colour component
-m
-m
-m
-m). Here qij , ?m
-i , ?j , ?j and ?i are variational parameters to be optimised.
-
-As usual, a local minima the KL divergence between the approximate distribution
-and the true posterior distribution is computed. This is equivalent to maximising
-the negative variational free energy (or variational log likelihood)
-
-
-Q(Z, V, X)
-(6)
-L(Q||P ) = log
-P (Z, V, X, Y ) Q(Z,V,X)
-
-where Y is given by the low resolution image. In this case we obtain
-L(Q||P ) = hlog Q(Z) ? log P (Z)iQ(Z) + hlog Q(V ) ? log p(V )iQ(V )
-
-+ hlog Q(X)iQ(X) ? hlog P (X|Z, V )iQ(X,Z,V ) ? hlog P (Y |X)iQ(Y,X) . (7)
-Taking expectations and derivatives with respect to each of the parameters in the
-approximation gives a set of self-consistent mean field equations which we can solve
-by repeated iteration. Here for simplicity we only solve for qij and for the means ?m
-i
-and ?jm which turn out to be independent of the variational variance parameters.
-We obtain
-P
-m
-X
-m
-m
-i qij xi
-?jm = P
-and ?m
-qij vim
-(8)
-i = ?i + Dc(i) where ?i =
-q
-ij
-i
-j
-
-where c(i) is the child of i, i.e. the low level pixel which i is part of. Dk is
-a Lagrange multiplier, and is obtained through constraining the high level pixel
-values to average to the low level pixels:
-1 X m
-1 X
-?
-m
-m
-?m
-?i
-(9)
-i = y k ? Dk ? Dk = y k ?
-d
-d
-i?P a(k)
-
-i?P a(k)
-
-In the case where ? is non-zero, this constraint is softened and Dk is given by
-Dk = ?Dk? /(? + ?). The update for the qij is given by
-!
-X (xm ? v m )2
-i
-k
-qij ? pij exp ?
-(10)
-2?m
-m
-
-where the constant of proportionality is given by normalisation:
-
-P
-
-j qij
-
-= 1.
-
-Optimising the KL divergence involves iterating these equations. For each Q(Z)
-optimisation (10), equations (8a) and (8b) are iterated a number of times. Each
-optimisation loop is either done a preset number of times, or until a suitable convergence criterion is met. The former approach is generally used, as the basic criterion
-is a limit on the time available for the optimisation to be done.
-
-4
-
-Setting parameters
-
-The prior variance parameters need to be set. The variance ? corresponds to the
-additive noise. If this is not known to be zero, then it will vary from image to image,
-and needs to be found for each image. This can be done using variational maximum
-likelihood, where ? is set to maximise the variational log likelihood. ? is presumed
-to be independent of the images presented, and is set by hand by visualising changes
-on a test set. The ?m might depend on the intensity levels in the image: very dark
-images will need a smaller value of ?1 for example. However for simplicity ?m = ?
-is treated as global and set by hand. Because the primary criterion for optimal
-parameters is subjective, this is the most sensible approach, and is reasonable when
-there are only two parameters to determine. To optimise automatically based on
-the variational log likelihood is possible but does not produce as good results due to
-the complicated nature of a true prior or error-measure for images. For example, a
-highly elaborate texture offset by one pixel will give a large mean square error, but
-look almost identical, whereas a blurred version of the texture would give a smaller
-mean square error, but look much worse.
-
-5
-
-Implementation
-
-The basic implementation involves setting the parameters, running the mean field
-optimisation and then looking at the result. The final result is a downsampled
-version of the 4 ? 4 image to 2 ? 2 size: the larger image is used to get reasonable
-anti-aliasing.
-To initialise the mean field optimisation, X is set equal to the bi-cubic interpolated
-image with added Gaussian noise. The Q(Z) is initialised to P (Z). Although in
-the examples here we used 25 optimisations Q(Z), each of which involves 10 cycles
-through the mean field equations for Q(X) and Q(V ), it is possible to get reasonable
-results with only three Q(Z) optimisation cycles each doing 2 iterations through
-the mean field equations. In the runs shown here, ? is set to zero, the variance ?
-is set to 0.008, and ? is set to 3.3.
-
-6
-
-Demonstrations and assessment
-
-The method described in this paper is compared with a number of simple filtering and interpolation methods, and also with the methods of Freeman et al.
-The image from Freeman?s website is used for comparison with that work (figure 3). Full colour comparisons for these and other images can be found at
-http://www.anc.ed.ac.uk/~amos/superresolution.html. First two linear filtering approaches are considered, the Wiener filter and a Gaussian filter. The third
-method is a median filter. Bi-cubic interpolation is also given.
-Quantitative assessment of the quality of super-resolution results is always something of a difficulty because the basic criterion is human subjectivity. Even so we
-
-(a)
-
-(b)
-
-(c)
-
-(d)
-
-(e)
-
-(f)
-
-Figure 3: Comparison with approach of Freeman et al. (a) gives the 70x70 low resolution image, (b) the true image, (c) a bi-cubic interpolation (d) Freeman et al result
-(taken from website and downsampled), (e) dynamic structure super-resolution, (f)
-median filter.
-
-compare the results of this approach with standard filtering methods using a root
-mean squared pixel error on a set of 8, 128 by 96 colour images, giving 0.0486, 0.0467,
-0.0510 and 0.0452 for the original low resolution image, bicubic interpolation, the
-median filter and dynamic structure super-resolution respectively. Unfortunately
-the unavailability of code prevents representative calculations for the Freeman et al
-approach. Dynamic structure resolution requires approximately 30 ? 60 flops per
-2 ? 2 high resolution pixel per optimisation cycle, compared with, say, 16 flops for
-a linear filter, so it is more costly. Trials have been done working directly with
-2 ? 2 grids rather than with 4 ? 4 and then averaging up. This is much faster and
-the results, though not quite as good, were still an improvement on the simpler
-methods.
-Qualitatively, the results for dynamic structure super-resolution are significantly
-better than most standard filtering approaches. The texture is better represented
-because it maintains consistency, and the edges are sharper, although there is still
-some significant difference from the true image. The method of Freeman et al
-is perhaps comparable at this resolution, although it should be noted that their
-result has been downsampled here to half the size of their enhanced image. Their
-method can produce 4 ? 4 the resolution of the original, and so this does not
-accurately represent the full power of their technique. Furthermore this image is
-representative of early results from their work. However their approach does require
-learning large numbers of patches from a training set. Fundamentally the dynamic
-structure super-resolution approach does a good job at resolution doubling without
-the need for representative training data. The edges are not blurred and much of
-the blockiness is removed.
-Dynamic structure super-resolution provides a technique for resolution enhancement, and provides an interesting starting model which is different from the Markov
-random field approaches. Future directions could incorporate hierarchical frequency
-information at each node rather than just a single value.
-
-References
-[1] N. J. Adams. Dynamic Trees: A Hierarchical Probabilistic Approach to Image Modelling. PhD thesis, Division of Informatics, University of Edinburgh, 5 Forrest Hill,
-Edinburgh, EH1 2QL, UK, 2001.
-[2] S. Baker and T. Kanade. Limits on super-resolution and how to break them. In
-Proceedings of CVPR 00, pages 372?379, 2000.
-[3] P. Cheeseman, B. Kanefsky, R. Kraft, and J. Stutz. Super-resolved surface reconstruction from multiple images. Technical Report FIA-94-12, NASA Ames, 1994.
-[4] M. Elad and A. Feuer. Super-resolution reconstruction of image sequences. IEEE
-Transactions on Pattern Analysis and Machine Intelligence, 21(9):817?834, 1999.
-[5] W. T. Freeman, T. R. Jones, and E. C. Pasztor. Markov networks for super-resolution.
-Technical Report TR-2000-08, MERL, 2000.
-[6] W. T. Freeman, T. R. Jones, and E. C. Pasztor. Example-based super-resolution.
-IEEE Computer Graphics and Applications, 2002.
-[7] R. R. Schultz and R. L. Stevenson. A Bayesian approach to image expansion for
-improved definition. IEEE Transactions on Image Processing, 3:233?242, 1994.
-[8] A. J. Storkey. Dynamic trees: A structured variational method giving efficient propagation rules. In C. Boutilier and M. Goldszmidt, editors, Uncertainty in Artificial
-Intelligence, pages 566?573. Morgan Kauffmann, 2000.
-[9] C. K. I. Williams and N. J. Adams. DTs: Dynamic trees. In M. J. Kearns, S. A. Solla,
-and D. A. Cohn, editors, Advances in Neural Information Processing Systems 11. MIT
-Press, 1999.
-
-
-<<----------------------------------------------------------------------------------------------------------------------------------------->>
-
 title: 2906-correlated-topic-models.pdf
 
 Correlated Topic Models
@@ -6861,731 +7515,6 @@ dL/d?i2 = ???1
 (17)
 ii /2 ? N/2? exp{? + ?i /2} + 1/(2?i ).
 Iterating between these optimizations defines a coordinate ascent algorithm on equation (4).
-
-
-<<----------------------------------------------------------------------------------------------------------------------------------------->>
-
-title: 2618-seeing-through-water.pdf
-
-Seeing through water
-
-Alexei A. Efros?
-School of Computer Science
-Carnegie Mellon University
-Pittsburgh, PA 15213, U.S.A.
-
-Volkan Isler, Jianbo Shi and Mirk?o Visontai
-Dept. of Computer and Information Science
-University of Pennsylvania
-Philadelphia, PA 19104
-
-efros@cs.cmu.edu
-
-{isleri,jshi,mirko}@cis.upenn.edu
-
-Abstract
-We consider the problem of recovering an underwater image distorted by
-surface waves. A large amount of video data of the distorted image is
-acquired. The problem is posed in terms of finding an undistorted image patch at each spatial location. This challenging reconstruction task
-can be formulated as a manifold learning problem, such that the center
-of the manifold is the image of the undistorted patch. To compute the
-center, we present a new technique to estimate global distances on the
-manifold. Our technique achieves robustness through convex flow computations and solves the ?leakage? problem inherent in recent manifold
-embedding techniques.
-
-1
-
-Introduction
-
-Consider the following problem. A pool of water is observed by a stationary video camera
-mounted above the pool and looking straight down. There are waves on the surface of the
-water and all the camera sees is a series of distorted images of the bottom of the pool,
-e.g. Figure 1. The aim is to use these images to recover the undistorted image of the pool
-floor ? as if the water was perfectly still. Besides obvious applications in ocean optics and
-underwater imaging [1], variants of this problem also arise in several other fields, including
-astronomy (overcoming atmospheric distortions) and structure-from-motion (learning the
-appearance of a deforming object). Most approaches to solve this problem try to model the
-distortions explicitly. In order to do this, it is critical not only to have a good parametric
-model of the distortion process, but also to be able to reliably extract features from the data
-to fit the parameters. As such, this approach is only feasible in well understood, highly
-controlled domains. On the opposite side of the spectrum is a very simple method used in
-underwater imaging: simply, average the data temporally. Although this method performs
-surprisingly well in many situations, it fails when the structure of the target image is too
-fine with respect to the amplitude of the wave (Figure 2).
-In this paper we propose to look at this difficult problem from a more statistical angle. We
-will exploit a very simple observation: if we watch a particular spot on the image plane,
-most of the time the picture projected there will be distorted. But once in a while, when
-the water just happens to be locally flat at that point, we will be looking straight down
-and seeing exactly the right spot on the ground. If we can recognize when this happens
-?
-
-Authors in alphabetical order.
-
-Figure 1: Fifteen consecutive frames from the video. The experimental setup involved: a transparent
-bucket of water, the cover of a vision textbook ?Computer Vision/A Modern Approach?.
-
-Figure 2: Ground truth image and reconstruction results using mean and median
-and snap the right picture at each spatial location, then recovering the desired ground truth
-image would be simply a matter of stitching these correct observations together. In other
-words, the question that we will be exploring in this paper is not where to look, but when!
-
-2
-
-Problem setup
-
-Let us first examine the physical setup of our problem. There is a ?ground truth? image G
-on the bottom of the pool. Overhead, a stationary camera pointing downwards is recording
-a video stream V . In the absence of any distortion V (x, y, t) = G(x, y) at any time t.
-However, the water surface refracts in accordance with Snell?s Law. Let us consider what
-the camera is seeing at a particular point x on the CCD array, as shown in Figure 3(c)
-(assume 1D for simplicity). If the normal to the water surface directly underneath x is
-pointing straight up, there is no refraction and V (x) = G(x). However, if the normal is
-1
-tilted by angle ?1 , light will bend by the amount ?2 = ?1 ? sin?1 ( 1.33
-sin ?1 ), so the
-camera point V (x) will see the light projected from G(x + dx) on the ground plane. It
-is easy to see that the relationship between the tilt of the normal to the surface ?1 and the
-displacement dx is approximately linear (dx ? 0.25?1 h using small angle approximation,
-where h is the height of the water). This means that, in 2D, what the camera will be seeing
-over time at point V (x, y, t) are points on the ground plane sampled from a disk centered at
-G(x, y) and with radius related to the height of the water and the overall roughness of the
-water surface. A similar relationship holds in the inverse direction as well: a point G(x, y)
-will be imaged on a disk centered around V (x, y).
-What about the distribution of these sample points? According to Cox-Munk Law [2], the
-surface normals of rough water are distributed approximately as a Gaussian centered around
-the vertical, assuming a large surface area and stationary waves. Our own experiments,
-conducted by hand-tracking (Figure 3b), confirm that the distribution, though not exactly
-Gaussian, is definitely unimodal and smooth.
-Up to now, we only concerned ourselves with infinitesimally small points on the image
-or the ground plane. However, in practice, we must have something that we can compute
-with. Therefore, we will make an assumption that the surface of the water can be locally
-approximated by a planar patch. This means that everything that was true for points is now
-true for local image patches (up to a small affine distortion).
-
-3
-
-Tracking via embedding
-
-From the description outlined above, one possible solution emerges. If the distribution of a
-particular ground point on the image plane is unimodal, then one could track feature points
-in the video sequence over time. Computing their mean positions over the entire video will
-give an estimate of their true positions on the ground plane. Unfortunately, tracking over
-long periods of time is difficult even under favorable conditions, whereas our data is so fast
-(undersampled) and noisy that reliable tracking is out of the question (Figure 3(c)).
-However, since we have a lot of data, we can substitute smoothness in time with smoothness
-in similarity ? for a given patch we are more likely to find a patch similar to it somewhere
-in time, and will have a better chance to track the transition between them. An alternative
-to tracking the patches directly (which amounts to holding the ground patch G(x, y) fixed
-and centering the image patches V (x + dxt , y + dyt ) on top of it in each frame), is to fix the
-image patch V (x, y) in space and observe the patches from G(x + dxt , y + dyt ) appearing
-in this window. We know that this set of patches comes from a disk on the ground plane
-centered around patch G(x, y) ? our goal. If the disk was small enough compared to the
-size of the patch, we could just cluster the patches together, e.g. by using translational
-EM [3]. Unfortunately, the disk can be rather large, containing patches with no overlap
-at all, thus making only the local similarity comparisons possible. However, notice that
-our set of patches lies on a low-dimensional manifold; in fact we know precisely which
-manifold ? it?s the disk on the ground plane centered at G(x, y)! So, if we could use the
-local patch similarities to find an embedding of the patches in V (x, y, t) on this manifold,
-the center of the embedding will hold our desired patch G(x, y).
-The problem of embedding the patches based on local similarity is related to the recent
-work in manifold learning [4, 5]. Basic ingredients of the embedding algorithms are: defining a distance measure between points, and finding an energy function that optimally places
-them in the embedding space. The distance can be defined as all-pairs distance matrix, or
-as distance from a particular reference node. In both cases, we want the distance function
-to satisfy some constraints to model the underlying physical problem.
-The local similarity measure for our problem turned out to be particularly unreliable, so
-none of the previous manifold learning techniques were adequate for our purposes. In the
-following section we will describe our own, robust method for computing a global distance
-function and finding the right embedding and eventually the center of it.
-
-Surface
-
-N
-
-h
-
-?1
-
-?2
-G(x)
-
-G(x + dx)
-
-(a)
-
-(b)
-
-(c)
-
-Figure 3: (a) Snell?s Law (b)-(c) Tracking points of the bottom of the pool: (b) the tracked position
-forms a distribution close to a Gaussian, (c): a vertical line of the image shown at different time
-instances (horizontal axis). The discontinuity caused by rapid changes makes the tracking infeasible.
-
-4
-
-What is the right distance function?
-
-Let I = {I1 , . . . , In } be the set of patches, where It = V (x, y, t) and x =
-[xmin , xmax ], y = [ymin , ymax ] are the patch pixel coordinates. Our goal is to find a
-center patch to represent the set I. To achieve this goal, we need a distance function
-
-d : I ? I ? IR such that d(Ii , Ij ) < d(Ii , Ik ) implies that Ij is more similar to Ii than Ik .
-Once we have such a measure, the center can be found by computing:
-X
-I ? = arg min
-d(Ii , Ij )
-(1)
-Ii ?I
-
-Ij ?I
-
-Unfortunately, the measurable distance functions, such as Normalized Cross Correlation
-(N CC) are only local. A common approach is to design a global distance function using
-the measurable local distances and transitivity [6, 4]. This is equivalent to designing a
-global distance function of the form:
-
-dlocal (Ii , Ij ),
-if dlocal (Ii , Ij ) ? ?
-d(Ii , Ij ) =
-(2)
-dtransitive (Ii , Ij ), otherwise.
-where dlocal is a local distance function, ? is a user-specified threshold and dtransitive
-is a global, transitive distance function which utilizes dlocal . The underlying assumption
-here is that the members of I lie on a constraint space (or manifold) S. Hence, a local
-similarity function such as N CC can be used to measure local distances on the manifold.
-An important research question in machine learning is to extend the local measurements
-into global ones, i.e. to design dtransitive above.
-One method for designing such a transitive distance function is to build a graph G = (V, E)
-whose vertices correspond to the members of I. The local distance measure is used to place
-edges which connect only very similar members of I. Afterwards, the length of pairwise
-shortest paths are used to estimate the true distances on the manifold S. For example, this
-method forms the basis of the well-known Isomap method [4].
-Unfortunately, estimating the distance dtransitive (?, ?) using shortest path computations is
-not robust to errors in the local distances ? which are very common. Consider a patch that
-contains the letter A and another one that contains the letter B. Since they are different
-letters, we expect that these patches would be quite distant on the manifold S. However,
-among the A patches there will inevitably be a very blurry A that would look quite similar
-to a very blurry B producing an erroneous local distance measurement. When the transitive
-global distances are computed using shortest paths, a single erroneous edge will singlehandedly cause all the A patches to be much closer to all the B patches, short-circuiting
-the graph and completely distorting all the distances.
-Such errors lead to the leakage problem in estimating the global distances of patches. This
-problem is illustrated in Figure 4. In this example, our underlying manifold S is a triangle.
-Suppose our local distance function erroneously estimates an edge between the corners of
-the triangle as shown in the figure. After the erroneous edge is inserted, the shortest paths
-from the top of the triangle leak through this edge. Therefore, the shortest path distances
-will fail to reflect the true distance on the manifold.
-
-5
-
-Solving the leakage problem
-
-Recall that our goal is to find the center of our data set as defined in Equation 1. Note that,
-in order to compute
-Pthe center we do not need all pairwise distances. All we need is the
-quantity dI (Ii ) = Ij ?I d(Ii , Ij ) for all Ii .
-The leakage problem occurs when we compute the values dI (Ii ) using the shortest path
-metric. In this case, even a single erroneous edge may reduce the shortest paths from many
-different patches to Ii ? changing the value of dI (Ii ) drastically. Intuitively, in order to
-prevent the leakage problem we must prevent edges from getting involved in many shortest
-path computations to the same node (i.e. leaking edges). We can formalize this notion by
-casting the computation as a network flow problem.
-
-Let G = (V, E) be our graph representation such that for each patch Ii ? I, there is a
-vertex vi ? V . The edge set E is built as follows: there is an edge (vi , vj ) if dlocal (Ii , Ij )
-is less than a threshold. The weight of the edge (vi , vj ) is equal to dlocal (Ii , Ij ).
-To compute the value dI (Ii ), we build a flow network whose vertex set is also V . All
-vertices in V ? {vi } are sources, pushing unit flow into the network. The vertex vi is a sink
-with infinite capacity. The arcs of the flow network are chosen using the edge set E. For
-each edge (vj , vk ) ? E we add the arcs vj ? vk and vk ? vj . Both arcs have infinite
-capacity and the cost of pushing one unit of flow on either arc is equal to the weight of
-(vj , vk ), as shown in Figure 4 left (top and bottom). It can easily be seen that the minimum
-cost flow in this network is equal to dI (Ii ). Let us call this network which is used to
-compute dI (Ii ) as N W (Ii ).
-
-Error
-v
-
-d1 /?
-u
-
-d1
-
-w
-
-B: Convex Flow
-
-A: Shortest Path
-
-The crucial factor in designing such a flow network is choosing the right cost and capacity.
-Computing the minimum cost flow on N W (Ii ) not only gives us dI (Ii ) but also allows us
-to compute how many times an edge is involved in the distance computation: the amount of
-flow through an edge is exactly the number of times that edge is used for the shortest path
-computations. This is illustrated in Figure 4 (box A) where d1 units of cost is charged for
-each unit of flow through the edge (u, w). Therefore, if we prevent too much flow going
-through an edge, we can prevent the leakage problem.
-d3 /?
-u
-
-d2 /c2
-
-w
-
-d1 /c1
-
-c1 c1 + c2
-
-u
-C: Shortest Path with Capacity
-
-Error
-d/?
-v
-
-?
-d1 /c1
-u
-w
-
-v
-
-c1
-
-w
-
-Figure 4: The leakage problem. Left: Equivalence of shortest path leakage and uncapacitated flow
-leakage problem. Bottom-middle: After the erroneous edge is inserted, the shortest paths from the
-top of the triangle to vertex v go through this edge. Boxes A-C:Alternatives for charging a unit of
-flow between nodes u and w. The horizontal axis of the plots is the amount of flow and the vertical
-axis is the cost. Box A: Linear flow. The cost of a unit of flow is d1 Box B: Convex flow. Multiple
-edges are introduced between two nodes, with fixed capacity, and convexly increasing costs. The cost
-of a unit of flow increases from d1 to d2 and then to d3 as the amount of flow from u to w increases.
-Box C: Linear flow with capacity. The cost is d1 until a capacity of c1 is achieved and becomes
-infinite afterwards.
-
-One might think that the leakage problem can simply be avoided by imposing capacity
-constraints on the arcs of the flow network (Figure 4, box C). Unfortunately, this is not
-very easy. Observe that in the minimum cost flow solution of the network N W (Ii ), the
-amount of flow on the arcs will increase as the arcs get closer to Ii . Therefore, when we are
-setting up the network N W (Ii ), we must adaptively increase the capacities of arcs ?closer?
-to the sink vi ? otherwise, there will be no feasible solution. As the structure of the graph
-G gets complicated, specifying this notion of closeness becomes a subtle issue. Further,
-the structure of the underlying space S could be such that some arcs in G must indeed
-
-carry a lot of flow. Therefore imposing capacities on the arcs requires understanding the
-underlying structure of the graph G as well as the space S ? which is in fact the problem
-we are trying to solve!
-Our proposed solution to the leakage problem uses the notion of a convex flow. We do not
-impose a capacity on the arcs. Instead, we impose a convex cost function on the arcs such
-that the cost of pushing unit flow on arc a increases as the total amount of flow through a
-increases. See Figure 4, box B.
-This can be achieved by transforming the network N W (Ii ) to a new network N W 0 (Ii ).
-The transformation is achieved by applying the following operation on each arc in
-N W (Ii ): Let a be an arc from u to w in N W (Ii ). In N W 0 (Ii ), we replace a by k
-arcs a1 , . . . , ak . The costs of these arcs are chosen to be uniformly increasing so that
-cost(a1 ) < cost(a2 ) < . . . < cost(ak ). The capacity of arc ak is infinite. The weights
-and capacities of the other arcs are chosen to reflect the steepness of the desired convexity
-(Figure 4, box B). The network shown in the figure yields the following function for the
-cost of pushing x units of flow through the arc:
-(
-d1 x,
-if 0 ? x ? c1
-d1 c1 + d2 (x ? c1 ),
-if c1 ? x ? c2
-cost(x) =
-(3)
-d1 c1 + d2 (c2 ? c1 ) + d3 (x ? c1 ? c2 ), if c2 ? x
-The advantage of this convex flow computation is twofold. It does not require putting
-thresholds on the arcs a-priori. It is always feasible to have as much flow on a single arc as
-required. However, the minimum cost flow will avoid the leakage problem because it will
-be costly to use an erroneous edge to carry the flow from many different patches.
-5.1
-
-Fixing the leakage in Isomap
-
-As noted earlier, the Isomap method [4] uses the shortest path measurements to estimate
-a distance matrix M . Afterwards, M is used to find an embedding of the manifold S via
-MDS.
-As expected, this method also suffers from the leakage problem as demonstrated in Figure 5. The top-left image in Figure 5 shows our ground truth. In the middle row, we
-present an embedding of these graphs computed using Isomap which uses the shortest path
-length as the global distance measure. As illustrated in these figures, even though isomap
-does a good job in embedding the ground truth when there are no errors, the embedding
-(or manifold) collapses after we insert the erroneous edges. In contrast, when we use the
-convex-flow based technique to estimate the distances, we recover the true embedding ?
-even in the presence of erroneous edges (Figure 5 bottom row).
-
-6
-
-Results
-
-In our experiments we used 800 image frames to reconstruct the ground truth image. We
-fixed 30 ? 30 size patches in each frame at the same location (see top of Figure 7 for two
-sets of examples), and for every location we found the center. The middle row of Figure
-7 shows embeddings of the patches computed using the distance derived from the convex
-flow. The transition path and the morphing from selected patches (A,B,C) to the center
-patch (F) is shown at the bottom.
-The embedding plot on the left is considered an easier case, with a Gaussian-like embedding (the graph is denser close to the center) and smooth transitions between the patches in
-a transition path. The plot to the right shows a more difficult example, when the embedding
-has no longer a Gaussian shape, but rather a triangular one. Also note that the transitions
-can have jumps connecting non-similar patches which are distant in the embedding space.
-The two extremes of the triangle represent the blurry patches, which are so numerous and
-
-0.6
-
-0.6
-
-B
-
-0.4
-0.2
-0
-
-0.6
-
-B
-
-0.4
-
-0
-
-A
-
-?0.2
-
-0.2
-0
-
-A
-
-?0.2
-
-?0.4
-
-?0.4
-
-?0.4
-
-C
-
-?0.6
-
-?0.6
-?0.6 ?0.4 ?0.2
-
-0
-
-0.2
-
-0.4
-0.6
-
-0.2
-
-A
-
-0
-
-0.2
-
-0.4
-
-?0.6 ?0.4 ?0.2
-
-0
-
-0.4
-
-0.4
-
-0.2
-
-0.2
-
-0
-?0.2
-
-?0.2
-
-A
-?0.4
-
-Isomap [4]
-
-?0.6
-
-C
-
-0
-
-0.2
-
-0.4
-
-?0.6
-?0.6 ?0.4 ?0.2
-
-0
-
-0.6
-
-B
-
-0.2
-
-0.4
-
-?0.6 ?0.4 ?0.2
-
-0.4
-
-0.4
-
-0.2
-
-0.2
-
-0.2
-
-0
-
-0
-
-0
-
-?0.2
-
-?0.2
-
-A
-C
-
-?0.4
-
-?0.4
-
-A
-
-C
-
-?0.6
-
-?0.6
-?0.6 ?0.4 ?0.2
-
-0
-
-0.2
-
-0.4
-
-0
-
-0.2
-
-0.4
-
-0.6
-
-B
-
-0.4
-
-?0.2
-
-B
-C
-
-?0.4
-
-?0.6
-?0.6 ?0.4 ?0.2
-
-0.6
-
-Convex flow
-
-?0.4
-
-C
-
-0.4
-
-0
-
-A
-?0.2
-
-0.2
-
-0.6
-
-B
-
-B
-0.4
-
-C
-?0.6
-
-?0.6 ?0.4 ?0.2
-
-0.6
-
-0
-
-A
-
-?0.2
-
-C
-
-Ground Truth
-
-B
-
-0.4
-
-0.2
-
-?0.4
-
-B
-
-C
-A
-
-?0.6
-?0.6 ?0.4 ?0.2
-
-0
-
-0.2
-
-0.4
-
-?0.6 ?0.4 ?0.2
-
-0
-
-0.2
-
-0.4
-
-Figure 5: Top row: Ground truth. After sampling points from a triangular disk, a kNN graph is
-constructed to provide a local measure for the embedding (left). Additional erroneous edges AC
-and CB are added to perturb the local measure (middle, right). Middle row: Isomap embedding.
-Isomap recovers the manifold for the error-free cases (left). However, all-pairs shortest path can
-?leak? through AC and CB, resulting a significant change in the embedding. Bottom row: Convex
-flow embedding. Convex flow penalized too many paths going through the same edge ? correcting
-the leakage problem. The resulting embedding is more resistant to perturbations in the kNN graph.
-
-very similar to each other, so that they are no longer treated as noise or outliers. This
-results in ?folding in? the embedding and thus, moving estimated the center towards the
-blurry patches. To solve this problem, we introduced additional two centers, which ideally
-would represent the blurry patches, allowing the third center to move to the ground truth.
-Once we have found the centers for all patches we stitched them together to form the
-complete reconstructed image. In case of three centers, we use overlapping patches and
-dynamic programming to determine the best stitching. Figure 6 shows the reconstruction
-
-Figure 6: Comparison of reconstruction results of different methods using the first 800 frames, top:
-patches stitched together which are closest to mean (left) and median (right), bottom: our results
-using a single (left) and three (right) centers
-result of our algorithm compared to simple methods of taking the mean/median of the
-patches and finding the closest patch to them. The bottom row shows our result for a single
-and for three center patches. The better performance of the latter suggests that the two new
-centers relieve the correct center from the blurry patches.
-For a graph with n vertices and m edges, the minimum cost flow computation takes
-O(m log n(m + n log n)) time, therefore finding the center I ? of one set of patches can be
-done in O(mn log n(m + n log n)) time. Our flow computation is based on the min-cost
-max-flow implementation by Goldberg [7]. The convex function used in our experiments
-was as described in Equation 3 with parameters d1 = 1, c1 = 1, d2 = 5, c2 = 9, d3 = 50.
-
-B
-A1
-FC
-C2
-C1
-
-F
-
-C
-
-FA
-
-F
-
-B2
-
-FB
-
-A2
-
-B1
-
-A
-
-F
-
-A
-
-F
-
-B
-
-F
-
-C
-
-FA
-
-A1
-
-FB
-
-FA
-
-A2
-
-FC
-
-FB
-
-B1
-
-FC
-
-B2
-C1
-C2
-
-Figure 7:
-
-Top row: sample patches (two different locations) from 800 frames, Middle row:
-Convex flow embedding, showing the transition paths. Bottom row: corresponding patches (A, B,
-C, A1, A2, B1, B2, C1, C2) and the morphing of them to the centers F F, FA, FB, FC respectively
-
-7
-
-Conclusion
-
-In this paper, we studied the problem of recovering an underwater image from a video
-sequence. Because of the surface waves, the sequence consists of distorted versions of
-the image to be recovered. The novelty of our work is in the formulation of the reconstruction problem as a manifold embedding problem. Our contribution also includes a new
-technique, based on convex flows, to recover global distances on the manifold in a robust
-fashion. This technique solves the leakage problem inherent in recent embedding methods.
-
-References
-[1] Lev S. Dolin, Alexander G. Luchinin, and Dmitry G. Turlaev. Correction of an underwater object
-image distorted by surface waves. In International Conference on Current Problems in Optics of
-Natural Waters, pages 24?34, St. Petersburg, Russia, 2003.
-[2] Charles Cox and Walter H. Munk. Slopes of the sea surface deduced from photographs of sun
-glitter. Scripps Inst. of Oceanogr. Bull., 6(9):401?479, 1956.
-[3] Brendan Frey and Nebojsa Jojic. Learning mixture models of images and inferring spatial transformations using the em algorithm. In IEEE Conference on Computer Vision and Pattern Recognition, pages 416?422, Fort Collins, June 1999.
-[4] Joshua B. Tenenbaum, Vin de Silva, and John C. Langford. A global geometric framework for
-nonlinear dimensionality reduction. Science, pages 2319?2323, Dec 22 2000.
-[5] Sam Roweis and Lawrence Saul. Nonlinear dimeansionality reduction by locally linear embedding. Science, 290(5500):2323?2326, Dec 22 2000.
-[6] Bernd Fischer, Volker Roth, and Joachim M. Buhmann. Clustering with the connectivity kernel.
-In Advances in Neural Information Processing Systems 16. MIT Press, 2004.
-[7] Andrew V. Goldberg. An efficient implementation of a scaling minimum-cost flow algorithm.
-Journal of Algorithms, 22:1?29, 1997.
 
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>

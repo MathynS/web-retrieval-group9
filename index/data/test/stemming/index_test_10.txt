@@ -3177,6 +3177,549 @@ Computing, 64:367?380, 2000.
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
 
+title: 1194-an-apobayesian-relative-of-winnow.pdf
+
+An Apobayesian Relative of Winnow
+
+Nick Littlestone
+NEC Research Institute
+4 Independence Way
+Princeton, NJ 08540
+
+Chris Mesterharm
+NEC Research Institute
+4 Independence Way
+Princeton, NJ 08540
+
+Abstract
+We study a mistake-driven variant of an on-line Bayesian learning algorithm (similar to one studied by Cesa-Bianchi, Helmbold,
+and Panizza [CHP96]). This variant only updates its state (learns)
+on trials in which it makes a mistake. The algorithm makes binary
+classifications using a linear-threshold classifier and runs in time linear in the number of attributes seen by the learner. We have been
+able to show, theoretically and in simulations, that this algorithm
+performs well under assumptions quite different from those embodied in the prior of the original Bayesian algorithm. It can handle
+situations that we do not know how to handle in linear time with
+Bayesian algorithms. We expect our techniques to be useful in
+deriving and analyzing other apobayesian algorithms.
+
+1
+
+Introduction
+
+We consider two styles of on-line learning. In both cases, learning proceeds in a
+sequence of trials. In each trial, a learner observes an instance to be classified,
+makes a prediction of its classification, and then observes a label that gives the
+correct classification. One style of on-line learning that we consider is Bayesian.
+The learner uses probabilistic assumptions about the world (embodied in a prior
+over some model class) and data observed in past trials to construct a probabilistic
+model (embodied in a posterior distribution over the model class). The learner uses
+this model to make a prediction in the current trial. When the learner is told the
+correct classification of the instance, the learner uses this information to update the
+model, generating a new posterior to be used in the next trial.
+
+In the other style of learning that we consider, the attention is on the correctness
+of the predictions rather than on the model of the world. The internal state of the
+
+An Apobayesian Relative o!Winnow
+
+205
+
+learner is only changed when the learner makes a mistake (when the prediction fails
+to match the label). We call such an algorithm mistake-driven. (Such algorithms are
+often called conservative in the computational learning theory literature.) There is a
+simple way to derive a mistake-driven algorithm from anyon-line learning algorithm
+(we restrict our attention in this paper to deterministic algorithms). The derived
+algorithm is just like the original algorithm, except that before every trial, it makes
+a record of its entire state, and after every trial in which its prediction is correct,
+it resets its state to match the recorded state, entirely forgetting the intervening
+trial. (Typically this is actually implemented not by making such a record, but by
+merely omitting the step that updates the state.) For example, if some algorithm
+keeps track of the number of trials it has seen, then the mistake-driven version of
+this algorithm will end up keeping track of the number of mistakes it has made.
+Whether the original or mistake-driven algorithm will do better depends on the task
+and on how the algorithms are evaluated.
+We will start with a Bayesian learning algorithm that we call SBSB and use this
+procedure to derive a mistake-driven variant, SASB. Note that the variant cannot
+be expected to be a Bayesian learning algorithm (at least in the ordinary sense)
+since a Bayesian algorithm would make a prediction that minimizes the Bayes risk
+based on all the available data, and the mistake-driven variant has forgotten quite
+a bit. We call such algorithms apobayesian learning algorithms. This name is
+intended to suggest that they are derived from Bayesian learning algorithms, but
+are not themselves Bayesian. Our algorithm SASB is very close to an algorithm
+of [CHP96). We study its application to different tasks than they do, analyzing its
+performance when it is applied to linearly separable data as described below.
+In this paper instances will be chosen from the instance space X = {a, l}n for some
+n. Thus instances are composed of n boolean attributes. We consider only two
+category classifications tasks, with predictions and labels chosen from Y = {a, I} .
+We obtain a' bound on the number of mistakes SASB makes that is comparable to
+bounds for various Winnow family algorithms given in [Lit88,Lit89). As for those
+algorithms, the bound holds under the assumption that the points labeled 1 are
+linearly separable from the points labeled 0, and the bound depends on the size 8 of
+the gap between the two classes. (See Section 3 for a definition of 8.) The mistake
+bound for SASB is 0 ( /or log ~ ). While this bound has an extra factor of log ~ not
+present in the bounds for the Winnow algorithms, SASB has the advantage of not
+needing any parameters. The Winnow family algorithms have parameters, and the
+algorithms' mistake bounds depend on setting the parameters to values that depend
+on 8. (Often, the value of 8 will not be known by the learner.) We expect the
+techniques used to obtain this bound to be useful in analyzing other apobayesian
+learning algorithms.
+A number of authors have done related research regarding worst-case on-line
+loss bounds including [Fre96,KW95,Vov90). Simulation experiments involving a
+Bayesian algorithm and a mistake-driven variant are described in [Lit95). That
+paper provides useful background for this paper. Note that our present analysis
+techniques do not apply to the apobayesian algorithm studied there. The closest of
+the original Winnow family algorithms to SASB appears to be the Weighted MaJority algorithm [LW94], which was analyzed for a case similar to that considered
+in this paper in [Lit89). One should get a roughly correct impression of SASB if
+
+N. Littlestone and C. Mesterharm
+
+206
+
+one thinks of it as a version of the Weighted Majority algorithm that learns its
+parameters.
+In the next section we describe the Bayesian algorithm that we start with. In
+Section 3 we discuss its mistake-driven apobayesian variant. Section 4 mentions
+some simulation experiments using these algorithms, and Section 5 is the conclusion.
+
+2
+
+A Bayesian Learning Algorithm
+
+To describe the Bayesian learning algorithm we must specify a family of distributions over X x Y and a prior over this family of distributions. We parameterize
+the distributions with parameters ((h, ... , 8n + l ) chosen from e = [0, 1]n+l. The
+parameter 8n +1 gives the probability that the label is 1, and the parameter 8i gives
+the probability that the ith attribute matches the label. Note that the probability
+that the ith attribute is 1 given that the label is 1 equals the probability that the
+ith attribute is 0 given that the label is O. We speak of this linkage between the
+probabilities for the two classes as a symmetry condition. With this linkage, the
+observation of a point from either class will affect the posterior distribution for both
+classes. It is perhaps more typical to choose priors that allow the two classes to be
+treated separately, so that the posterior for each class (giving the probability of elements of X conditioned on the label) depends only on the prior and on observations
+from that class. The symmetry condition that we impose appears to be important
+to the success of our analysis of the apobayesian variant of this algorithm. (Though
+we impose this condition to derive the algorithm, it turns out that the apobayesian
+variant can actually handle tasks where this condition is not satisfied.)
+We choose a prior on e that gives probability 1 to the set of all elements
+() = (81, ... , 8n +l ) E e for which at most one of 81 , ... ,8n does not equal
+The prior is uniform on this set. Note that for any () in this set only a single attribute has a probability other than ~ of matching the label, and thus only a single
+attribute is relevant. Concentrating on this set turns out to lead to an apobayesian
+algorithm that can, in fact, handle more than one relevant attribute and that performs particularly well when only a small fraction of the attributes are relevant.
+
+!.
+
+This prior is related to to the familiar Naive Bayes model, which also assumes
+that the attributes are conditionally independent given the labels. However, in the
+typical Naive Bayes model there is no restriction to a single relevant attribute and
+the symmetry condition linking the two classes is not imposed.
+
+Our prior leads to the following algorithm. (The name SBSB stands for "Symmetric
+Bayesian Algorithm with Singly-variant prior for Bernoulli distribution.")
+
+Algorithm SBSB Algorithm SBSB maintains counts Si of the number of times
+each attribute matches the label, a count M of the number of times the label is 1,
+and a count t of the number of trials.
+Initialization
+Prediction
+
+(M
+
++ 1)
+
+f=
+
+Si
+
+M t-O
+
+tt-O
+
+Predict 1 given instance (Xl, ... ,xn ) if and only if
+XiCSi+l)+Clixi)(t-Si+1)
+
+i=l
+
+Update
+
+t- 0 for i = 1, ... ,n
+
+M t- M
+
+(S,)
+
+> (t - M + 1)
+
+f= (1-Xi)(Si+1~+XiCt-si+l)
+(S.)
+
+i=l
+
++ y, t t- t + 1, and for each i, if Xi
+
+= Y then
+
+Si
+
+t-
+
+Si
+
++1
+
+An Apobayesian Relative of Winnow
+
+3
+
+207
+
+An Apobayesian Algorithm
+
+We construct an apobayesian algorithm by converting algorithm SBSB into a
+mistake-driven algorithm using the standard conversion given in the introduction.
+We call the resulting learning algorithm SASBj we have replaced "Bayesian" with
+"Apobayesian" in the acronym.
+In the previous section we made assumptions made about the generation of the
+instances and labels that led to SBSB and thence to SASB. These assumptions
+have served their purpose and we now abandon them. In analyzing the apobayesian
+algorithm we do not assume that the instances and labels are generated by some
+stochastic process. Instead we assume that the instance-label pairs in all of the
+trials are linearly-separable, that is, that there exist some WI, ., . ,Wn , and c such
+that for every instance-label pair (x, y) we have E~=I WiXi ;::: c when y = 1 and
+2:~=1 WiXi ::; c when y = O. We actually make a somewhat stronger assumption,
+given in the following theorem, which gives our bound for the apobayesian algorithm.
+Theorem 1 Suppose that 'Yi ;::: 0 and "Ii ;::: 0 for i = 1, ... , n, and that 2:~=1 'Yi +
+"I i = 1. Suppose that 0 ::; bo < bi ::; 1 and let 8 = bi - bo . Suppose that algorithm
+SASB is run on a sequence of trials such that the instance x and label y in each
+trial satisfy 2:~=1 'YiXi + "Ii (1 - Xi) ::; bo if y = 0 and 2:~=1 'YiXi + "Ii (1 - Xi) ;::: bi if
+y = 1. Then the number of mistakes made by SASB will be bounded by
+log
+
+*
+
+8; .
+
+We have space to say only a little about how the derivation of this bound proceeds.
+Details are given in [Lit96].
+In analyzing SASB we work with an abstract description of the associated algorithm
+SBSB. This algorithm starts with a prior on e as described above. We represent
+this with a density Po. Then after each trial it calculates a new posterior density
+Pt(O) = t-d8kP(X'YI~k, where Pt is the density after trial t and P(x, ylO) is the
+pt-d )P(x,y
+
+)
+
+conditional probability ofthe instance x and label y observed in trial t given O. Thus
+we can think of the algorithm as maintaining a current distribution on e that is
+initially the prior. SASB is similar, but it leaves the current distribution unchanged
+when a mistake is not made. For there to exist a finite mistake bound there must
+exist some possible choice for the current distribution for which SASB would make
+perfect predictions, should it ever arrive at that distribution. We call any such
+distribution leading to perfect predictions a possible target distribution. It turns out
+that the separability condition given in Theorem 1 guarantees that a suitable target
+distribution exists. The analysis proceeds by showing that for an appropriate choice
+of a target density p the relative entropy of the current distribution with respect to
+the target distribution, p( 0) log(p( 0) / Pt (0)), decreases by at least some amount
+R > 0 whenever a mistake is made. Since the relative entropy is never negative, the
+number of mistakes is bounded by the initial relative entropy divided by R. This
+form of analysis is very similar to the analysis of the various members of the Winnow
+family in [Lit89,Lit91].
+
+J
+
+The same technique can be applied to other apobayesian algorithms. The abstract
+update of Pt given above is quite general. The success of the analysis depends on
+conditions on Po and P(x, ylO) that we do not have space here to discuss.
+
+N. LittLestone and C. Mesterharm
+
+208
+
+p
+
+=0.01 k =1 n =20
+
+250r---~--~----~--~--~
+
+250
+
+p
+
+=0.1 k =5 n =20
+
+.-----.-----,-----,---~--~
+
+,
+' Optimal'
+'SBSB'
+'SASB'
+'SASB + voting'
+
+200
+
+f/)
+
+~
+
+... .
+-_.-
+
+200
+
+'Optimal'
+'SBSB'
+.
+'SASB'
+: 'SASB + voting"
+
+/
+/
+/
+
+/
+
+.
+
+/
+
+150
+/
+
+/
+
+S
+
+.~
+:e
+
+/
+
+/
+
+/
+
+,
+
+'"
+
+/
+
+/
+
+/
+
+100
+
+/'
+
+.,,/
+/'
+
+/
+
+50
+
+o~--~--~----~--~--~
+
+4000
+
+..
+
+./
+r
+
+/
+
+:'/.",,~
+
+./::: .. . .
+
+2000
+
+,/
+
+/
+
+/'" -.---::..' -.. '
+/
+/ . . . <- ...
+
+o
+
+/
+
+/
+
+/
+,/
+/'
+
+50
+
+/
+
+/'
+
+,/
+
+/
+
+,/
+
+100
+
+.. ..
+//
+-.,-. - / /
+
+6000
+
+8000
+
+10000
+
+Trials
+
+/'
+
+,/
+
+/
+
+O""'---...L-------I.-----'----~--~
+
+o
+
+2000
+
+4000
+
+6000
+
+8000
+
+10000
+
+Trials
+
+Figure 1: Comparison of SASB with SBSB
+
+4
+
+Simulation Experiments
+
+The bound of the previous section was for perfectly linearly-separable data. We
+have also done some simulation experiments exploring the performance of SASB on
+non-separable data and comparing it with SBSB and with various other mistakedriven algorithms. A sample comparison of SASB with SBSB is shown in Figure
+1. In each experimental run we generated 10000 trials with the instances and labels
+chosen randomly according to a distribution specified by (h = '" = Ok = 1 - p,
+Ok+l = ... = 0n+l = .5 where 01 , ??. ,On+l are interpreted as specified in Section
+2, n is the number of attributes, and n, p, and k are as specified at the top of each
+plot. The line labeled "optimal" shows the performance obtained by an optimal
+predictor that knows the distribution used to generate the data ahead of time, and
+thus does not need to do any learning. The lines labeled "SBSB" and "SASB" show
+the performance of the corresponding learning algorithms. The lines labeled "SASB
++ voting" show the performance of SASB with the addition of a voting procedure
+described in [Lit95]. This procedure improves the asymptotic mistake rate of the
+algorithms. Each line on the graph is the average of 30 runs. Each line plots the
+cumulative number of mistakes made by the algorithm from the beginning of the run
+as a function of the number of trials.
+In the left hand plot, there is only 1 relevant attribute. This is exactly the case that
+SBSB is intended for, and it does better than SASB. In right hand plot, there are 5
+relevant attributes; SBSB appears unable to take advantage of the extra information
+present in the extra relevant attributes, but SASB successfully does.
+Comparison of SASB and previous Winnow family algorithms is still in progress,
+and we defer presenting details until a clearer picture has been obtained. SASB and
+the Weighted Majority algorithm often perform similarly in simulations. Typically,
+as one would expect, the Weighted Majority algorithm does somewhat better than
+
+An Apobayesian Relative of Winnow
+
+209
+
+SASB when its parameters are chosen optimally for the particular learning task, and
+worse for bad choices of parameters.
+
+5
+
+Conclusion
+
+Our mistake bounds and simulations suggest that SASB may be a useful alternative
+to the existing algorithms in the Winnow family. Based on the analysis style and the
+bounds, SASB should perhaps itself be considered a Winnow family algorithm. Further experiments are in progress comparing SASB with Winnow family algorithms
+run with a variety of parameter settings.
+Perhaps of even greater interest is the potential application of our analytic techniques
+to a variety of other apobayesian algorithms (though as we have observed earlier,
+the techniques do not appear to apply to all such algorithms) . We have already
+obtained some preliminary results regarding an interpretation of the Perceptron
+algorithm as an apobayesian algorithm. We are interested in looking for entirely
+new algorithms that can be derived in this way and also in better understanding
+the scope of applicability of our techniques. All of the analyses that we have looked
+at depend on symmetry conditions relating the probabilities for the two classes. It
+would be of interest to see what can be said when such symmetry conditions do not
+hold. In simulation experiments [Lit95], a mistake-driven variant of the standard
+Naive Bayes algorithm often does very well, despite the absence of such symmetry
+in the prior that it is based on.
+Our simulation experiments and also the analysis of the related algorithm Winnow
+[Lit91] suggest that SASB can be expected to handle some instance-label pairs inside
+of the separating gap or on the wrong side, especially if they are not too far on the
+wrong side. In particular it appears to be able to handle data generated according
+to the distributions on which SBSB is based, which do not in general yield perfectly
+separable data.
+It is of interest to compare the capabilities of the original Bayesian algorithm with
+the derived apobayesian algorithm. When the data is stochastically generated in a
+manner consistent with the assumptions behind the original algorithm, the original
+Bayesian algorithm can be expected to do better (see, for example, Figure 1). On
+the other hand, the apobayesian algorithm can handle data beyond the capabilities of the original Bayesian algorithm. For example, in the case we consider, the
+apobayesian algorithm can take advantage of the presence of more than one relevant
+attribute, even though the prior behind the original Bayesian algorithm assumes a
+single relevant attribute. Furthermore, as for all of the Winnow family algorithms,
+the mistake bound for the apobayesian algorithm does not depend on details of the
+behavior of the irrelevant attributes (including redundant attributes).
+Instead of using the apobayesian variant, one might try to construct a Bayesian
+learning algorithm for a prior that reflects the actual dependencies among the attributes and the labels. However, it may not be clear what the appropriate prior is.
+It may be particularly unclear how to model the behavior of the irrelevant attributes. Furthermore, such a Bayesian algorithm may end up being computationally
+expensive. For example, attempting to keep track of correlations among all pairs
+of attributes may lead to an algorithm that needs time and space quadratic in the
+number of attributes. On the other hand, if we start with a Bayesian algorithm that
+
+210
+
+N. Littlestone and C. Mesterharm
+
+uses time and space linear in the number of attributes we can obtain an apobayesian
+algorithm that still uses linear time and space but that can handle situations beyond
+the capabilities of the original Bayesian algorithm.
+Acknowledgments
+
+This paper has benefited from discussions with Adam Grove.
+
+References
+[CHP96] Nicolo Cesa-Bianchi, David P. Helmbold, and Sandra Panizza. On bayes
+methods for on-line boolean prediction. In Proceedings of the Ninth Annual
+Conference on Computational Learning Theory, pages 314-324, 1996.
+[Fre96] Yoav Freund. Predicting a binary sequence almost as well as the optimal
+biased coin. In Proceedings of the Ninth Annual Conference on Computational Learning Theory, pages 89-98, 1996.
+[KW95] J. Kivinen and M. K. Warmuth. Additive versus exponentiated gradient
+updates for linear prediction. In Proc. 27th ACM Symp. on Theory of
+Computing, pages 209-218, 1995.
+[Lit88] N. Littlestone. Learning quickly when irrelevant attributes abound: A new
+linear-threshold algorithm. Machine Learning, 2:285-318, 1988.
+[Lit89] N. Littlestone. Mistake Bounds and Logarithmic Linear-threshold Learning
+Algorithms. PhD thesis, Tech. Rept. UCSC-CRL-89-11, Univ. of Calif.,
+Santa Cruz, 1989.
+[Lit91] N. Littlestone. Redundant noisy attributes, attribute errors, and linearthreshold learning using Winnow. In Proc. 4th Annu. Workshop on Comput. Learning Theory, pages 147- 156. Morgan Kaufmann, San Mateo, CA,
+1991.
+[Lit95] N. Littlestone. Comparing several linear-threshold learning algorithms on
+tasks involving superfluous attributes. In Proceedings of the XII International conference on Machine Learning, pages 353- 361, 1995.
+[Lit96] N. Littlestone. Mistake-driven bayes sports: Bounds for symmetric
+apobayesian learning algorithms. Technical report, NEC Research Institute, Princeton, NJ, 1996.
+[LW94] N. Littlestone and M. K. Warmuth. The weighted majority algorithm.
+Information and Computation, 108:212-261, 1994.
+[Vov90] Volodimir G. Vovk. Aggregating strategies. In Proceedings of the 1990
+Workshop on Computational Learning Theory, pages 371-383, 1990.
+
+
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
+
 title: 5074-low-rank-matrix-reconstruction-and-clustering-via-approximate-message-passing.pdf
 
 Low-rank matrix reconstruction and clustering via
@@ -5052,1526 +5595,1343 @@ FOCS, 2002.
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
 
-title: 1076-learning-sparse-perceptrons.pdf
+title: 2385-online-classification-on-a-budget.pdf
 
-Learning Sparse Perceptrons
+Online Classification on a Budget
 
-Jeffrey C. Jackson
-Mathematics & Computer Science Dept.
-Duquesne University
-600 Forbes Ave
-Pittsburgh, PA 15282
-jackson@mathcs.duq.edu
+Koby Crammer
+Computer Sci. & Eng.
+Hebrew University
+Jerusalem 91904, Israel
 
-Mark W. Craven
-Computer Sciences Dept.
-University of Wisconsin-Madison
-1210 West Dayton St.
-Madison, WI 53706
-craven@cs.wisc.edu
+Jaz Kandola
+Royal Holloway,
+University of London
+Egham, UK
+
+Yoram Singer
+Computer Sci. & Eng.
+Hebrew University
+Jerusalem 91904, Israel
+
+kobics@cs.huji.ac.il
+
+jaz@cs.rhul.ac.uk
+
+singer@cs.huji.ac.il
 
 Abstract
-We introduce a new algorithm designed to learn sparse perceptrons over input representations which include high-order features.
-Our algorithm, which is based on a hypothesis-boosting method,
-is able to PAC-learn a relatively natural class of target concepts.
-Moreover, the algorithm appears to work well in practice: on a set
-of three problem domains, the algorithm produces classifiers that
-utilize small numbers of features yet exhibit good generalization
-performance. Perhaps most importantly, our algorithm generates
-concept descriptions that are easy for humans to understand.
+Online algorithms for classification often require vast amounts of memory and computation time when employed in conjunction with kernel
+functions. In this paper we describe and analyze a simple approach for an
+on-the-fly reduction of the number of past examples used for prediction.
+Experiments performed with real datasets show that using the proposed
+algorithmic approach with a single epoch is competitive with the support vector machine (SVM) although the latter, being a batch algorithm,
+accesses each training example multiple times.
 
 1
 
-Introd uction
+Introduction and Motivation
 
-Multi-layer perceptron (MLP) learning is a powerful method for tasks such as concept classification. However, in many applications, such as those that may involve
-scientific discovery, it is crucial to be able to explain predictions. Multi-layer perceptrons are limited in this regard, since their representations are notoriously difficult
-for humans to understand. We present an approach to learning understandable,
-yet accurate, classifiers. Specifically, our algorithm constructs sparse perceptrons,
-i.e., single-layer perceptrons that have relatively few non-zero weights. Our algorithm for learning sparse perceptrons is based on a new hypothesis boosting algorithm (Freund & Schapire, 1995). Although our algorithm was initially developed
-from a learning-theoretic point of view and retains certain theoretical guarantees (it
-PAC-learns the class of sparse perceptrons), it also works well in practice. Our experiments in a number of real-world domains indicate that our algorithm produces
-perceptrons that are relatively comprehensible, and that exhibit generalization performance comparable to that of backprop-trained MLP's (Rumelhart et al., 1986)
-and better than decision trees learned using C4.5 (Quinlan, 1993).
+Kernel-based methods are widely being used for data modeling and prediction because of
+their conceptual simplicity and outstanding performance on many real-world tasks. The
+support vector machine (SVM) is a well known algorithm for finding kernel-based linear
+classifiers with maximal margin [7]. The kernel trick can be used to provide an effective
+method to deal with very high dimensional feature spaces as well as to model complex input phenomena via embedding into inner product spaces. However, despite generalization
+error being upper bounded by a function of the margin of a linear classifier, it is notoriously
+difficult to implement such classifiers efficiently. Empirically this often translates into very
+long training times. A number of alternative algorithms exist for finding a maximal margin
+hyperplane many of which have been inspired by Rosenblatt?s Perceptron algorithm [6]
+which is an on-line learning algorithm for linear classifiers. The work on SVMs has inspired a number of modifications and enhancements to the original Perceptron algorithm.
+These incorporate the notion of margin to the learning and prediction processes whilst exhibiting good empirical performance in practice. Examples of such algorithms include the
+Relaxed Online Maximum Margin Algorithm (ROMMA) [4], the Approximate Maximal
+Margin Classification Algorithm (ALMA) [2], and the Margin Infused Relaxed Algorithm
+(MIRA) [1] which can be used in conjunction with kernel functions.
+A notable limitation of kernel based methods is their computational complexity since the
+amount of computer memory that they require to store the so called support patterns grows
+linearly with the number prediction errors. A number of attempts have been made to speed
+up the training and testing of SVM?s by enforcing a sparsity condition. In this paper we
+devise an online algorithm that is not only sparse but also generalizes well. To achieve
+this goal our algorithm employs an insertion and deletion process. Informally, it can be
+thought of as revising the weight vector after each example on which a prediction mistake
 
-Learning Sparse Perceptrons
-
-655
-
-We contend that sparse perceptrons, unlike MLP's, are comprehensible because they
-have relatively few parameters, and each parameter describes a simple (Le. linear)
-relationship. As evidence that sparse perceptrons are comprehensible, consider that
-such linear functions are commonly used to express domain knowledge in fields such
-as medicine (Spackman, 1988) and molecular biology (Stormo, 1987).
+has been made. Once such an event occurs the algorithm adds the new erroneous example
+(the insertion phase), and then immediately searches for past examples that appear to be
+redundant given the recent addition (the deletion phase). As we describe later, making this
+adjustment to the algorithm allows us to modify the standard online proof techniques so as
+to provide a bound on the total number of examples the algorithm keeps.
+This paper is organized as follows. In Sec. 2 we formalize the problem setting and provide
+a brief outline of our method for obtaining a sparse set of support patterns in an online
+setting. In Sec. 3 we present both theoretical and algorithmic details of our approach and
+provide a bound on the number of support patterns that constitute the cache. Sec. 4 provides
+experimental details, evaluated on three real world datasets, to illustrate the performance
+and merits of our sparse online algorithm. We end the paper with conclusions and ideas for
+future work.
 
 2
 
-Sparse Perceptrons
+Problem Setting and Algorithms
 
-A perceptron is a weighted threshold over the set of input features and over higherorder features consisting of functions operating on only a limited number of the
-input features. Informally, a sparse perceptron is any perceptron that has relatively
-few non-zero weights. For our later theoretical results we will need a more precise
-definition of sparseness which we develop now. Consider a Boolean function I :
-{O, 1}n -t { -1, + 1}. Let Ck be the set of all conjunctions of at most k of the inputs
-to I. C k includes the "conjunction" of 0 inputs, which we take as the identically
-1 function. All of the functions in C k map to {-1,+1}, and every conjunction in
-C k occurs in both a positive sense (+1 represents true) and a negated sense (-1
-represents true). Then the function I is a k-perceptron if there is some integer s
-such that I(x) = sign(L::=1 hi(x)), where for all i, hi E Ck, and sign(y) is undefined
-if y = 0 and is y/lyl otherwise. Note that while we have not explicitly shown any
-weights in our definition of a k-perceptron I, integer weights are implicitly present
-in that we allow a particular hi E Ck to appear more than once in the sum defining
-I. In fact, it is often convenient to think of a k-perceptron as a simple linear
-discriminant function with integer weights defined over a feature space with O(nk)
-features, one feature for each element of Ck ?
-We call a given collection of s conjunctions hi E C k a k-perceptron representation of
-the corresponding function I, and we call s the size of the representation. We define
-the size of a given k-perceptron function I as the minimal size of any k-perceptron
-representation of I. An s-sparse k-perceptron is a k-perceptron I such that the size
-of I is at most s. We denote by PI: the set of Boolean functions over {O, 1}n which
-can be represented as k-perceptrons, and we define Pk = Un Pi:. The subclass of
-s-sparse k-perceptrons is denoted by Pk,/l" We are also interested in the class P~
-of k-perceptrons with real-valued weights, at most r of which are non-zero.
+This work focuses on online additive algorithms for classification tasks. In such problems
+we are typically given a stream of instance-label pairs (x1 , y1 ), . . . , (xt , yt ), . . .. we assume
+that each instance is a vector xt ? Rn and each label belongs to a finite set Y. In this
+and the next section we assume that Y = {?1, +1} but relax this assumption in Sec. 4
+where we describe experiments with datasets consisting of more than two labels. When
+dealing with the task of predicting new labels, thresholded linear classifiers of the form
+h(x) = sign(w ? x) are commonly employed. The vector w P
+is typically represented as
+a weighted linear combination of the examples, namely w = t ?t yt xt where ?t ? 0.
+The instances for which ?t > 0 are referred to as support patterns. Under this assumption,
+the output of the classifier solely depends on inner-products of the form x ? xt the use of
+kernel functions can easily be employed simply by replacing the standard scalar product
+with a function K(?, ?) which satisfies Mercer conditions
+[7]. The resulting classification
+P
+rule takes the form h(x) = sign(w ? x) = sign( t ?t yt K(x, xt )).
+The majority of additive online algorithms for classification, for example the well known
+Perceptron [6], share a common algorithmic structure. These online algorithms typically
+work in rounds. On the tth
+P round, an online algorithm receives an instance xt , computes
+the inner-products st = i<t ?i yi K(xi , xt ) and sets the predicted label to be sign(st ).
+The algorithm then receives the correct label yt and evaluates whether yt st ? ?t . The exact
+value of parameter ?t depends on the specific algorithm being used for classification. If the
+result of this test is negative, the algorithms do not modify wt and thus ?t is implicitly
+set to 0. Otherwise, the algorithms modifies its classification using a predetermined update
+rule. Informally we can consider this update to be decomposed into three stages. Firstly, the
+algorithms choose a non-negative value for ?t (again the exact choice of the parameter ?t is
+algorithm dependent). Secondly, the prediction vector is replaced with a linear combination
+of the current vector wt and the example, wt+1 = wt + ?t yt xt . In a third, optional stage
+(see for example [4]), the norm of the newly updated weight vector is scaled, w t+1 ?
+ct wt+1 for some ct > 0. The various online algorithms differ in the way the values of the
+parameters ?t , ?t and ct are set. A notable example of an online algorithm is the Perceptron
+algorithm [6] for which we set ?t = 0, ?t = 1 and ct = 1. More recent algorithms
+such as the Relaxed Online Maximum Margin Algorithm (ROMMA) [4] the Approximate
+Maximal Margin Classification Algorithm (ALMA) [2] and the Margin Infused Relaxed
+Algorithm (MIRA) [1] can also be described in this framework although the constants
+?t , ?t and ct are not as simple as the ones employed by the Perceptron algorithm.
+An important computational consideration needs to be made when employing kernel functions for machine learning tasks. This is because the amount of memory required to
+store the so called support patterns grows linearly with the number prediction errors. In
+
+Input: Tolerance ?.
+Initialize: Set ?t ?t = 0 , w0 = 0 , C0 = ?.
+Loop: For t = 1, 2, . . . , T
+? Get a new instance xt ? Rn .
+? Predict y?t = sign (yt (xt ? wt?1 )).
+? Get a new label yt .
+? if yt (xt ? wt?1 ) ? ? update:
+1. Insert Ct ? Ct?1 ? {t}.
+2. Set ?t = 1.
+3. Compute wt ? wt?1 + yt ?t xt .
+4. DistillCache(Ct , wt , (?1 , . . . , ?t )).
+Output : H(x) = sign(wT ? x).
+Figure 1: The aggressive Perceptron algorithm with a variable-size cache.
+
+this paper we shift the focus to the problem of devising online algorithms which are
+budget-conscious as they attempt to keep the number of support patterns small. The
+approach is attractive for at least two reasons. Firstly, both the training time and classification time can be reduced significantly if we store only a fraction of the potential
+support patterns. Secondly, a classier with a small number of support patterns is intuitively ?simpler?, and hence are likely to exhibit good generalization properties rather
+than complex classifiers with large numbers of support patterns. (See for instance [7]
+for formal results connecting the number of support patterns to the generalization error.)
+In Sec. 3 we present a formal analysis and
+Input: C, w, (?1 , . . . , ?t ).
+the algorithmic details of our approach.
+Loop:
+Let us now provide a general overview
+? Choose i ? C such that
+of how to restrict the number of support
+? ? yi (w ? ?i yi xi ).
+patterns in an online setting. Denote by
+Ct the indices of patterns which consti? if no such i exists then return.
+tute the classification vector wt . That is,
+? Remove the example i :
+i ? Ct if and only if ?i > 0 on round
+1. ?i = 0.
+t when xt is received. The online classification algorithms discussed above keep
+2. w ? w ? ?i yi xi .
+enlarging Ct ? once an example is added
+3. C ? C/{i}
+to Ct it will never be deleted. However,
+Return : C, w, (?1 , . . . , ?t ).
+as the online algorithm receives more examples, the performance of the classifier
+Figure 2: DistillCache
+improves, and some of the past examples
+may have become redundant and hence
+can be removed. Put another way, old examples may have been inserted into the cache simply due the lack of support patterns in early rounds. As more examples are observed, the
+old examples maybe replaced with new examples whose location is closer to the decision
+boundary induced by the online classifier. We thus add a new stage to the online algorithm
+in which we discard a few old examples from the cache CP
+of
+t . We suggest a modification
+
+the online algorithm structure as follows. Whenever yt
+i<t ?i yi K(x, xi ) ? ?t , then
+after adding xt to w and inserting the tth into Ct , we scan the cache Ct for seemingly
+redundant examples by examining the margin conditions of old examples in C t . If such
+an example is found, we discard it from the both the classifier and the cache by updating
+wt ? wt ? ?i yi xi and setting Ct ? Ct /{i}. The pseudocode for this ?budget-conscious?
+version of the aggressive Perceptron algorithm [3] is given in Fig. 1. We say that the algo-
+
+rithm employs a variable-size cache since we do no limit explicitly the number of support
+patterns though we do attempt to discard as many patterns as possible from the cache. A
+similar modification, to that described for aggressive Perceptron, can be made to all of the
+online classification algorithms outlined above. In particular, we use a modification of the
+MIRA [1] algorithm in our experiments.
 
 3
 
-The Learning Algorithm
+Analysis
+
+In this section we provide our main formal result for the algorithm described in the previous
+section. Informally, the theorem below states that the actual size of the cache that the algorithm builds is inversely proportional to the square of the best margin that can be achieved
+on the data. This form of bound is common to numerous online learning algorithms for
+classification. However, here the bound is on the size of the cache whereas in common settings the corresponding bounds are on the number of prediction mistakes. The bound also
+depends on ?, the margin used by the algorithm to check whether a new example should be
+added to the cache and to discard old examples attaining a large margin. Clearly, the larger
+the value of ? the more often we add examples to the cache.
+Theorem 1 Let (x1 , y1 ), . . . , (xT , yT ) be an input sequence for the algorithm given in
+Fig. 1, where xt ? Rn and yt ? {?1, +1}. Denote by R = maxt kxt k. Assume that there
+exists a vector u of unit norm (kuk = 1) which classifies the entire sequence correctly with
+a margin ? = mint yt (u ? xt ) > 0. Then the number of support patterns constituting the
+cache is at most S ? (R2 + 2?)/? 2 .
+Proof: The proof of the theorem is based on the mistake bound of the Perceptron algorithm [5]. To prove the theorem we bound kwT k22 from above and below and compare the
+bounds. Denote by ?it the weight of the ith example at the end of round t (after stage 4 of
+the algorithm). Similarly, we denote by ?
+? it to be the weight of the ith example on round
+t after stage 3, before calling the DistillCache (Fig. 2) procedure. We analogously
+? t the corresponding instantaneous classifiers. First, we derive a lower
+denote by wt and w
+bound on kwT k2 by bounding the term wT ? u from below in a recursive manner.
+X
+wT ? u =
+?tT yt (xt ? u)
+t?CT
+
+? ?
 
-In this section we develop our learning algorithm and prove certain performance
-guarantees. Our algorithm is based on a recent "hypothesis boosting" algorithm
-that we describe after reviewing some basic learning-theory terminology.
-3.1
-
-PAC Learning and Hypothesis Boosting
-
-Following Valiant (1984), we say that a function class :F (such as Pk for fixed k)
-is (strongly) PAC-learnable if there is an algorithm A and a polynomial function
-PI such that for any positive f and 8, any I E :F (the target junction), and any
-probability distribution D over the domain of I, with probability at least 1 8, algorithm A(EX(f, D), f, 8) produces a function h (the hypothesis) such that
-Pr[PrD[/(x) I- hex)] > f] < 8. The outermost probability is over the random choices
-made by the EX oracle and any random choices made by A. Here EX(f, D) denotes
-an oracle that, when queried, chooses a vector of input values x with probability
-D and returns the pair (x,/(x)) to A. The learning algorithm A must run in time
-PI (n, s, c 1 , 8- 1 ), where n is the length of the input vector to I and s is the size of
-
-J. C. JACKSON, M. W. CRAVEN
-
-656
-
-AdaBoost
-Input: training set S of m examples of function
-is (~ - 'Y)-approximate, l'
-Algorithm:
-
-f, weak learning algorithm WL that
-
-1. T +-- ~ In(m)
-2. for all xES, w(x) +-- l/m
-3. for i = 1 to T do
-4.
-for all XES, Di(X) +-- w(x)/
-w(x).
-5.
-invoke WL on S and distribution Di, producing weak hypothesis hi
-
-L:l=l
-
-6.
-
-+-- L:z .h;(z);oI:/(z) Di(X)
-(3i +-- ?i/ (1 - ?i)
-?i
-
-7.
-8.
-for all XES, if h(x) = f(x) then w(x) +-- w(x) . (3i
-9. enddo
-Output: h(x) == sign
-
-(L::=l -In((3i) . hi{x))
-Figure 1: The AdaBoost algorithm.
-
-f; the algorithm is charged one unit of time for each call to EX. We sometimes
-call the function h output by A an ?-approximator (or strong approximator) to f
-with respect to D. If F is PAC-learnable by an algorithm A that outputs only
-hypotheses in class 1? then we say that F is PAC-learnable by 1?. If F is PAClearnable for ? = 1/2 - 1/'P2(n, s), where'P2 is a polynomial function, then :F is
-weakly PA C-learnable, and the output hypothesis h in this case is called a weak
-approximator.
-
-Our algorithm for finding sparse perceptrons is, as indicated earlier, based on the
-notion of hypothesis boosting. The specific boosting algorithm we use (Figure 1)
-is a version of the recent AdaBoost algorithm (Freund & Schapire, 1995). In the
-next section we apply AdaBoost to "boost" a weak learning algorithm for Pk,8 into
-a strong learner for Pk,8' AdaBoost is given a set S of m examples of a function
-f : {O,1}n ---+ {-1, +1} and a weak learning algorithm WL which takes ? = ! - l'
-for a given l' b must be bounded by an inverse polynomial in nand s). Adaf300st
-runs for T = In(m)/(2'Y2) stages. At each stage it creates a probability distribution
-Di over the training set and invokes WL to find a weak hypothesis hi with respect
-to Di (note that an example oracle EX(j, Di) can be simulated given Di and S).
-At the end of the T stages a final hypothesis h is output; this is just a weighted
-threshold over the weak hypotheses {hi I 1 ~ i ~ T}. If the weak learner succeeds
-in producing a (~-'Y)-approximator at each stage then AdaBoost's final hypothesis
-is guaranteed to be consistent with the training set (Freund & Schapire, 1995).
-3.2
-
-PAC-Learning Sparse k-Perceptrons
-
-We now show that sparse k-perceptrons are PAC learnable by real-weighted kperceptrons having relatively few nonzero weights. Specifically, ignoring log factors,
-Pk,8 is learnable by P~O(82) for any constant k. We first show that, given a training
-set for any f E Pk,8' we can efficiently find a consistent h E p~( 8 2 )' This consistency algorithm is the basis of the algorithm we later apply to empirical learning
-problems. We then show how to turn the consistency algorithm into a PAC learning
-algorithm. Our proof is implicit in somewhat more general work by Freund (1993),
-although he did not actually present a learning algorithm for this class or analyze
-
-Learning Sparse Perceptrons
-
-657
-
-the sample size needed to ensure f-approximation, as we do. Following Freund, we
-begin our development with the following lemma (Goldmann et al., 1992):
-Lemma 1 (Goldmann Hastad Razhorov) For I: {0,1}n -+ {-1,+1} and H,
-
-any set 01 functions with the same domain and range, il I can be represented as
-I(x) = sign(L::=l hi(X?, where hi E H, then lor any probability distribution D
-over {O, 1}n there is some hi such that PrD[f(x) ?- hi(x)] ~ ~ - 218 '
-
-If we specialize this lemma by taking H = Ck (recall that Ck is the set of conjunctions of at most k input features of f) then this implies that for any I E Pk,8 and
-any probability distribution D over the input features of I there is some hi E Ck
-that weakly approximates I with respect to D. Therefore, given a training set S
-and distribution D that has nonzero weight only on instances in S, the following
-simple algorithm is a weak learning algorithm for Pk: exhaustively test each of the
-O(nk) possible conjunctions of at most k features until we find a conjunction that
-218 )-approximates I with respect to D (we can efficiently compute the approximation of a conjunction hi by summing the values of D over those inputs where hi
-
-a-
-
-and I agree). Any such conjunction can be returned as the weak hypothesis. The
-above lemma proves that if I is a k-perceptron then this exhaustive search must
-succeed at finding such a hypothesis. Therefore, given a training set of m examples
-of any s-sparse k-perceptron I, AdaBoost run with the above weak learner will, after 2s2In(m) stages, produce a hypothesis consistent with the training set. Because
-each stage adds one weak hypothesis to the output hypothesis, the final hypothesis
-will be a real-weighted k-perceptron with at most 2s2In(m) nonzero weights.
-We can convert this consistency algorithm to a PAC learning algorithm as follows.
-First, given a finite set of functions F, it is straightforward to show the following
-(see, e.g., Haussler, 1988):
-Lemma 2 Let F be a finite set ollunctions over a domain X. For any function
-lover X, any probability distribution D over X, and any positive f and ~, given a
-set S ofm examples drawn consecutively from EX(f, D), where m ~ f-1(ln~-1 +
-In IFI), then Pr[3h E F I "Ix E S f(x) = h(x) & Prv[/(x) ?- h(x)] > f] < ~, where
-the outer probability is over the random choices made by EX(f,D).
-The consistency algorithm above finds a consistent hypothesis in P~, where r
-
-=
-
-2s2 In(m). Also, based on a result of Bruck (1990), it can be shown that In IP~I =
-o (r2 + kr log n). Therefore, ignoring log factors, a randomly-generated training set
-of size O(kS4 If) is sufficient to guarantee that, with high probability, our algorithm
-will produce an f-approximator for any s-sparse k-perceptron target. In other words,
-the following is a PAC algorithm for Pk,8: compute sufficiently large (but polynomial
-in the PAC parameters) m, draw m examples from EX(f, D) to create a training
-set, and run the consistency algorithm on this training set.
-So far we have shown that sparse k-perceptrons are learnable by sparse perceptron
-hypotheses (with potentially polynomially-many more weights). In practice, of
-course, we expect that many real-world classification tasks cannot be performed
-exactly by sparse perceptrons. In fact, it can be shown that for certain (reasonable)
-definitions of "noisy" sparse perceptrons (loosely, functions that are approximated
-reasonably well by sparse perceptrons), the class of noisy sparse k-perceptrons is
-still PAC-learnable. This claim is based on results of Aslam and Decatur (1993),
-who present a noise-tolerant boosting algorithm. In fact, several different boosting
-algorithms could be used to learn Pk,s (e.g., Freund, 1993). We have chosen to use
-AdaBoost because it seems to offer significant practical advantages, particularly in
-terms of efficiency. Also, our empirical results to date indicate that our algorithm
-
-J. C. JACKSON, M. W. CRAVEN
-
-658
-
-works very well on difficult (presumably "noisy") real-world problems. However,
-one potential advantage of basing the algorithm on one of these earlier boosters
-instead of AdaBoost is that the algorithm would then produce a perceptron with
-integer weights while still maintaining the sparseness guarantee of the AdaBoostbased algorithm.
-3.3
-
-Practical Considerations
-
-We turn now to the practical details of our algorithm, which is based on the consistency algorithm above. First, it should be noted that the theory developed above
-works over discrete input domains (Boolean or nominal-valued features). Thus, in
-this paper, we consider only tasks with discrete input features. Also, because the
-algorithm uses exhaustive search over all conjunctions of size k, learning time depends exponentially on the choice of k. In this study we to use k = 2 throughout,
-since this choice results in reasonable learning times.
-Another implementation concern involves deciding when the learning algorithm
-should terminate. The consistency algorithm uses the size of the target function
-in calculating the number of boosting stages. Of course, such size information is
-not available in real-world applications, and in fact, the target function may not be
-exactly representable as a sparse perceptron. In practice, we use cross validation
-to determine an appropriate termination point. To facilitate comprehensibility, we
-also limit the number of boosting stages to at most the number of weights that
-would occur in an ordinary perceptron for the task. For similar reasons, we also
-modify the criteria used to select the weak hypothesis at each stage so that simple
-features are preferred over conjunctive features. In particular, given distribution
-D at some stage j, for each hi E Ck we compute a correlation Ev[/ . hi]. We
-then mUltiply each high-order feature's correlation by i. The hi with the largest
-resulting correlation serves as the weak hypothesis for stage j.
-
-4
-
-Empirical Evaluation
-
-In our experiments, we are interested in assessing both the generalization ability
-and the complexity of the hypotheses produced by our algorithm. We compare our
-algorithm to ordinary perceptrons trained using backpropagation (Rumelhart et al.,
-1986), multi-layer perceptrons trained using backpropagation, and decision trees
-induced using the C4.5 system (Quinlan, 1993). We use C4.5 in our experiments as
-a representative of "symbolic" learning algorithms. Symbolic algorithms are widely
-believed to learn hypotheses that are more comprehensible than neural networks.
-Additionally, to test the hypothesis that the performance of our algorithm can be
-explained solely by its use of second-order features, we train ordinary perceptrons
-using feature sets that include all pairwise conjunctions, as well as the ordinary
-features. To test the hypothesis that the performance of our algorithm can be
-explained by its use of relatively few weights, we consider ordinary perceptrons
-which have been pruned using a variant of the Optimal Brain Damage (OBD)
-algorithm (Le Cun et al., 1989). In our version of OBD, we train a perceptron until
-the stopping criteria are met, prune the weight with the smallest salience, and then
-iterate the process. We use a validation set to decide when to stop pruning weights.
-For each training set, we use cross-validation to select the number of hidden units
-(5, 10, 20, 40 or 80) for the MLP's, and the pruning confidence level for the C4.5
-trees. We use a validation set to decide when to stop training for the MLP's.
-We evaluate our algorithm using three real-world domains: the voting data set from
-the UC-Irvine database; a promoter data set which is a more complex superset of
-
-Learning Sparse Perceptrons
-
-domain
-voting
-promoter
-coding
-
-boosting
-91.5%
-92.7
-72.9
-
-659
-
-Ta ble 1: 11est -set accuracy.
-perceptrons
-C4.5
-multi-layer ordinary 2nd-order
-90.8%
-89.2%
-89.2% * 92.2%
-*
-90.6
-90.0
-88.7
-84.4
-*
-*
-*
-71.6
-69.8
-70.7
-62.6
-
-*
-
-*
-
-*
-
-Table 2: Hypothesis complexity (# weights).
-perceptrons
-domain
-boosting multi-layer ordinary 2nd-order
-voting
-450
-12
-651
-30
-promoters
-41
-2267
-228
-25764
-protein coding
-52
-4270
-60
-1740
-
-*
-
-pruned
-87.6% *
-88.2
-*
-70.3
-
-*
-
-pruned
-12
-59
-37
-
-UC-Irvine one; and a data set in which the task is to recognize protein-coding
-regions in DNA (Craven & Shavlik, 1993). We remove the physician-fee-freeze
-feature from the voting data set to make the problem more difficult. We conduct
-our experiments using a lO-fold cross validation methodology, except for in the
-protein-coding domain. Because of certain domain-specific characteristics of this
-data set, we use 4-fold cross-validation for our experiments with it.
-Table 1 reports test-set accuracy for each method on all three domains. We measure the statistical significance of accuracy differences using a paired, two-tailed
-t-test. The symbol '*' marks results in cases where another algorithm is less accurate than our boosting algorithm at the p ::; 0.05 level of significance. No other
-algorithm is significantly better than our boosting method in any of the domains.
-From these results we conclude that (1) our algorithm exhibits good generalization
-performance on number of interesting real-world problems, and (2) the generalization performance of our algorithm is not explained solely by its use of second-order
-features, nor is it solely explained by the sparseness of the perceptrons it produces.
-An interesting open question is whether perceptrons trained with both pruning and
-second-order features are able to match the accuracy of our algorithm; we plan to
-investigate this question in future work.
-Table 2 reports the average number of weights for all of the perceptrons. For all
-three problems, our algorithm produces perceptrons with fewer weights than the
-MLP's, the ordinary perceptrons, and the perceptrons with second-order features.
-The sizes of the OBD-pruned perceptrons and those produced by our algorithm
-are comparable for all three domains. Recall, however, that for all three tasks,
-the perceptrons learned by our algorithm had significantly better generalization
-performance than their similar-sized OBD-pruned counterparts. We contend that
-the sizes of the perceptrons produced by our algorithm are within the bounds of
-what humans can readily understand. In the biological literature, for example, linear
-discriminant functions are frequently used to communicate domain knowledge about
-sequences of interest. These functions frequently involve more weights than the
-perceptrons produced by our algorithm. We conclude, therefore, that our algorithm
-produces hypotheses that are not only accurate, but also comprehensible.
-We believe that the results on the protein-coding domain are especially interesting.
-The input representation for this problem consists of 15 nominal features representing 15 consecutive bases in a DNA sequence. In the regions of DNA that encode
-proteins (the positive examples in our task), non-overlapping triplets of consecu-
-
-660
-
-J. C. JACKSON, M. W. eRA VEN
-
-tive bases represent meaningful "words" called codons. In previous work (Craven
-& Shavlik, 1993), it has been found that a feature set that explicitly represents
-codons results in better generalization than a representation of just bases. However, we used the bases representation in our experiments in order to investigate the
-ability of our algorithm to select the "right" second-order features. Interestingly,
-nearly all of the second-order features included in our sparse perceptrons represent
-conjunctions of bases that are in the same codon. This result suggests that our
-algorithm is especially good at selecting relevant features from large feature sets.
-
-5
-
-Future Work
-
-Our present algorithm has a number of limitations which we plan to address. Two
-areas of current research are generalizing the algorithm for application to problems
-with real-valued features and developing methods for automatically suggesting highorder features to be included in our algorithm's feature set.
-Acknowledgements
-
-Mark Craven was partially supported by ONR grant N00014-93-1-0998. Jeff Jackson
-was partially supported by NSF grant CCR-9119319.
-
-References
-Aslam, J. A. & Decatur, S. E. (1993). General bounds on statistical query learning and
-PAC learning with noise via hypothesis boosting. In Proc. of the 34th Annual Annual
-Symposium on Foundations of Computer Science, (pp. 282-291).
-Bruck, J . (1990). Harmonic analysis of polynomial threshold functions. SIAM Journal
-of Discrete Mathematics, 3(2):168-177.
-Craven, M . W. & Shavlik, J. W. (1993) . Learning to represent codons: A challenge
-problem for constructive induction. In Proc. of the 13th International Joint Conf. on
-Artificial Intelligence, (pp. 1319-1324), Chambery, France.
-Freund, Y. (1993). Data Filtering and Distribution Modeling Algorithms for Machine
-Learning. PhD thesis, University of California at Santa Cruz.
-Freund, Y. & Schapire, R. E. (1995). A decision-theoretic generalization of on-line learning and an application to boosting. In Proc. of the ~nd Annual European Conf. on
-Computational Learning Theory.
-Goldmann, M., Hastad, J., & Razborov, A. (1992). Majority gates vs. general weighted
-threshold gates. In Proc. of the 7th IEEE Conf. on Structure in Complexity Theory.
-Haussler, D. (1988). Quantifying inductive bias: AI learning algorithms and Valiant's
-learning framework. Artificial Intelligence, (pp. 177-221).
-Le Cun, Y., Denker, J. S., & Solla, S. A. (1989). Optimal brain damage. In Touretzky,
-D., editor, Advances in Neural Information Processing Systems (volume ~).
-Quinlan, J. R. (1993). C4.5: Programs for Machine Learning. Morgan Kaufmann.
-Rumelhart, D., Hinton, G., & Williams, R. (1986). Learning internal representations
-by error propagation. In Rumelhart, D. & McClelland, J., editors, Parallel Distributed
-Processing: Explorations in the microstructure of cognition. Volume 1. MIT Press.
-Spackman, K. A. (1988). Learning categorical decision criteria. In Proc. of the 5th
-International Conf. on Machine Learning, (pp. 36-46), Ann Arbor, MI.
-Stormo, G. (1987). Identifying coding sequences. In Bishop, M. J. & Rawlings, C. J.,
-editors, Nucleic Acid and Protein Sequence Analysis: A Practical Approach. IRL Press.
-Valiant,1. G. (1984). A theory of the learnable. Comm. of the ACM, 27(11):1134-1142.
-
-
-<<----------------------------------------------------------------------------------------------------------------------------------------->>
-
-title: 1194-an-apobayesian-relative-of-winnow.pdf
-
-An Apobayesian Relative of Winnow
-
-Nick Littlestone
-NEC Research Institute
-4 Independence Way
-Princeton, NJ 08540
-
-Chris Mesterharm
-NEC Research Institute
-4 Independence Way
-Princeton, NJ 08540
-
-Abstract
-We study a mistake-driven variant of an on-line Bayesian learning algorithm (similar to one studied by Cesa-Bianchi, Helmbold,
-and Panizza [CHP96]). This variant only updates its state (learns)
-on trials in which it makes a mistake. The algorithm makes binary
-classifications using a linear-threshold classifier and runs in time linear in the number of attributes seen by the learner. We have been
-able to show, theoretically and in simulations, that this algorithm
-performs well under assumptions quite different from those embodied in the prior of the original Bayesian algorithm. It can handle
-situations that we do not know how to handle in linear time with
-Bayesian algorithms. We expect our techniques to be useful in
-deriving and analyzing other apobayesian algorithms.
-
-1
-
-Introduction
-
-We consider two styles of on-line learning. In both cases, learning proceeds in a
-sequence of trials. In each trial, a learner observes an instance to be classified,
-makes a prediction of its classification, and then observes a label that gives the
-correct classification. One style of on-line learning that we consider is Bayesian.
-The learner uses probabilistic assumptions about the world (embodied in a prior
-over some model class) and data observed in past trials to construct a probabilistic
-model (embodied in a posterior distribution over the model class). The learner uses
-this model to make a prediction in the current trial. When the learner is told the
-correct classification of the instance, the learner uses this information to update the
-model, generating a new posterior to be used in the next trial.
-
-In the other style of learning that we consider, the attention is on the correctness
-of the predictions rather than on the model of the world. The internal state of the
-
-An Apobayesian Relative o!Winnow
-
-205
-
-learner is only changed when the learner makes a mistake (when the prediction fails
-to match the label). We call such an algorithm mistake-driven. (Such algorithms are
-often called conservative in the computational learning theory literature.) There is a
-simple way to derive a mistake-driven algorithm from anyon-line learning algorithm
-(we restrict our attention in this paper to deterministic algorithms). The derived
-algorithm is just like the original algorithm, except that before every trial, it makes
-a record of its entire state, and after every trial in which its prediction is correct,
-it resets its state to match the recorded state, entirely forgetting the intervening
-trial. (Typically this is actually implemented not by making such a record, but by
-merely omitting the step that updates the state.) For example, if some algorithm
-keeps track of the number of trials it has seen, then the mistake-driven version of
-this algorithm will end up keeping track of the number of mistakes it has made.
-Whether the original or mistake-driven algorithm will do better depends on the task
-and on how the algorithms are evaluated.
-We will start with a Bayesian learning algorithm that we call SBSB and use this
-procedure to derive a mistake-driven variant, SASB. Note that the variant cannot
-be expected to be a Bayesian learning algorithm (at least in the ordinary sense)
-since a Bayesian algorithm would make a prediction that minimizes the Bayes risk
-based on all the available data, and the mistake-driven variant has forgotten quite
-a bit. We call such algorithms apobayesian learning algorithms. This name is
-intended to suggest that they are derived from Bayesian learning algorithms, but
-are not themselves Bayesian. Our algorithm SASB is very close to an algorithm
-of [CHP96). We study its application to different tasks than they do, analyzing its
-performance when it is applied to linearly separable data as described below.
-In this paper instances will be chosen from the instance space X = {a, l}n for some
-n. Thus instances are composed of n boolean attributes. We consider only two
-category classifications tasks, with predictions and labels chosen from Y = {a, I} .
-We obtain a' bound on the number of mistakes SASB makes that is comparable to
-bounds for various Winnow family algorithms given in [Lit88,Lit89). As for those
-algorithms, the bound holds under the assumption that the points labeled 1 are
-linearly separable from the points labeled 0, and the bound depends on the size 8 of
-the gap between the two classes. (See Section 3 for a definition of 8.) The mistake
-bound for SASB is 0 ( /or log ~ ). While this bound has an extra factor of log ~ not
-present in the bounds for the Winnow algorithms, SASB has the advantage of not
-needing any parameters. The Winnow family algorithms have parameters, and the
-algorithms' mistake bounds depend on setting the parameters to values that depend
-on 8. (Often, the value of 8 will not be known by the learner.) We expect the
-techniques used to obtain this bound to be useful in analyzing other apobayesian
-learning algorithms.
-A number of authors have done related research regarding worst-case on-line
-loss bounds including [Fre96,KW95,Vov90). Simulation experiments involving a
-Bayesian algorithm and a mistake-driven variant are described in [Lit95). That
-paper provides useful background for this paper. Note that our present analysis
-techniques do not apply to the apobayesian algorithm studied there. The closest of
-the original Winnow family algorithms to SASB appears to be the Weighted MaJority algorithm [LW94], which was analyzed for a case similar to that considered
-in this paper in [Lit89). One should get a roughly correct impression of SASB if
-
-N. Littlestone and C. Mesterharm
-
-206
-
-one thinks of it as a version of the Weighted Majority algorithm that learns its
-parameters.
-In the next section we describe the Bayesian algorithm that we start with. In
-Section 3 we discuss its mistake-driven apobayesian variant. Section 4 mentions
-some simulation experiments using these algorithms, and Section 5 is the conclusion.
-
-2
-
-A Bayesian Learning Algorithm
-
-To describe the Bayesian learning algorithm we must specify a family of distributions over X x Y and a prior over this family of distributions. We parameterize
-the distributions with parameters ((h, ... , 8n + l ) chosen from e = [0, 1]n+l. The
-parameter 8n +1 gives the probability that the label is 1, and the parameter 8i gives
-the probability that the ith attribute matches the label. Note that the probability
-that the ith attribute is 1 given that the label is 1 equals the probability that the
-ith attribute is 0 given that the label is O. We speak of this linkage between the
-probabilities for the two classes as a symmetry condition. With this linkage, the
-observation of a point from either class will affect the posterior distribution for both
-classes. It is perhaps more typical to choose priors that allow the two classes to be
-treated separately, so that the posterior for each class (giving the probability of elements of X conditioned on the label) depends only on the prior and on observations
-from that class. The symmetry condition that we impose appears to be important
-to the success of our analysis of the apobayesian variant of this algorithm. (Though
-we impose this condition to derive the algorithm, it turns out that the apobayesian
-variant can actually handle tasks where this condition is not satisfied.)
-We choose a prior on e that gives probability 1 to the set of all elements
-() = (81, ... , 8n +l ) E e for which at most one of 81 , ... ,8n does not equal
-The prior is uniform on this set. Note that for any () in this set only a single attribute has a probability other than ~ of matching the label, and thus only a single
-attribute is relevant. Concentrating on this set turns out to lead to an apobayesian
-algorithm that can, in fact, handle more than one relevant attribute and that performs particularly well when only a small fraction of the attributes are relevant.
-
-!.
-
-This prior is related to to the familiar Naive Bayes model, which also assumes
-that the attributes are conditionally independent given the labels. However, in the
-typical Naive Bayes model there is no restriction to a single relevant attribute and
-the symmetry condition linking the two classes is not imposed.
-
-Our prior leads to the following algorithm. (The name SBSB stands for "Symmetric
-Bayesian Algorithm with Singly-variant prior for Bernoulli distribution.")
-
-Algorithm SBSB Algorithm SBSB maintains counts Si of the number of times
-each attribute matches the label, a count M of the number of times the label is 1,
-and a count t of the number of trials.
-Initialization
-Prediction
-
-(M
-
-+ 1)
-
-f=
-
-Si
-
-M t-O
-
-tt-O
-
-Predict 1 given instance (Xl, ... ,xn ) if and only if
-XiCSi+l)+Clixi)(t-Si+1)
-
-i=l
-
-Update
-
-t- 0 for i = 1, ... ,n
-
-M t- M
-
-(S,)
-
-> (t - M + 1)
-
-f= (1-Xi)(Si+1~+XiCt-si+l)
-(S.)
-
-i=l
-
-+ y, t t- t + 1, and for each i, if Xi
-
-= Y then
-
-Si
-
-t-
-
-Si
-
-+1
-
-An Apobayesian Relative of Winnow
-
-3
-
-207
-
-An Apobayesian Algorithm
-
-We construct an apobayesian algorithm by converting algorithm SBSB into a
-mistake-driven algorithm using the standard conversion given in the introduction.
-We call the resulting learning algorithm SASBj we have replaced "Bayesian" with
-"Apobayesian" in the acronym.
-In the previous section we made assumptions made about the generation of the
-instances and labels that led to SBSB and thence to SASB. These assumptions
-have served their purpose and we now abandon them. In analyzing the apobayesian
-algorithm we do not assume that the instances and labels are generated by some
-stochastic process. Instead we assume that the instance-label pairs in all of the
-trials are linearly-separable, that is, that there exist some WI, ., . ,Wn , and c such
-that for every instance-label pair (x, y) we have E~=I WiXi ;::: c when y = 1 and
-2:~=1 WiXi ::; c when y = O. We actually make a somewhat stronger assumption,
-given in the following theorem, which gives our bound for the apobayesian algorithm.
-Theorem 1 Suppose that 'Yi ;::: 0 and "Ii ;::: 0 for i = 1, ... , n, and that 2:~=1 'Yi +
-"I i = 1. Suppose that 0 ::; bo < bi ::; 1 and let 8 = bi - bo . Suppose that algorithm
-SASB is run on a sequence of trials such that the instance x and label y in each
-trial satisfy 2:~=1 'YiXi + "Ii (1 - Xi) ::; bo if y = 0 and 2:~=1 'YiXi + "Ii (1 - Xi) ;::: bi if
-y = 1. Then the number of mistakes made by SASB will be bounded by
-log
-
-*
-
-8; .
-
-We have space to say only a little about how the derivation of this bound proceeds.
-Details are given in [Lit96].
-In analyzing SASB we work with an abstract description of the associated algorithm
-SBSB. This algorithm starts with a prior on e as described above. We represent
-this with a density Po. Then after each trial it calculates a new posterior density
-Pt(O) = t-d8kP(X'YI~k, where Pt is the density after trial t and P(x, ylO) is the
-pt-d )P(x,y
-
-)
-
-conditional probability ofthe instance x and label y observed in trial t given O. Thus
-we can think of the algorithm as maintaining a current distribution on e that is
-initially the prior. SASB is similar, but it leaves the current distribution unchanged
-when a mistake is not made. For there to exist a finite mistake bound there must
-exist some possible choice for the current distribution for which SASB would make
-perfect predictions, should it ever arrive at that distribution. We call any such
-distribution leading to perfect predictions a possible target distribution. It turns out
-that the separability condition given in Theorem 1 guarantees that a suitable target
-distribution exists. The analysis proceeds by showing that for an appropriate choice
-of a target density p the relative entropy of the current distribution with respect to
-the target distribution, p( 0) log(p( 0) / Pt (0)), decreases by at least some amount
-R > 0 whenever a mistake is made. Since the relative entropy is never negative, the
-number of mistakes is bounded by the initial relative entropy divided by R. This
-form of analysis is very similar to the analysis of the various members of the Winnow
-family in [Lit89,Lit91].
-
-J
-
-The same technique can be applied to other apobayesian algorithms. The abstract
-update of Pt given above is quite general. The success of the analysis depends on
-conditions on Po and P(x, ylO) that we do not have space here to discuss.
-
-N. LittLestone and C. Mesterharm
-
-208
-
-p
-
-=0.01 k =1 n =20
-
-250r---~--~----~--~--~
-
-250
-
-p
-
-=0.1 k =5 n =20
-
-.-----.-----,-----,---~--~
-
-,
-' Optimal'
-'SBSB'
-'SASB'
-'SASB + voting'
-
-200
-
-f/)
-
-~
-
-... .
--_.-
-
-200
-
-'Optimal'
-'SBSB'
-.
-'SASB'
-: 'SASB + voting"
-
-/
-/
-/
-
-/
-
-.
-
-/
-
-150
-/
-
-/
-
-S
-
-.~
-:e
-
-/
-
-/
-
-/
-
-,
-
-'"
-
-/
-
-/
-
-/
-
-100
-
-/'
-
-.,,/
-/'
-
-/
-
-50
-
-o~--~--~----~--~--~
-
-4000
-
-..
-
-./
-r
-
-/
-
-:'/.",,~
-
-./::: .. . .
-
-2000
-
-,/
-
-/
-
-/'" -.---::..' -.. '
-/
-/ . . . <- ...
-
-o
-
-/
-
-/
-
-/
-,/
-/'
-
-50
-
-/
-
-/'
-
-,/
-
-/
-
-,/
-
-100
-
-.. ..
-//
--.,-. - / /
-
-6000
-
-8000
-
-10000
-
-Trials
-
-/'
-
-,/
-
-/
-
-O""'---...L-------I.-----'----~--~
-
-o
-
-2000
-
-4000
-
-6000
-
-8000
-
-10000
-
-Trials
-
-Figure 1: Comparison of SASB with SBSB
-
-4
-
-Simulation Experiments
-
-The bound of the previous section was for perfectly linearly-separable data. We
-have also done some simulation experiments exploring the performance of SASB on
-non-separable data and comparing it with SBSB and with various other mistakedriven algorithms. A sample comparison of SASB with SBSB is shown in Figure
-1. In each experimental run we generated 10000 trials with the instances and labels
-chosen randomly according to a distribution specified by (h = '" = Ok = 1 - p,
-Ok+l = ... = 0n+l = .5 where 01 , ??. ,On+l are interpreted as specified in Section
-2, n is the number of attributes, and n, p, and k are as specified at the top of each
-plot. The line labeled "optimal" shows the performance obtained by an optimal
-predictor that knows the distribution used to generate the data ahead of time, and
-thus does not need to do any learning. The lines labeled "SBSB" and "SASB" show
-the performance of the corresponding learning algorithms. The lines labeled "SASB
-+ voting" show the performance of SASB with the addition of a voting procedure
-described in [Lit95]. This procedure improves the asymptotic mistake rate of the
-algorithms. Each line on the graph is the average of 30 runs. Each line plots the
-cumulative number of mistakes made by the algorithm from the beginning of the run
-as a function of the number of trials.
-In the left hand plot, there is only 1 relevant attribute. This is exactly the case that
-SBSB is intended for, and it does better than SASB. In right hand plot, there are 5
-relevant attributes; SBSB appears unable to take advantage of the extra information
-present in the extra relevant attributes, but SASB successfully does.
-Comparison of SASB and previous Winnow family algorithms is still in progress,
-and we defer presenting details until a clearer picture has been obtained. SASB and
-the Weighted Majority algorithm often perform similarly in simulations. Typically,
-as one would expect, the Weighted Majority algorithm does somewhat better than
-
-An Apobayesian Relative of Winnow
-
-209
-
-SASB when its parameters are chosen optimally for the particular learning task, and
-worse for bad choices of parameters.
-
-5
-
-Conclusion
-
-Our mistake bounds and simulations suggest that SASB may be a useful alternative
-to the existing algorithms in the Winnow family. Based on the analysis style and the
-bounds, SASB should perhaps itself be considered a Winnow family algorithm. Further experiments are in progress comparing SASB with Winnow family algorithms
-run with a variety of parameter settings.
-Perhaps of even greater interest is the potential application of our analytic techniques
-to a variety of other apobayesian algorithms (though as we have observed earlier,
-the techniques do not appear to apply to all such algorithms) . We have already
-obtained some preliminary results regarding an interpretation of the Perceptron
-algorithm as an apobayesian algorithm. We are interested in looking for entirely
-new algorithms that can be derived in this way and also in better understanding
-the scope of applicability of our techniques. All of the analyses that we have looked
-at depend on symmetry conditions relating the probabilities for the two classes. It
-would be of interest to see what can be said when such symmetry conditions do not
-hold. In simulation experiments [Lit95], a mistake-driven variant of the standard
-Naive Bayes algorithm often does very well, despite the absence of such symmetry
-in the prior that it is based on.
-Our simulation experiments and also the analysis of the related algorithm Winnow
-[Lit91] suggest that SASB can be expected to handle some instance-label pairs inside
-of the separating gap or on the wrong side, especially if they are not too far on the
-wrong side. In particular it appears to be able to handle data generated according
-to the distributions on which SBSB is based, which do not in general yield perfectly
-separable data.
-It is of interest to compare the capabilities of the original Bayesian algorithm with
-the derived apobayesian algorithm. When the data is stochastically generated in a
-manner consistent with the assumptions behind the original algorithm, the original
-Bayesian algorithm can be expected to do better (see, for example, Figure 1). On
-the other hand, the apobayesian algorithm can handle data beyond the capabilities of the original Bayesian algorithm. For example, in the case we consider, the
-apobayesian algorithm can take advantage of the presence of more than one relevant
-attribute, even though the prior behind the original Bayesian algorithm assumes a
-single relevant attribute. Furthermore, as for all of the Winnow family algorithms,
-the mistake bound for the apobayesian algorithm does not depend on details of the
-behavior of the irrelevant attributes (including redundant attributes).
-Instead of using the apobayesian variant, one might try to construct a Bayesian
-learning algorithm for a prior that reflects the actual dependencies among the attributes and the labels. However, it may not be clear what the appropriate prior is.
-It may be particularly unclear how to model the behavior of the irrelevant attributes. Furthermore, such a Bayesian algorithm may end up being computationally
-expensive. For example, attempting to keep track of correlations among all pairs
-of attributes may lead to an algorithm that needs time and space quadratic in the
-number of attributes. On the other hand, if we start with a Bayesian algorithm that
-
-210
-
-N. Littlestone and C. Mesterharm
-
-uses time and space linear in the number of attributes we can obtain an apobayesian
-algorithm that still uses linear time and space but that can handle situations beyond
-the capabilities of the original Bayesian algorithm.
-Acknowledgments
-
-This paper has benefited from discussions with Adam Grove.
-
-References
-[CHP96] Nicolo Cesa-Bianchi, David P. Helmbold, and Sandra Panizza. On bayes
-methods for on-line boolean prediction. In Proceedings of the Ninth Annual
-Conference on Computational Learning Theory, pages 314-324, 1996.
-[Fre96] Yoav Freund. Predicting a binary sequence almost as well as the optimal
-biased coin. In Proceedings of the Ninth Annual Conference on Computational Learning Theory, pages 89-98, 1996.
-[KW95] J. Kivinen and M. K. Warmuth. Additive versus exponentiated gradient
-updates for linear prediction. In Proc. 27th ACM Symp. on Theory of
-Computing, pages 209-218, 1995.
-[Lit88] N. Littlestone. Learning quickly when irrelevant attributes abound: A new
-linear-threshold algorithm. Machine Learning, 2:285-318, 1988.
-[Lit89] N. Littlestone. Mistake Bounds and Logarithmic Linear-threshold Learning
-Algorithms. PhD thesis, Tech. Rept. UCSC-CRL-89-11, Univ. of Calif.,
-Santa Cruz, 1989.
-[Lit91] N. Littlestone. Redundant noisy attributes, attribute errors, and linearthreshold learning using Winnow. In Proc. 4th Annu. Workshop on Comput. Learning Theory, pages 147- 156. Morgan Kaufmann, San Mateo, CA,
-1991.
-[Lit95] N. Littlestone. Comparing several linear-threshold learning algorithms on
-tasks involving superfluous attributes. In Proceedings of the XII International conference on Machine Learning, pages 353- 361, 1995.
-[Lit96] N. Littlestone. Mistake-driven bayes sports: Bounds for symmetric
-apobayesian learning algorithms. Technical report, NEC Research Institute, Princeton, NJ, 1996.
-[LW94] N. Littlestone and M. K. Warmuth. The weighted majority algorithm.
-Information and Computation, 108:212-261, 1994.
-[Vov90] Volodimir G. Vovk. Aggregating strategies. In Proceedings of the 1990
-Workshop on Computational Learning Theory, pages 371-383, 1990.
-
-
-<<----------------------------------------------------------------------------------------------------------------------------------------->>
-
-title: 2434-semi-definite-programming-by-perceptron-learning.pdf
-
-Semidefinite Programming
-by Perceptron Learning
-
-Ralf Herbrich
-Thore Graepel
-Microsoft Research Ltd., Cambridge, UK
-{thoreg,rherb}@microsoft.com
-Andriy Kharechko
-John Shawe-Taylor
-Royal Holloway, University of London, UK
-{ak03r,jst}@ecs.soton.ac.uk
-
-Abstract
-We present a modified version of the perceptron learning algorithm
-(PLA) which solves semidefinite programs (SDPs) in polynomial
-time. The algorithm is based on the following three observations:
-(i) Semidefinite programs are linear programs with infinitely many
-(linear) constraints; (ii) every linear program can be solved by a
-sequence of constraint satisfaction problems with linear constraints;
-(iii) in general, the perceptron learning algorithm solves a constraint
-satisfaction problem with linear constraints in finitely many updates.
-Combining the PLA with a probabilistic rescaling algorithm (which,
-on average, increases the size of the feasable region) results in a probabilistic algorithm for solving SDPs that runs in polynomial time.
-We present preliminary results which demonstrate that the algorithm works, but is not competitive with state-of-the-art interior
-point methods.
-
-1
-
-Introduction
-
-Semidefinite programming (SDP) is one of the most active research areas in optimisation. Its appeal derives from important applications in combinatorial optimisation
-and control theory, from the recent development of efficient algorithms for solving
-SDP problems and the depth and elegance of the underlying optimisation theory [14],
-which covers linear, quadratic, and second-order cone programming as special cases.
-Recently, semidefinite programming has been discovered as a useful toolkit in machine
-learning with applications ranging from pattern separation via ellipsoids [4] to kernel
-matrix optimisation [5] and transformation invariant learning [6].
-Methods for solving SDPs have mostly been developed in an analogy to linear programming. Generalised simplex-like algorithms were developed for SDPs [11], but to
-the best of our knowledge are currently merely of theoretical interest. The ellipsoid
-method works by searching for a feasible point via repeatedly ?halving? an ellipsoid
-that encloses the affine space of constraint matrices such that the centre of the ellipsoid is a feasible point [7]. However, this method shows poor performance in practice
-
-as the running time usually attains its worst-case bound. A third set of methods
-for solving SDPs are interior point methods [14]. These methods minimise a linear
-function on convex sets provided the sets are endowed with self-concordant barrier
-functions. Since such a barrier function is known for SDPs, interior point methods
-are currently the most efficient method for solving SDPs in practice.
-Considering the great generality of semidefinite programming and the complexity of
-state-of-the-art solution methods it is quite surprising that the forty year old simple
-perceptron learning algorithm [12] can be modified so as to solve SDPs. In this
-paper we present a combination of the perceptron learning algorithm (PLA) with a
-rescaling algorithm (originally developed for LPs [3]) that is able to solve semidefinite
-programs in polynomial time. We start with a short introduction into semidefinite
-programming and the perceptron learning algorithm in Section 2. In Section 3 we
-present our main algorithm together with some performance guarantees, whose proofs
-we only sketch due to space restrictions. While our numerical results presented in
-Section 4 are very preliminary, they do give insights into the workings of the algorithm
-and demonstrate that machine learning may have something to offer to the field of
-convex optimisation.
-For the rest of the paper we denote matrices and vectors by bold face upper and
-lower case letters, e.g., A and x. We shall use x := x/ kxk to denote the unit length
-vector in the direction of x. The notation A ? 0 is used to denote x0 Ax ? 0 for all
-x, that is, A is positive semidefinite.
-
-2
-2.1
-
-Learning and Convex Optimisation
-Semidefinite Programming
-
-In semidefinite programming a linear objective function is minimised over the image
-of an affine transformation of the cone of semidefinite matrices, expressed by linear
-matrix inequalities (LMI):
-minimise
-n
-x?R
-
-c0 x
-
-subject to
-
-F (x) := F0 +
-
-n
 X
 
-xi Fi ? 0 ,
+?tT = ? S .
 
 (1)
 
-i=1
+t?CT
 
-where c ? Rn and Fi ? Rm?m for all i ? {0, . . . , n}. The following proposition shows
-that semidefinite programs are a direct generalisation of linear programs.
-Proposition 1. Every semidefinite program is a linear program with infinitely many
-linear constraints.
-Proof. Obviously, the objective function in (1) is linear in x. For any u ? Rm , define
-the vector au := (u0 F1 u, . . . , u0 Fn u). Then, the constraints in (1) can be written as
-?u ? Rm :
+We now turn to upper bound kwT k2 . Recall that each example may be added to the cache
+and removed from the cache a single time. Let us write kwT k2 as a telescopic sum,
+? T k2 ) + (kw
+? T k2 ? kwT ?1 k2 ) + . . . + (kw
+? 1 k2 ? kw0 k2 ) . (2)
+kwT k2 = (kwT k2 ? kw
+We now consider three different scenarios that may occur for each new example. The
+first case is when we did not insert the tth example into the cache at all. In this case,
+? t k2 ? kwt?1 k2 ) = 0. The second scenario is when an example is inserted into the
+(kw
+cache and is never discarded in future rounds, thus,
+? t k2 = kwt?1 + yt xt k2 = kwt?1 k2 + 2yt (wt?1 ? xt ) + kxt k2 .
+kw
+Since we inserted (xt , yt ), the condition yt (wt?1 ? xt ) ? ? must hold. Combining this
+? t k2 ?
+with the assumption that the examples are enclosed in a ball of radius R we get, (k w
+kwt?1 k2 ) ? 2? + R2 . The last scenario occurs when an example is inserted into the cache
+on some round t, and is then later on removed from the cache on round t + p for p > 0. As
+in the previous case we can bound the value of summands in Equ. (2),
+? t k2 ? kwt?1 k2 ) + (kwt+p k2 ? kw
+? t+p k2 )
+(kw
 
-u0 F (x) u ? 0
-
-?u ? Rm :
-
-?
-m
-
-This is a linear constraint in x for all u ? R
-
-x0 au ? ?u0 F0 u .
-
-(2)
-
-(of which there are infinitely many).
-
-Since the objective function is linear in x, we can solve an SDP by a sequence of
-semidefinite constraint satisfaction problems (CSPs) introducing the additional constraint c0 x ? c0 and varying c0 ? R. Moreover, we have the following proposition.
-Proposition 2. Any SDP can be solved by a sequence of homogenised semidefinite
-CSPs of the following form:
-find
-
-x ? Rn+1
-
-subject to
-
-G (x) :=
-
-n
-X
-i=0
-
-xi Gi ? 0 .
-
-Algorithm 1 Perceptron Learning Algorithm
-Require: A (possibly) infinite set A of vectors a ? Rn
-Set t ? 0 and xt = 0
-while there exists a ? A such that x0t a ? 0 do
-xt+1 = xt + a
-t?t+1
-end while
-return xt
-Proof. In order to make F0 and c0 dependent on the optimisation variables, we
-introduce an auxiliary variable x0 > 0; the solution to the original problem is given
-0
-by x?1
-0 ? x. Moreover, we can repose the two linear constraints c0 x0 ? c x ? 0 and
-x0 > 0 as an LMI using the fact that a block-diagonal matrix is positive (semi)definite
-if and only if every block is positive (semi)definite. Thus, the following matrices are
-sufficient:
-?
-?
-?
-!
-F0 0 0
-Fi
-0 0
-0 ?ci 0
-G0 = ? 00 c0 0 ? ,
-Gi =
-.
-0
-0
-0
-00 0 1
-Given an upper and a lower bound on the objective function, repeated bisection can
-be used to determine the solution in O(log 1? ) steps to accuracy ?.
-In order to simplify notation, we will assume that n ? n+1 and m ? m+2 whenever
-we speak about a semidefinite CSP for an SDP in n variables with Fi ? Rm?m .
-2.2
-
-Perceptron Learning Algorithm
-
-The perceptron learning algorithm (PLA) [12] is an online procedure which finds a
-linear separation of a set of points from the origin (see Algorithm 1). In machine
-learning this algorithm is usually applied to two sets A+1 and A?1 of points labelled
-+1 and ?1 by multiplying every data vector ai by its class label1 ; the resulting vector
-xt (often referred to as the weight vector in perceptron learning) is then read as the
-normal of a hyperplane which separates the sets A+1 and A?1 .
-A remarkable property of the perceptron learning algorithm is that the total number
-t of updates is independent of the cardinality of A but can be upper bounded simply
-in terms of the following quantity
-? (A) := maxn ? (A, x) := maxn min a0 x .
-x?R
-
-x?R
-
-a?A
-
-This quantity is known as the (normalised) margin of A in the machine learning
-community or as the radius of the feasible region in the optimisation community.
-It quantifies the radius of the largest ball that can be fitted in the convex region
-enclosed by all a ? A (the so-called feasible set). Then, the perceptron convergence
-theorem [10] states that t ? ??2 (A).
-For the purpose of this paper we observe that Algorithm 1 solves a linear CSP where
-the linear constraints are given by the vectors a ? A. Moreover, by the last argument
-we have the following proposition.
-Proposition 3. If the feasible set has a positive radius, then the perceptron learning
-algorithm solves a linear CSP in finitely many steps.
-It is worth mentioning that in the last few decades a series of modified PLAs A
-have been developed (see [2] for a good overview) which mainly aim at guaranteeing
-1
-
-Note that sometimes the update equation is given using the unnormalised vector a.
-
-Algorithm 2 Rescaling algorithm
-Require: A maximal number T ? N+ of steps and a parameter ? ? R+
-Set y uniformly at random in {z : kzk = 1}
-for t = 0, . . . , T do
-0
-?0a
-?u := ?Pun G(?y0)u 2 ? ?? (u ? smallest EV of G (?
-Find au such that y
-y))
-(u G u)
-j=1
-
-j
-
-if u does not exists then
-Set ?i ? {1, . . . , n} : Gi ? Gi + y i G (y); return y
-end if
-y ? y ? (y0 au ) au ; t ? t + 1
-end for
-return unsolved
-not only feasibility of the solution xt but also a lower bound on ? (A, xt ). These
-guarantees usually come at the price of a slightly larger mistake bound which we
-shall denote by M (A, ? (A)), that is, t ? M (A, ? (A)).
-
-3
-
-Semidefinite Programming by Perceptron Learning
-
-If we combine Propositions 1, 2 and 3 together with Equation (2) we obtain a perceptron algorithm that sequentially solves SDPs. However, there remain two problems:
-1. How do we find a vector a ? A such that x0 a ? 0?
-2. How can we make the running time of this algorithm polynomial in the
-description length of the data?2
-In order to address the first problem we notice that A in Algorithm 1 is not explicitly
-given but is defined by virtue of
-A (G1 , . . . , Gn ) := {au := (u0 G1 u, . . . , u0 Gn u) | u ? Rm } .
-Hence, finding a vector au ? A such that x0 au ? 0 is equivalent to identifying a
-vector u ? Rm such that
-n
-X
-xi u0 Gi u = u0 G (x) u ? 0 .
-i=1
-
-One possible way of finding such a vector u (and consequently au ) for the current
-solution xt in Algorithm 1 is to calculate the eigenvector corresponding to the smallest
-eigenvalue of G (xt ); if this eigenvalue is positive, the algorithm stops and outputs
-xt . Note, however, that computationally easier procedures can be applied to find a
-suitable u ? Rm (see also Section 4).
-The second problem requires us to improve the dependency of the runtime from
-O(??2 ) to O(? log(?)). To this end we employ a probabilistic rescaling algorithm
-(see Algorithm 2) which was originally developed for LPs [3]. The purpose of this algorithm is to enlarge the feasible region (in terms of ? (A (G1 , . . . , Gn ))) by a constant
-factor ?, on average, which would imply a decrease in the number of updates of the
-perceptron algorithm exponential in the number of calls to this rescaling algorithm.
-This is achieved by running Algorithm 2. If the algorithm does not return unsolved
-the rescaling procedure on the Gi has the effect that au changes into au + (y0 au ) y
-for every u ? Rm . In order to be able to reconstruct the solution xt to the original
-problem, whenever we rescale the Gi we need to remember the vector y used for
-rescaling. In Figure 1 we have shown the effect of rescaling for three linear con2
-Note that polynomial runtime is only guaranteed if ??2 (A (G1 , . . . , Gn )) is bounded by
-a polynomial function of the description length of the data.
-
-Figure 1: Illustration of the rescaling procedure. Shown is the feasible region and
-one feasible point before (left) and after (left) rescaling with the feasible point.
-straints in R3 . The main idea of Algorithm 2 is to find a vector y that is ?-close to
-the current feasible region and hence leads to an increase in its radius when used for
-rescaling. The following property holds for Algorithm 2.
-1
-Theorem 1. Assume Algorithm 2 did not return unsolved. Let ? ? 32n
-, ? be the
-0
-radius of the feasible set before rescaling and ? be the radius of the feasible set after
-1
-rescaling and assume that ? ? 4n
-. Then
-?
-?
-1
-1. ?0 ? 1 ? 16n
-? with probability at most 34 .
-?
-?
-1
-2. ?0 ? 1 + 4n
-? with probability at least 14 .
-The probabilistic nature of the theorem stems from the fact that the rescaling can
-only be shown to increase the size of the feasible region if the (random) initial value
-y already points sufficiently closely to the feasible region. A consequence of this theorem is that, on average, the radius increases by ? = (1 + 1/64n) > 1. Algorithm 3
-combines rescaling and perceptron learning, which results in a probabilistic polynomial runtime algorithm3 which alternates between calls to Algorithm 1 and 2 . This
-algorithm may return infeasible in two cases: either Ti many calls to Algorithm 2
-have returned unsolved or L many calls of Algorithm 1 together with rescaling have
-not returned a solution. Each of these two conditions can either happen because of
-an ?unlucky? draw of y in Algorithm 2 or because ? (A (G1 , . . . , Gn )) is too small.
-Following the argument in [3] one can show that for L = ?2048n ? ln (?min ) the total
-probability of returning infeasible despite ? (A (G1 , . . . , Gn )) > ?min cannot exceed
-exp (?n).
-
-4
-
-Experimental Results
-
-The experiments reported in this section fall into two parts. Our initial aim was
-to demonstrate that the method works in practice and to assess its efficacy on a
-3
-Note that we assume that the optimisation problem in line 3 of Algorithm 2 can be
-solved in polynomial time with algorithms such as Newton-Raphson.
-
-Algorithm 3 Positive Definite Perceptron Algorithm
-Require: G1 , . . . , Gn ? Rm?m and maximal number of iteration L ? N+
-Set B = In
-for i = 1, . . . , L do
-?
-?
-1
-Call Algorithm 1 for at most M A, 4n
-many updates
-if Algorithm 1 converged then return Bx
-ln(?i )
-Set ?i = ?23i2 and Ti = ln
-( 34 )
-for j = 1, . . . , Ti do
-1
-Call Algorithm 2 with T = 1024n2 ln (n) and ? = 32n
-0
-if Algorithm 2 returns y then B ? B (In + yy ); goto the outer for-loop
-end for
-return infeasible
-end for
-return infeasible
-benchmark example from graph bisection [1].
-These experiments would also indicate how competitive the baseline method is when
-compared to other solvers. The algorithm was implemented in MATLAB and all of
-the experiments were run on 1.7GHz machines. The time taken can be compared
-with a standard method SDPT3 [13] partially implemented in C but running under
-MATLAB.
-We considered benchmark problems arising from semidefinite relaxations to the
-MAXCUT problems of weighted graphs, which is posed as finding a maximum weight
-bisection of a graph. The benchmark MAXCUT problems have the following relaxed
-SDP form (see [8]):
-1
-10 x subject to ? (diag(C1) ? C) + diag (x) ? 0 ,
-minimise
+Input: Tolerance ?, Cache Limit n.
+Initialize: Set ?t ?t = 0 , w0 = 0 , C0 = ?.
+Loop: For t = 1, 2, . . . , T
+? Get a new instance xt ? Rn .
+? Predict y?t = sign (yt (xt ? wt?1 )).
+? Get a new label yt .
+? if yt (xt ? wt?1 ) ? ? update:
+1. If |Ct | = n remove one example:
+(a) Find i = arg maxj?Ct {yj (wt?1 ? ?j yj xj )}.
+(b) Update wt?1 ? wt?1 ? ?i yi xi .
+(c) Remove Ct?1 ? Ct?1 /{i}
+2. Insert Ct ? Ct?1 ? {t}.
+3. Set ?t = 1.
+4. Compute wt ? wt?1 + yt ?t xt .
+Output : H(x) = sign(wT ? x).
+Figure 3: The aggressive Perceptron algorithm with as fixed-size cache.
+? t+p ? xt ) + kxt k2
+= 2yt (wt?1 ? xt ) + kxt k2 ? 2yt (w
+? t+p ? yt xt ) ? xt )]
+= 2 [yt (wt?1 ? xt ) ? yt ((w
+? t+p ? yt xt ) ? xt )] .
+? 2 [? ? yt ((w
+? t+p ? yt xt ) ? xt ) ? ?, and
+Based on the form of the cache update we know that yt ((w
+thus,
+? t k2 ? kwt?1 k2 ) + (kwt+p k2 ? kw
+? t+p k2 ) ? 0 .
+(kw
+Summarizing all three cases we see that only the examples which persist in the cache
+contribute a factor of R2 + 2? each to the bound of the telescopic sum of Equ. (2) and
+the rest of the examples do contribute anything to the bound. Hence, we can bound the
+norm of wT as follows,
+
+kwT k2 ? S R2 + 2? .
 (3)
-x?Rn
-| 4
-{z
-} |P {z }
-F0
-
-i
-
-x i Fi
-
-where C ? Rn?n is the adjacency matrix of the graph with n vertices.
-The benchmark used was ?mcp100? provided by SDPLIB 1.2 [1]. For this problem,
-n = 100 and it is known that the optimal value of the objective function equals
-226.1574. The baseline method used the bisection approach to identify the critical
-value of the objective, referred to throughout this section as c0 .
-Figure 2 (left) shows a plot of the time per iteration against the value of c0 for the
-first four iterations of the bisection method. As can be seen from the plots the time
-taken by the algorithm for each iteration is quite long, with the time of the fourth
-iteration being around 19,000 seconds. The initial value of 999 for c0 was found
-without an objective constraint and converged within 0.012 secs. The bisection then
-started with the lower (infeasible) value of 0 and the upper value of 999. Iteration 1
-was run with c0 = 499.5, but the feasible solution had an objective value of 492. This
-was found in just 617 secs. The second iteration used a value of c0 = 246 slightly
-above the optimum of 226. The third iteration was infeasible but since it was quite
-far from the optimum, the algorithm was able to deduce this fact quite quickly. The
-final iteration was also infeasible, but much closer to the optimal value. The running
-time suffered correspondingly taking 5.36 hours. If we were to continue the next
-iteration would also be infeasible but closer to the optimum and so would take even
-longer.
-The first experiment demonstrated several things. First, that the method does indeed work as predicted; secondly, that the running times are very far from being
-
-1000
+We finish up the proof by applying the Cauchy-Swartz inequality and the assumption
+kuk = 1. Combining Equ. (1) and Equ. (3) we get,
+? 2 S 2 ? (wT ? u)2 ? kwT k2 kuk2 ? S(2? + R2 ) ,
+which gives the desired bound.
 
 4
 
+Experiments
+
+In this section we describe the experimental methods that were used to compare the performance of standard online algorithms with the new algorithm described above. We also
+describe shortly another variant that sets a hard limit on the number of support patterns.
+The experiments were designed with the aim of trying to answer the following questions.
+First, what is effect of the number of support patterns on the generalization error (measured in terms of classification accuracy on unseen data), and second, would the algorithm
+described in Fig. 2 be able to find an optimal cache size that is able to achieve the best
+generalization performance. To examine each question separately we used a modified version of the algorithm described by Fig. 2 in which we restricted ourselves to have a fixed
+bounded cache. This modified algorithm (which we refer to as the fixed budget Perceptron)
+
+Name
+mnist
+letter
+usps
+
+No. of
+Training Examples
+60000
 16000
+7291
 
-Time (in sec.)
-
-14000
-12000
+No. of
+Test Examples
 10000
-
-2
-
-3
-
-8000
-6000
 4000
-2000
-0
-0
+2007
 
-1
-100
-
-200
-
-Optimal value
-
-Optimal value
-
-Value of objective function (c0)
-
-18000
-
-300
-
-400
-
-Value of objective function (c0)
-
-500
-
-900
-800
-700
-600
-500
-400
-300
-200
-0
-
+No. of
+Classes
+10
+26
 10
 
-20
+No. of
+Attributes
+784
+16
+256
 
-30
+Table 1: Description of the datasets used in experiments.
 
-40
+simulates the original Perceptron algorithm with one notable difference. When the number of support patterns exceeds a pre-determined limit, it chooses a support pattern from
+the cache and discards it. With this modification the number of support patterns can never
+exceed the pre-determined limit. This modified algorithm is described in Fig. 3. The algorithm deletes the example which seemingly attains the highest margin after the removal of
+the example itself (line 1(a) in Fig. 3).
+Despite the simplicity of the original Perceptron algorithm [6] its good generalization performance on many datasets is remarkable. During the last few year a number of other additive online algorithms have been developed [4, 2, 1] that have shown better performance on
+a number of tasks. In this paper, we have preferred to embed these ideas into another online
+algorithm and start with a higher baseline performance. We have chosen to use the Margin
+Infused Relaxed Algorithm (MIRA) as our baseline algorithm since it has exhibited good
+generalization performance in previous experiments [1] and has the additional advantage
+that it is designed to solve multiclass classification problem directly without any recourse
+to performing reductions.
+The algorithms were evaluated on three natural datasets: mnist1 , usps2 and letter3 .
+The characteristics of these datasets has been summarized in Table 1. A comprehensive
+overview of the performance of various algorithms on these datasets can be found in a
+recent paper [2]. Since all of the algorithms that we have evaluated are online, it is not
+implausible for the specific ordering of examples to affect the generalization performance.
+We thus report results averaged over 11 random permutations for usps and letter and
+over 5 random permutations for mnist. No free parameter optimization was carried out
+and instead we simply used the values reported in [1]. More specifically, the margin parameter was set to ? = 0.01 for all algorithms and for all datasets. A homogeneous polynomial
+kernel of degree 9 was used when training on the mnist and usps data sets, and a RBF
+kernel for letter data set. (The variance of the RBF kernel was identical to the one used
+in [1].)
+We evaluated the performance of four algorithms in total. The first algorithm was the
+standard MIRA online algorithm, which does not incorporate any budget constraints. The
+second algorithm is the version of MIRA described in Fig. 3 which uses a fixed limited
+budget. Here we enumerated the cache size limit in each experiment we performed. The
+different sizes that we tested are dataset dependent but for each dataset we evaluated at
+least 10 different sizes. We would like to note that such an enumeration cannot be done in
+an online fashion and the goal of employing the the algorithm with a fixed-size cache is to
+underscore the merit of the truly adaptive algorithm. The third algorithm is the version of
+MIRA described in Fig. 2 that adapts the cache size during the running of the algorithms.
+We also report additional results for a multiclass version of the SVM [1]. Whilst this
+algorithm is not online and during the training process it considers all the examples at once,
+this algorithm serves as our gold-standard algorithm against which we want to compare
+1
 
-50
+Available from http://www.research.att.com/?yann
+Available from ftp.kyb.tuebingen.mpg.de
+3
+Available from http://www.ics.uci.edu/?mlearn/MLRepository.html
+2
 
-Iterations
+usps
 
-Figure 2: (Left) Four iterations of the bisection method showing time taken per iteration (outer for loop in Algorithm 3) against the value of the objective constraint.
-(Right) Decay of the attained objective function value while iterating through Algorithm 3 with a non-zero threshold of ? = 500.
-competitive (SDPT3 takes under 12 seconds to solve this problem) and thirdly that
-the running times increase as the value of c0 approaches the optimum with those
-iterations that must prove infeasibility being more costly than those that find a solution.
-The final observation prompted our first adaptation of the base algorithm. Rather
-than perform the search using the bisection method we implemented a non-zero
-threshold on the objective constraint (see the while-statement in Algorithm 1). The
-value of this threshold is denoted ? , following the notation introduced in [9].
-Using a value of ? = 500 ensured that when a feasible solution is found, its objective
-value is significantly below that of the objective constraint c0 . Figure 2 (right)
-shows the values of c0 as a function of the outer for-loops (iterations); the algorithm
-eventually approached its estimate of the optimal value at 228.106. This is within
-1% of the optimum, though of course iterations could have been continued. Despite
-the clear convergence, using this approach the running time to an accurate estimate
-of the solution is still prohibitive because overall the algorithm took approximately
-60 hours of CPU time to find its solution.
-A profile of the execution, however, revealed that up to 93% of the execution time is
-spent in the eigenvalue decomposition to identify u. Observe that we do not need a
-minimal eigenvector to perform an update, simply a vector u satisfying
-u0 G(x)u < 0
+mnist
+Fixed
+Adaptive
+SVM
+MIRA
 
-(4)
+1.8
 
-Cholesky decomposition will either return u satisfying (4) or it will converge indicating that G(x) is psd and Algorithm 1 has converged.
+4.8
+4.7
+
+letter
+
+Fixed
+Adaptive
+SVM
+MIRA
+
+5.5
+
+1.7
+
+4.6
 
 5
 
-Conclusions
+1.5
 
-Semidefinite programming has interesting applications in machine learning. In turn,
-we have shown how a simple learning algorithm can be modified to solve higher
-order convex optimisation problems such as semidefinite programs. Although the
-experimental results given here suggest the approach is far from computationally
-competitive, the insights gained may lead to effective algorithms in concrete applications in the same way that for example SMO is a competitive algorithm for solving
-quadratic programming problems arising from support vector machines. While the
+1.4
 
-optimisation setting leads to the somewhat artificial and inefficient bisection method
-the positive definite perceptron algorithm excels at solving positive definite CSPs
-as found, e.g., in problems of transformation invariant pattern recognition as solved
-by Semidefinite Programming Machines [6]. In future work it will be of interest to
-consider the combined primal-dual problem at a predefined level ? of granularity so
-as to avoid the necessity of bisection search.
-Acknowledgments We would like to thank J. Kandola, J. Dunagan, and A. Ambroladze for interesting discussions. This work was supported by EPSRC under grant
-number GR/R55948 and by Microsoft Research Cambridge.
+Test Error
+
+4.5
+Test Error
+
+Test Error
+
+1.6
+
+Fixed
+Adaptive
+SVM
+MIRA
+
+6
+
+4.4
+4.3
+
+4.5
+4
+3.5
+
+4.2
+4.1
+
+3
+
+4
+
+2.5
+
+1.3
+
+1.2
+
+3.9
+
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1
+1.2
+1.4
+# Support Patterns
+
+1.6
+
+1.8
+
+2
+
+2.2
+
+500
+
+4
+
+2
+1000
+
+1500
+
+x 10
+
+mnist
+
+2000
+2500
+# Support Patterns
+
+3000
+
+3500
+
+1000
+
+2000
+
+3000
+
+usps
+Fixed
+Adaptive
+MIRA
+
+1550
+
+7000
+
+8000
+
+9000
+
+letter
+Fixed
+Adaptive
+MIRA
+
+270
+
+4000
+5000
+6000
+# Support Patterns
+
+Fixed
+Adaptive
+MIRA
+
+1500
+
+265
+
+1500
+
+1400
+
+260
+
+Training Online Errors
+
+Training Online Errors
+
+Training Online Errors
+
+1450
+
+1450
+
+255
+250
+245
+
+1400
+
+1350
+
+1300
+
+1350
+
+240
+1250
+
+235
+
+1300
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1
+1.2
+1.4
+# Support Patterns
+
+1.6
+
+1.8
+
+2
+
+2.2
+
+500
+
+4
+
+1000
+
+1500
+
+x 10
+
+mnist
+
+4
+
+x 10
+
+2000
+2500
+# Support Patterns
+
+3000
+
+3500
+
+1000
+
+usps
+6500
+
+Fixed
+Adaptive
+MIRA
+
+5.5
+
+2000
+
+3000
+
+4000
+5000
+6000
+# Support Patterns
+
+7000
+
+Fixed
+Adaptive
+MIRA
+
+1.5
+
+6000
+
+9000
+
+letter
+
+4
+
+x 10
+1.6
+
+Fixed
+Adaptive
+MIRA
+
+8000
+
+4
+
+3.5
+
+3
+
+1.4
+
+5500
+
+Training Margin Errors
+
+Training Margin Errors
+
+Training Margin Errors
+
+5
+
+4.5
+
+5000
+
+4500
+
+1.3
+
+1.2
+
+1.1
+
+4000
+1
+
+2.5
+
+3500
+0.9
+
+2
+0.2
+
+0.4
+
+0.6
+
+0.8
+
+1
+1.2
+1.4
+# Support Patterns
+
+1.6
+
+1.8
+
+2
+
+2.2
+4
+
+x 10
+
+500
+
+1000
+
+1500
+
+2000
+2500
+# Support Patterns
+
+3000
+
+3500
+
+1000
+
+2000
+
+3000
+
+4000
+5000
+6000
+# Support Patterns
+
+7000
+
+8000
+
+9000
+
+Figure 4: Results on a three data sets - mnist (left), usps (center) and letter (right). Each
+point in a plot designates the test error (y-axis) vs. the number of support patterns used
+(x-axis). Four algorithms are compared - SVM, MIRA, MIRA with a fixed cache size and
+MIRA with a variable cache size.
+performance. Note that for the multiclass SVM we report the results using the best set of
+parameters, which does not coincide with the set of parameters used for the online training.
+The results are summarized in Fig 4. This figure is composed of three different plots organized in columns. Each of these plots corresponds to a different dataset - mnist (left),
+usps (center) and letter (right). In each of the three plots the x-axis designates number of
+support patterns the algorithm uses. The results for the fixed-size cache are connected with
+a line to emphasize the performance dependency on the size of the cache.
+The top row of the three columns shows the generalization error. Thus the y-axis designates
+the test error of an algorithm on unseen data at the end of the training. Looking at the error
+of the algorithm with a fixed-size cache reveals that there is a broad range of cache size
+where the algorithm exhibits good performance. In fact for MNIST and USPS there are
+sizes for which the test error of the algorithm is better than SVM?s test error. Naturally, we
+cannot fix the correct size in hindsight so the question is whether the algorithm with variable
+cache size is a viable automatic size-selection method. Analyzing each of the datasets in
+turn reveals that this is indeed the case ? the algorithm obtains a very similar number
+of support patterns and test error when compared to the SVM method. The results are
+somewhat less impressive for the letter dataset which contains less examples per class. One
+possible explanation is that the algorithm had fewer chances to modify and distill the cache.
+Nonetheless, overall the results are remarkable given that all the online algorithms make a
+single pass through the data and the variable-size method finds a very good cache size while
+
+making it also comparable to the SVM in terms of performance. The MIRA algorithm,
+which does not incorporate any form of example insertion or deletion in its algorithmic
+structure, obtains the poorest level of performance not only in terms of generalization error
+but also in terms of number of support patterns.
+The plot of online training error against the number of support patterns, in row 2 of Fig 4,
+can be considered to be a good on-the-fly validation of generalization performance. As the
+plots indicate, for the fixed and adaptive versions of the algorithm, on all the datasets, a
+low online training error translates into good generalization performance. Comparing the
+test error plots with the online error plots we see a nice similarity between the qualitative
+behavior of the two errors. Hence, one can use the online error, which is easy to evaluate,
+to choose a good cache size for the fixed-size algorithm.
+The third row gives the online training margin errors that translates directly to the number
+of insertions into the cache. Here we see that the good test error and compactness of the
+algorithm with a variable cache size come with a price. Namely, the algorithm makes
+significantly more insertions into the cache than the fixed size version of the algorithm.
+However, as the upper two sets of plots indicate, the surplus in insertions is later taken care
+of by excess deletions and the end result is very good overall performance. In summary, the
+online algorithm with a variable cache and SVM obtains similar levels of generalization and
+also number of support patterns. While the SVM is still somewhat better in both aspects
+for the letter dataset, the online algorithm is much simpler to implement and performs a
+single sweep through the training data.
+
+5
+
+Summary
+
+We have described and analyzed a new sparse online algorithm that attempts to deal with
+the computational problems implicit in classification algorithms such as the SVM. The
+proposed method was empirically tested and its performance in both the size of the resulting
+classifier and its error rate are comparable to SVM. There are a few possible extensions and
+enhancements. We are currently looking at alternative criteria for the deletions of examples
+from the cache. For instance, the weight of examples might relay information on their
+importance for accurate classification. Incorporating prior knowledge to the insertion and
+deletion scheme might also prove important. We hope that such enhancements would make
+the proposed approach a viable alternative to SVM and other batch algorithms.
+Acknowledgements: The authors would like to thank John Shawe-Taylor for many helpful
+comments and discussions. This research was partially funded by the EU project KerMIT
+No. IST-2000-25341.
 
 References
-[1] B. Borchers. SDPLIB 1.2, A library of semidefinite programming test problems.
-Optimization Methods and Software, 11(1):683?690, 1999.
-[2] R. O. Duda, P. E. Hart, and D. G. Stork. Pattern Classification and Scene
-Analysis. John Wiley and Sons, New York, 2001. Second edition.
-[3] J. Dunagan and S. Vempala. A polynomial-time rescaling algorithm for solving
-linear programs. Technical Report MSR-TR-02-92, Microsoft Research, 2002.
-[4] F. Glineur. Pattern separation via ellipsoids and conic programming. M?emoire
-de D.E.A., Facult?e Polytechnique de Mons, Mons, Belgium, Sept. 1998.
-[5] T. Graepel. Kernel matrix completion by semidefinite programming. In
-J. R. Dorronsoro, editor, Proceedings of the International Conference on Neural Networks, ICANN2002, Lecture Notes in Computer Science, pages 694?699.
-Springer, 2002.
-[6] T. Graepel and R. Herbrich. Invariant pattern recognition by Semidefinite Programming Machines. In S. Thrun, L. Saul, and B. Sch?olkopf, editors, Advances
-in Neural Information Processing Systems 16. MIT Press, 2004.
-[7] M. Gr?otschel, L. Lov?
-asz, and A. Schrijver. Geometric Algorithms and Combinatorial Optimization, volume 2 of Algorithms and Combinatorics. Springer-Verlag,
-1988.
-[8] C. Helmberg. Semidefinite programming for combinatorial optimization. Technical Report ZR-00-34, Konrad-Zuse-Zentrum f?
-ur Informationstechnik Berlin,
-Oct. 2000.
-[9] Y. Li, H. Zaragoza, R. Herbrich, J. Shawe-Taylor, and J. Kandola. The perceptron algorithm with uneven margins. In Proceedings of the International
-Conference of Machine Learning (ICML?2002), pages 379?386, 2002.
-[10] A. B. J. Novikoff. On convergence proofs on perceptrons. In Proceedings of the
-Symposium on the Mathematical Theory of Automata, volume 12, pages 615?622.
-Polytechnic Institute of Brooklyn, 1962.
-[11] G. Pataki. Cone-LP?s and semi-definite programs: facial structure, basic solutions, and the symplex method. Technical Report GSIA, Carnegie Mellon
-University, 1995.
-[12] F. Rosenblatt. The perceptron: A probabilistic model for information storage
-and organization in the brain. Psychological Review, 65(6):386?408, 1958.
-[13] K. C. Toh, M. Todd, and R. T?
-ut?
-unc?
-u. SDPT3 ? a MATLAB software package
-for semidefinite programming. Technical Report TR1177, Cornell University,
-1996.
-[14] L. Vandenberghe and S. Boyd. Semidefinite programming. SIAM Review,
-38(1):49?95, 1996.
+[1] K. Crammer and Y. Singer. Ultraconservative online algorithms for multiclass problems. Jornal
+of Machine Learning Research, 3:951?991, 2003.
+[2] C. Gentile. A new approximate maximal margin classification algorithm. Journal of Machine
+Learning Research, 2:213?242, 2001.
+[3] M?ezard M. Krauth W. Learning algorithms with optimal stability in neural networks. Journal of
+Physics A., 20:745, 1987.
+[4] Y. Li and P. M. Long. The relaxed online maximum margin algorithm. Machine Learning,
+46(1?3):361?387, 2002.
+[5] A. B. J. Novikoff. On convergence proofs on perceptrons. In Proceedings of the Symposium on
+the Mathematical Theory of Automata, volume XII, pages 615?622, 1962.
+[6] F. Rosenblatt. The perceptron: A probabilistic model for information storage and organization in
+the brain. Psychological Review, 65:386?407, 1958. (Reprinted in Neurocomputing (MIT Press,
+1988).).
+[7] V. N. Vapnik. Statistical Learning Theory. Wiley, 1998.
+
+
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
+
+title: 5101-statistical-active-learning-algorithms.pdf
+
+Statistical Active Learning Algorithms
+Vitaly Feldman
+IBM Research - Almaden
+vitaly@post.harvard.edu
+
+Maria Florina Balcan
+Georgia Institute of Technology
+ninamf@cc.gatech.edu
+
+Abstract
+We describe a framework for designing efficient active learning algorithms that are
+tolerant to random classification noise and differentially-private. The framework
+is based on active learning algorithms that are statistical in the sense that they rely
+on estimates of expectations of functions of filtered random examples. It builds
+on the powerful statistical query framework of Kearns [30].
+We show that any efficient active statistical learning algorithm can be automatically converted to an efficient active learning algorithm which is tolerant to random classification noise as well as other forms of ?uncorrelated? noise. We show
+that commonly studied concept classes including thresholds, rectangles, and linear separators can be efficiently actively learned in our framework. These results
+combined with our generic conversion lead to the first computationally-efficient
+algorithms for actively learning some of these concept classes in the presence of
+random classification noise that provide exponential improvement in the dependence on the error  over their passive counterparts. In addition, we show that our
+algorithms can be automatically converted to efficient active differentially-private
+algorithms. This leads to the first differentially-private active learning algorithms
+with exponential label savings over the passive case.
+
+1
+
+Introduction
+
+Most classic machine learning methods depend on the assumption that humans can annotate all the
+data available for training. However, many modern machine learning applications have massive
+amounts of unannotated or unlabeled data. As a consequence, there has been tremendous interest
+both in machine learning and its application areas in designing algorithms that most efficiently utilize the available data, while minimizing the need for human intervention. An extensively used and
+studied technique is active learning, where the algorithm is presented with a large pool of unlabeled
+examples and can interactively ask for the labels of examples of its own choosing from the pool,
+with the goal to drastically reduce labeling effort. This has been a major area of machine learning
+research in the past decade [19], with several exciting developments on understanding its underlying
+statistical principles [27, 18, 4, 3, 29, 21, 15, 7, 31, 10, 34, 6]. In particular, several general characterizations have been developed for describing when active learning can in principle have an advantage
+over the classic passive supervised learning paradigm, and by how much. However, these efforts
+were primarily focused on sample size bounds rather than computation, and as a result many of the
+proposed algorithms are not computationally efficient. The situation is even worse in the presence
+of noise where active learning appears to be particularly hard. In particular, prior to this work, there
+were no known efficient active algorithms for concept classes of super-constant VC-dimension that
+are provably robust to random and independent noise while giving improvements over the passive
+case.
+Our Results: We propose a framework for designing efficient (polynomial time) active learning
+algorithms which is based on restricting the way in which examples (both labeled and unlabeled) are
+accessed by the algorithm. These restricted algorithms can be easily simulated using active sampling
+and, in addition, possess a number of other useful properties. The main property we will consider is
+1
+
+tolerance to random classification noise of rate ? (each label is flipped randomly and independently
+with probability ? [1]). Further, as we will show, the algorithms are tolerant to other forms of noise
+and can be simulated in a differentially-private way.
+In our restriction, instead of access to random examples from some distribution P over X ? Y the
+learning algorithm only gets ?active? estimates of the statistical properties of P in the following
+sense. The algorithm can choose any filter function ?(x) : X ? [0, 1] and a query function ? :
+X ? Y ? [?1, 1] for any ? and ?. For simplicity we can think of ? as an indicator function of
+some set ?S ? X of ?informative? points and of ? as some useful property of the target function.
+For this pair of functions the learning algorithm can get an estimate of E(x,y)?P [?(x, y) | x ? ?S ].
+For ? and ?0 chosen by the algorithm the estimate is provided to within tolerance ? as long as
+E(x,y)?P [x ? ?S ] ? ?0 (nothing is guaranteed otherwise). Here the inverse of ? corresponds to
+the label complexity of the algorithm and the inverse of ?0 corresponds to its unlabeled sample
+complexity. Such a query is referred to as active statistical query (SQ) and algorithms using active
+SQs are referred to as active statistical algorithms.
+Our framework builds on the classic statistical query (SQ) learning framework of Kearns [30] defined in the context of PAC learning model [35]. The SQ model is based on estimates of expectations
+of functions of examples (but without the additional filter function) and was defined in order to design efficient noise tolerant algorithms in the PAC model. Despite the restrictive form, most of the
+learning algorithms in the PAC model and other standard techniques in machine learning and statistics used for problems over distributions have SQ analogues [30, 12, 11, ?]1 . Further, statistical
+algorithms enjoy additional properties: they can be simulated in a differentially-private way [11],
+automatically parallelized on multi-core architectures [17] and have known information-theoretic
+characterizations of query complexity [13, 26]. As we show, our framework inherits the strengths of
+the SQ model while, as we will argue, capturing the power of active learning.
+At a first glance being active and statistical appear to be incompatible requirements on the algorithm.
+Active algorithms typically make label query decisions on the basis of examining individual samples
+(for example as in binary search for learning a threshold or the algorithms in [27, 21, 22]). At the
+same time statistical algorithms can only examine properties of the underlying distribution. But
+there also exist a number of active learning algorithms that can be seen as applying passive learning
+techniques to batches of examples that are obtained from querying labels of samples that satisfy the
+same filter. These include the general A2 algorithm [4] and, for example, algorithms in [3, 20, 9, 8].
+As we show, we can build on these techniques to provide algorithms that fit our framework.
+We start by presenting a general reduction showing that any efficient active statistical learning algorithm can be automatically converted to an efficient active learning algorithm which is tolerant to
+random classification noise as well as other forms of ?uncorrelated? noise. We then demonstrate the
+generality of our framework by showing that the most commonly studied concept classes including thresholds, balanced rectangles, and homogenous linear separators can be efficiently actively
+learned via active statistical algorithms. For these concept classes, we design efficient active learning algorithms that are statistical and provide the same exponential improvements in the dependence
+on the error  over passive learning as their non-statistical counterparts.
+The primary problem we consider is active learning of homogeneous halfspaces, a problem that has
+attracted a lot of interest in the theory of active learning [27, 18, 3, 9, 22, 16, 23, 8, 28]. We describe two algorithms for the problem. First, building on insights from margin based analysis [3, 8],
+we give an active statistical learning algorithm for homogeneous halfspaces over all isotropic logconcave distributions, a wide class of distributions that includes many well-studied density functions
+and has played an important role in several areas including sampling, optimization, and learning
+[32]. Our algorithm for this setting proceeds in rounds; in round t we build a better approximation
+wt to the target function by using a passive SQ learning algorithm (e.g., the one of [24]) over a
+distribution Dt that is a mixture of distributions in which each component is the original distribution
+conditioned on being within a certain distance from the hyperplane defined by previous approximations wi . To perform passive statistical queries relative to Dt we use active SQs with a corresponding
+real valued filter. This algorithm is computationally efficient and uses only poly(d, log(1/)) active
+statistical queries of tolerance inverse-polynomial in the dimension d and log(1/).
+
+1
+
+The sample complexity of the SQ analogues might increase sometimes though.
+
+2
+
+For the special case of the uniform distribution over the unit ball we give a new, simpler and substantially more efficient active statistical learning algorithm. Our algorithm is based on measuring the
+error of a halfspace conditioned on being within some margin of that halfspace. We show that such
+measurements performed on the perturbations of the current hypothesis along the d basis vectors
+can be combined to derive a better hypothesis. This approach differs substantially from the previous
+algorithms for this problem [3, 22].
+? The algorithm is computationally efficient and uses d log(1/)
+active SQs with tolerance of ?(1/ d) and filter tolerance of ?(1/).
+These results, combined with our generic simulation of active statistical algorithms in the presence
+of random classification noise (RCN) lead to the first known computationally efficient algorithms
+for actively learning halfspaces which are RCN tolerant and give provable label savings over the
+passive case. For the uniform distribution case this leads to an algorithm with sample complexity of
+O((1 ? 2?)?2 ? d2 log(1/) log(d log(1/))) and for the general isotropic log-concave case we get
+sample complexity of poly(d, log(1/), 1/(1 ? 2?)). This is worse than the sample complexity in
+the noiseless case which is just O((d + log log(1/)) log(1/)) [8]. However, compared to passive
+learning in the presence of RCN, our algorithms have exponentially better dependence on  and essentially the same dependence on d and 1/(1 ? 2?). One issue with the generic simulation is that
+it requires knowledge of ? (or an almost precise estimate). Standard approach to dealing with this
+issue does not always work in the active setting and for our log-concave and the uniform distribution algorithms we give a specialized argument that preserves the exponential improvement in the
+dependence on .
+Differentially-private active learning: In many application of machine learning such as medical
+and financial record analysis, data is both sensitive and expensive to label. However, to the best
+of our knowledge, there are no formal results addressing both of these constraints. We address
+the problem by defining a natural model of differentially-private active learning. In our model we
+assume that a learner has full access to unlabeled portion of some database of n examples S ?
+X ? Y which correspond to records of individual participants in the database. In addition, for
+every element of the database S the learner can request the label of that element. As usual, the
+goal is to minimize the number of label requests (such setup is referred to as pool-based active
+learning [33]). In addition, we would like to preserve the differential privacy of the participants in
+the database, a now-standard notion of privacy introduced in [25]. Informally speaking, an algorithm
+is differentially private if adding any record to S (or removing a record from S) does not affect the
+probability that any specific hypothesis will be output by the algorithm significantly.
+As first shown by [11], SQ algorithms can be automatically translated into differentially-private
+algorithms. Using a similar approach, we show that active SQ learning algorithms can be automatically transformed into differentially-private active learning algorithms. Using our active statistical
+algorithms for halfspaces we obtain the first algorithms that are both differentially-private and give
+exponential improvements in the dependence of label complexity on the accuracy parameter .
+Additional related work: As we have mentioned, most prior theoretical work on active learning
+focuses on either sample complexity bounds (without regard for efficiency) or the noiseless case.
+For random classification noise in particular, [6] provides a sample complexity analysis based on
+the splitting index that is optimal up to polylog factors and works for general concept classes and
+distributions, but it is not computationally efficient. In addition, several works give active learning
+algorithms with empirical evidence of robustness to certain types of noise [9, 28];
+In [16, 23] online learning algorithms in the selective sampling framework are presented, where
+labels must be actively queried before they are revealed. Under the assumption that the label conditional distribution is a linear function determined by a fixed target vector, they provide bounds
+on the regret of the algorithm and on the number of labels it queries when faced with an adaptive
+adversarial strategy of generating the instances. As pointed out in [23], these results can also be
+converted to a distributional PAC setting where instances xt are drawn i.i.d. In this setting they
+obtain exponential improvement in label complexity over passive learning. These interesting results
+and techniques are not directly comparable to ours. Our framework is not restricted to halfspaces.
+Another important difference is that (as pointed out in [28]) the exponential improvement they give
+is not possible in the noiseless version of their setting. In other words, the addition of linear noise
+defined by the target makes the problem easier for active sampling. By contrast RCN can only make
+the classification task harder than in the realizable case.
+3
+
+Due to space constraint details of most proofs and further discussion appear in the full version of
+this paper [5].
+
+2
+
+Active Statistical Algorithms
+
+Let X be a domain and P be a distribution over labeled examples on X. We represent such a
+distribution by a pair (D, ?) where D is the marginal distribution of P on X and ? : X ? [?1, 1]
+is a function defined as ?(z) = E(x,`)?P [` | x = z]. We will be primarily considering learning in
+the PAC model (realizable case) where ? is a boolean function, possibly corrupted by random noise.
+When learning with respect to a distribution P = (D, ?), an active statistical learner has access to
+active statistical queries. A query of this type is a pair of functions (?, ?), where ? : X ? [0, 1]
+is the filter function which for a point x, specifies the probability with which the label of x should
+be queried. The function ? : X ? {?1, 1} ? [?1, 1] is the query function and depends on both
+point and the label. The filter function ? defines the distribution D conditioned on ? as follows:
+for each x the density function D|? (x) is defined as D|? (x) = D(x)?(x)/ED [?(x)]. Note that if
+? is an indicator function of some set S then D|? is exactly D conditioned on x being in S. Let
+P|? denote the conditioned distribution (D|? , ?). In addition, a query has two tolerance parameters:
+filter tolerance ?0 and query tolerance ? . In response to such a query the algorithm obtains a value
+? such that if ED [?(x)] ? ?0 then
+
+
+? ? EP [?(x, `)] ? ?
+|?
+
+(and nothing is guaranteed when ED [?(x)] < ?0 ).
+An active statistical learning algorithm can also ask target-independent queries with tolerance ?
+which are just queries over unlabeled samples. That is for a query ? : X ? [?1, 1] the algorithm
+obtains a value ?, such that |? ? ED [?(x)]| ? ? . Such queries are not necessary when D is
+known to the learner. Also for the purposes of obtaining noise tolerant algorithms one can relax the
+requirements of model and give the learning algorithm access to unlabelled samples.
+Our definition generalizes the statistical query framework of Kearns [30] which does not include
+filtering function, in other words a query is just a function ? : X ? {?1, 1} ? [?1, 1] and it has a
+single tolerance parameter ? . By definition, an active SQ (?, ?) with tolerance ? relative to P is the
+same as a passive statistical query ? with tolerance ? relative to the distribution P|? . In particular, a
+(passive) SQ is equivalent to an active SQ with filter ? ? 1 and filter tolerance 1.
+We note that from the definition of active SQ we can see that
+EP|? [?(x, `)] = EP [?(x, `) ? ?(x)]/EP [?(x)].
+This implies that an active statistical query can be estimated using two passive statistical queries.
+However to estimate EP|? [?(x, `)] with tolerance ? one needs to estimate EP [?(x, `) ? ?(x)] with
+tolerance ? ? EP [?(x)] which can be much lower than ? . Tolerance of a SQ directly corresponds to
+the number of examples needed to evaluate it and therefore simulating active SQs passively might
+require many more labeled examples.
+2.1
+
+Simulating Active Statistical Queries
+
+We first note that a valid response to a target-independent query with tolerance ? can be obtained,
+with probability at least 1 ? ?, using O(? ?2 log (1/?)) unlabeled samples.
+A natural way of simulating an active SQ is by filtering points drawn randomly from D: draw a
+random point x, let B be drawn from Bernoulli distribution with probability of success ?(x); ask
+for the label of x when B = 1. The points for which we ask for a label are distributed according to
+D|? . This implies that the empirical average of ?(x, `) on O(? ?2 log (1/?)) labeled examples will
+then give ?. Formally we get the following theorem.
+Theorem 2.1. Let P = (D, ?) be a distribution over X ? {?1, 1}. There exists an active sampling
+algorithm that given functions ? : X ? [0, 1], ? : X ? {?1, 1} ? [?1, 1], values ?0 > 0,
+? > 0, ? > 0, and access to samples from P , with probability at least 1 ? ?, outputs a valid
+response to active statistical query (?, ?) with tolerance parameters (?0 , ? ). The algorithm uses
+O(? ?2 log (1/?)) labeled examples from P and O(?0?1 ? ?2 log (1/?)) unlabeled samples from D.
+4
+
+A direct way to simulate all the queries of an active SQ algorithm is to estimate the response to each
+query using fresh samples and use the union bound to ensure that, with probability at least 1 ? ?, all
+queries are answered correctly. Such direct simulation of an algorithm that uses at most q queries can
+be done using O(q? ?2 log(q/?)) labeled examples and O(q?0?1 ? ?2 log (q/?)) unlabeled samples.
+However in many cases a more careful analysis can be used to reduce the sample complexity of
+simulation.
+Labeled examples can be shared to simulate queries that use the same filter ? and do not depend on
+each other. This implies that the sample size sufficient for simulating q non-adaptive queries with the
+same filter scales logarithmically with q. More generally, given a set of q query functions (possibly
+chosen adaptively) which belong to some set Q of low complexity (such as VC dimension) one can
+reduce the sample complexity of estimating the answers to all q queries (with the same filter) by
+invoking the standard bounds based on uniform convergence (e.g. [14]).
+2.2
+
+Noise tolerance
+
+An important property of the simulation described in Theorem 2.1 is that it can be easily adapted
+to the case when the labels are corrupted by random classification noise [1]. For a distribution
+P = (D, ?) let P ? denote the distribution P with the label flipped with probability ? randomly and
+independently of an example. It is easy to see that P ? = (D, (1 ? 2?)?). We now show that, as in
+the SQ model [30], active statistical queries can be simulated given examples from P ? .
+Theorem 2.2. Let P = (D, ?) be a distribution over examples and let ? ? [0, 1/2) be a noise
+rate. There exists an active sampling algorithm that given functions ? : X ? [0, 1], ? : X ?
+{?1, 1} ? [?1, 1], values ?, ?0 > 0, ? > 0, ? > 0, and access to samples from P ? , with
+probability at least 1 ? ?, outputs a valid response to active statistical query (?, ?) with tolerance
+parameters (?0 , ? ). The algorithm uses O(? ?2 (1 ? 2?)?2 log (1/?)) labeled examples from P ? and
+O(?0?1 ? ?2 (1 ? 2?)?2 log (1/?)) unlabeled samples from D.
+Note that the sample complexity of the resulting active sampling algorithm has informationtheoretically optimal quadratic dependence on 1/(1 ? 2?), where ? is the noise rate.
+Remark 2.3. This simulation assumes that ? is given to the algorithm exactly. It is easy to see from
+1?2?
+the proof, that any value ? 0 such that 1?2?
+0 ? [1 ? ? /4, 1 + ? /4] can be used in place of ? (with
+1
+? [ (?(x, 1) ? ?(x, ?1)) ? `] set to (1 ? 2?)? /4). In some learning
+the tolerance of estimating EP|?
+2
+scenarios even an approximate value of ? is not known but it is known that ? ? ?0 < 1/2. To address
+this issue one can construct a sequence ?1 , . . . , ?k of guesses of ?, run the learning algorithm with
+each of those guesses in place of the true ? and let h1 , . . . , hk be the resulting hypotheses [30]. One
+can then return the hypothesis hi among those that has the best agreement with a suitably large
+sample. It is not hard to see that k = O(? ?1 ? log(1/(1 ? 2?0 ))) guesses will suffice for this strategy
+to work [2].
+Passive hypothesis testing requires ?(1/) labeled examples and might be too expensive to be used
+with active learning algorithms. It is unclear if there exists a general approach for dealing with
+unknown ? in the active learning setting that does not increase substantially the labelled example
+complexity. However, as we will demonstrate, in the context of specific active learning algorithms
+variants of this approach can be used to solve the problem.
+We now show that more general types of noise can be tolerated as long as they are ?uncorrelated?
+with the queries and the target function. Namely, we represent label noise using a function ? : X ?
+[0, 1], where ?(x) gives the probability that the label of x is flipped. The rate of ? when learning
+with respect to marginal distribution D over X is ED [?(x)]. For a distribution P = (D, ?) over
+examples, we denote by P ? the distribution P corrupted by label noise ?. It is easy to see that
+P ? = (D, ? ? (1 ? 2?)). Intuitively, ? is ?uncorrelated? with a query if the way that ? deviates
+from its rate is almost orthogonal to the query on the target distribution.
+Definition 2.4. Let P = (D, ?) be a distribution over examples and ? 0 > 0. For functions ? :
+X ? [0, 1], ? : X ? {?1, 1} ? [?1, 1], we say that a noise function ? : X ? [0, 1] is (?, ? 0 )uncorrelated with ? and ? over P if,
+
+
+
+
+
+?(x, 1) ? ?(x, ?1)
+ED
+?(x) ? (1 ? 2(?(x) ? ?))  ? ? 0 .
+ |?
+2
+5
+
+In this definition (1 ? 2(?(x) ? ?)) is the expectation of {?1, 1} coin that is flipped with probability
+?(x) ? ?, whereas (?(x, 1) ? ?(x, ?1))?(x) is the part of the query which measures the correlation
+with the label. We now give an analogue of Theorem 2.2 for this more general setting.
+Theorem 2.5. Let P = (D, ?) be a distribution over examples, ? : X ? [0, 1], ? : X ? {?1, 1} ?
+[?1, 1] be a query and a filter functions, ? ? [0, 1/2), ? > 0 and ? be a noise function that is
+(?, (1 ? 2?)? /4)-uncorrelated with ? and ? over P . There exists an active sampling algorithm that
+given functions ? and ?, values ?, ?0 > 0, ? > 0, ? > 0, and access to samples from P ? , with
+probability at least 1 ? ?, outputs a valid response to active statistical query (?, ?) with tolerance
+parameters (?0 , ? ). The algorithm uses O(? ?2 (1 ? 2?)?2 log (1/?)) labeled examples from P ? and
+O(?0?1 ? ?2 (1 ? 2?)?2 log (1/?)) unlabeled samples from D.
+An immediate implication of Theorem 2.5 is that one can simulate an active SQ algorithm A using
+examples corrupted by noise ? as long as ? is (?, (1 ? 2?)? /4)-uncorrelated with all A?s queries of
+tolerance ? for some fixed ?.
+2.3
+
+Simple examples
+
+Thresholds: We show that a classic example of active learning a threshold function on an interval
+can be easily expressed using active SQs. For simplicity and without loss of generality we can
+assume that the interval is [0, 1] and the distribution is uniform over it (as usual, we can bring the
+distribution to be close enough to this form using unlabeled samples or target-independent queries).
+Assume that we know that the threshold ? belongs to the interval [a, b] ? [0, 1]. We ask a query
+?(x, `) = (`+1)/2 with filter ?(x) which is the indicator function of the interval [a, b] with tolerance
+1/4 and filter tolerance b ? a. Let v be the response to the query. By definition, E[?(x)] = b ? a
+and therefore we have that |v ? E[?(x, `) | x ? [a, b]]| ? 1/4. Note that,
+E[?(x, `) | x ? [a, b]] = (b ? ?)/(b ? a) .
+We can therefore conclude that (b ? ?)/(b ? a) ? [v ? 1/4, v + 1/4] which means that ? ?
+[b ? (v + 1/4)(b ? a), b ? (v ? 1/4)(b ? a)] ? [a, b]. Note that the length of this interval is at most
+(b ? a)/2. This means that after at most log2 (1/) + 1 iterations we will reach an interval [a, b]
+of length at most . In each iteration only constant 1/4 tolerance is necessary and filter tolerance is
+never below . A direct simulation of this algorithm can be done using log(1/) ? log(log(1/)/?)
+?
+labeled examples and O(1/)
+? log(1/?) unlabeled samples.
+Learning of thresholds can also be easily used to obtain a simple algorithm for learning axis-aligned
+rectangles whose weight under the target distribution is not too small.
+A2 : We now note that the general and well-studied A2 algorithm of [4] falls naturally into our
+framework. At a high level, the A2 algorithm is an iterative, disagreement-based active learning
+algorithm. It maintains a set of surviving classifiers Ci ? C, and in each round the algorithm asks
+for the labels of a few random points that fall in the current region of disagreement of the surviving
+classifiers. Formally, the region of disagreement DIS(Ci ) of a set of classifiers Ci is the of set of
+instances x such that for each x ? DIS(Ci ) there exist two classifiers f, g ? Ci that disagree about
+the label of x. Based on the queried labels, the algorithm then eliminates hypotheses that were
+still under consideration, but only if it is statistically confident (given the labels queried in the last
+round) that they are suboptimal. In essence, in each round A2 only needs to estimate the error rates
+(of hypotheses still under consideration) under the conditional distribution of being in the region of
+disagreement. This can be easily done via active statistical queries. Note that while the number of
+active statistical queries needed to do this could be large, the number of labeled examples needed
+to simulate these queries is essentially the same as the number of labeled examples needed by the
+known A2 analyses [29]. While in general the required computation of the disagreement region
+and manipulations of the hypothesis space cannot be done efficiently, efficient implementation is
+possible in a number of simple cases such as when the VC dimension of the concept class is a
+constant. It is not hard to see that in these cases the implementation can also be done using a
+statistical algorithm.
+6
+
+3
+
+Learning of halfspaces
+
+In this section we outline our reduction from active learning to passive learning of homogeneous
+linear separators based on the analysis of Balcan and Long [8]. Combining it with the SQ learning
+algorithm for halfspaces by Dunagan and Vempala [24], we obtain the first efficient noise-tolerant
+active learning of homogeneous halfspaces for any isotropic log-concave distribution. One of the
+key point of this result is that it is relatively easy to harness the involved results developed for SQ
+framework to obtain new active statistical algorithms.
+Let Hd denote the concept class of all homogeneous halfspaces. Recall that a distribution over Rd
+is log-concave if log f (?) is concave, where f is its associated density function. It is isotropic if its
+mean is the origin and its covariance matrix is the identity. Log-concave distributions form a broad
+class of distributions: for example, the Gaussian, Logistic, Exponential, and uniform distribution
+over any convex set are log-concave distributions. Using results in [24] and properties of log-concave
+distributions, we can show:
+Theorem 3.1. There exists a SQ algorithm LearnHS that learns Hd to accuracy 1 ?  over any
+distribution D|? , where D is an isotropic log-concave distribution and ? : Rd ? [0, 1] is a filter
+function. Further LearnHS outputs a homogeneous halfspace, runs in time polynomial in d,1/
+and log(1/?) and uses SQs of tolerance ? 1/poly(d, 1/, log(1/?)), where ? = ED [?(x)].
+We now state the properties of our new algorithm formally.
+Theorem 3.2. There exists an active SQ algorithm ActiveLearnHS-LogC (Algorithm 1) that
+for any isotropic log-concave distribution D on Rd , learns Hd over D to accuracy 1 ?  in time
+poly(d, log(1/)) and using active SQs of tolerance ? 1/poly(d, log(1/)) and filter tolerance ?().
+Algorithm 1 ActiveLearnHS-LogC: Active SQ learning of homogeneous halfspaces over
+isotropic log-concave densities
+1: %% Constants c, C1 , C2 and C3 are determined by the analysis.
+2: Run LearnHS with error C2 to obtain w0 .
+3: for k = 1 to s = dlog2 (1/(c))e do
+4:
+Let bk?1 = C1 /2k?1
+5:
+Let ?k equal
+Pthe indicator function of being within margin bk?1 of wk?1
+6:
+Let ?k = ( i?k ?i )/k
+7:
+Run LearnHS over Dk = D|?k with error C2 /k by using active queries with filter ?k and
+filter tolerance C3  to obtain wk
+8: end for
+9: return ws
+We remark that, as usual, we can first bring the distribution to an isotropic position by using target
+independent queries to estimate the mean and the covariance matrix of the distribution. Therefore
+our algorithm can be used to learn halfspaces over general log-concave densities as long as the target
+halfspace passes through the mean of the density.
+We can now apply Theorem 2.2 (or more generally Theorem 2.5) to obtain an efficient active learning algorithm for homogeneous halfspaces over log-concave densities in the presence of random
+classification noise of known rate. Further since our algorithm relies on LearnHS which can also
+be simulated when the noise rate is unknown (see Remark 2.3) we obtain an active algorithm which
+does not require the knowledge of the noise rate.
+Corollary 3.3. There exists a polynomial-time active learning algorithm that for any ? ? [0, 1/2),
+learns Hd over any log-concave distributions with random classification noise of rate ? to error 
+using poly(d, log(1/), 1/(1 ? 2?)) labeled examples and a polynomial number of unlabeled samples.
+For the special case of the uniform distribution on the unit sphere (or, equivalently for our purposes,
+unit ball) we give a substantially simpler and more efficient algorithm in terms of both sample and
+computational complexity. This setting was previously studied in [3, 22]. The detailed presentation
+of the technical ideas appears in the full version of the paper [5].
+7
+
+Theorem 3.4. There exists an active SQ algorithm ActiveLearnHS-U that learns Hd over
+the uniform distribution on the (d ? 1)-dimensional
+unit sphere to accuracy 1 ? , uses (d +
+?
+1) log(1/) active SQs with tolerance of ?(1/ d) and filter tolerance of ?(1/) and runs in time
+d ? poly(log (d/)).
+
+4
+
+Differentially-private active learning
+
+In this section we show that active SQ learning algorithms can also be used to obtain differentially
+private active learning algorithms. Formally, for some domain X ? Y , we will call S ? X ? Y a
+database. Databases S, S 0 ? X ?Y are adjacent if one can be obtained from the other by modifying
+a single element. Here we will always have Y = {?1, 1}. In the following, A is an algorithm that
+takes as input a database D and outputs an element of some finite set R.
+Definition 4.1 (Differential privacy [25]). A (randomized) algorithm A : 2X?Y ? R is ?differentially private if for all r ? R and every pair of adjacent databases S, S 0 , we have
+Pr[A(S) = r] ? e Pr[A(S 0 ) = r].
+Here we consider algorithms that operate on S in an active way. That is the learning algorithm
+receives the unlabeled part of each point in S as an input and can only obtain the label of a point
+upon request. The total number of requests is the label complexity of the algorithm.
+Theorem 4.2. Let A be an algorithm that learns a class of functions H to accuracy 1 ?  over distribution D using M1 active SQs of tolerance ? and filter tolerance ?0 and M2 target-independent
+queries of tolerance ?u . There exists a learning algorithm A0 that given ? > 0, ? > 0 and ac1
+tive access to database S ? X ? {?1, 1} is ?-differentially private and uses at most O([ M
+?? +
+M1
+M1
+M1
+M2
+M2
+? 2 ] log(M1 /?)) labels. Further, for some n = O([ ??0 ? + ?0 ? 2 + ??u + ?u2 ] log((M1 + M2 )/?)),
+if S consists of at least n examples drawn randomly from D then with, probability at least 1 ? ?, A0
+outputs a hypothesis with accuracy ? 1 ?  (relative to distribution D). The running time of A0 is
+the same as the running time of A plus O(n).
+An immediate consequence of Theorem 4.2 is that for learning of homogeneous halfspaces over
+uniform or log-concave distributions we can obtain differential privacy while essentially preserving
+the label complexity. For example, by combining Theorems 4.2 and 3.4, we can efficiently and
+differentially-privately learn homogeneous halfspaces?under the uniform distribution with privacy
+parameter ? and error parameter  by using only O(d d log(1/))/? + d2 log(1/)) labels. However, it is known that any 
+passive learning algorithm, even ignoring
+? privacy considerations and noise
+requires ? d + 1 log 1? labeled examples. So for ? ? 1/ d and small enough  we get better
+label complexity.
+
+5
+
+Discussion
+
+Our work suggests that, as in passive learning, active statistical algorithms might be essentially
+as powerful as example-based efficient active learning algorithms. It would be interesting to find
+more general evidence supporting this claim or, alternatively, a counterexample. A nice aspect of
+(passive) statistical learning algorithms is that it is possible to prove unconditional lower bounds on
+such algorithms using SQ dimension [13] and its extensions. It would be interesting to develop an
+active analogue of these techniques and give meaningful lower bounds based on them.
+Acknowledgments We thank Avrim Blum and Santosh Vempala for useful discussions. This work
+was supported in part by NSF grants CCF-0953192 and CCF-1101215, AFOSR grant FA9550-091-0538, ONR grant N00014-09-1-0751, and a Microsoft Research Faculty Fellowship.
+
+References
+[1] D. Angluin and P. Laird. Learning from noisy examples. Machine Learning, 2:343?370, 1988.
+[2] J. Aslam and S. Decatur. Specification and simulation of statistical query algorithms for efficiency and
+noise tolerance. JCSS, 56:191?208, 1998.
+[3] M. Balcan, A. Broder, and T. Zhang. Margin based active learning. In COLT, pages 35?50, 2007.
+
+8
+
+[4] M. F. Balcan, A. Beygelzimer, and J. Langford. Agnostic active learning. In ICML, 2006.
+[5] M. F. Balcan and V. Feldman. Statistical active learning algorithms, 2013. ArXiv:1307.3102.
+[6] M.-F. Balcan and S. Hanneke. Robust interactive learning. In COLT, 2012.
+[7] M.-F. Balcan, S. Hanneke, and J. Wortman. The true sample complexity of active learning. In COLT,
+2008.
+[8] M.-F. Balcan and P. M. Long. Active and passive learning of linear separators under log-concave distributions. JMLR - COLT proceedings (to appear), 2013.
+[9] A. Beygelzimer, S. Dasgupta, and J. Langford. Importance weighted active learning. In ICML, pages
+49?56, 2009.
+[10] A. Beygelzimer, D. Hsu, J. Langford, and T. Zhang. Agnostic active learning without constraints. In
+NIPS, 2010.
+[11] A. Blum, C. Dwork, F. McSherry, and K. Nissim. Practical privacy: the SuLQ framework. In Proceedings
+of PODS, pages 128?138, 2005.
+[12] A. Blum, A. Frieze, R. Kannan, and S. Vempala. A polynomial time algorithm for learning noisy linear
+threshold functions. Algorithmica, 22(1/2):35?52, 1997.
+[13] A. Blum, M. Furst, J. Jackson, M. Kearns, Y. Mansour, and S. Rudich. Weakly learning DNF and characterizing statistical query learning using Fourier analysis. In STOC, pages 253?262, 1994.
+[14] A. Blumer, A. Ehrenfeucht, D. Haussler, and M. Warmuth. Learnability and the Vapnik-Chervonenkis
+dimension. Journal of the ACM, 36(4):929?965, 1989.
+[15] R. Castro and R. Nowak. Minimax bounds for active learning. In COLT, 2007.
+[16] N. Cesa-Bianchi, C. Gentile, and L. Zaniboni. Learning noisy linear classifiers via adaptive and selective
+sampling. Machine Learning, 2010.
+[17] C. Chu, S. Kim, Y. Lin, Y. Yu, G. Bradski, A. Ng, and K. Olukotun. Map-reduce for machine learning on
+multicore. In Proceedings of NIPS, pages 281?288, 2006.
+[18] S. Dasgupta. Coarse sample complexity bounds for active learning. In NIPS, volume 18, 2005.
+[19] S. Dasgupta. Active learning. Encyclopedia of Machine Learning, 2011.
+[20] S. Dasgupta and D. Hsu. Hierarchical sampling for active learning. In ICML, pages 208?215, 2008.
+[21] S. Dasgupta, D.J. Hsu, and C. Monteleoni. A general agnostic active learning algorithm. NIPS, 20, 2007.
+[22] S. Dasgupta, A. Tauman Kalai, and C. Monteleoni. Analysis of perceptron-based active learning. Journal
+of Machine Learning Research, 10:281?299, 2009.
+[23] O. Dekel, C. Gentile, and K. Sridharan. Selective sampling and active learning from single and multiple
+teachers. JMLR, 2012.
+[24] J. Dunagan and S. Vempala. A simple polynomial-time rescaling algorithm for solving linear programs.
+In STOC, pages 315?320, 2004.
+[25] C. Dwork, F. McSherry, K. Nissim, and A. Smith. Calibrating noise to sensitivity in private data analysis.
+In TCC, pages 265?284, 2006.
+[26] V. Feldman. A complete characterization of statistical query learning with applications to evolvability.
+Journal of Computer System Sciences, 78(5):1444?1459, 2012.
+[27] Y. Freund, H.S. Seung, E. Shamir, and N. Tishby. Selective sampling using the query by committee
+algorithm. Machine Learning, 28(2-3):133?168, 1997.
+[28] A. Gonen, S. Sabato, and S. Shalev-Shwartz. Efficient pool-based active learning of halfspaces. In ICML,
+2013.
+[29] S. Hanneke. A bound on the label complexity of agnostic active learning. In ICML, 2007.
+[30] M. Kearns. Efficient noise-tolerant learning from statistical queries. JACM, 45(6):983?1006, 1998.
+[31] V. Koltchinskii. Rademacher complexities and bounding the excess risk in active learning. JMLR,
+11:2457?2485, 2010.
+[32] L. Lov?asz and S. Vempala. The geometry of logconcave functions and sampling algorithms. Random
+Struct. Algorithms, 30(3):307?358, 2007.
+[33] A. McCallum and K. Nigam. Employing EM in pool-based active learning for text classification. In
+ICML, pages 350?358, 1998.
+[34] M. Raginsky and A. Rakhlin. Lower bounds for passive and active learning. In NIPS, pages 1026?1034,
+2011.
+[35] L. G. Valiant. A theory of the learnable. Communications of the ACM, 27(11):1134?1142, 1984.
+
+9
 
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>

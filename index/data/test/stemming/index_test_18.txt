@@ -1,5 +1,371 @@
 query sentence: Neural-network
 ---------------------------------------------------------------------
+title: 232-analog-neural-networks-of-limited-precision-i-computing-with-multilinear-threshold-functions.pdf
+
+702
+
+Obradovic and Pclrberry
+
+Analog Neural Networks of Limited Precision I:
+Computing with Multilinear Threshold Functions
+(Preliminary Version)
+
+Zoran Obradovic and Ian Parberry
+Department of Computer Science.
+Penn State University.
+University Park. Pa. 16802.
+
+ABSTRACT
+Experimental evidence has shown analog neural networks to be ex~mely fault-tolerant; in particular. their performance does not appear to be significantly impaired when precision is limited. Analog
+neurons with limited precision essentially compute k-ary weighted
+multilinear threshold functions. which divide R" into k regions with
+k-l hyperplanes. The behaviour of k-ary neural networks is investigated. There is no canonical set of threshold values for k>3.
+although they exist for binary and ternary neural networks. The
+weights can be made integers of only 0 ?z +k ) log (z +k ? bits. where
+z is the number of processors. without increasing hardware or running time. The weights can be made ?1 while increasing running
+time by a constant multiple and hardware by a small polynomial in z
+and k. Binary neurons can be used if the running time is allowed to
+increase by a larger constant multiple and the hardware is allowed to
+increase by a slightly larger polynomial in z and k. Any symmetric
+k-ary function can be computed in constant depth and size
+(n k - 1/(k-2)!). and any k-ary function can be computed in constant
+depth and size 0 (nk"). The alternating neural networks of Olafsson
+and Abu-Mostafa. and the quantized neural networks of Fleisher are
+closely related to this model.
+
+o
+
+Analog Neural Networks of Limited Precision I
+
+1 INTRODUCTION
+Neural networks are typically circuits constructed from processing units which compute simple functions of the form f(Wl> ... ,wlI):RII-+S where SeR, wieR for 1~~,
+and
+II
+
+f (Wl> ... ,WII)(Xl, .?. ,xlI)=g (LWi X;)
+i=1
+
+for some output function g :R-+S. There are two choices for the set S which are
+currently popular in the literature. The first is the discrete model, with S=B (where B
+denotes the Boolean set (0,1)). In this case, g is typically a linear threshold function
+g (x)= 1 iff x~. and f is called a weighted linear threshold function. The second is
+the analog model, with S=[O,I] (where [0,1] denotes (re RI~~I}). In this case. g
+is typically a monotone increasing function, such as the sigmoid function
+g (x)=(1 +c -% 1 for some constant c e R. The analog neural network model is popular
+because it is easy to construct processors with the required characteristics using a few
+transistors. The digital model is popular because its behaviour is easy to analyze.
+
+r
+
+Experimental evidence indicates that analog neural networks can produce accurate
+computations when the precision of their components is limited. Consider what actually happens to the analog model when the precision is limited. Suppose the neurons
+can take on k distinct excitation values (for example, by restricting the number of digits in their binary or decimal expansions). Then S is isomorphic to Zk={O, ... ,k-l}.
+We will show that g is essentially the multilinear threshold function
+g (hloh2 ....,hk-l):R-+Zk defined by
+
+Here and throughout this paper, we will assume that hl~h2~ ... ~hk-1> and for convenience define ho=-oo and h/c=oo. We will call f a k-ary weighted multilinear threshold
+function when g is a multilinear threshold function.
+We will study neural networks constructed from k-ary multilinear threshold functions.
+We will call these k-ary neural networks, in order to distinguish them from the standard 2-ary or binary neural network. We are particularly concerned with the resources
+of time, size (number of processors), and weight (sum of all the weights) of k-ary
+neural networks when used in accordance with the classical computational paradigm.
+The reader is referred to (parberry, 1990) for similar results on binary neural networks.
+A companion paper (Obradovic & Parberry, 1989b) deals with learning on k-ary neural networks. A more detailed version of this paper appears in (Obradovic & Parberry,
+1989a).
+
+2 A K-ARY NEURAL NETWORK MODEL
+A k-ary neural network is a weighted graph M =(V ,E ,W ,h), where V is a set of processors and E cVxV is a set of connections between processors. Function
+w:VxV -+R assign weights to interconnections and h:V -+Rk - assign a set of k-l
+thresholds to each of the processors. We assume that if (u ,v) eE, W (u ,v )=0. The
+size of M is defined to be the number of processors, and the weight of M is
+
+703
+
+704
+
+Obradovic and Parberry
+
+The processors of a k-ary neural network are relatively limited in computing power.
+A k-ary function is a function f :Z:~Z". Let F; denote the set of all n-input k-ary
+functions. Define e::R,,+Ir;-l~F; by e:(w l .....w".h It .???h''_l):R;~Z,,. where
+
+.
+
+e;(w It ???? w" .h h???.h,,-l)(X 1o... ,%.. )=i iff hi ~~Wi xi <h; +1?
+i=1
+
+The set of k-ary weighted multilinear threshold functions is the union. over all n e N.
+of the range of e;. Each processor of a k-ary neural network can compute a k-ary
+weighted multilinear threshold function of its inputs.
+Each processor can be in one of k states, 0 through k-l. Initially. the input processors of M are placed into states which encode the input If processor v was updated
+during interval t, its state at time t -1 was i and output was j. then at time t its state
+will be j. A k-ary neural network computes by having the processors change state until a stable configuration is reached. The output of M are the states of the output processors after a stable state has been reached. A neural network M 2 is said to be f (t )equivalent to M 1 iff for all inputs x. for every computation of M 1 on input x which
+terminates in time t there is a computation of M 2 on input x which terminates in time
+f (t) with the same output. A neural network M 2 is said to be equivalent to M 1 iff it
+is t -equivalent to it.
+
+3 ANALOG NEURAL NETWORKS
+Let f be a function with range [0.1]. Any limited-precision device which purports to
+compute f must actually compute some function with range the k rational values
+
+R"={ilk-llieZ,,,~<k} (for some keN). This is sufficient for all practical purposes
+provided k is large enough. Since R" is isomorphic to Z". we will formally define
+the limited precision variant of f to be the function f" :X ~Z" defined by
+f,,(x)=round(j (x).(k-l?, where round:R~N is the natural rounding function defined
+by round(x)=n iff n-o.5~<n-tO.5.
+
+Theorem 3.1 : Letf(Wlo ... ,w.. ):R"~[O,I] where WieR for
+
+1~~.
+
+be defined by
+
+.
+f (w1O.?.,W,,)(X 10 .?? ,x.. )=g (LWiXi)
+i=l
+
+where g:R~[O,I] is monotone increasing and invertible. Then f(Wlo ... ,W.. )":R"~Z,,
+is a k-ary weighted multilinear threshold function.
+Proof: It is easy to verify that f(Wlo ...?W")"=S;(Wl' ... ,w",hl, ...?h,,_l)' where
+hi =g-1?2i-l)/2(k-l?. 0
+Thus we see that analog neural networks with limited precision are essentially k-ary
+neural networks.
+
+Analog Neural Networks of Limited Precision I
+
+4 CANONICAL THRESHOLDS
+Binary neural networks have the advantage that all thresholds can be taken equal to
+zero (see. for example. Theorem 4.3.1 of Parberry, 1990). A similar result holds for
+ternary neural networks.
+Theorem 4.1 : For every n-input ternary weighted multilinear threshold function there
+is an equivalent (n +I)-input ternary weighted multilinear threshold function with
+threshold values equal to zero and one.
+Proof: Suppose W=(W1o ??? ,WII )E R", hloh2E R. Without loss of generality assume
+h l<h 2.
+Define W=(Wl ?...?wlI+l)e RII+I by wj=wjl(hrh 1) for I~!0t, and
+wlI +I=-h I/(h2-h 1). It can be demonstrated by a simple case analysis that for all
+x =(x 1, ??? ,xll)e
+
+Z;.
+
+8;(w,h l,hz)(x )=8;+I(W ,0,I)(x l,... ,xll ,1).
+
+o
+The choice of threshold values in Theorem 4.1 was arbitrary. Unfortunately there is
+no canonical set of thresholds for k >3.
+Theorem 4.2 : For every k>3, n~2, m~. h 1o ??? ,hk - 1E R. there exists an n-input k-ary
+weighted multilinear threshold function
+
+such that for all (n +m )-input k-ary weighted multilinear threshold functions
+
+8 k"+m("
+WI.???
+
+)?zm+1I
+.WII+m. h 10???. hk-l'
+k
+~Z k
+A
+
+Proof (Sketch): Suppose that t I ?.. . .tk-l e R is a canonical set of thresholds. and w.t.o.g.
+assume n =2. Let h =(h 1o ??? ,hk - 1), where h l=h z=2. h j=4, hi =5 for 4Si <k. and
+f=8i(1,I.h).
+By hypothesis there exist wlo ????wm+2 and y=(ylo ...?ym)eRm such that for all xeZi,
+
+f (x )=8r+2(w 1.? .. ,Wm+2,t 1, ??? ,tk-l)(X ,y).
+m
+
+Let S= I:Wi+2Yi. Since f (1.0)=0. f (0.1)=0, f (2,1)=2, f (1,2)=2. it follows that
+;=1
+
+2(Wl+Wz+S )<tl+t 3.
+Since f (2,0)=2, f (1.1 )=2. and f (0.2)=2, it follows that
+
+(1)
+
+70S
+
+706
+
+Obradovic and Pdrberry
+
+Wl+W2+S~2?
+
+(2)
+
+2t2<ll+13.
+
+(3)
+
+Inequalities (1) and (2) imply that
+
+By similar arguments from g=S;(1,l,l.3.3.4 ?...?4) we can conclude that
+(4)
+
+But (4) contradicts (3). 0
+
+S NETWORKS OF BOUNDED WEIGHT
+Although our model allows each weight to take on an infinite number of possible
+values. there are only a finite number of threshold functions (since there are only a
+finite number of k-ary functions) with a fixed number of inputs. Thus the number of
+n -input threshold functions is bounded above by some function in n and k. In fact.
+something stronger can be shown. All weights can be made integral. and
+o ((n +k) log (n +k? bits are sufficient to describe each one.
+Theorem 5.1 : For every k-ary neural network M 1 of size z there exists an equivalent
+k-ary neural network M2 of size z and weight ((k_l)/2)Z(z+I)(z+k)'2+0(1) with integer
+weights.
+Proof (Sketch): It is sufficient to prove that for every weighted threshold function
+f:(Wlt ...?wll.hh ...?h"-I):Z:~Z,, for some neN. there is an equivalent we1f.hted threshold function g:(w~ ?...? w:.hi ?...? h;-d such that Iwtl~((k-l)/2)I(n+l)'" )12+0(1) for
+l~i~. By extending the techniques used by Muroga. Toda and Takasu (1961) in the
+binary case. we see that the weights are bounded above by the maximum determinant
+of a matrix of dimension n +k -lover Z". 0
+Thus if k is bounded above by a polynomial in n. we are guaranteed of being able to
+describe the weights using a polynomial number of bits.
+
+6 THRESHOLD CIRCUITS
+A k-ary neural network with weights drawn from {?1} is said to have unit weights. A
+unit-weight directed acyclic k-ary neural network is called a k-ary threshold circuit.
+A k-ary threshold circuit can be divided into layers. with each layer receiving inputs
+only from the layers above it. The depth of a k-ary threshold circuit is defined to be
+the number of layers. The weight is equal to the number of edges. which is bounded
+above by the square of the size. Despite the apparent handicap of limited weights. kary threshold circuits are surprisingly powerful.
+Much interest has focussed on the computation of symmetric functions by neural networks. motivated by the fact that the visual system appears to be able to recognize objects regardless of their position on the retina A function f :Z:~Z" is called symmetric if its output remains the same no matter how the input is permuted.
+
+Analog Neural Networks of Limited Precision I
+
+Theorem 6.1 : Any symmetric k-ary function on n inputs can be computed by a k-ary
+threshold circuit of depth 6 and size (n+1)k-l/(k-2)!+ o (kn).
+Proof: Omitted. 0
+It has been noted many times that neural networks can compute any Boolean function
+in constant depth. The same is true of k-ary neural networks, although both results
+appear to require exponential size for many interesting functions.
+
+Theorem 6.2 : Any k-ary function of n inputs can be computed by a k-ary threshold
+circuit with size (2n+1)k"+k+1 and depth 4.
+Proof: Similar to that for k=2 (see Chandra et. al., 1984; Parberry, 1990). 0
+The interesting problem remaining is to determine which functions require exponential
+size to achieve constant depth, and which can be computed in polynomial size and
+constant depth. We will now consider the problem of adding integers represented in
+k-ary notation.
+
+Theorem 6.3 : The sum of two k-ary integers of size n can be computed by a k-ary
+threshold circuit with size 0 (n 2) and depth 5.
+Proof: First compute the carry of x and y in 'luadratic size and depth 3 using the standard elementary school algorithm. Then the it position of the result can be computed
+from the i tit position of the operands and a carry propagated in that position in constant size and depth 2. 0
+Theorem 6.4 : The sum of n k-~ integers of size n can be computed by a k-ary
+threshold circuit with size 0 (n 3+kn ) and constant depth.
+Proof: Similar to the proof for k=2 using Theorem 6.3 (see Chandra et. al., 1984; Parberry, 1990). 0
+Theorem 6.S : For every k-ary neural network M 1 of size z there exists an 0 (t)equivalent unit-weight k-ary neural network M2 of size o ((z+k)410g3(z+k?.
+Proof: By Theorem 5.1 we can bound all weights to have size 0 ((z+k)log(z+k? in
+binary notation. By Theorem 6.4 we can replace every processor with non-unit
+weights by a threshold circuit of size o ((z+k)310g3(z+k? and constant depth. 0
+Theorem 6.5 implies that we can assume unit weights by increasing the size by a polynomial and the running time by only a constant multiple provided the number of
+logic levels is bounded above by a polynomial in the size of the network. The
+number of thresholds can also be reduced to one if the size is increased by a larger
+polynomial:
+
+Theorem 6.6 : For every k-ary neural network M 1 of size z there exists an 0 (t )equivalent unit-weight binary neural network M 2 of size 0 (z 4k 4)(log z + log k)3
+which outputs the binary encoding of the required result
+Proof: Similar to the proof of Theorem 6.5. 0
+This result is primarily of theoretical interest. Binary neural networks appear simpler,
+and hence more desirable than analog neural networks. However, analog neural networks are actually more desirable since they are easier to build. With this in mind,
+Theorem 6.6 simply serves as a limit to the functions that an analog neural network
+
+707
+
+708
+
+Obradovic and Parberry
+
+can be expected to compute efficiently. We are more concerned with constructing a
+model of the computational abilities of neural networks, rather than a model of their
+implementation details.
+
+7 NONMONOTONE MULTILINEAR NEURAL NETWORKS
+Olafsson and Abu-Mostafa (1988) study
+f(Wlt ... ,wl):R"-+B for w;ER, 1~~, where
+
+f
+
+information
+
+capacity
+
+of functions
+
+II
+(Wlt.. ??WII)(X1 ?... , xlI)=g (~W;X;)
+;=1
+
+and g is the alternating threshold function g (h loh2.....hk-1):R-+B for some monotone
+increasing h;ER, 1~<k, defined by g(x)=O if h2i~<h2i+1 for some ~5:nI2. We
+will call f an alternating weighted multilinear threshold function, and a neural network constructed from functions of this form alternating multilinear neural networks.
+Alternating multilinear neural networks are closely related to k-ary neural networks:
+Theorem 7.1 : For every k-ary neural network of size z and weight w there is an
+equivalent alternating multilinear neural network of size z log k and weight
+(k -l)w log (k -1) which produces the output of the former in binary notation.
+Proof (Sketch): Each k-ary gate is replaced by log k gates which together essentially
+perform a "binary search" to determine each bit of the k-ary gate. Weights which increase exponentially are used to provide the correct output value. 0
+Theorem 7.2 : For every alternating multilinear neural network of size z and weight
+w there is a 3t-equivalent k-ary neural network of size 4z and weight w+4z.
+Proof (Sketch): Without loss of generality. assume k is odd. Each alternating gate is
+replaced by a k-ary gate with identical weights and thresholds. The output of this gate
+goes with weight one to a k-ary gate with thresholds 1,3,S ?... ,k-1 and with weight
+minus one to a k-ary gate with thresholds -(k-1), ... ,-3,-1. The output of these gates
+goes to a binary gate with threshold k. 0
+Both k-ary and alternating multilinear neural networks are a special case of nonmonotone multilinear neural networks, where g :R-+R is the defined by g (x )=Ci iff
+hi~<h;+lt for some monotone increasing h;ER, 1~<k, and co, ... ,Ck-1EZk. Nonmonotone neural networks correspond to analog neural networks whose output function is not necessarily monotone nondecreasing. Many of the result of this paper, including Theorems 5.1, 6.5, and 6.6, also apply to nonmonotone neural networks. The
+size, weight and running time of many of the upper-bounds can also be improved by a
+small amount by using nonmonotone neural networks instead of k-ary ones. The details are left to the interested reader.
+
+8 MUL TILINEAR HOPFIELD NETWORKS
+A multilinear version of the Hopfield network called the quantized neural network has
+been studied by Fleisher (1987). Using the terminology of (parberry, 1990), a quantized neural network is a simple symmetric k-ary neural network (that is, its interconnection pattern is an undirected graph without self-loops) with the additional property
+that all processors have an identical set of thresholds. Although the latter assumption
+
+Analog Neural Networks of Limited Precision I
+
+is reasonable for binary neural networks (see, for example, Theorem 4.3.1 of Parberry,
+1990), and ternary neural networks (Theorem 4.1), it is not necessarily so for k-ary
+neural networks with k>3 (Theorem 4.2). However, it is easy to extend Fleisher's
+main result to give the following:
+Theorem 8.1 : Any productive sequential computation of a simple symmetric k-ary
+neural network will converge.
+
+9 CONCLUSION
+It has been shown that analog neural networks with limited precision are essentially
+k-ary neural networks. If k is limited to a polynomial, then polynomial size, constant
+depth k-ary neural networks are equivalent to polynomial size, constant depth binary
+neural networks. Nonetheless, the savings in time (at most a constant multiple) and
+hardware (at most a polynomial) arising from using k-ary neural networks rather than
+binary ones can be quite significant. We do not suggest that one should actually construct binary or k-ary neural networks. Analog neural networks can be constructed by
+exploiting the analog behaviour of transistors, rather than using extra hardware to inhibit it Rather, we suggest that k-ary neural networks are a tool for reasoning about the
+behaviour of analog neural networks.
+Acknowledgements
+The financial support of the Air Force Office of Scientific Research, Air Force S ysterns Command, DSAF, under grant numbers AFOSR 87-0400 and AFOSR 89-0168
+and NSF grant CCR-8801659 to Ian Parberry is gratefully acknowledged.
+References
+Chandra A. K., Stockmeyer L. J. and Vishkin D., (1984) "Constant depth reducibility,"
+SIAM 1. Comput., vol. 13, no. 2, pp. 423-439.
+Fleisher M., (1987) "The Hopfield model with multi-level neurons," Proc. IEEE
+Conference on Neural Information Processing Systems, pp. 278-289, Denver, CO.
+Muroga S., Toda 1. and Takasu S., (1961) "Theory of majority decision elements," 1.
+Franklin Inst., vol. 271., pp. 376-418.
+Obradovic Z. and Parberry 1., (1989a) "Analog neural networks of limited precision I:
+Computing with multilinear threshold functions (preliminary version)," Technical Report CS-89-14, Dept of Computer Science, Penn. State Dniv.
+Obradovic Z. and Parberry I., (1989b) "Analog neural networks of limited precision II:
+Learning with multilinear threshold functions (preliminary version)," Technical Report
+CS-89-15, Dept. of Computer Science, Penn. State Dniv.
+Olafsson S. and Abu-Mostafa Y. S., (1988) "The capacity of multilevel threshold functions," IEEE Trans. Pattern Analysis and Machine Intelligence, vol. 10, no. 2, pp.
+277-281.
+Parberry I., (To Appear in 1990) "A Primer on the Complexity Theory of Neural Networks," in A Sourcebook of Formal Methods in Artificial Intelligence, ed. R. Banerji,
+North-Holland.
+
+709
+
+
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
+
 title: 516-neural-network-routing-for-random-multistage-interconnection-networks.pdf
 
 Neural Network Routing for Random Multistage
@@ -662,6 +1028,507 @@ Vol. 64, pp. 353-356, 1991.
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
 
+title: 1193-a-new-approach-to-hybrid-hmmann-speech-recognition-using-mutual-information-neural-networks.pdf
+
+A New Approach to Hybrid HMMJANN Speech
+Recognition Using Mutual Information Neural
+Networks
+G. Rigoll,
+
+c.
+
+Neukirchen
+
+Gerhard-Mercator-University Duisburg
+Faculty of Electrical Engineering
+Department of Computer Science
+Bismarckstr. 90, Duisburg, Germany
+
+ABSTRACT
+This paper presents a new approach to speech recognition with hybrid
+HMM/ANN technology. While the standard approach to hybrid
+HMMIANN systems is based on the use of neural networks as
+posterior probability estimators, the new approach is based on the use
+of mutual information neural networks trained with a special learning
+algorithm in order to maximize the mutual information between the
+input classes of the network and its resulting sequence of firing output
+neurons during training. It is shown in this paper that such a neural
+network is an optimal neural vector quantizer for a discrete hidden
+Markov model system trained on Maximum Likelihood principles.
+One of the main advantages of this approach is the fact, that such
+neural networks can be easily combined with HMM's of any
+complexity with context-dependent capabilities. It is shown that the
+resulting hybrid system achieves very high recognition rates, which
+are now already on the same level as the best conventional HMM
+systems with continuous parameters, and the capabilities of the
+mutual information neural networks are not yet entirely exploited.
+
+1 INTRODUCTION
+Hybrid HMM/ANN systems deal with the optimal combination of artificial neural
+networks (ANN) and hidden Markov models (HMM). Especially in the area of automatic
+speech recognition, it has been shown that hybrid approaches can lead to very powerful
+and efficient systems, combining the discriminative capabilities of neural networks and
+the superior dynamic time warping abilities of HMM's. The most popular hybrid
+approach is described in (Hochberg, 1995) and replaces the component modeling the
+emission probabilities of the HMM by a neural net. This is possible, because it is shown
+
+Mutual In/ormation Neural Networks/or Hybrid HMMIANN Speech Recognition
+
+773
+
+in (Bourlard, 1994) that neural networks can be trained so that the output of the m-th
+neuron approximates the posterior probability p(QmIX). In this paper, an alternative
+method for constructing a hybrid system is presented. It is based on the use of discrete
+HMM's which are combined with a neural vector quantizer (VQ) in order to form a hybrid
+system. Each speech feature vector is presented to the neural network, which generates a
+firing neuron in its output layer. This neuron is processed as VQ label by the HMM's.
+There are the following arguments for this alternative hybrid approach:
+? The neural vector quantizer has to be trained on a special information theory criterion,
+based on the mutual information between network input and resulting neuron firing
+sequence. It will be shown that such a network is the optimal acoustic processor for a
+discrete HMM system, resulting in a profound mathematical theory for this approach.
+? Resulting from this theory, a formula can be derived which jointly describes the
+behavior of the HMM and the neural acoustic processor. In that way, both systems can
+be described in a unified manner and both major components of the hybrid system can
+be trained using a unified learning criterion.
+? The above mentioned theoretical background leads to the development of new neural
+network paradigms using novel training algorithms that have not been used before in
+other areas of neurocomputing, and therefore represent major challenges and issues in
+learning and training for neural systems.
+? The neural networks can be easily combined with any HMM system of arbitrary
+complexity. This leads to the combination of optimally trained neural networks with
+very powerful HMM's, having all features useful for speech recognition, e.g. triphones,
+function words, crossword triphones, etc .. Context-dependency, which is very desirable
+but relatively difficult to realize with a pure neural approach, can be left to the HMM's.
+? The resulting hybrid system has still the basic structure of a discrete system, and
+therefore has all the effective features associated with discrete systems, e.g. quick and
+easy training as well as recognition procedures, real-time capabilities, etc ..
+? The work presented in this paper has been also successfully implemented for a
+demanding speech recognition problem, the 1000 word speaker-independent continuous
+Resource Management speech recognition task. For this task, the hybrid system
+produces one of the best recognition results obtained by any speech recognition system.
+In the following section, the theoretical foundations of the hybrid approach are briefly
+explained. A unified probabilistic model for the combined HMMIANN system is derived,
+describing the interaction of the neural and the HMM component. Furthermore, it is
+shown that the optimal neural acoustic processor can be obtained from a special
+information theoretic network training algorithm.
+
+2 INFORMATION THEORY PRINCIPLES FOR NEURAL
+NETWORK TRAINING
+We are considering now a neural network of arbitrary topology used as neural vector
+quantizer for a discrete HMM system. If K patterns are presented to the hybrid system
+during training, the feature vectors resulting from these patterns using any feature
+extraction method can be denoted as x(k), k=l.. .K. If these feature vectors are presented to
+the input layer of a neural network, the network will generate one firing neuron for each
+presentation. Hence, all K presentations will generate a stream of firing neurons with
+length K resulting from the output layer of the neural net. This label stream is denoted as
+Y=y(l) ... y(K). The label stream Y will be presented to the HMM's, which calculate the
+probability that this stream has been observed while a pattern of a certain class has been
+presented to the system. It is assumed, that M different classes Q m are active in the
+
+G. Rigoll and C. Neukirchen
+
+774
+
+system, e.g. the words or phonemes in speech recognition. Each feature vector ~(k) will
+belong to one of these classes. The class Om, to which feature vector ~(k) belongs is
+denoted as Q(k). The major training issue for the neural network can be now formulated
+as follows : How should the weights of the network be trained, so that the network
+produces a stream of firing neurons that can be used by the discrete HMM's in an optimal
+way? It is known that HMM's are usually trained with information theory methods which
+mostly rely on the Maximum Likelihood (ML) principle. If the parameters of the hybrid
+system (i.e. transition and emission probabilities and network weights) are summarized in
+the vector !!, the probability P!!(x(k)IQ(k? denotes the probability of the pattern X at
+discrete time k, under the assumption that it has been generated by the model representing
+class O(k), with parameter set !!. The ML principle will then try to maximize the joint
+probability of all presented training patterns ~(k), according to the following Maximum
+Likelihood function:
+fl* = arg max
+~
+
+{~ i
+
+log P!! (K(k) I Q(k?j
+(1)
+
+k=1
+
+where !!* is the optimal parameter vector maximizing this equation. Our goal is to feed
+the feature vector ~ into a neural network and to present the neural network output to the
+Markov model. Therefore, one has to introduce the neural network output in a suitable
+manner into the above formula. If the vector ~ is presented to the network input layer, and
+we assume that there is a chance that any neuron Yn, n=1...N (with network output layer
+size N) can fire with a certain probability, then the output probability p(~IQ) in (1) can
+be written as:
+N
+N
+p(KIQ) =
+p(x ,Y n IQ) =
+p(y n IQ) . p(x Iy n,Q)
+(2)
+n=1
+n=1
+Now, the combination of the neural component with the HMM can be made more
+obvious: In (2), typically the probability P(YnIQ) will be described by the Markov model,
+in terms of the emission probabilities of the HMM . For instance, in continuous
+parameter HMM's, these probabilities are interpreted as weights for Gaussian mixtures. In
+the case of semi-continuous systems or discrete HMM's, these probabilities will serve as
+discrete emission probabilities of the codebook labels. The probability p(xIYn,Q)
+describes the acoustic processor of the system and is characterizing the relation between
+the vector ~ as input to the acoustic processor and the label Yn, which can be considered
+as the n-th output component of the acoustic processor. This n-th output component may
+characterize e.g. the n-th Gaussian mixture component in continuous parameter HMM's,
+or the generation of the n-th label of a vector quantizer in a discrete system. This
+probability is often considered as independent of the class 0 and can then be expressed as
+p(xIYn). It is exactly this probability, that can be modeled efficiently by our neural
+network. In this case, the vector X serves as input to the neural network and Yn
+characterizes the n-th neuron in the output layer of the network. Using Bayes law, this
+probability can be written as:
+P(YnIK) ' pW
+p(xl Yn) =
+p(y n)
+
+I
+
+I
+
+(3)
+
+yielding for (2):
+
+(4)
+Using again Bayes law to express
+
+Mutual Information Neural Networks for Hybrid HMMIANN Speech Recognition
+
+775
+
+(5)
+
+one obtains from (4):
+p(K)
+N
+p(KI.Q)= -(.Q) . L p(.Qly n ) ?p(ynlo!J
+p
+n=1
+(6)
+We have now modified the class-dependent probability of the feature vector X in a way
+that allows the incorporation of the probability P(YnIX). This probability allows a better
+characterization of the behavior of the neural network, because it describes the probability
+of the various neurons Yn, if the vector X is presented to the network input. Therefore,
+these probabilities give a good description of the input/output behavior of the neural
+network. Eq. (6) can therefore be considered as probabilistic model for the hybrid system,
+where the neural acoustic processor is characterized by its input/output behavior. Two
+cases can be now distinguished: In the first case, the neural network is assumed to be a
+probabilistic paradigm, where each neuron fires with a certain probability, if an input
+vector is presented. In this case all neurons contribute to the information forwarded to the
+HMM's. As already mentioned, in this paper, the second possible case is considered,
+namely that only one neuron in the output layer fires and will be fed as observed label to
+the HMM. In this case, we have a deterministic decision, and the probability P(YnIX)
+describes what neuron Yn* fires if vector X is presented to the input layer. Therefore, this
+probability reduces to
+(7)
+
+Then, (6) yields:
+(8)
+
+Now, the class-dependent probability p(Xln) is expressed through the probability
+p(nIYn*), involving directly the firing neuron Yn*, when feature vector X is presented.
+One has now to turn back to (1), recalling the fact, that this equation describes the fact
+that the Markov models are trained with the ML criterion. It should also be recalled, that
+the entire sequence of feature vectors, x(k), k=l...K, results in a label stream of firing
+neurons Yn*(k), k=l...K, where Yn*(k) is the firing neuron if the k-th vector x(k) is
+presented to the neural network. Now, (8) can be substituted into (1) for each presentation
+k, yielding the modified ML criterion:
+
+1( =
+
+arg;ax {
+
+::1
+K
+
+p(x(k))
+}
+log P(Q (k)) . p(.Q(k) I Y n*,k))
+
+~ arg;ax {~, log p(x (k)) - ~109P(Q(k)) + ~IOg p(Q(k) IYn.(k))}
+
+(9)
+
+Usually, in a continuous parameter system, the probability p(x) can be expressed as:
+N
+
+p(K)
+
+=
+
+LP(K,ly n) . p(y n)
+n=1
+
+(10)
+
+and is therefore dependent of the parameter vector ft, because in this case, p(xIYn) can be
+interpreted as the probability provided by the Gaussian distributions, and the parameters of
+
+G. Rigoll and C. Neukirchen
+
+776
+
+the Gaussians will depend on ft. As just mentioned before, in a discrete system, only one
+firing neuron Yn* survives, resulting in the fact that only the n*-th member remains in
+the sum in (10). This would correspond to only one "firing Gaussian" in the continuous
+case, leading to the following expression for p(x):
+p(K)
+
+= p(x Iy nJ? p(y nJ = p(K,y nJ = p(y n"lx)
+
+. p(x)
+
+(11)
+
+Considering now the fact, that the acoustic processor is not represented by a Gaussian but
+instead by a vector quantizer, where the probability P(Yn*IX) of the firing neuron is equal
+to 1, then (11) reduces to p(~) =p(x) and it becomes obvious that this probability is not
+affected by any distribution that depends on the parameter vector ft. This would be
+different, if P(Yn*IX) in (11) would not have binary characteristics as in (7), but would be
+computed by a continuous function which in this case would depend on the parameter
+vector ft. Thus, without consideration of p(X), the remaining expression to be maximized
+in (9) reduces to:
+
+,r( =arg;ax
+
+[~ ~IOg p(.Q( k)) +
+
+= arg max [-
+
+!
+
+1
+
+log p(.Q( k) I Y n?(k))
+
+(12)
+
+E {log p(.o)} + E {log p(.o I y n")}]
+
+fJ..
+These expectations of logarithmic probabilities are also defined as entropies. Therefore,
+(9) can be also written as
+fl." = arg max {H (.0) - H(.o I Y)}
+
+fJ..
+
+(13)
+
+This equation can be interpreted as follows: The term on the right side of (13) is also
+known as the mutual information I(n,Y~ between the probabilistic variables nand Y,
+i.e. :
+1(.0, Y) =H(.o) - H (.01 Y) =H (Y) - H(YI.o)
+(14)
+Therefore, the final information theory-based training criterion for the neural network can
+be formulated as follows: The synaptic weights of the neural network should be chosen as
+to maximize the mutual information between the string representing the classes of the
+vectors presented to the network input layer during training and the string representing the
+resulting sequence of firing neurons in the output layer of the neural network. This can be
+also expressed as the Maximum Mutual Information (MMI) criterion for neural network
+training. This concludes the proof that MMI neural networks are indeed optimal acoustic
+processors for HMM's trained with maximum likelihood principles.
+
+3 REALIZATION OF MMI TRAINING ALGORITHMS FOR
+NEURAL NETWORKS
+Training the synaptic weights of a neural network in order to achieve mutual information
+maximization is not easy. Two different algorithms have been developed for this task and
+can only be briefly outlined in this paper. A detailed description can be found in (Rigoll,
+1994) and (Neukirchen, 1996). The first experiments used a single-layer neural network
+with Euclidean distance as propagation function. The first implementation of the MMI
+training paradigm has been realized in (Rigoll, 1994) and is based on a self-organizing
+procedure, starting with initial weights derived from k-means clustering of the training
+vectors, followed by an iterative procedure to modify the weights. The mutual
+information increases in a self-organizing way from a low value at the start to a much
+higher value after several iteration cycles. The second implementation has been realized
+
+Mutual Information Neural Networks for Hybrid HMMIANN Speech Recognition
+
+777
+
+recently and is described in detail in (Neukirchen, 1996). It is based on the idea of using
+gradient methods for finding the MMI value. This technique has not been used before,
+because the maximum search for finding the firing neuron in the output layer has
+prevented the calculation of derivatives. This maximum search can be approximated using
+the softmax function, denoted as sn for the n-th neuron. It can be computed from the
+activations Zl of all neurons as:
+z IT
+
+Sn=e n
+
+N
+
+""
+
+/ ?..Je
+
+ZI
+
+IT
+
+/=1
+(15)
+where a small value for parameter T approximates a crisp maximum selection. Since the
+string n in (14) is always fixed during training and independent of the parameters in ft,
+only the function H(nIY) has to be minimized. This function can also be expressed as
+
+M
+
+H(!2 I Y)
+
+=-
+
+N
+
+L L
+
+p(y n,!2 m ) ?logp(!2 m I Y n)
+
+m=1 n=1
+
+m=1 n=1
+
+(16)
+
+A derivative with respect to a weight Wlj of the neural network yields:
+aH (!21 Y)
+JW/j
+
+=
+(17)
+
+As shown in (Neukirchen, 1996), all the required terms in (17) can be computed
+effectively and it is possible to realize a gradient descend method in order to maximize the
+mutual information of the training data. The great advantage of this method is the fact
+that it is now possible to generalize this algorithm for use in all popular neural network
+architectures, including multilayer and recurrent neural networks.
+
+4 RESULTS FOR THE HYBRID SYSTEM
+The new hybrid system has been developed and extensively tested using the Resource
+Management 1000 word speaker-independent continuous speech recognition task. First, a
+baseline discrete HMM system has been built up with all well-known features of a
+context-dependent HMM system. The performance of that baseline system is shown in
+column 2 of Table 1. The 1st column shows the performance of the hybrid system with
+the neural vector quantizer. This network has some special features not mentioned in the
+previous sections, e.g. it uses multiple frame input and has been trained on contextdependent classes. That means that the mutual information between the stream of firing
+neurons and the corresponding input stream of triphones has been maximized. In this
+way, the firing behavior of the network becomes sensitive to context-dependent units.
+Therefore, this network may be the only existing context-dependent acoustic processor,
+carrying the principle of triphone modeling from the HMM structure to the acoustic front
+end. It can be seen, that a substantially higher recognition performance is obtained with
+the hybrid system, that compares well with the leading continuous system (HTK, in
+column 3). It is expected, that the system will be further improved in the near future
+through various additional features, including full exploitation of multilayer neural VQ's
+
+778
+
+G. Rigoll and C. Neukirchen
+
+and several conventional HMM improvements, e.g. the use of crossword triphones.
+Recent results on the larger Wall Street Journal (WSJ) database have shown a 10.5% error
+rate for the hybrid system compared to a 13.4% error rate for a standard discrete system,
+using the 5k vocabulary test with bigram language model of perplexity 110. This error
+rate can be further reduced to 8.9% using crossword triphones and 6.6% with a trigram
+language model. This rate compares already quite favorably with the best continuous
+systems for the same task. It should be noted that this hybrid WSJ system is still in its
+initial stage and the neural component is not yet as sophisticated as in the RM system.
+
+5 CONCLUSION
+A new neural network paradigm and the resulting hybrid HMMIANN speech recognition
+system have been presented in this paper. The new approach performs already very well
+and is still perfectible. It gains its good performance from the following facts: (1) The use
+of information theory-based training algorithms for the neural vector quantizer, which can
+be shown to be optimal for the hybrid approach. (2) The possibility of introducing
+context-dependency not only to the HMM's, but also to the neural quantizer. (3) The fact
+that this hybrid approach allows the combination of an optimal neural acoustic processor
+with the most advanced context-dependent HMM system. We will continue to further
+implement various possible improvements for our hybrid speech recognition system.
+
+REFERENCES
+Rigoll, G. (1994) Maximum Mutual Information Neural Networks for Hybrid
+Connectionist-HMM Speech Recognition Systems, IEEE Transactions on Speech and
+Audio Processing, Vol. 2, No.1, Special Issue on Neural Networks for Speech
+Processing, pp. 175-184
+Neukirchen, C. & Rigoll, G. (1996) Training of MMI Neural Networks as Vector
+Quantizers, Internal Report, Gerhard-Mercator-University Duisburg, Faculty of Electrical
+Engineering, available via http://www.fb9-tLuni-duisburg.de/veroeffentl.html
+Bourlard, H. & Morgan, N. (1994) Connectionist Speech Recognition: A Hybrid
+Approach, Kluwer Academic Publishers
+Hochberg, M., Renals, S., Robinson, A., Cook, G. (1995) Recent Improvements to the
+ABBOT Large Vocabulary CSR System, in Proc. IEEE-ICASSP, Detroit, pp. 69-72
+Rigoll, G., Neukirchen, c., Rottland, J. (1996) A New Hybrid System Based on MMINeural Networks for the RM Speech Recognition Task, in Proc. IEEE-ICASSP, Atlanta
+Table 1: Comparison of recognition rates for different speech recognition systems
+RM SI word recognition rate with word pair grammar: correctness (accuracy)
+test set
+
+hybrid MMI-NN
+system
+
+baseline k-means
+VQ system
+
+continuous pdf system
+(HTK)
+
+Feb.'89
+
+96,3 %
+
+(95,6 %)
+
+94,3 % (93,6 %)
+
+96,0 % (95,5 %)
+
+Oct.'89
+
+95,4 %
+
+(94,5 %)
+
+93,5 % (92,0 %)
+
+95,4% (94,9 %)
+
+Feb.'91
+
+96,7 %
+
+(95,9 %)
+
+94,4% (93,5 %)
+
+96,6% (96,0 %)
+
+Sep.'92
+
+93,9 %
+
+(92,5 %)
+
+90,7 % (88,9 %)
+
+93,6 % (92,6 %)
+
+average
+
+95,6 %
+
+(94,6 %)
+
+93,2 % (92,0 %)
+
+95,4% (94,7 %)
+
+
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
+
 title: 1162-experiments-with-neural-networks-for-real-time-implementation-of-control.pdf
 
 Experiments with Neural Networks for Real
@@ -1227,862 +2094,6 @@ p. Campbell, H.L. Ferra, A. Kowalczyk, C. Leckie and P. Sember, Neural Networks
 in Real Time Decision Making, Proceedings of the International Workshop on
 Applications of Neural Networks to Telecommunications 2 (IWANNT-95), Ed. J
 Alspector et. al. Lawrence Erlbaum Associates, New Jersey, 1995, pp. 273-280.
-
-
-<<----------------------------------------------------------------------------------------------------------------------------------------->>
-
-title: 211-a-large-scale-neural-network-which-recognizes-handwritten-kanji-characters.pdf
-
-A Large-Scale Neural Network
-
-A LARGE-SCALE NEURAL NETWORK
-WHICH RECOGNIZES HANDWRITTEN
-KANJI CHARACTERS
-Yoshihiro Mori
-Kazuki Joe
-ATR Auditory and Visual Perception Research Laboratories
-Sanpeidani Inuidani Seika-cho Soraku-gun Kyoto 619-02 Japan
-
-ABSTRACT
-We propose a new way to construct a large-scale neural network for
-3.000 handwritten Kanji characters recognition. This neural network
-consists of 3 parts: a collection of small-scale networks which are
-trained individually on a small number of Kanji characters; a network
-which integrates the output from the small-scale networks, and a
-process to facilitate the integration of these neworks. The recognition
-rate of the total system is comparable with those of the small-scale
-networks. Our results indicate that the proposed method is effective for
-constructing a large-scale network without loss of recognition
-performance.
-
-1 INTRODUCTION
-Neural networks have been applied to recognition tasks in many fields. with good results
-[Denker, 1988][Mori,1988][Weideman, 1989]. They have performed better than
-conventional methods. However these networks currently operate with only a few
-categories, about 20 to 30. The Japanese writing system at present is composed of about
-3,000 characters. For a network to recognize this many characters, it must be given a
-large number of categories while maintaining its level of performance.
-To train small-scale neural networks is not a difficult task. Therefore. exploring methods
-for integrating these small-scale neural networks is important to construct a large-scale
-network. If such methods could integrate small-scale networks without loss of the
-performance, the scale of neural networks would be extended dramatically. In this paper,
-we propose such a method for constructing a large-scale network whose object is to
-recognize 3,000 handwritten Kanji characters, and report the result of a part of this
-network. This method is not limited to systems for character recognition, and can be
-applied to any system which recognizes many categories.
-
-2 STRATEGIES FOR A LARGE-SCALE NETWORK
-Knowing the current recognition and generalization capacity of a neural network. we
-realized that constructing a large-scale monolithic network would not be efficient or
-
-415
-
-416
-
-Mori and Joe
-effective. Instead, from the start we decided on a building blocks approach
-[Mori,1988] [Waibel,1988]. There are two strategies to mix many small-scale networks.
-
-2.1 Selective Neural Network (SNN)
-In this strategy, a large-scale neural network is made from many small-scale networks
-which are trained individually on a small number of categories, and a network (SNN)
-which selects the appropriate small-scale network (Fig. I). The advantage of this strategy
-is that the information passed to a selected small-scale networks is always appropriate for
-that network. Therefore, training these small-scale networks is very easy. But on the
-other hand, increasing the number of categories will substantially increase the training
-time of the SNN, and may make it harder for the SNN to retain high perfonnance.
-Furthennore, the error rate of the SNN will limit the perfonnance of the whole system.
-
-2.2 Integrative Neural Network (INN)
-In this strategy, a large-scale neural network is made from many small-scale networks
-which are trained individually on a small number of categories. and a network (INN)
-which integrates the output from these small-scale networks(Fig. 2). The advantage of
-this strategy is that every small-scale network gets information and contributes to finding
-the right answer. Therefore, it is possible to use the knowledge distributed among each
-small-scale network. But in some respects. various devices are needed to make the
-integration easier.
-The common advantage with both strategies just mentioned is that the size of each neural
-network is relatively small, and it does not take a long time to train these networks. Each
-small-scale networks is considered an independent part of the whole system. Therefore,
-retraining these networks (to improve the performance of the whole system) will not take
-too long.
-~__....
-O,utput
-
-Sub
-Net
-1
-
-? ?
-Neural Network
-(Selection Type)
-
-':1U:U/W:::::::/:::/E::::::::.
-
-: : Suspending
-/ Network
-
-(:::::{::::::::::::::::.:::::::: ~
-
-Fig. 1 SNN Strategy
-
-A Large-Scale Neural Network
-
-Output
-Neural Network
-(Integration Type)
-
-? ?
-Fig. 2 INN Strategy
-
-3 STRUCTURE OF LARGE-SCALE NETWORK
-The whole system is constructed using three kinds of neural networks. The ftrst one,
-called a SubNet, is an ordinary three layered feed forward type neural network trained
-using the Back Propagation learning algorithm. The second kind of network is called a
-SuperNet. This neural network makes its decision by integrating the outputs from all the
-SubNets. This network is also a 3-layered feed-forward net, but is larger than the Subnets.
-The last network, which we call an OtherFilter, is devised to improve the integration of
-the S uperNet. This OtherFilter network was designed using the L VQ algorithm
-[Khonen,1988]. There are also some changes made in the BP learning algorithm
-especially for pattern recognition [Joe,1989].
-We decided that, based on the time it takes for learning, there should be 9 categories in
-each small-scale network. The 3,000 characters are separated into these small groups
-through the K-means clustering method, which allows similar characters to be grouped
-together. The separation occurs in two stages. First, 11 groups of 270 characters each are
-formed, then each group is separated into 30 smaller units. In this way, 330 groups of 9
-characters each are obtained. We choose the INN strategy to use distributed knowledge to
-full advantage. The 9-character units are SubNets, which are integrated in 2 stages. First
-30 SubNets are integrated by a higher level network SuperNet. Altogether, 11 SuperNets
-are needed to recognize all 3,000 characters. SuperNets are in turn integrated by a higher
-level network, the HyperNet. More precisely, the role and structure of these kinds of
-networks are as follows:
-
-3.1 SubNet
-A feature vector extracted from handwritten patterns is used as the input (described in
-Section 4.1). The number of units in the output layer is the same as the number of
-categories to be recognized by the SubNet. In short, the role of a SubNet is to output the
-similarity between the input pattern and the categories allotted to the SubNet. (Fig. 3)
-
-3.2 SuperNet
-The outputs from each SubNet fIltered by the OtherFilter network are used as the input to
-
-417
-
-418
-
-Mori and Joe
-
-the SuperNet. The number of units in an output layer is the same as the number of
-SubNets belonging to a SuperNet. In shortt the role of SuperNet is to select the SubNet
-which covers the category corresponding to the input patterns. (Fig. 5)
-
-Output
-
-Horizontal
-
-+45?diagonal
-
-Vertical
-
-Original Pattern
-
-Fig. 3 S ubNet
-
-3.3 OtherFIIter
-45(9x5) reference vectors are assigned to each SubNet. LVQ is used to adapt these
-reference vectors t so that each input vector has a reference of the correct SubNet as its
-closest reference vector. The
-OtherFilter method is to frrst measure
-the distance between all the reference
-d
-vectors and one input vector. The
-mean distance and normal deviation of
-distance are calculated. The distance
-between a S ubNet and an input vector
-is defmed to be the smallest distance
-of that SubNet's reference vectors to
-? References
-the input vector .
-
-?
-
-?
-
-XInput Vector
-
-Fig4. Shape of OtherFilter
-
-?
-
-f(xo}=l 1(1+ e (x n-M+2d)/Cd) (1)
-Xn : The Distance of Nth SubNet
-M : The Mean of Xn
-d : The Variance of Xn
-C : Constant
-
-A Large-Scale Neural Network
-
-This distance modified by equation (1) is multiplied by the outputs of the SubNet. and fed
-into the SuperNet. The outputs of SubNets whose distance is greater than the mean
-distance are suppressed. and the outputs of SubNets whose distance is smaller than the
-mean distance are amplified. In this way. the outputs of SubNets are modified to improve
-the integration of the higher level SuperNet. (Fig. 5)
-
-HyperNet 1
-SuperNet 11
-SubNet 330
-OtherFilter 12
-
-Other-Filter
-
-FigS. Outline of the Whole System
-
-4 RECOGNITION EXPERIMENT
-4.1 TRAINING PATTERN
-The training samples for this network were chosen from a database of about 3000 Kanji
-characters [Saito 1985]. For each character. there are 200 handwritten samples from
-different writers. 100 are used as training samples. and the remaining 100 are used to test
-recognition accuracy of the trained network. All samples in the database consist of 64 by
-63 dots.
-
-419
-
-420
-
-Mori and Joe
-
-JlQ
-~
-~~
-
-~
-
-.J-~
-
-~~lJ
-~~
-
-~ ~
-~
-
-,~
-
-~~
-
-~
-~~
--V'#f)
-
-~
-
-~
-
-.orfffi
-
-~~
-
-J..~
-
-~i2
-
-O~
-
-~
-
-DI~J
-
-o/N{
-
-Fig. 6 Examples of training pattern
-
-4.2 LDCD FEATURE
-If we were to use this pattern as the input to our neural net, the number of units required
-in the input layer would be too large for the computational abilities of current computers.
-Therefore, a feature vector extracted from the handwritten patterns is used as the input. In
-the "LDCD feature" [Hagita 1983], there are 256 dimensions computing a line segment
-length along four directions: horizontal, vertical, and two diagonals in the 8 by 8 squares
-into which the handwritten samples are divided.
-
-t"
-:61
-
-o
-
-horizontal
-component
-
-Fig 7. LDCD Feature
-4.3 RECOGNITION RESULTS
-In the work reported here, one SuperNet, 30 SubNets and one OtherFilter were
-constructed for recognition experiments. SubNets were trained until the recognition of
-training samples reaches at least 99%. With these SubNets, the mean recognition rate of
-test patterns was 92%. This recognition rate is higher than that of conventional methods.
-A SuperNet which integrates the output modified by OtherFilter from 30 trained SubNets
-
-A Large-Scale Neural Network
-
-was then constructed. The number of units in the input layer of the SuperNet was 270.
-This SuperNet was trained until the performance of training samples becomes at least
-93%. With this SuperNet, the recognition rate of test patterns was 74%, though that of
-OtherFilter was 72%. The recognition rate of a system without the OtherFilter of test
-patterns was 55%.
-
-5 CONCLUSION
-We have here proposed a new way of constructing a large-scale neural network for the
-recognition of 3,000 handwritten Kanji characters. With this method, a system
-recognizing 270 Kanji characters was constructed. This system will become a part of a
-system recognizing 3,000 Kanji characters. Only a modest training time was necessary
-owing to the modular nature of the system. Moreover, this modularity means that only a
-modest re-training time is necessary for retraining an erroneous neural network in the
-whole system. The overall system performance can be improved by retraining just that
-neural network, and there is no need to retrain the whole system. However, the
-performance of the OtherFilter is not satisfactory. We intend to improve the OtherFilter,
-and build a large-scale network for the recognition of 3,000 handwritten Kanji characters
-by the method reported here.
-
-Acknowledgments
-We are grateful to Dr. Yodogawa for his support and encouragement. Special thanks to
-Dr. Sei Miyake for the ideas he provided in our many discussions. The authors would like
-to acknowledge, with thanks, the help of Erik McDermott for his valuable assistance in
-writing this paper in English.
-
-References
-[Denier, 1988]
-l.S.Denker, W.R.Gardner, H.P. Graf, D.Henderson, R.E. Howard,
-W.Hubbard, L.DJackel. H.S.Baird, I.Guyon : "Neural Network Recognizer for HandWritten ZIP Code Digits", NEURAL INFORMATION PROCESSING SYSTEMS 1.
-pp.323-331, Morgan Kaufmann. 1988
-[Mori,1988]
-Y.Mori. K.Yokosawa : "Neural Networks that Learn to Discriminate
-Similar Kanji Characters". NEURAL INFORMATION PROCESSING SYSTEMS 1,
-pp.332-339, Morgan Kaufmann. 1988
-[Weideman.1989]W.E.Weideman. M.T.Manry. H.C.Yau ; tI A COMPARISON OF A
-NEAREST NEIGHBOR CLASSIFIER AND A NEURAL NETWORK FOR NUMERIC
-HANDPRINT CHARACTER RECOGNITION". UCNN89(Washington), VoLl, pp.117120, June 1989
-
-421
-
-422
-
-Mori and Joe
-
-Alex Waibel, "Consonant Recognition by Modular Construction of
-[Waibel, 1988]
-Large Phonemic Time-Delay Neural Networks", NEURAL INFORMATION
-PROCESSING SYSTEMS 1, pp.215-223, Morgan Kaufmann, 1988
-[Joo,1989]
-KJoo, Y.Mori, S.Miyake : "Simulation of a Large-Scale Neural
-Networks on a Parallel Computer", 4th Hypercube Concurrent Computers,1989
-[Khonen,1988] T.Kohonen, G.Barna, R.Chrisley : "Statistical Pattern Recognition
-with Neural Networks", IEEE, Proc.of ICNN, YoU, pp.61-68, July 1988
-[Saito,1985]
-T.Saito, H.Yamada, K.Yamamoto : "On the Data Base ETL9 of
-Handprinted Characters in 1IS Chinese Characters and Its Analysis", J68-D, 4, 757-764,
-1985
-[Hagita,1983]
-N.Hagita, S.Naito, I.Masuda : "Recognition of Handprinted Chinese
-Characters by Global and Local Direction Contributivity Density-Feature", J66-D, 6,
-722-729,1983
-
-
-<<----------------------------------------------------------------------------------------------------------------------------------------->>
-
-title: 1193-a-new-approach-to-hybrid-hmmann-speech-recognition-using-mutual-information-neural-networks.pdf
-
-A New Approach to Hybrid HMMJANN Speech
-Recognition Using Mutual Information Neural
-Networks
-G. Rigoll,
-
-c.
-
-Neukirchen
-
-Gerhard-Mercator-University Duisburg
-Faculty of Electrical Engineering
-Department of Computer Science
-Bismarckstr. 90, Duisburg, Germany
-
-ABSTRACT
-This paper presents a new approach to speech recognition with hybrid
-HMM/ANN technology. While the standard approach to hybrid
-HMMIANN systems is based on the use of neural networks as
-posterior probability estimators, the new approach is based on the use
-of mutual information neural networks trained with a special learning
-algorithm in order to maximize the mutual information between the
-input classes of the network and its resulting sequence of firing output
-neurons during training. It is shown in this paper that such a neural
-network is an optimal neural vector quantizer for a discrete hidden
-Markov model system trained on Maximum Likelihood principles.
-One of the main advantages of this approach is the fact, that such
-neural networks can be easily combined with HMM's of any
-complexity with context-dependent capabilities. It is shown that the
-resulting hybrid system achieves very high recognition rates, which
-are now already on the same level as the best conventional HMM
-systems with continuous parameters, and the capabilities of the
-mutual information neural networks are not yet entirely exploited.
-
-1 INTRODUCTION
-Hybrid HMM/ANN systems deal with the optimal combination of artificial neural
-networks (ANN) and hidden Markov models (HMM). Especially in the area of automatic
-speech recognition, it has been shown that hybrid approaches can lead to very powerful
-and efficient systems, combining the discriminative capabilities of neural networks and
-the superior dynamic time warping abilities of HMM's. The most popular hybrid
-approach is described in (Hochberg, 1995) and replaces the component modeling the
-emission probabilities of the HMM by a neural net. This is possible, because it is shown
-
-Mutual In/ormation Neural Networks/or Hybrid HMMIANN Speech Recognition
-
-773
-
-in (Bourlard, 1994) that neural networks can be trained so that the output of the m-th
-neuron approximates the posterior probability p(QmIX). In this paper, an alternative
-method for constructing a hybrid system is presented. It is based on the use of discrete
-HMM's which are combined with a neural vector quantizer (VQ) in order to form a hybrid
-system. Each speech feature vector is presented to the neural network, which generates a
-firing neuron in its output layer. This neuron is processed as VQ label by the HMM's.
-There are the following arguments for this alternative hybrid approach:
-? The neural vector quantizer has to be trained on a special information theory criterion,
-based on the mutual information between network input and resulting neuron firing
-sequence. It will be shown that such a network is the optimal acoustic processor for a
-discrete HMM system, resulting in a profound mathematical theory for this approach.
-? Resulting from this theory, a formula can be derived which jointly describes the
-behavior of the HMM and the neural acoustic processor. In that way, both systems can
-be described in a unified manner and both major components of the hybrid system can
-be trained using a unified learning criterion.
-? The above mentioned theoretical background leads to the development of new neural
-network paradigms using novel training algorithms that have not been used before in
-other areas of neurocomputing, and therefore represent major challenges and issues in
-learning and training for neural systems.
-? The neural networks can be easily combined with any HMM system of arbitrary
-complexity. This leads to the combination of optimally trained neural networks with
-very powerful HMM's, having all features useful for speech recognition, e.g. triphones,
-function words, crossword triphones, etc .. Context-dependency, which is very desirable
-but relatively difficult to realize with a pure neural approach, can be left to the HMM's.
-? The resulting hybrid system has still the basic structure of a discrete system, and
-therefore has all the effective features associated with discrete systems, e.g. quick and
-easy training as well as recognition procedures, real-time capabilities, etc ..
-? The work presented in this paper has been also successfully implemented for a
-demanding speech recognition problem, the 1000 word speaker-independent continuous
-Resource Management speech recognition task. For this task, the hybrid system
-produces one of the best recognition results obtained by any speech recognition system.
-In the following section, the theoretical foundations of the hybrid approach are briefly
-explained. A unified probabilistic model for the combined HMMIANN system is derived,
-describing the interaction of the neural and the HMM component. Furthermore, it is
-shown that the optimal neural acoustic processor can be obtained from a special
-information theoretic network training algorithm.
-
-2 INFORMATION THEORY PRINCIPLES FOR NEURAL
-NETWORK TRAINING
-We are considering now a neural network of arbitrary topology used as neural vector
-quantizer for a discrete HMM system. If K patterns are presented to the hybrid system
-during training, the feature vectors resulting from these patterns using any feature
-extraction method can be denoted as x(k), k=l.. .K. If these feature vectors are presented to
-the input layer of a neural network, the network will generate one firing neuron for each
-presentation. Hence, all K presentations will generate a stream of firing neurons with
-length K resulting from the output layer of the neural net. This label stream is denoted as
-Y=y(l) ... y(K). The label stream Y will be presented to the HMM's, which calculate the
-probability that this stream has been observed while a pattern of a certain class has been
-presented to the system. It is assumed, that M different classes Q m are active in the
-
-G. Rigoll and C. Neukirchen
-
-774
-
-system, e.g. the words or phonemes in speech recognition. Each feature vector ~(k) will
-belong to one of these classes. The class Om, to which feature vector ~(k) belongs is
-denoted as Q(k). The major training issue for the neural network can be now formulated
-as follows : How should the weights of the network be trained, so that the network
-produces a stream of firing neurons that can be used by the discrete HMM's in an optimal
-way? It is known that HMM's are usually trained with information theory methods which
-mostly rely on the Maximum Likelihood (ML) principle. If the parameters of the hybrid
-system (i.e. transition and emission probabilities and network weights) are summarized in
-the vector !!, the probability P!!(x(k)IQ(k? denotes the probability of the pattern X at
-discrete time k, under the assumption that it has been generated by the model representing
-class O(k), with parameter set !!. The ML principle will then try to maximize the joint
-probability of all presented training patterns ~(k), according to the following Maximum
-Likelihood function:
-fl* = arg max
-~
-
-{~ i
-
-log P!! (K(k) I Q(k?j
-(1)
-
-k=1
-
-where !!* is the optimal parameter vector maximizing this equation. Our goal is to feed
-the feature vector ~ into a neural network and to present the neural network output to the
-Markov model. Therefore, one has to introduce the neural network output in a suitable
-manner into the above formula. If the vector ~ is presented to the network input layer, and
-we assume that there is a chance that any neuron Yn, n=1...N (with network output layer
-size N) can fire with a certain probability, then the output probability p(~IQ) in (1) can
-be written as:
-N
-N
-p(KIQ) =
-p(x ,Y n IQ) =
-p(y n IQ) . p(x Iy n,Q)
-(2)
-n=1
-n=1
-Now, the combination of the neural component with the HMM can be made more
-obvious: In (2), typically the probability P(YnIQ) will be described by the Markov model,
-in terms of the emission probabilities of the HMM . For instance, in continuous
-parameter HMM's, these probabilities are interpreted as weights for Gaussian mixtures. In
-the case of semi-continuous systems or discrete HMM's, these probabilities will serve as
-discrete emission probabilities of the codebook labels. The probability p(xIYn,Q)
-describes the acoustic processor of the system and is characterizing the relation between
-the vector ~ as input to the acoustic processor and the label Yn, which can be considered
-as the n-th output component of the acoustic processor. This n-th output component may
-characterize e.g. the n-th Gaussian mixture component in continuous parameter HMM's,
-or the generation of the n-th label of a vector quantizer in a discrete system. This
-probability is often considered as independent of the class 0 and can then be expressed as
-p(xIYn). It is exactly this probability, that can be modeled efficiently by our neural
-network. In this case, the vector X serves as input to the neural network and Yn
-characterizes the n-th neuron in the output layer of the network. Using Bayes law, this
-probability can be written as:
-P(YnIK) ' pW
-p(xl Yn) =
-p(y n)
-
-I
-
-I
-
-(3)
-
-yielding for (2):
-
-(4)
-Using again Bayes law to express
-
-Mutual Information Neural Networks for Hybrid HMMIANN Speech Recognition
-
-775
-
-(5)
-
-one obtains from (4):
-p(K)
-N
-p(KI.Q)= -(.Q) . L p(.Qly n ) ?p(ynlo!J
-p
-n=1
-(6)
-We have now modified the class-dependent probability of the feature vector X in a way
-that allows the incorporation of the probability P(YnIX). This probability allows a better
-characterization of the behavior of the neural network, because it describes the probability
-of the various neurons Yn, if the vector X is presented to the network input. Therefore,
-these probabilities give a good description of the input/output behavior of the neural
-network. Eq. (6) can therefore be considered as probabilistic model for the hybrid system,
-where the neural acoustic processor is characterized by its input/output behavior. Two
-cases can be now distinguished: In the first case, the neural network is assumed to be a
-probabilistic paradigm, where each neuron fires with a certain probability, if an input
-vector is presented. In this case all neurons contribute to the information forwarded to the
-HMM's. As already mentioned, in this paper, the second possible case is considered,
-namely that only one neuron in the output layer fires and will be fed as observed label to
-the HMM. In this case, we have a deterministic decision, and the probability P(YnIX)
-describes what neuron Yn* fires if vector X is presented to the input layer. Therefore, this
-probability reduces to
-(7)
-
-Then, (6) yields:
-(8)
-
-Now, the class-dependent probability p(Xln) is expressed through the probability
-p(nIYn*), involving directly the firing neuron Yn*, when feature vector X is presented.
-One has now to turn back to (1), recalling the fact, that this equation describes the fact
-that the Markov models are trained with the ML criterion. It should also be recalled, that
-the entire sequence of feature vectors, x(k), k=l...K, results in a label stream of firing
-neurons Yn*(k), k=l...K, where Yn*(k) is the firing neuron if the k-th vector x(k) is
-presented to the neural network. Now, (8) can be substituted into (1) for each presentation
-k, yielding the modified ML criterion:
-
-1( =
-
-arg;ax {
-
-::1
-K
-
-p(x(k))
-}
-log P(Q (k)) . p(.Q(k) I Y n*,k))
-
-~ arg;ax {~, log p(x (k)) - ~109P(Q(k)) + ~IOg p(Q(k) IYn.(k))}
-
-(9)
-
-Usually, in a continuous parameter system, the probability p(x) can be expressed as:
-N
-
-p(K)
-
-=
-
-LP(K,ly n) . p(y n)
-n=1
-
-(10)
-
-and is therefore dependent of the parameter vector ft, because in this case, p(xIYn) can be
-interpreted as the probability provided by the Gaussian distributions, and the parameters of
-
-G. Rigoll and C. Neukirchen
-
-776
-
-the Gaussians will depend on ft. As just mentioned before, in a discrete system, only one
-firing neuron Yn* survives, resulting in the fact that only the n*-th member remains in
-the sum in (10). This would correspond to only one "firing Gaussian" in the continuous
-case, leading to the following expression for p(x):
-p(K)
-
-= p(x Iy nJ? p(y nJ = p(K,y nJ = p(y n"lx)
-
-. p(x)
-
-(11)
-
-Considering now the fact, that the acoustic processor is not represented by a Gaussian but
-instead by a vector quantizer, where the probability P(Yn*IX) of the firing neuron is equal
-to 1, then (11) reduces to p(~) =p(x) and it becomes obvious that this probability is not
-affected by any distribution that depends on the parameter vector ft. This would be
-different, if P(Yn*IX) in (11) would not have binary characteristics as in (7), but would be
-computed by a continuous function which in this case would depend on the parameter
-vector ft. Thus, without consideration of p(X), the remaining expression to be maximized
-in (9) reduces to:
-
-,r( =arg;ax
-
-[~ ~IOg p(.Q( k)) +
-
-= arg max [-
-
-!
-
-1
-
-log p(.Q( k) I Y n?(k))
-
-(12)
-
-E {log p(.o)} + E {log p(.o I y n")}]
-
-fJ..
-These expectations of logarithmic probabilities are also defined as entropies. Therefore,
-(9) can be also written as
-fl." = arg max {H (.0) - H(.o I Y)}
-
-fJ..
-
-(13)
-
-This equation can be interpreted as follows: The term on the right side of (13) is also
-known as the mutual information I(n,Y~ between the probabilistic variables nand Y,
-i.e. :
-1(.0, Y) =H(.o) - H (.01 Y) =H (Y) - H(YI.o)
-(14)
-Therefore, the final information theory-based training criterion for the neural network can
-be formulated as follows: The synaptic weights of the neural network should be chosen as
-to maximize the mutual information between the string representing the classes of the
-vectors presented to the network input layer during training and the string representing the
-resulting sequence of firing neurons in the output layer of the neural network. This can be
-also expressed as the Maximum Mutual Information (MMI) criterion for neural network
-training. This concludes the proof that MMI neural networks are indeed optimal acoustic
-processors for HMM's trained with maximum likelihood principles.
-
-3 REALIZATION OF MMI TRAINING ALGORITHMS FOR
-NEURAL NETWORKS
-Training the synaptic weights of a neural network in order to achieve mutual information
-maximization is not easy. Two different algorithms have been developed for this task and
-can only be briefly outlined in this paper. A detailed description can be found in (Rigoll,
-1994) and (Neukirchen, 1996). The first experiments used a single-layer neural network
-with Euclidean distance as propagation function. The first implementation of the MMI
-training paradigm has been realized in (Rigoll, 1994) and is based on a self-organizing
-procedure, starting with initial weights derived from k-means clustering of the training
-vectors, followed by an iterative procedure to modify the weights. The mutual
-information increases in a self-organizing way from a low value at the start to a much
-higher value after several iteration cycles. The second implementation has been realized
-
-Mutual Information Neural Networks for Hybrid HMMIANN Speech Recognition
-
-777
-
-recently and is described in detail in (Neukirchen, 1996). It is based on the idea of using
-gradient methods for finding the MMI value. This technique has not been used before,
-because the maximum search for finding the firing neuron in the output layer has
-prevented the calculation of derivatives. This maximum search can be approximated using
-the softmax function, denoted as sn for the n-th neuron. It can be computed from the
-activations Zl of all neurons as:
-z IT
-
-Sn=e n
-
-N
-
-""
-
-/ ?..Je
-
-ZI
-
-IT
-
-/=1
-(15)
-where a small value for parameter T approximates a crisp maximum selection. Since the
-string n in (14) is always fixed during training and independent of the parameters in ft,
-only the function H(nIY) has to be minimized. This function can also be expressed as
-
-M
-
-H(!2 I Y)
-
-=-
-
-N
-
-L L
-
-p(y n,!2 m ) ?logp(!2 m I Y n)
-
-m=1 n=1
-
-m=1 n=1
-
-(16)
-
-A derivative with respect to a weight Wlj of the neural network yields:
-aH (!21 Y)
-JW/j
-
-=
-(17)
-
-As shown in (Neukirchen, 1996), all the required terms in (17) can be computed
-effectively and it is possible to realize a gradient descend method in order to maximize the
-mutual information of the training data. The great advantage of this method is the fact
-that it is now possible to generalize this algorithm for use in all popular neural network
-architectures, including multilayer and recurrent neural networks.
-
-4 RESULTS FOR THE HYBRID SYSTEM
-The new hybrid system has been developed and extensively tested using the Resource
-Management 1000 word speaker-independent continuous speech recognition task. First, a
-baseline discrete HMM system has been built up with all well-known features of a
-context-dependent HMM system. The performance of that baseline system is shown in
-column 2 of Table 1. The 1st column shows the performance of the hybrid system with
-the neural vector quantizer. This network has some special features not mentioned in the
-previous sections, e.g. it uses multiple frame input and has been trained on contextdependent classes. That means that the mutual information between the stream of firing
-neurons and the corresponding input stream of triphones has been maximized. In this
-way, the firing behavior of the network becomes sensitive to context-dependent units.
-Therefore, this network may be the only existing context-dependent acoustic processor,
-carrying the principle of triphone modeling from the HMM structure to the acoustic front
-end. It can be seen, that a substantially higher recognition performance is obtained with
-the hybrid system, that compares well with the leading continuous system (HTK, in
-column 3). It is expected, that the system will be further improved in the near future
-through various additional features, including full exploitation of multilayer neural VQ's
-
-778
-
-G. Rigoll and C. Neukirchen
-
-and several conventional HMM improvements, e.g. the use of crossword triphones.
-Recent results on the larger Wall Street Journal (WSJ) database have shown a 10.5% error
-rate for the hybrid system compared to a 13.4% error rate for a standard discrete system,
-using the 5k vocabulary test with bigram language model of perplexity 110. This error
-rate can be further reduced to 8.9% using crossword triphones and 6.6% with a trigram
-language model. This rate compares already quite favorably with the best continuous
-systems for the same task. It should be noted that this hybrid WSJ system is still in its
-initial stage and the neural component is not yet as sophisticated as in the RM system.
-
-5 CONCLUSION
-A new neural network paradigm and the resulting hybrid HMMIANN speech recognition
-system have been presented in this paper. The new approach performs already very well
-and is still perfectible. It gains its good performance from the following facts: (1) The use
-of information theory-based training algorithms for the neural vector quantizer, which can
-be shown to be optimal for the hybrid approach. (2) The possibility of introducing
-context-dependency not only to the HMM's, but also to the neural quantizer. (3) The fact
-that this hybrid approach allows the combination of an optimal neural acoustic processor
-with the most advanced context-dependent HMM system. We will continue to further
-implement various possible improvements for our hybrid speech recognition system.
-
-REFERENCES
-Rigoll, G. (1994) Maximum Mutual Information Neural Networks for Hybrid
-Connectionist-HMM Speech Recognition Systems, IEEE Transactions on Speech and
-Audio Processing, Vol. 2, No.1, Special Issue on Neural Networks for Speech
-Processing, pp. 175-184
-Neukirchen, C. & Rigoll, G. (1996) Training of MMI Neural Networks as Vector
-Quantizers, Internal Report, Gerhard-Mercator-University Duisburg, Faculty of Electrical
-Engineering, available via http://www.fb9-tLuni-duisburg.de/veroeffentl.html
-Bourlard, H. & Morgan, N. (1994) Connectionist Speech Recognition: A Hybrid
-Approach, Kluwer Academic Publishers
-Hochberg, M., Renals, S., Robinson, A., Cook, G. (1995) Recent Improvements to the
-ABBOT Large Vocabulary CSR System, in Proc. IEEE-ICASSP, Detroit, pp. 69-72
-Rigoll, G., Neukirchen, c., Rottland, J. (1996) A New Hybrid System Based on MMINeural Networks for the RM Speech Recognition Task, in Proc. IEEE-ICASSP, Atlanta
-Table 1: Comparison of recognition rates for different speech recognition systems
-RM SI word recognition rate with word pair grammar: correctness (accuracy)
-test set
-
-hybrid MMI-NN
-system
-
-baseline k-means
-VQ system
-
-continuous pdf system
-(HTK)
-
-Feb.'89
-
-96,3 %
-
-(95,6 %)
-
-94,3 % (93,6 %)
-
-96,0 % (95,5 %)
-
-Oct.'89
-
-95,4 %
-
-(94,5 %)
-
-93,5 % (92,0 %)
-
-95,4% (94,9 %)
-
-Feb.'91
-
-96,7 %
-
-(95,9 %)
-
-94,4% (93,5 %)
-
-96,6% (96,0 %)
-
-Sep.'92
-
-93,9 %
-
-(92,5 %)
-
-90,7 % (88,9 %)
-
-93,6 % (92,6 %)
-
-average
-
-95,6 %
-
-(94,6 %)
-
-93,2 % (92,0 %)
-
-95,4% (94,7 %)
 
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
@@ -3012,481 +3023,913 @@ Bayesian Methods for Supervised Neural Networks?, ??
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
 
-title: 503-refining-pid-controllers-using-neural-networks.pdf
+title: 211-a-large-scale-neural-network-which-recognizes-handwritten-kanji-characters.pdf
 
-Refining PIn Controllers using Neural Networks
+A Large-Scale Neural Network
 
-Gary M. Scott
-Department of Chemical Engineering
-1415 Johnson Drive
-University of Wisconsin
-Madison, WI 53706
+A LARGE-SCALE NEURAL NETWORK
+WHICH RECOGNIZES HANDWRITTEN
+KANJI CHARACTERS
+Yoshihiro Mori
+Kazuki Joe
+ATR Auditory and Visual Perception Research Laboratories
+Sanpeidani Inuidani Seika-cho Soraku-gun Kyoto 619-02 Japan
 
-Jude W. Shavlik
-Department of Computer Sciences
-1210 W. Dayton Street
-University of Wisconsin
-Madison, WI 53706
+ABSTRACT
+We propose a new way to construct a large-scale neural network for
+3.000 handwritten Kanji characters recognition. This neural network
+consists of 3 parts: a collection of small-scale networks which are
+trained individually on a small number of Kanji characters; a network
+which integrates the output from the small-scale networks, and a
+process to facilitate the integration of these neworks. The recognition
+rate of the total system is comparable with those of the small-scale
+networks. Our results indicate that the proposed method is effective for
+constructing a large-scale network without loss of recognition
+performance.
 
-W. Harmon Ray
-Department of Chemical Engineering
-1415 Johnson Drive
-University of Wisconsin
-Madison, WI 53706
+1 INTRODUCTION
+Neural networks have been applied to recognition tasks in many fields. with good results
+[Denker, 1988][Mori,1988][Weideman, 1989]. They have performed better than
+conventional methods. However these networks currently operate with only a few
+categories, about 20 to 30. The Japanese writing system at present is composed of about
+3,000 characters. For a network to recognize this many characters, it must be given a
+large number of categories while maintaining its level of performance.
+To train small-scale neural networks is not a difficult task. Therefore. exploring methods
+for integrating these small-scale neural networks is important to construct a large-scale
+network. If such methods could integrate small-scale networks without loss of the
+performance, the scale of neural networks would be extended dramatically. In this paper,
+we propose such a method for constructing a large-scale network whose object is to
+recognize 3,000 handwritten Kanji characters, and report the result of a part of this
+network. This method is not limited to systems for character recognition, and can be
+applied to any system which recognizes many categories.
 
-Abstract
-The KBANN approach uses neural networks to refine knowledge that can
-be written in the form of simple propositional rules. We extend this idea
-further by presenting the MANNCON algorithm by which the mathematical
-equations governing a PID controller determine the topology and initial
-weights of a network, which is further trained using backpropagation. We
-apply this method to the task of controlling the outflow and temperature
-of a water tank, producing statistically-significant gains in accuracy over
-both a standard neural network approach and a non-learning PID controller. Furthermore, using the PID knowledge to initialize the weights of
-the network produces statistically less variation in testset accuracy when
-compared to networks initialized with small random numbers.
+2 STRATEGIES FOR A LARGE-SCALE NETWORK
+Knowing the current recognition and generalization capacity of a neural network. we
+realized that constructing a large-scale monolithic network would not be efficient or
 
+415
+
+416
+
+Mori and Joe
+effective. Instead, from the start we decided on a building blocks approach
+[Mori,1988] [Waibel,1988]. There are two strategies to mix many small-scale networks.
+
+2.1 Selective Neural Network (SNN)
+In this strategy, a large-scale neural network is made from many small-scale networks
+which are trained individually on a small number of categories, and a network (SNN)
+which selects the appropriate small-scale network (Fig. I). The advantage of this strategy
+is that the information passed to a selected small-scale networks is always appropriate for
+that network. Therefore, training these small-scale networks is very easy. But on the
+other hand, increasing the number of categories will substantially increase the training
+time of the SNN, and may make it harder for the SNN to retain high perfonnance.
+Furthennore, the error rate of the SNN will limit the perfonnance of the whole system.
+
+2.2 Integrative Neural Network (INN)
+In this strategy, a large-scale neural network is made from many small-scale networks
+which are trained individually on a small number of categories. and a network (INN)
+which integrates the output from these small-scale networks(Fig. 2). The advantage of
+this strategy is that every small-scale network gets information and contributes to finding
+the right answer. Therefore, it is possible to use the knowledge distributed among each
+small-scale network. But in some respects. various devices are needed to make the
+integration easier.
+The common advantage with both strategies just mentioned is that the size of each neural
+network is relatively small, and it does not take a long time to train these networks. Each
+small-scale networks is considered an independent part of the whole system. Therefore,
+retraining these networks (to improve the performance of the whole system) will not take
+too long.
+~__....
+O,utput
+
+Sub
+Net
 1
 
-INTRODUCTION
+? ?
+Neural Network
+(Selection Type)
 
-Research into the design of neural networks for process control has largely ignored
-existing knowledge about the task at hand. One form this knowledge (often called
-the "domain theory") can take is embodied in traditional controller paradigms. The
+':1U:U/W:::::::/:::/E::::::::.
 
-555
+: : Suspending
+/ Network
 
-556
+(:::::{::::::::::::::::.:::::::: ~
 
-Scott, Shavlik, and Ray
+Fig. 1 SNN Strategy
 
-recently-developed KBANN (Knowledge-Based Artificial Neural Networks) approach
-(Towell et al., 1990) addresses this issue for tasks for which a domain theory (written
-using simple propositional rules) is available. The basis of this approach is to use
-the existing knowledge to determine an appropriate network topology and initial
-weights, such that the network begins its learning process at a "good" starting
-point.
-This paper describes the MANNCON (Multivariable Artificial Neural Network Control) algorithm, a method of using a traditional controller paradigm to determine
-the topology and initial weights of a network . The used of a PID controller in this
-way eliminates network-design problems such as the choice of network topology
-(i.e., the number of hidden units) and reduces the sensitivity of the network to the
-initial values of the weights. Furthermore, the initial configuration of the network
-is closer to its final state than it would normally be in a randomly-configured network. Thus, the MANNCON networks perform better and more consistently than
-the standard, randomly-initialized three-layer approach.
-The task we examine here is learning to control a Multiple-Input, Multiple-Output
-(MIMO) system. There are a number of reasons to investigate this task using neural networks. One, it usually involves nonlinear input-output relationships, which
-matches the nonlinear nature of neural networks. Two, there have been a number
-of successful applications of neural networks to this task (Bhat & McAvoy, 1990;
-Jordan & Jacobs, 1990; Miller et al., 1990). Finally, there are a number of existing
-controller paradigms which can be used to determine the topology and the initial
-weights of the network.
-
-2
-
-CONTROLLER NETWORKS
-
-The MANNCON algorithm uses a Proportional-Integral-Derivative (PID) controller
-(Stephanopoulos, 1984), one of the simplest of the traditional feedback controller
-schemes, as the basis for the construction and initialization of a neural network controller. The basic idea of PID control is that the control action u (a vector) should
-be proportional to the error, the integral of the error over time, and the temporal
-derivative of the error. Several tuning parameters determine the contribution of
-these various components. Figure 1 depicts the resulting network topology based
-on the PID controller paradigm. The first layer of the network, that from Y$P (desired process output or setpoint) and Y(n-l) (actual process output of the past time
-step), calculates the simple error (e). A simple vector difference,
-e=Y$p-Y
-
-accomplishes this. The second layer, that between e, e(n-l), and e, calculates the
-actual error to be passed to the PID mechanism. In effect, this layer acts as a
-steady-state pre-compensator (Ray, 1981), where
-
-e = GIe
-and produces the current error and the error signals at the past two time steps.
-This compensator is a constant matrix, G I , with values such that interactions at a
-steady state between the various control loops are eliminated. The final layer , that
-between e and u(n) (controller output/plant input), calculates the controller action
-
-Refining PID Controllers using Neural Networks
-
-Fd
-Td
-den) Water
-
-Tank
-
-F
-T
-Yen)
-
-WCO
-WHO
-WCI
-WHI
-WC2
-WH2
-
-Y(n-I)
-t:(n-I)
-
-Figure 1:
-
-MANNCON network showing weights that are initialized using
-Ziegler-Nichols tuning parameters.
-
-based on the velocity form of the discrete PID controller:
-UC(n)
-
-= UC(n-l) + WCOCI(n) + WCICI(n-l) + WC2 CI(n-2)
-
-where Wca, wCb and WC2 are constants determined by the tuning parameters of the
-controller for that loop. A similar set of equations and constants (WHO, WHI, WH2)
-exist for the other controller loop.
-Figure 2 shows a schematic of the water tank (Ray, 1981) that the network controls. This figure also shows the controller variables (Fc and FH), the tank output
-variables (F(h) and T), and the disturbance variables (Fd and Td). The controller
-cannot measure the disturbances, which represent noise in the system.
-MANN CON initializes the weights of Figure 1 's network with va.lues that mimic
-the behavior of a PID controller tuned with Ziegler-Nichols (Z-N) parameters
-(Stephanopoulos, 1984) at a particular operating condition. Using the KBANN
-approach (Towell et al., 1990), it adds weights to the network such that all units
-in a layer are connected to all units in all subsequent layers, and initializes these
-weights to small random numbers several orders of magnitude smaller than the
-weights determined by the PID parameters. We scaled the inputs and outputs of
-the network to be in the range [0,1].
-
-Initializing the weights of the network in the manner given above assumes that the
-activation functions of the units in the network are linear, that is,
-
-557
-
-558
-
-Scott, Shavlik, and Ray
-
-Cold Stream
-Fe
-Hot Stream (at TH)
-
-~
-T
-F
-
-Dis t urban ce
-Fd,Td
-I-
-
-= Temperature
-= Flow Rate
-
-h
-
-II
-
-l-
+A Large-Scale Neural Network
 
 Output
-F(h), T
+Neural Network
+(Integration Type)
 
-I I
+? ?
+Fig. 2 INN Strategy
 
-Figure 2: Stirred mixing tank requiring outflow and temperature control.
+3 STRUCTURE OF LARGE-SCALE NETWORK
+The whole system is constructed using three kinds of neural networks. The ftrst one,
+called a SubNet, is an ordinary three layered feed forward type neural network trained
+using the Back Propagation learning algorithm. The second kind of network is called a
+SuperNet. This neural network makes its decision by integrating the outputs from all the
+SubNets. This network is also a 3-layered feed-forward net, but is larger than the Subnets.
+The last network, which we call an OtherFilter, is devised to improve the integration of
+the S uperNet. This OtherFilter network was designed using the L VQ algorithm
+[Khonen,1988]. There are also some changes made in the BP learning algorithm
+especially for pattern recognition [Joe,1989].
+We decided that, based on the time it takes for learning, there should be 9 categories in
+each small-scale network. The 3,000 characters are separated into these small groups
+through the K-means clustering method, which allows similar characters to be grouped
+together. The separation occurs in two stages. First, 11 groups of 270 characters each are
+formed, then each group is separated into 30 smaller units. In this way, 330 groups of 9
+characters each are obtained. We choose the INN strategy to use distributed knowledge to
+full advantage. The 9-character units are SubNets, which are integrated in 2 stages. First
+30 SubNets are integrated by a higher level network SuperNet. Altogether, 11 SuperNets
+are needed to recognize all 3,000 characters. SuperNets are in turn integrated by a higher
+level network, the HyperNet. More precisely, the role and structure of these kinds of
+networks are as follows:
 
-Table 1: Topology and initialization of networks.
-Network
-1. Standard neural network
-2. MANNCON network I
-3. MANNCON network II
+3.1 SubNet
+A feature vector extracted from handwritten patterns is used as the input (described in
+Section 4.1). The number of units in the output layer is the same as the number of
+categories to be recognized by the SubNet. In short, the role of a SubNet is to output the
+similarity between the input pattern and the categories allotted to the SubNet. (Fig. 3)
 
-Topology
-3-layer (14 hidden units)
-PID topology
-PID topology
+3.2 SuperNet
+The outputs from each SubNet fIltered by the OtherFilter network are used as the input to
 
-Weight Initialization
-random
-random
-Z-N tuning
+417
 
-The strength of neural networks, however, lie in their having nonlinear (typically
-sigmoidal) activation functions. For this reason, the MANNCON system initially sets
-the weights (and the biases of the units) so that the linear response dictated by the
-PID initialization is approximated by a sigmoid over the output range of the unit.
-For units that have outputs in the range [-1,1]' the activation function becomes
-2
+418
 
-1 + exp( -2.31 L
-where
+Mori and Joe
 
-Wji
+the SuperNet. The number of units in an output layer is the same as the number of
+SubNets belonging to a SuperNet. In shortt the role of SuperNet is to select the SubNet
+which covers the category corresponding to the input patterns. (Fig. 5)
 
-_ 1
-WjiOi)
+Output
 
-are the linear weights described above.
+Horizontal
 
-Once MANNCON configures and initializes the weights of the network, it uses a set
-of training examples and backpropagation to improve the accuracy of the network.
-The weights initialized with PID information, as well as those initialized with small
-random numbers, change during backpropagation training.
++45?diagonal
 
-3
+Vertical
 
-EXPERIMENTAL DETAILS
+Original Pattern
 
-We compared the performance of three networks that differed in their topology
-and/or their method of initialization. Table 1 summarizes the network topology
-and weight initialization method for each network. In this table, "PID topology"
-is the network structure shown in Figure 1. "Random" weight initialization sets
+Fig. 3 S ubNet
 
-Refining PID Controllers using Neural Networks
+3.3 OtherFIIter
+45(9x5) reference vectors are assigned to each SubNet. LVQ is used to adapt these
+reference vectors t so that each input vector has a reference of the correct SubNet as its
+closest reference vector. The
+OtherFilter method is to frrst measure
+the distance between all the reference
+d
+vectors and one input vector. The
+mean distance and normal deviation of
+distance are calculated. The distance
+between a S ubNet and an input vector
+is defmed to be the smallest distance
+of that SubNet's reference vectors to
+? References
+the input vector .
 
-Table 2: Range and average duration of setpoints for experiments.
-Experiment
+?
+
+?
+
+XInput Vector
+
+Fig4. Shape of OtherFilter
+
+?
+
+f(xo}=l 1(1+ e (x n-M+2d)/Cd) (1)
+Xn : The Distance of Nth SubNet
+M : The Mean of Xn
+d : The Variance of Xn
+C : Constant
+
+A Large-Scale Neural Network
+
+This distance modified by equation (1) is multiplied by the outputs of the SubNet. and fed
+into the SuperNet. The outputs of SubNets whose distance is greater than the mean
+distance are suppressed. and the outputs of SubNets whose distance is smaller than the
+mean distance are amplified. In this way. the outputs of SubNets are modified to improve
+the integration of the higher level SuperNet. (Fig. 5)
+
+HyperNet 1
+SuperNet 11
+SubNet 330
+OtherFilter 12
+
+Other-Filter
+
+FigS. Outline of the Whole System
+
+4 RECOGNITION EXPERIMENT
+4.1 TRAINING PATTERN
+The training samples for this network were chosen from a database of about 3000 Kanji
+characters [Saito 1985]. For each character. there are 200 handwritten samples from
+different writers. 100 are used as training samples. and the remaining 100 are used to test
+recognition accuracy of the trained network. All samples in the database consist of 64 by
+63 dots.
+
+419
+
+420
+
+Mori and Joe
+
+JlQ
+~
+~~
+
+~
+
+.J-~
+
+~~lJ
+~~
+
+~ ~
+~
+
+,~
+
+~~
+
+~
+~~
+-V'#f)
+
+~
+
+~
+
+.orfffi
+
+~~
+
+J..~
+
+~i2
+
+O~
+
+~
+
+DI~J
+
+o/N{
+
+Fig. 6 Examples of training pattern
+
+4.2 LDCD FEATURE
+If we were to use this pattern as the input to our neural net, the number of units required
+in the input layer would be too large for the computational abilities of current computers.
+Therefore, a feature vector extracted from the handwritten patterns is used as the input. In
+the "LDCD feature" [Hagita 1983], there are 256 dimensions computing a line segment
+length along four directions: horizontal, vertical, and two diagonals in the 8 by 8 squares
+into which the handwritten samples are divided.
+
+t"
+:61
+
+o
+
+horizontal
+component
+
+Fig 7. LDCD Feature
+4.3 RECOGNITION RESULTS
+In the work reported here, one SuperNet, 30 SubNets and one OtherFilter were
+constructed for recognition experiments. SubNets were trained until the recognition of
+training samples reaches at least 99%. With these SubNets, the mean recognition rate of
+test patterns was 92%. This recognition rate is higher than that of conventional methods.
+A SuperNet which integrates the output modified by OtherFilter from 30 trained SubNets
+
+A Large-Scale Neural Network
+
+was then constructed. The number of units in the input layer of the SuperNet was 270.
+This SuperNet was trained until the performance of training samples becomes at least
+93%. With this SuperNet, the recognition rate of test patterns was 74%, though that of
+OtherFilter was 72%. The recognition rate of a system without the OtherFilter of test
+patterns was 55%.
+
+5 CONCLUSION
+We have here proposed a new way of constructing a large-scale neural network for the
+recognition of 3,000 handwritten Kanji characters. With this method, a system
+recognizing 270 Kanji characters was constructed. This system will become a part of a
+system recognizing 3,000 Kanji characters. Only a modest training time was necessary
+owing to the modular nature of the system. Moreover, this modularity means that only a
+modest re-training time is necessary for retraining an erroneous neural network in the
+whole system. The overall system performance can be improved by retraining just that
+neural network, and there is no need to retrain the whole system. However, the
+performance of the OtherFilter is not satisfactory. We intend to improve the OtherFilter,
+and build a large-scale network for the recognition of 3,000 handwritten Kanji characters
+by the method reported here.
+
+Acknowledgments
+We are grateful to Dr. Yodogawa for his support and encouragement. Special thanks to
+Dr. Sei Miyake for the ideas he provided in our many discussions. The authors would like
+to acknowledge, with thanks, the help of Erik McDermott for his valuable assistance in
+writing this paper in English.
+
+References
+[Denier, 1988]
+l.S.Denker, W.R.Gardner, H.P. Graf, D.Henderson, R.E. Howard,
+W.Hubbard, L.DJackel. H.S.Baird, I.Guyon : "Neural Network Recognizer for HandWritten ZIP Code Digits", NEURAL INFORMATION PROCESSING SYSTEMS 1.
+pp.323-331, Morgan Kaufmann. 1988
+[Mori,1988]
+Y.Mori. K.Yokosawa : "Neural Networks that Learn to Discriminate
+Similar Kanji Characters". NEURAL INFORMATION PROCESSING SYSTEMS 1,
+pp.332-339, Morgan Kaufmann. 1988
+[Weideman.1989]W.E.Weideman. M.T.Manry. H.C.Yau ; tI A COMPARISON OF A
+NEAREST NEIGHBOR CLASSIFIER AND A NEURAL NETWORK FOR NUMERIC
+HANDPRINT CHARACTER RECOGNITION". UCNN89(Washington), VoLl, pp.117120, June 1989
+
+421
+
+422
+
+Mori and Joe
+
+Alex Waibel, "Consonant Recognition by Modular Construction of
+[Waibel, 1988]
+Large Phonemic Time-Delay Neural Networks", NEURAL INFORMATION
+PROCESSING SYSTEMS 1, pp.215-223, Morgan Kaufmann, 1988
+[Joo,1989]
+KJoo, Y.Mori, S.Miyake : "Simulation of a Large-Scale Neural
+Networks on a Parallel Computer", 4th Hypercube Concurrent Computers,1989
+[Khonen,1988] T.Kohonen, G.Barna, R.Chrisley : "Statistical Pattern Recognition
+with Neural Networks", IEEE, Proc.of ICNN, YoU, pp.61-68, July 1988
+[Saito,1985]
+T.Saito, H.Yamada, K.Yamamoto : "On the Data Base ETL9 of
+Handprinted Characters in 1IS Chinese Characters and Its Analysis", J68-D, 4, 757-764,
+1985
+[Hagita,1983]
+N.Hagita, S.Naito, I.Masuda : "Recognition of Handprinted Chinese
+Characters by Global and Local Direction Contributivity Density-Feature", J66-D, 6,
+722-729,1983
+
+
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
+
+title: 5954-convolutional-networks-on-graphs-for-learning-molecular-fingerprints.pdf
+
+Convolutional Networks on Graphs
+for Learning Molecular Fingerprints
+
+David Duvenaud? , Dougal Maclaurin?, Jorge Aguilera-Iparraguirre
+Rafael G?omez-Bombarelli, Timothy Hirzel, Al?an Aspuru-Guzik, Ryan P. Adams
+Harvard University
+
+Abstract
+We introduce a convolutional neural network that operates directly on graphs.
+These networks allow end-to-end learning of prediction pipelines whose inputs
+are graphs of arbitrary size and shape. The architecture we present generalizes
+standard molecular feature extraction methods based on circular fingerprints. We
+show that these data-driven features are more interpretable, and have better predictive performance on a variety of tasks.
+
 1
+
+Introduction
+
+Recent work in materials design used neural networks to predict the properties of novel molecules
+by generalizing from examples. One difficulty with this task is that the input to the predictor, a
+molecule, can be of arbitrary size and shape. Currently, most machine learning pipelines can only
+handle inputs of a fixed size. The current state of the art is to use off-the-shelf fingerprint software
+to compute fixed-dimensional feature vectors, and use those features as inputs to a fully-connected
+deep neural network or other standard machine learning method. This formula was followed by
+[28, 3, 19]. During training, the molecular fingerprint vectors were treated as fixed.
+In this paper, we replace the bottom layer of this stack ? the function that computes molecular
+fingerprint vectors ? with a differentiable neural network whose input is a graph representing the
+original molecule. In this graph, vertices represent individual atoms and edges represent bonds. The
+lower layers of this network is convolutional in the sense that the same local filter is applied to each
+atom and its neighborhood. After several such layers, a global pooling step combines features from
+all the atoms in the molecule.
+These neural graph fingerprints offer several advantages over fixed fingerprints:
+? Predictive performance. By using data adapting to the task at hand, machine-optimized
+fingerprints can provide substantially better predictive performance than fixed fingerprints.
+We show that neural graph fingerprints match or beat the predictive performance of standard fingerprints on solubility, drug efficacy, and organic photovoltaic efficiency datasets.
+? Parsimony. Fixed fingerprints must be extremely large to encode all possible substructures
+without overlap. For example, [28] used a fingerprint vector of size 43,000, after having
+removed rarely-occurring features. Differentiable fingerprints can be optimized to encode
+only relevant features, reducing downstream computation and regularization requirements.
+? Interpretability. Standard fingerprints encode each possible fragment completely distinctly, with no notion of similarity between fragments. In contrast, each feature of a neural
+graph fingerprint can be activated by similar but distinct molecular fragments, making the
+feature representation more meaningful.
+?
+
+Equal contribution.
+
+1
+
+Figure 1: Left: A visual representation of the computational graph of both standard circular fingerprints and neural graph fingerprints. First, a graph is constructed matching the topology of the
+molecule being fingerprinted, in which nodes represent atoms, and edges represent bonds. At each
+layer, information flows between neighbors in the graph. Finally, each node in the graph turns on
+one bit in the fixed-length fingerprint vector. Right: A more detailed sketch including the bond
+information used in each operation.
+
 2
+
+Circular fingerprints
+
+The state of the art in molecular fingerprints are extended-connectivity circular fingerprints
+(ECFP) [21]. Circular fingerprints [6] are a refinement of the Morgan algorithm [17], designed
+to encode which substructures are present in a molecule in a way that is invariant to atom-relabeling.
+Circular fingerprints generate each layer?s features by applying a fixed hash function to the concatenated features of the neighborhood in the previous layer. The results of these hashes are then treated
+as integer indices, where a 1 is written to the fingerprint vector at the index given by the feature
+vector at each node in the graph. Figure 1(left) shows a sketch of this computational architecture.
+Ignoring collisions, each index of the fingerprint denotes the presence of a particular substructure.
+The size of the substructures represented by each index depends on the depth of the network. Thus
+the number of layers is referred to as the ?radius? of the fingerprints.
+Circular fingerprints are analogous to convolutional networks in that they apply the same operation
+locally everywhere, and combine information in a global pooling step.
 
 3
 
-Training Set
-[0.1,0.9]
-22 instances
-[0.1,0.9]
-22 instances
-[0.4,0.6]
-22 instances
+Creating a differentiable fingerprint
 
-Testing Set
-[0.1,0.9]
-22 instances
-[0.1,0.9]
-80 instances
-[0.1,0.9]
-80 instances
+The space of possible network architectures is large. In the spirit of starting from a known-good configuration, we designed a differentiable generalization of circular fingerprints. This section describes
+our replacement of each discrete operation in circular fingerprints with a differentiable analog.
+Hashing The purpose of the hash functions applied at each layer of circular fingerprints is to
+combine information about each atom and its neighboring substructures. This ensures that any
+change in a fragment, no matter how small, will lead to a different fingerprint index being activated.
+We replace the hash operation with a single layer of a neural network. Using a smooth function
+allows the activations to be similar when the local molecular structure varies in unimportant ways.
+Indexing Circular fingerprints use an indexing operation to combine all the nodes? feature vectors
+into a single fingerprint of the whole molecule. Each node sets a single bit of the fingerprint to one,
+at an index determined by the hash of its feature vector. This pooling-like operation converts an
+arbitrary-sized graph into a fixed-sized vector. For small molecules and a large fingerprint length,
+the fingerprints are always sparse. We use the softmax operation as a differentiable analog of
+indexing. In essence, each atom is asked to classify itself as belonging to a single category. The sum
+of all these classification label vectors produces the final fingerprint. This operation is analogous to
+the pooling operation in standard convolutional neural networks.
+2
 
-all weights to small random numbers centered around zero. We also compare these
-networks to a (non-learning) PID controller.
-We trained the networks using backpropagation over a randomly-determined schedule of setpoint YsP and disturbance d changes that did not repeat. The setpoints,
-which represent the desired output values that the controller is to maintain, are the
-temperature and outflow of the tank. The disturbances, which represent noise, are
-the inflow rate and temperature of a disturbance stream. The magnitudes of the
-setpoints and the disturbances formed a Gaussian distribution centered at 0.5. The
-number of training examples between changes in the setpoints and disturbances
-were exponentially distributed.
-We performed three experiments in which the characteristics of the training and/or
-testing set differed. Table 2 summarizes the range of the setpoints as well as their
-average duration for each data set in the experiments. As can be seen, in Experiment
-1, the training set and testing sets were qualitatively similar; in Experiment 2, the
-test set was of longer duration setpoints; and in Experiment 3, the training set was
-restricted to a subrange of the testing set. We periodically interrupted training and
-tested the network . Results are averaged over 10 runs (Scott, 1991).
-We used the error at the output of the tank (y in Figure 1) to determine the network
-error (at u) by propagating the error backward through the plant (Psaltis et al.,
-1988). In this method, the error signal at the input to the tank is given by
+Algorithm 1 Circular fingerprints
+1: Input: molecule, radius R, fingerprint
+length S
+2: Initialize: fingerprint vector f ? 0S
+3: for each atom a in molecule
+4:
+ra ? g(a)
+. lookup atom features
+5: for L = 1 to R
+. for each layer
+6:
+for each atom a in molecule
+7:
+r1 . . . rN = neighbors(a)
+8:
+v ? [ra , r1 , . . . , rN ] . concatenate
+9:
+ra ? hash(v)
+. hash function
+10:
+i ? mod(ra , S) . convert to index
+11:
+fi ? 1
+. Write 1 at index
+12: Return: binary vector f
 
-8u i
+Algorithm 2 Neural graph fingerprints
+1: Input: molecule, radius R, hidden weights
+5
+H11 . . . HR
+, output weights W1 . . . WR
+2: Initialize: fingerprint vector f ? 0S
+3: for each atom a in molecule
+4:
+ra ? g(a)
+. lookup atom features
+5: for L = 1 to R
+. for each layer
+6:
+for each atom a in molecule
+7:
+r1 . . . rN =Pneighbors(a)
+8:
+v ? ra + N
+. sum
+i=1 ri
+9:
+ra ? ?(vHLN )
+. smooth function
+10:
+i ? softmax(ra WL )
+. sparsify
+11:
+f ?f +i
+. add to fingerprint
+12: Return: real-valued vector f
 
-?Yi
-= f '( netui ) ~
-~ 8y j OUi
-J
-
-where 8yj represents the simple error at the output of the water tank and 8ui is the
-error signal at the input of the tank . Since we used a model of the process and not a
-real tank, we can calculate the partial derivatives from the process model equations.
+Figure 2: Pseudocode of circular fingerprints (left) and neural graph fingerprints (right). Differences
+are highlighted in blue. Every non-differentiable operation is replaced with a differentiable analog.
+Canonicalization Circular fingerprints are identical regardless of the ordering of atoms in each
+neighborhood. This invariance is achieved by sorting the neighboring atoms according to their
+features, and bond features. We experimented with this sorting scheme, and also with applying the
+local feature transform on all possible permutations of the local neighborhood. An alternative to
+canonicalization is to apply a permutation-invariant function, such as summation. In the interests of
+simplicity and scalability, we chose summation.
+Circular fingerprints can be interpreted as a special case of neural graph fingerprints having large
+random weights. This is because, in the limit of large input weights, tanh nonlinearities approach
+step functions, which when concatenated form a simple hash function. Also, in the limit of large
+input weights, the softmax operator approaches a one-hot-coded argmax operator, which is analogous to an indexing operation.
+Algorithms 1 and 2 summarize these two algorithms and highlight their differences. Given a fingerprint length L, and F features at each layer, the parameters of neural graph fingerprints consist of
+a separate output weight matrix of size F ? L for each layer, as well as a set of hidden-to-hidden
+weight matrices of size F ? F at each layer, one for each possible number of bonds an atom can
+have (up to 5 in organic molecules).
 
 4
 
-RESULTS
+Experiments
 
-Figure 3 compares the performance of the three networks for Experiment 1. As can
-be seen, the MANNCON networks show an increase in correctness over the standard
-neural network approach. Statistical analysis of the errors using a t-test show
-that they differ significantly at the 99.5% confidence level. Furthermore, while the
-difference in performance between MANNCON network I and MANNCON network II is
+We ran two experiments to demonstrate that neural fingerprints with large random weights behave
+similarly to circular fingerprints. First, we examined whether distances between circular fingerprints
+were similar to distances between neural fingerprint-based distances. Figure 3 (left) shows a scatterplot of pairwise distances between circular vs. neural fingerprints. Fingerprints had length 2048,
+and were calculated on pairs of molecules from the solubility dataset [4]. Distance was measured
+using a continuous generalization of the Tanimoto (a.k.a. Jaccard) similarity measure, given by
+.X
+X
+distance(x, y) = 1 ?
+min(xi , yi )
+max(xi , yi )
+(1)
+There is a correlation of r = 0.823 between the distances. The line of points on the right of the plot
+shows that for some pairs of molecules, binary ECFP fingerprints have exactly zero overlap.
+Second, we examined the predictive performance of neural fingerprints with large random weights
+vs. that of circular fingerprints. Figure 3 (right) shows average predictive performance on the solubility dataset, using linear regression on top of fingerprints. The performances of both methods
+follow similar curves. In contrast, the performance of neural fingerprints with small random weights
+follows a different curve, and is substantially better. This suggests that even with random weights,
+the relatively smooth activation of neural fingerprints helps generalization performance.
+3
 
-559
+2.0
+1.8
 
-560
+0.9
 
-Scott, Shavlik, and Ray
-l~---------------------------------------------,
+RMSE (log Mol/L)
 
-1 = Standard neural network
-2 = MANNCON network I
-3 = MANN CON network II
-4 = PID controller (non-learning)
+Neural fingerprint distances
 
-10000
+Neural vs Circular distances, r =0:823
+1.0
 
-15000
+0.8
+0.7
+0.6
+0.5
+0.5
 
-20000
+Circular fingerprints
+Random conv with large parameters
+Random conv with small parameters
 
-25000
+1.6
+1.4
+1.2
+1.0
+0.8
+0
 
-30000
+0.6
+0.7
+0.8
+0.9
+1.0
+Circular fingerprint distances
 
-Training Instances
-Figure 3: Mean square error of networks on the testset as a function of
-the number of training instances presented for Experiment 1.
-not significant, the difference in the variance of the testing error over different runs
-is significant (99.5% confidence level). Finally, the MANNCON networks perform
-significantly better (99.95% confidence level) than the non-learning PID controller.
-The performance of the standard neural network represents the best of several trials
-with a varying number of hidden units ranging from 2 to 20.
-A second observation from Figure 3 is that the MANNCON networks learned much
-more quickly than the standard neural-network approach. The MANNCON networks
-required significantly fewer training instances to reach a performance level within
-5% of its final error rate. For each of the experiments, Table 3 summarizes the
-final mean error, as well as the number of training instances required to achieve a
-performance within 5% of this value.
+1
 
-In Experiments 2 and 3 we again see a significant gain in correctness of the
-
-MAN-
-
-NCON networks over both the standard neural network approach (99.95% confidence
-level) as well as the non-learning PID controller (99.95% confidence level). In these
-experiments, the MANNCON network initialized with Z-N tuning also learned significantly quicker (99.95% confidence level) than the standard neural network.
+2
+3
+4
+Fingerprint radius
 
 5
 
-FUTURE WORK
+6
 
-One question is whether the introduction of extra hidden units into the network
-would improve the performance by giving the network "room" to learn concepts
-that are outside the given domain theory. The addition of extra hidden units as
-well as the removal of unneeded units is an area with much ongoing research.
+Figure 3: Left: Comparison of pairwise distances between molecules, measured using circular fingerprints and neural graph fingerprints with large random weights. Right: Predictive performance
+of circular fingerprints (red), neural graph fingerprints with fixed large random weights (green) and
+neural graph fingerprints with fixed small random weights (blue). The performance of neural graph
+fingerprints with large random weights closely matches the performance of circular fingerprints.
+4.1
 
-Refining PID Controllers using Neural Networks
+Examining learned features
 
-l.
+To demonstrate that neural graph fingerprints are interpretable, we show substructures which most
+activate individual features in a fingerprint vector. Each feature of a circular fingerprint vector can
+each only be activated by a single fragment of a single radius, except for accidental collisions.
+In contrast, neural graph fingerprint features can be activated by variations of the same structure,
+making them more interpretable, and allowing shorter feature vectors.
+Solubility features Figure 4 shows the fragments that maximally activate the most predictive features of a fingerprint. The fingerprint network was trained as inputs to a linear model predicting
+solubility, as measured in [4]. The feature shown in the top row has a positive predictive relationship
+with solubility, and is most activated by fragments containing a hydrophilic R-OH group, a standard
+indicator of solubility. The feature shown in the bottom row, strongly predictive of insolubility, is
+activated by non-polar repeated ring structures.
+Fragments most
+activated by
+pro-solubility
+feature
 
-2.
-3.
-4.
-5.
-l.
+O
 
-2.
-3.
-4.
-5.
-l.
+OH
 
-2.
-3.
-4.
-5.
+O
+NH
+O
 
-Table 3: Comparison of network performance.
-I Mean Square Error I Training Instances
-Method
-Experiment 1
-25,200 ? 2, 260
-Standard neural network
-0.0103 ? 0.0004
-5,000 ? 3,340
-MANN CON network I
-0.0090 ? 0.0006
-MANN CON network II
-640? 200
-0.0086 ? 0.0001
-PID control (Z-N tuning) 0.0109
-0.0190
-Fixed control action
-Experiment 2
-14,400 ? 3, 150
-Standard neural network
-0.0118 ? 0.00158
-12 , 000 ? 3,690
-MANN CON network I
-0.0040 ? 0.00014
-2,080? 300
-0.0038 ? 0.00006
-MANN CON network II
-PID control (Z-N tuning) 0.0045
-Fixed con trol action
-0.0181
-Experiment 3
-0.0112 ? 0.00013
-25,200 ? 2, 360
-Standard neural network
-25,000 ? 1, 550
-MANN CON network I
-0.0039 ? 0.00008
-9,400 ? 1,180
-MANN CON network II
-0.0036 ? 0.00006
-PID control (Z-N tuning) 0.0045
-Fixed control action
-0.0181
+OH
 
-The "?" indicates that the true value lies within these bounds at a 95%
-confidence level. The values given for fixed control action (5) represent
-the errors resulting from fixing the control actions at a level that produces
-outputs of [0.5,0.5) at steady state.
+OH
 
-"Ringing" (rapid changes in controller actions) occurred in some of the trained
-networks . A future enhancement of this approach would be to create a network
-architecture that prevented this ringing, perhaps by limiting the changes in the
-controller actions to some relatively small values.
-Another important goal of this approach is the application of it to other real-world
-processes. The water tank in this project, while illustrative of the approach , was
-quite simple. Much more difficult problems (such as those containing significant
-time delays) exist and should be explored.
-There are several other controller paradigms that could be used as a basis for network construction and initialization. There are several different digital controllers,
-such as Deadbeat or Dahlin's (Stephanopoulos, 1984), that could be used in place
-of the digital PID controller used in this project. Dynamic Matrix Control (DMC)
-(Pratt et al., 1980) and Internal Model Control (IMC) (Garcia & Morari, 1982) are
-also candidates for consideration for this approach.
-Finally, neural networks are generally considered to be "black boxes," in that their
-inner workings are completely uninterpretable. Since the neural networks in this
-approach are initialized with information, it may be possible to interpret the weights
-of the network and extract useful information from the trained network.
+Fragments most
+activated by
+anti-solubility
+feature
 
-561
+Figure 4: Examining fingerprints optimized for predicting solubility. Shown here are representative
+examples of molecular fragments (highlighted in blue) which most activate different features of the
+fingerprint. Top row: The feature most predictive of solubility. Bottom row: The feature most
+predictive of insolubility.
 
-562
+4
 
-Scott, Shavlik, and Ray
+Toxicity features We trained the same model architecture to predict toxicity, as measured in two
+different datasets in [26]. Figure 5 shows fragments which maximally activate the feature most
+predictive of toxicity, in two separate datasets.
+Fragments most
+activated by
+toxicity feature
+on SR-MMP
+dataset
+Fragments most
+activated by
+toxicity feature
+on NR-AHR
+dataset
+Figure 5: Visualizing fingerprints optimized for predicting toxicity. Shown here are representative
+samples of molecular fragments (highlighted in red) which most activate the feature most predictive
+of toxicity. Top row: the most predictive feature identifies groups containing a sulphur atom attached
+to an aromatic ring. Bottom row: the most predictive feature identifies fused aromatic rings, also
+known as polycyclic aromatic hydrocarbons, a well-known carcinogen.
+[27] constructed similar visualizations, but in a semi-manual way: to determine which toxic fragments activated a given neuron, they searched over a hand-made list of toxic substructures and chose
+the one most correlated with a given neuron. In contrast, our visualizations are generated automatically, without the need to restrict the range of possible answers beforehand.
+4.2
+
+Predictive Performance
+
+We ran several experiments to compare the predictive performance of neural graph fingerprints to
+that of the standard state-of-the-art setup: circular fingerprints fed into a fully-connected neural
+network.
+Experimental setup Our pipeline takes as input the SMILES [30] string encoding of each
+molecule, which is then converted into a graph using RDKit [20]. We also used RDKit to produce
+the extended circular fingerprints used in the baseline. Hydrogen atoms were treated implicitly.
+In our convolutional networks, the initial atom and bond features were chosen to be similar to those
+used by ECFP: Initial atom features concatenated a one-hot encoding of the atom?s element, its
+degree, the number of attached hydrogen atoms, and the implicit valence, and an aromaticity indicator. The bond features were a concatenation of whether the bond type was single, double, triple,
+or aromatic, whether the bond was conjugated, and whether the bond was part of a ring.
+Training and Architecture Training used batch normalization [11]. We also experimented with
+tanh vs relu activation functions for both the neural fingerprint network layers and the fullyconnected network layers. relu had a slight but consistent performance advantage on the validation set. We also experimented with dropconnect [29], a variant of dropout in which weights are
+randomly set to zero instead of hidden units, but found that it led to worse validation error in general. Each experiment optimized for 10000 minibatches of size 100 using the Adam algorithm [13],
+a variant of RMSprop that includes momentum.
+Hyperparameter Optimization To optimize hyperparameters, we used random search. The hyperparameters of all methods were optimized using 50 trials for each cross-validation fold. The
+following hyperparameters were optimized: log learning rate, log of the initial weight scale, the log
+L2 penalty, fingerprint length, fingerprint depth (up to 6), and the size of the hidden layer in the
+fully-connected network. Additionally, the size of the hidden feature vector in the convolutional
+neural fingerprint networks was optimized.
+5
+
+Dataset
+Units
+Predict mean
+Circular FPs + linear layer
+Circular FPs + neural net
+Neural FPs + linear layer
+Neural FPs + neural net
+
+Solubility [4]
+log Mol/L
+
+Drug efficacy [5]
+EC50 in nM
+
+Photovoltaic efficiency [8]
+percent
+
+4.29 ? 0.40
+1.71 ? 0.13
+1.40 ? 0.13
+0.77 ? 0.11
+0.52 ? 0.07
+
+1.47 ? 0.07
+1.13 ? 0.03
+1.36 ? 0.10
+1.15 ? 0.02
+1.16 ? 0.03
+
+6.40 ? 0.09
+2.63 ? 0.09
+2.00 ? 0.09
+2.58 ? 0.18
+1.43 ? 0.09
+
+Table 1: Mean predictive accuracy of neural fingerprints compared to standard circular fingerprints.
+
+Datasets We compared the performance of standard circular fingerprints against neural graph fingerprints on a variety of domains:
+? Solubility: The aqueous solubility of 1144 molecules as measured by [4].
+? Drug efficacy: The half-maximal effective concentration (EC50 ) in vitro of 10,000
+molecules against a sulfide-resistant strain of P. falciparum, the parasite that causes malaria,
+as measured by [5].
+? Organic photovoltaic efficiency: The Harvard Clean Energy Project [8] uses expensive
+DFT simulations to estimate the photovoltaic efficiency of organic molecules. We used a
+subset of 20,000 molecules from this dataset.
+Predictive accuracy We compared the performance of circular fingerprints and neural graph fingerprints under two conditions: In the first condition, predictions were made by a linear layer using
+the fingerprints as input. In the second condition, predictions were made by a one-hidden-layer
+neural network using the fingerprints as input. In all settings, all differentiable parameters in the
+composed models were optimized simultaneously. Results are summarized in Table 4.2.
+In all experiments, the neural graph fingerprints matched or beat the accuracy of circular fingerprints,
+and the methods with a neural network on top of the fingerprints typically outperformed the linear
+layers.
+Software Automatic differentiation (AD) software packages such as Theano [1] significantly
+speed up development time by providing gradients automatically, but can only handle limited control
+structures and indexing. Since we required relatively complex control flow and indexing in order
+to implement variants of Algorithm 2, we used a more flexible automatic differentiation package
+for Python called Autograd (github.com/HIPS/autograd). This package handles standard
+Numpy [18] code, and can differentiate code containing while loops, branches, and indexing.
+Code for computing neural fingerprints and producing visualizations is available at
+github.com/HIPS/neural-fingerprint.
+
+5
+
+Limitations
+
+Computational cost Neural fingerprints have the same asymptotic complexity in the number of
+atoms and the depth of the network as circular fingerprints, but have additional terms due to the
+matrix multiplies necessary to transform the feature vector at each step. To be precise, computing
+the neural fingerprint of depth R, fingerprint length L of a molecule with N atoms using a molecular
+convolutional net having F features at each layer costs O(RN F L + RN F 2 ). In practice, training
+neural networks on top of circular fingerprints usually took several minutes, while training both the
+fingerprints and the network on top took on the order of an hour on the larger datasets.
+Limited computation at each layer How complicated should we make the function that goes
+from one layer of the network to the next? In this paper we chose the simplest feasible architecture:
+a single layer of a neural network. However, it may be fruitful to apply multiple layers of nonlinearities between each message-passing step (as in [22]), or to make information preservation easier by
+adapting the Long Short-Term Memory [10] architecture to pass information upwards.
+6
+
+Limited information propagation across the graph The local message-passing architecture developed in this paper scales well in the size of the graph (due to the low degree of organic molecules),
+but its ability to propagate information across the graph is limited by the depth of the network. This
+may be appropriate for small graphs such as those representing the small organic molecules used in
+this paper. However, in the worst case, it can take a depth N2 network to distinguish between graphs
+of size N . To avoid this problem, [2] proposed a hierarchical clustering of graph substructures. A
+tree-structured network could examine the structure of the entire graph using only log(N ) layers,
+but would require learning to parse molecules. Techniques from natural language processing [25]
+might be fruitfully adapted to this domain.
+Inability to distinguish stereoisomers Special bookkeeping is required to distinguish between
+stereoisomers, including enantomers (mirror images of molecules) and cis/trans isomers (rotation
+around double bonds). Most circular fingerprint implementations have the option to make these
+distinctions. Neural fingerprints could be extended to be sensitive to stereoisomers, but this remains
+a task for future work.
 
 6
 
-CONCLUSIONS
+Related work
 
-We have described the MANNCON algorithm, which uses the information from a
-PID controller to determine a relevant network topology without resorting to trialand-error methods. In addition, the algorithm, through initialization of the weights
-with prior knowledge, gives the backpropagtion algorithm an appropriate direction
-in which to continue learning. Finally, we have shown that using the MANNCON
-algorithm significantly improves the performance of the trained network in the following ways:
-? Improved mean testset accuracy
-? Less variability between runs
-? Faster rate of learning
-? Better generalization and extrapolation ability
-Acknowledgements
+This work is similar in spirit to the neural Turing machine [7], in the sense that we take an existing
+discrete computational architecture, and make each part differentiable in order to do gradient-based
+optimization.
+Neural nets for quantitative structure-activity relationship (QSAR) The modern standard for
+predicting properties of novel molecules is to compose circular fingerprints with fully-connected
+neural networks or other regression methods. [3] used circular fingerprints as inputs to an ensemble
+of neural networks, Gaussian processes, and random forests. [19] used circular fingerprints (of depth
+2) as inputs to a multitask neural network, showing that multiple tasks helped performance.
+Neural graph fingerprints The most closely related work is [15], who build a neural network
+having graph-valued inputs. Their approach is to remove all cycles and build the graph into a tree
+structure, choosing one atom to be the root. A recursive neural network [23, 24] is then run from
+the leaves to the root to produce a fixed-size representation. Because a graph having N nodes
+has N possible roots, all N possible graphs are constructed. The final descriptor is a sum of the
+representations computed by all distinct graphs. There are as many distinct graphs as there are
+atoms in the network. The computational cost of this method thus grows as O(F 2 N 2 ), where F
+is the size of the feature vector and N is the number of atoms, making it less suitable for large
+molecules.
+Convolutional neural networks Convolutional neural networks have been used to model images,
+speech, and time series [14]. However, standard convolutional architectures use a fixed computational graph, making them difficult to apply to objects of varying size or structure, such as molecules.
+More recently, [12] and others have developed a convolutional neural network architecture for modeling sentences of varying length.
+Neural networks on fixed graphs [2] introduce convolutional networks on graphs in the regime
+where the graph structure is fixed, and each training example differs only in having different features
+at the vertices of the same graph. In contrast, our networks address the situation where each training
+input is a different graph.
+Neural networks on input-dependent graphs [22] propose a neural network model for graphs
+having an interesting training procedure. The forward pass consists of running a message-passing
+scheme to equilibrium, a fact which allows the reverse-mode gradient to be computed without storing
+the entire forward computation. They apply their network to predicting mutagenesis of molecular
+compounds as well as web page rankings. [16] also propose a neural network model for graphs
+with a learning scheme whose inner loop optimizes not the training loss, but rather the correlation
+between each newly-proposed vector and the training error residual. They apply their model to a
+dataset of boiling points of 150 molecular compounds. Our paper builds on these ideas, with the
+7
 
-This material based upon work partially supported under a National Science Foundation Graduate Fellowship (to Scott), Office of Naval Research Grant N00014-90J-1941, and National Science Foundation Grants IRI-9002413 and CPT-8715051.
+following differences: Our method replaces their complex training algorithms with simple gradientbased optimization, generalizes existing circular fingerprint computations, and applies these networks in the context of modern QSAR pipelines which use neural networks on top of the fingerprints
+to increase model capacity.
+Unrolled inference algorithms [9] and others have noted that iterative inference procedures
+sometimes resemble the feedforward computation of a recurrent neural network. One natural extension of these ideas is to parameterize each inference step, and train a neural network to approximately
+match the output of exact inference using only a small number of iterations. The neural fingerprint,
+when viewed in this light, resembles an unrolled message-passing algorithm on the original graph.
+
+7
+
+Conclusion
+
+We generalized existing hand-crafted molecular features to allow their optimization for diverse tasks.
+By making each operation in the feature pipeline differentiable, we can use standard neural-network
+training methods to scalably optimize the parameters of these neural molecular fingerprints end-toend. We demonstrated the interpretability and predictive performance of these new fingerprints.
+Data-driven features have already replaced hand-crafted features in speech recognition, machine
+vision, and natural-language processing. Carrying out the same task for virtual screening, drug
+design, and materials design is a natural next step.
+Acknowledgments
+We thank Edward Pyzer-Knapp, Jennifer Wei, and Samsung Advanced Institute of Technology for
+their support. This work was partially funded by NSF IIS-1421780.
+
 References
+[1] Fr?ed?eric Bastien, Pascal Lamblin, Razvan Pascanu, James Bergstra, Ian J. Goodfellow, Arnaud
+Bergeron, Nicolas Bouchard, and Yoshua Bengio. Theano: new features and speed improvements. Deep Learning and Unsupervised Feature Learning NIPS 2012 Workshop, 2012.
+[2] Joan Bruna, Wojciech Zaremba, Arthur Szlam, and Yann LeCun. Spectral networks and locally
+connected networks on graphs. arXiv preprint arXiv:1312.6203, 2013.
+[3] George E. Dahl, Navdeep Jaitly, and Ruslan Salakhutdinov. Multi-task neural networks for
+QSAR predictions. arXiv preprint arXiv:1406.1231, 2014.
+[4] John S. Delaney. ESOL: Estimating aqueous solubility directly from molecular structure. Journal of Chemical Information and Computer Sciences, 44(3):1000?1005, 2004.
+[5] Francisco-Javier Gamo, Laura M Sanz, Jaume Vidal, Cristina de Cozar, Emilio Alvarez,
+Jose-Luis Lavandera, Dana E Vanderwall, Darren VS Green, Vinod Kumar, Samiul Hasan,
+et al. Thousands of chemical starting points for antimalarial lead identification. Nature,
+465(7296):305?310, 2010.
+[6] Robert C. Glem, Andreas Bender, Catrin H. Arnby, Lars Carlsson, Scott Boyer, and James
+Smith. Circular fingerprints: flexible molecular descriptors with applications from physical
+chemistry to ADME. IDrugs: the investigational drugs journal, 9(3):199?204, 2006.
+[7] Alex Graves, Greg Wayne, and Ivo Danihelka. Neural Turing machines. arXiv preprint
+arXiv:1410.5401, 2014.
+[8] Johannes Hachmann, Roberto Olivares-Amaya, Sule Atahan-Evrenk, Carlos Amador-Bedolla,
+Roel S S?anchez-Carrera, Aryeh Gold-Parker, Leslie Vogt, Anna M Brockway, and Al?an
+Aspuru-Guzik. The Harvard clean energy project: large-scale computational screening and
+design of organic photovoltaics on the world community grid. The Journal of Physical Chemistry Letters, 2(17):2241?2251, 2011.
+[9] John R Hershey, Jonathan Le Roux, and Felix Weninger. Deep unfolding: Model-based inspiration of novel deep architectures. arXiv preprint arXiv:1409.2574, 2014.
+8
 
-Bhat, N. & McAvoy, T. J. (1990). Use of neural nets for dynamic modeling and
-control of chemical process systems. Computers and Chemical Engineering, 14,
-573-583.
-Garcia, C. E. & Morari, M. (1982). Internal model control: 1. A unifying review
-and some new results. I&EC Process Design & Development, 21, 308-323.
-Jordan, M. I. & Jacobs, R. A. (1990). Learning to control an unstable system
-with forward modeling. In Advances in Neural Information Processing Systems
-(Vol. 2, pp. 325- 331). San Mateo, CA: Morgan Kaufmann.
-Miller, W. T., Sutton, R. S., & Werbos, P. J. (Eds.)(1990). Neural networks for
-control. Cambridge, MA : MIT Press.
-Pratt, D. M., Ramaker, B. L., & Cutler, C. R. (1980) . Dynamic matrix control
-method. Patent 4,349,869, Shell Oil Company.
-Psaltis, D., Sideris, A., & Yamamura, A. A. (1988). A multilayered neural network
-controller. IEEE Control Systems Magazine, 8, 17- 21.
-Ray, W . H. (1981). Advanced process control. New York: McGraw-Hill, Inc.
-Scott, G. M. (1991). Refining PID controllers using neural networks. Master's
-project, University of Wisconsin, Department of Computer Sciences.
-Stephanopoulos, G. (1984). Chemical process control: An introduction to theory
-and practice. Englewood Cliffs, NJ: Prentice Hall, Inc.
-Towell, G., Shavlik, J., & Noordewier, M. (1990). Refinement of approximate domain theories by knowledge-base neural networks. In Eighth National Conference on Aritificial Intelligence (pp. 861-866). Menlo Park, CA: AAAI Press .
+[10] Sepp Hochreiter and J?urgen Schmidhuber. Long short-term memory. Neural computation,
+9(8):1735?1780, 1997.
+[11] Sergey Ioffe and Christian Szegedy. Batch normalization: Accelerating deep network training
+by reducing internal covariate shift. arXiv preprint arXiv:1502.03167, 2015.
+[12] Nal Kalchbrenner, Edward Grefenstette, and Phil Blunsom. A convolutional neural network
+for modelling sentences. Proceedings of the 52nd Annual Meeting of the Association for Computational Linguistics, June 2014.
+[13] Diederik Kingma and Jimmy Ba. Adam: A method for stochastic optimization. arXiv preprint
+arXiv:1412.6980, 2014.
+[14] Yann LeCun and Yoshua Bengio. Convolutional networks for images, speech, and time series.
+The handbook of brain theory and neural networks, 3361, 1995.
+[15] Alessandro Lusci, Gianluca Pollastri, and Pierre Baldi. Deep architectures and deep learning
+in chemoinformatics: the prediction of aqueous solubility for drug-like molecules. Journal of
+chemical information and modeling, 53(7):1563?1575, 2013.
+[16] Alessio Micheli. Neural network for graphs: A contextual constructive approach. Neural
+Networks, IEEE Transactions on, 20(3):498?511, 2009.
+[17] H.L. Morgan. The generation of a unique machine description for chemical structure. Journal
+of Chemical Documentation, 5(2):107?113, 1965.
+[18] Travis E Oliphant. Python for scientific computing. Computing in Science & Engineering,
+9(3):10?20, 2007.
+[19] Bharath Ramsundar, Steven Kearnes, Patrick Riley, Dale Webster, David Konerding, and Vijay
+Pande. Massively multitask networks for drug discovery. arXiv:1502.02072, 2015.
+[20] RDKit: Open-source cheminformatics. www.rdkit.org. [accessed 11-April-2013].
+[21] David Rogers and Mathew Hahn. Extended-connectivity fingerprints. Journal of Chemical
+Information and Modeling, 50(5):742?754, 2010.
+[22] F. Scarselli, M. Gori, Ah Chung Tsoi, M. Hagenbuchner, and G. Monfardini. The graph neural
+network model. Neural Networks, IEEE Transactions on, 20(1):61?80, Jan 2009.
+[23] Richard Socher, Eric H Huang, Jeffrey Pennin, Christopher D Manning, and Andrew Y Ng.
+Dynamic pooling and unfolding recursive autoencoders for paraphrase detection. In Advances
+in Neural Information Processing Systems, pages 801?809, 2011.
+[24] Richard Socher, Jeffrey Pennington, Eric H Huang, Andrew Y Ng, and Christopher D Manning. Semi-supervised recursive autoencoders for predicting sentiment distributions. In Proceedings of the Conference on Empirical Methods in Natural Language Processing, pages
+151?161. Association for Computational Linguistics, 2011.
+[25] Kai Sheng Tai, Richard Socher, and Christopher D Manning.
+Improved semantic
+representations from tree-structured long short-term memory networks. arXiv preprint
+arXiv:1503.00075, 2015.
+[26] Tox21 Challenge. National center for advancing translational sciences. http://tripod.
+nih.gov/tox21/challenge, 2014. [Online; accessed 2-June-2015].
+[27] Thomas Unterthiner, Andreas Mayr, G?unter Klambauer, and Sepp Hochreiter. Toxicity prediction using deep learning. arXiv preprint arXiv:1503.01445, 2015.
+[28] Thomas Unterthiner, Andreas Mayr, G u? nter Klambauer, Marvin Steijaert, J?org Wenger, Hugo
+Ceulemans, and Sepp Hochreiter. Deep learning as an opportunity in virtual screening. In
+Advances in Neural Information Processing Systems, 2014.
+[29] Li Wan, Matthew Zeiler, Sixin Zhang, Yann L. Cun, and Rob Fergus. Regularization of neural
+networks using dropconnect. In International Conference on Machine Learning, 2013.
+[30] David Weininger. SMILES, a chemical language and information system. Journal of chemical
+information and computer sciences, 28(1):31?36, 1988.
+
+9
 
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
@@ -4163,368 +4606,481 @@ grant NS22205, the Whitaker Foundation and the Joseph Drown Foundation.
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
 
-title: 232-analog-neural-networks-of-limited-precision-i-computing-with-multilinear-threshold-functions.pdf
+title: 503-refining-pid-controllers-using-neural-networks.pdf
 
-702
+Refining PIn Controllers using Neural Networks
 
-Obradovic and Pclrberry
+Gary M. Scott
+Department of Chemical Engineering
+1415 Johnson Drive
+University of Wisconsin
+Madison, WI 53706
 
-Analog Neural Networks of Limited Precision I:
-Computing with Multilinear Threshold Functions
-(Preliminary Version)
+Jude W. Shavlik
+Department of Computer Sciences
+1210 W. Dayton Street
+University of Wisconsin
+Madison, WI 53706
 
-Zoran Obradovic and Ian Parberry
-Department of Computer Science.
-Penn State University.
-University Park. Pa. 16802.
+W. Harmon Ray
+Department of Chemical Engineering
+1415 Johnson Drive
+University of Wisconsin
+Madison, WI 53706
 
-ABSTRACT
-Experimental evidence has shown analog neural networks to be ex~mely fault-tolerant; in particular. their performance does not appear to be significantly impaired when precision is limited. Analog
-neurons with limited precision essentially compute k-ary weighted
-multilinear threshold functions. which divide R" into k regions with
-k-l hyperplanes. The behaviour of k-ary neural networks is investigated. There is no canonical set of threshold values for k>3.
-although they exist for binary and ternary neural networks. The
-weights can be made integers of only 0 ?z +k ) log (z +k ? bits. where
-z is the number of processors. without increasing hardware or running time. The weights can be made ?1 while increasing running
-time by a constant multiple and hardware by a small polynomial in z
-and k. Binary neurons can be used if the running time is allowed to
-increase by a larger constant multiple and the hardware is allowed to
-increase by a slightly larger polynomial in z and k. Any symmetric
-k-ary function can be computed in constant depth and size
-(n k - 1/(k-2)!). and any k-ary function can be computed in constant
-depth and size 0 (nk"). The alternating neural networks of Olafsson
-and Abu-Mostafa. and the quantized neural networks of Fleisher are
-closely related to this model.
+Abstract
+The KBANN approach uses neural networks to refine knowledge that can
+be written in the form of simple propositional rules. We extend this idea
+further by presenting the MANNCON algorithm by which the mathematical
+equations governing a PID controller determine the topology and initial
+weights of a network, which is further trained using backpropagation. We
+apply this method to the task of controlling the outflow and temperature
+of a water tank, producing statistically-significant gains in accuracy over
+both a standard neural network approach and a non-learning PID controller. Furthermore, using the PID knowledge to initialize the weights of
+the network produces statistically less variation in testset accuracy when
+compared to networks initialized with small random numbers.
 
-o
+1
 
-Analog Neural Networks of Limited Precision I
+INTRODUCTION
 
-1 INTRODUCTION
-Neural networks are typically circuits constructed from processing units which compute simple functions of the form f(Wl> ... ,wlI):RII-+S where SeR, wieR for 1~~,
-and
+Research into the design of neural networks for process control has largely ignored
+existing knowledge about the task at hand. One form this knowledge (often called
+the "domain theory") can take is embodied in traditional controller paradigms. The
+
+555
+
+556
+
+Scott, Shavlik, and Ray
+
+recently-developed KBANN (Knowledge-Based Artificial Neural Networks) approach
+(Towell et al., 1990) addresses this issue for tasks for which a domain theory (written
+using simple propositional rules) is available. The basis of this approach is to use
+the existing knowledge to determine an appropriate network topology and initial
+weights, such that the network begins its learning process at a "good" starting
+point.
+This paper describes the MANNCON (Multivariable Artificial Neural Network Control) algorithm, a method of using a traditional controller paradigm to determine
+the topology and initial weights of a network . The used of a PID controller in this
+way eliminates network-design problems such as the choice of network topology
+(i.e., the number of hidden units) and reduces the sensitivity of the network to the
+initial values of the weights. Furthermore, the initial configuration of the network
+is closer to its final state than it would normally be in a randomly-configured network. Thus, the MANNCON networks perform better and more consistently than
+the standard, randomly-initialized three-layer approach.
+The task we examine here is learning to control a Multiple-Input, Multiple-Output
+(MIMO) system. There are a number of reasons to investigate this task using neural networks. One, it usually involves nonlinear input-output relationships, which
+matches the nonlinear nature of neural networks. Two, there have been a number
+of successful applications of neural networks to this task (Bhat & McAvoy, 1990;
+Jordan & Jacobs, 1990; Miller et al., 1990). Finally, there are a number of existing
+controller paradigms which can be used to determine the topology and the initial
+weights of the network.
+
+2
+
+CONTROLLER NETWORKS
+
+The MANNCON algorithm uses a Proportional-Integral-Derivative (PID) controller
+(Stephanopoulos, 1984), one of the simplest of the traditional feedback controller
+schemes, as the basis for the construction and initialization of a neural network controller. The basic idea of PID control is that the control action u (a vector) should
+be proportional to the error, the integral of the error over time, and the temporal
+derivative of the error. Several tuning parameters determine the contribution of
+these various components. Figure 1 depicts the resulting network topology based
+on the PID controller paradigm. The first layer of the network, that from Y$P (desired process output or setpoint) and Y(n-l) (actual process output of the past time
+step), calculates the simple error (e). A simple vector difference,
+e=Y$p-Y
+
+accomplishes this. The second layer, that between e, e(n-l), and e, calculates the
+actual error to be passed to the PID mechanism. In effect, this layer acts as a
+steady-state pre-compensator (Ray, 1981), where
+
+e = GIe
+and produces the current error and the error signals at the past two time steps.
+This compensator is a constant matrix, G I , with values such that interactions at a
+steady state between the various control loops are eliminated. The final layer , that
+between e and u(n) (controller output/plant input), calculates the controller action
+
+Refining PID Controllers using Neural Networks
+
+Fd
+Td
+den) Water
+
+Tank
+
+F
+T
+Yen)
+
+WCO
+WHO
+WCI
+WHI
+WC2
+WH2
+
+Y(n-I)
+t:(n-I)
+
+Figure 1:
+
+MANNCON network showing weights that are initialized using
+Ziegler-Nichols tuning parameters.
+
+based on the velocity form of the discrete PID controller:
+UC(n)
+
+= UC(n-l) + WCOCI(n) + WCICI(n-l) + WC2 CI(n-2)
+
+where Wca, wCb and WC2 are constants determined by the tuning parameters of the
+controller for that loop. A similar set of equations and constants (WHO, WHI, WH2)
+exist for the other controller loop.
+Figure 2 shows a schematic of the water tank (Ray, 1981) that the network controls. This figure also shows the controller variables (Fc and FH), the tank output
+variables (F(h) and T), and the disturbance variables (Fd and Td). The controller
+cannot measure the disturbances, which represent noise in the system.
+MANN CON initializes the weights of Figure 1 's network with va.lues that mimic
+the behavior of a PID controller tuned with Ziegler-Nichols (Z-N) parameters
+(Stephanopoulos, 1984) at a particular operating condition. Using the KBANN
+approach (Towell et al., 1990), it adds weights to the network such that all units
+in a layer are connected to all units in all subsequent layers, and initializes these
+weights to small random numbers several orders of magnitude smaller than the
+weights determined by the PID parameters. We scaled the inputs and outputs of
+the network to be in the range [0,1].
+
+Initializing the weights of the network in the manner given above assumes that the
+activation functions of the units in the network are linear, that is,
+
+557
+
+558
+
+Scott, Shavlik, and Ray
+
+Cold Stream
+Fe
+Hot Stream (at TH)
+
+~
+T
+F
+
+Dis t urban ce
+Fd,Td
+I-
+
+= Temperature
+= Flow Rate
+
+h
+
 II
 
-f (Wl> ... ,WII)(Xl, .?. ,xlI)=g (LWi X;)
-i=1
-
-for some output function g :R-+S. There are two choices for the set S which are
-currently popular in the literature. The first is the discrete model, with S=B (where B
-denotes the Boolean set (0,1)). In this case, g is typically a linear threshold function
-g (x)= 1 iff x~. and f is called a weighted linear threshold function. The second is
-the analog model, with S=[O,I] (where [0,1] denotes (re RI~~I}). In this case. g
-is typically a monotone increasing function, such as the sigmoid function
-g (x)=(1 +c -% 1 for some constant c e R. The analog neural network model is popular
-because it is easy to construct processors with the required characteristics using a few
-transistors. The digital model is popular because its behaviour is easy to analyze.
-
-r
-
-Experimental evidence indicates that analog neural networks can produce accurate
-computations when the precision of their components is limited. Consider what actually happens to the analog model when the precision is limited. Suppose the neurons
-can take on k distinct excitation values (for example, by restricting the number of digits in their binary or decimal expansions). Then S is isomorphic to Zk={O, ... ,k-l}.
-We will show that g is essentially the multilinear threshold function
-g (hloh2 ....,hk-l):R-+Zk defined by
-
-Here and throughout this paper, we will assume that hl~h2~ ... ~hk-1> and for convenience define ho=-oo and h/c=oo. We will call f a k-ary weighted multilinear threshold
-function when g is a multilinear threshold function.
-We will study neural networks constructed from k-ary multilinear threshold functions.
-We will call these k-ary neural networks, in order to distinguish them from the standard 2-ary or binary neural network. We are particularly concerned with the resources
-of time, size (number of processors), and weight (sum of all the weights) of k-ary
-neural networks when used in accordance with the classical computational paradigm.
-The reader is referred to (parberry, 1990) for similar results on binary neural networks.
-A companion paper (Obradovic & Parberry, 1989b) deals with learning on k-ary neural networks. A more detailed version of this paper appears in (Obradovic & Parberry,
-1989a).
-
-2 A K-ARY NEURAL NETWORK MODEL
-A k-ary neural network is a weighted graph M =(V ,E ,W ,h), where V is a set of processors and E cVxV is a set of connections between processors. Function
-w:VxV -+R assign weights to interconnections and h:V -+Rk - assign a set of k-l
-thresholds to each of the processors. We assume that if (u ,v) eE, W (u ,v )=0. The
-size of M is defined to be the number of processors, and the weight of M is
-
-703
-
-704
-
-Obradovic and Parberry
-
-The processors of a k-ary neural network are relatively limited in computing power.
-A k-ary function is a function f :Z:~Z". Let F; denote the set of all n-input k-ary
-functions. Define e::R,,+Ir;-l~F; by e:(w l .....w".h It .???h''_l):R;~Z,,. where
-
-.
-
-e;(w It ???? w" .h h???.h,,-l)(X 1o... ,%.. )=i iff hi ~~Wi xi <h; +1?
-i=1
+l-
+
+Output
+F(h), T
+
+I I
+
+Figure 2: Stirred mixing tank requiring outflow and temperature control.
+
+Table 1: Topology and initialization of networks.
+Network
+1. Standard neural network
+2. MANNCON network I
+3. MANNCON network II
+
+Topology
+3-layer (14 hidden units)
+PID topology
+PID topology
+
+Weight Initialization
+random
+random
+Z-N tuning
+
+The strength of neural networks, however, lie in their having nonlinear (typically
+sigmoidal) activation functions. For this reason, the MANNCON system initially sets
+the weights (and the biases of the units) so that the linear response dictated by the
+PID initialization is approximated by a sigmoid over the output range of the unit.
+For units that have outputs in the range [-1,1]' the activation function becomes
+2
+
+1 + exp( -2.31 L
+where
+
+Wji
+
+_ 1
+WjiOi)
+
+are the linear weights described above.
+
+Once MANNCON configures and initializes the weights of the network, it uses a set
+of training examples and backpropagation to improve the accuracy of the network.
+The weights initialized with PID information, as well as those initialized with small
+random numbers, change during backpropagation training.
 
-The set of k-ary weighted multilinear threshold functions is the union. over all n e N.
-of the range of e;. Each processor of a k-ary neural network can compute a k-ary
-weighted multilinear threshold function of its inputs.
-Each processor can be in one of k states, 0 through k-l. Initially. the input processors of M are placed into states which encode the input If processor v was updated
-during interval t, its state at time t -1 was i and output was j. then at time t its state
-will be j. A k-ary neural network computes by having the processors change state until a stable configuration is reached. The output of M are the states of the output processors after a stable state has been reached. A neural network M 2 is said to be f (t )equivalent to M 1 iff for all inputs x. for every computation of M 1 on input x which
-terminates in time t there is a computation of M 2 on input x which terminates in time
-f (t) with the same output. A neural network M 2 is said to be equivalent to M 1 iff it
-is t -equivalent to it.
+3
 
-3 ANALOG NEURAL NETWORKS
-Let f be a function with range [0.1]. Any limited-precision device which purports to
-compute f must actually compute some function with range the k rational values
+EXPERIMENTAL DETAILS
+
+We compared the performance of three networks that differed in their topology
+and/or their method of initialization. Table 1 summarizes the network topology
+and weight initialization method for each network. In this table, "PID topology"
+is the network structure shown in Figure 1. "Random" weight initialization sets
+
+Refining PID Controllers using Neural Networks
+
+Table 2: Range and average duration of setpoints for experiments.
+Experiment
+1
+2
+
+3
+
+Training Set
+[0.1,0.9]
+22 instances
+[0.1,0.9]
+22 instances
+[0.4,0.6]
+22 instances
 
-R"={ilk-llieZ,,,~<k} (for some keN). This is sufficient for all practical purposes
-provided k is large enough. Since R" is isomorphic to Z". we will formally define
-the limited precision variant of f to be the function f" :X ~Z" defined by
-f,,(x)=round(j (x).(k-l?, where round:R~N is the natural rounding function defined
-by round(x)=n iff n-o.5~<n-tO.5.
+Testing Set
+[0.1,0.9]
+22 instances
+[0.1,0.9]
+80 instances
+[0.1,0.9]
+80 instances
 
-Theorem 3.1 : Letf(Wlo ... ,w.. ):R"~[O,I] where WieR for
-
-1~~.
-
-be defined by
-
-.
-f (w1O.?.,W,,)(X 10 .?? ,x.. )=g (LWiXi)
-i=l
-
-where g:R~[O,I] is monotone increasing and invertible. Then f(Wlo ... ,W.. )":R"~Z,,
-is a k-ary weighted multilinear threshold function.
-Proof: It is easy to verify that f(Wlo ...?W")"=S;(Wl' ... ,w",hl, ...?h,,_l)' where
-hi =g-1?2i-l)/2(k-l?. 0
-Thus we see that analog neural networks with limited precision are essentially k-ary
-neural networks.
-
-Analog Neural Networks of Limited Precision I
-
-4 CANONICAL THRESHOLDS
-Binary neural networks have the advantage that all thresholds can be taken equal to
-zero (see. for example. Theorem 4.3.1 of Parberry, 1990). A similar result holds for
-ternary neural networks.
-Theorem 4.1 : For every n-input ternary weighted multilinear threshold function there
-is an equivalent (n +I)-input ternary weighted multilinear threshold function with
-threshold values equal to zero and one.
-Proof: Suppose W=(W1o ??? ,WII )E R", hloh2E R. Without loss of generality assume
-h l<h 2.
-Define W=(Wl ?...?wlI+l)e RII+I by wj=wjl(hrh 1) for I~!0t, and
-wlI +I=-h I/(h2-h 1). It can be demonstrated by a simple case analysis that for all
-x =(x 1, ??? ,xll)e
+all weights to small random numbers centered around zero. We also compare these
+networks to a (non-learning) PID controller.
+We trained the networks using backpropagation over a randomly-determined schedule of setpoint YsP and disturbance d changes that did not repeat. The setpoints,
+which represent the desired output values that the controller is to maintain, are the
+temperature and outflow of the tank. The disturbances, which represent noise, are
+the inflow rate and temperature of a disturbance stream. The magnitudes of the
+setpoints and the disturbances formed a Gaussian distribution centered at 0.5. The
+number of training examples between changes in the setpoints and disturbances
+were exponentially distributed.
+We performed three experiments in which the characteristics of the training and/or
+testing set differed. Table 2 summarizes the range of the setpoints as well as their
+average duration for each data set in the experiments. As can be seen, in Experiment
+1, the training set and testing sets were qualitatively similar; in Experiment 2, the
+test set was of longer duration setpoints; and in Experiment 3, the training set was
+restricted to a subrange of the testing set. We periodically interrupted training and
+tested the network . Results are averaged over 10 runs (Scott, 1991).
+We used the error at the output of the tank (y in Figure 1) to determine the network
+error (at u) by propagating the error backward through the plant (Psaltis et al.,
+1988). In this method, the error signal at the input to the tank is given by
+
+8u i
 
-Z;.
-
-8;(w,h l,hz)(x )=8;+I(W ,0,I)(x l,... ,xll ,1).
+?Yi
+= f '( netui ) ~
+~ 8y j OUi
+J
 
-o
-The choice of threshold values in Theorem 4.1 was arbitrary. Unfortunately there is
-no canonical set of thresholds for k >3.
-Theorem 4.2 : For every k>3, n~2, m~. h 1o ??? ,hk - 1E R. there exists an n-input k-ary
-weighted multilinear threshold function
-
-such that for all (n +m )-input k-ary weighted multilinear threshold functions
-
-8 k"+m("
-WI.???
-
-)?zm+1I
-.WII+m. h 10???. hk-l'
-k
-~Z k
-A
-
-Proof (Sketch): Suppose that t I ?.. . .tk-l e R is a canonical set of thresholds. and w.t.o.g.
-assume n =2. Let h =(h 1o ??? ,hk - 1), where h l=h z=2. h j=4, hi =5 for 4Si <k. and
-f=8i(1,I.h).
-By hypothesis there exist wlo ????wm+2 and y=(ylo ...?ym)eRm such that for all xeZi,
-
-f (x )=8r+2(w 1.? .. ,Wm+2,t 1, ??? ,tk-l)(X ,y).
-m
-
-Let S= I:Wi+2Yi. Since f (1.0)=0. f (0.1)=0, f (2,1)=2, f (1,2)=2. it follows that
-;=1
-
-2(Wl+Wz+S )<tl+t 3.
-Since f (2,0)=2, f (1.1 )=2. and f (0.2)=2, it follows that
-
-(1)
-
-70S
-
-706
-
-Obradovic and Pdrberry
-
-Wl+W2+S~2?
-
-(2)
-
-2t2<ll+13.
+where 8yj represents the simple error at the output of the water tank and 8ui is the
+error signal at the input of the tank . Since we used a model of the process and not a
+real tank, we can calculate the partial derivatives from the process model equations.
 
-(3)
-
-Inequalities (1) and (2) imply that
-
-By similar arguments from g=S;(1,l,l.3.3.4 ?...?4) we can conclude that
-(4)
-
-But (4) contradicts (3). 0
-
-S NETWORKS OF BOUNDED WEIGHT
-Although our model allows each weight to take on an infinite number of possible
-values. there are only a finite number of threshold functions (since there are only a
-finite number of k-ary functions) with a fixed number of inputs. Thus the number of
-n -input threshold functions is bounded above by some function in n and k. In fact.
-something stronger can be shown. All weights can be made integral. and
-o ((n +k) log (n +k? bits are sufficient to describe each one.
-Theorem 5.1 : For every k-ary neural network M 1 of size z there exists an equivalent
-k-ary neural network M2 of size z and weight ((k_l)/2)Z(z+I)(z+k)'2+0(1) with integer
-weights.
-Proof (Sketch): It is sufficient to prove that for every weighted threshold function
-f:(Wlt ...?wll.hh ...?h"-I):Z:~Z,, for some neN. there is an equivalent we1f.hted threshold function g:(w~ ?...? w:.hi ?...? h;-d such that Iwtl~((k-l)/2)I(n+l)'" )12+0(1) for
-l~i~. By extending the techniques used by Muroga. Toda and Takasu (1961) in the
-binary case. we see that the weights are bounded above by the maximum determinant
-of a matrix of dimension n +k -lover Z". 0
-Thus if k is bounded above by a polynomial in n. we are guaranteed of being able to
-describe the weights using a polynomial number of bits.
-
-6 THRESHOLD CIRCUITS
-A k-ary neural network with weights drawn from {?1} is said to have unit weights. A
-unit-weight directed acyclic k-ary neural network is called a k-ary threshold circuit.
-A k-ary threshold circuit can be divided into layers. with each layer receiving inputs
-only from the layers above it. The depth of a k-ary threshold circuit is defined to be
-the number of layers. The weight is equal to the number of edges. which is bounded
-above by the square of the size. Despite the apparent handicap of limited weights. kary threshold circuits are surprisingly powerful.
-Much interest has focussed on the computation of symmetric functions by neural networks. motivated by the fact that the visual system appears to be able to recognize objects regardless of their position on the retina A function f :Z:~Z" is called symmetric if its output remains the same no matter how the input is permuted.
-
-Analog Neural Networks of Limited Precision I
-
-Theorem 6.1 : Any symmetric k-ary function on n inputs can be computed by a k-ary
-threshold circuit of depth 6 and size (n+1)k-l/(k-2)!+ o (kn).
-Proof: Omitted. 0
-It has been noted many times that neural networks can compute any Boolean function
-in constant depth. The same is true of k-ary neural networks, although both results
-appear to require exponential size for many interesting functions.
-
-Theorem 6.2 : Any k-ary function of n inputs can be computed by a k-ary threshold
-circuit with size (2n+1)k"+k+1 and depth 4.
-Proof: Similar to that for k=2 (see Chandra et. al., 1984; Parberry, 1990). 0
-The interesting problem remaining is to determine which functions require exponential
-size to achieve constant depth, and which can be computed in polynomial size and
-constant depth. We will now consider the problem of adding integers represented in
-k-ary notation.
-
-Theorem 6.3 : The sum of two k-ary integers of size n can be computed by a k-ary
-threshold circuit with size 0 (n 2) and depth 5.
-Proof: First compute the carry of x and y in 'luadratic size and depth 3 using the standard elementary school algorithm. Then the it position of the result can be computed
-from the i tit position of the operands and a carry propagated in that position in constant size and depth 2. 0
-Theorem 6.4 : The sum of n k-~ integers of size n can be computed by a k-ary
-threshold circuit with size 0 (n 3+kn ) and constant depth.
-Proof: Similar to the proof for k=2 using Theorem 6.3 (see Chandra et. al., 1984; Parberry, 1990). 0
-Theorem 6.S : For every k-ary neural network M 1 of size z there exists an 0 (t)equivalent unit-weight k-ary neural network M2 of size o ((z+k)410g3(z+k?.
-Proof: By Theorem 5.1 we can bound all weights to have size 0 ((z+k)log(z+k? in
-binary notation. By Theorem 6.4 we can replace every processor with non-unit
-weights by a threshold circuit of size o ((z+k)310g3(z+k? and constant depth. 0
-Theorem 6.5 implies that we can assume unit weights by increasing the size by a polynomial and the running time by only a constant multiple provided the number of
-logic levels is bounded above by a polynomial in the size of the network. The
-number of thresholds can also be reduced to one if the size is increased by a larger
-polynomial:
-
-Theorem 6.6 : For every k-ary neural network M 1 of size z there exists an 0 (t )equivalent unit-weight binary neural network M 2 of size 0 (z 4k 4)(log z + log k)3
-which outputs the binary encoding of the required result
-Proof: Similar to the proof of Theorem 6.5. 0
-This result is primarily of theoretical interest. Binary neural networks appear simpler,
-and hence more desirable than analog neural networks. However, analog neural networks are actually more desirable since they are easier to build. With this in mind,
-Theorem 6.6 simply serves as a limit to the functions that an analog neural network
-
-707
-
-708
-
-Obradovic and Parberry
-
-can be expected to compute efficiently. We are more concerned with constructing a
-model of the computational abilities of neural networks, rather than a model of their
-implementation details.
-
-7 NONMONOTONE MULTILINEAR NEURAL NETWORKS
-Olafsson and Abu-Mostafa (1988) study
-f(Wlt ... ,wl):R"-+B for w;ER, 1~~, where
-
-f
-
-information
-
-capacity
-
-of functions
-
-II
-(Wlt.. ??WII)(X1 ?... , xlI)=g (~W;X;)
-;=1
-
-and g is the alternating threshold function g (h loh2.....hk-1):R-+B for some monotone
-increasing h;ER, 1~<k, defined by g(x)=O if h2i~<h2i+1 for some ~5:nI2. We
-will call f an alternating weighted multilinear threshold function, and a neural network constructed from functions of this form alternating multilinear neural networks.
-Alternating multilinear neural networks are closely related to k-ary neural networks:
-Theorem 7.1 : For every k-ary neural network of size z and weight w there is an
-equivalent alternating multilinear neural network of size z log k and weight
-(k -l)w log (k -1) which produces the output of the former in binary notation.
-Proof (Sketch): Each k-ary gate is replaced by log k gates which together essentially
-perform a "binary search" to determine each bit of the k-ary gate. Weights which increase exponentially are used to provide the correct output value. 0
-Theorem 7.2 : For every alternating multilinear neural network of size z and weight
-w there is a 3t-equivalent k-ary neural network of size 4z and weight w+4z.
-Proof (Sketch): Without loss of generality. assume k is odd. Each alternating gate is
-replaced by a k-ary gate with identical weights and thresholds. The output of this gate
-goes with weight one to a k-ary gate with thresholds 1,3,S ?... ,k-1 and with weight
-minus one to a k-ary gate with thresholds -(k-1), ... ,-3,-1. The output of these gates
-goes to a binary gate with threshold k. 0
-Both k-ary and alternating multilinear neural networks are a special case of nonmonotone multilinear neural networks, where g :R-+R is the defined by g (x )=Ci iff
-hi~<h;+lt for some monotone increasing h;ER, 1~<k, and co, ... ,Ck-1EZk. Nonmonotone neural networks correspond to analog neural networks whose output function is not necessarily monotone nondecreasing. Many of the result of this paper, including Theorems 5.1, 6.5, and 6.6, also apply to nonmonotone neural networks. The
-size, weight and running time of many of the upper-bounds can also be improved by a
-small amount by using nonmonotone neural networks instead of k-ary ones. The details are left to the interested reader.
-
-8 MUL TILINEAR HOPFIELD NETWORKS
-A multilinear version of the Hopfield network called the quantized neural network has
-been studied by Fleisher (1987). Using the terminology of (parberry, 1990), a quantized neural network is a simple symmetric k-ary neural network (that is, its interconnection pattern is an undirected graph without self-loops) with the additional property
-that all processors have an identical set of thresholds. Although the latter assumption
-
-Analog Neural Networks of Limited Precision I
-
-is reasonable for binary neural networks (see, for example, Theorem 4.3.1 of Parberry,
-1990), and ternary neural networks (Theorem 4.1), it is not necessarily so for k-ary
-neural networks with k>3 (Theorem 4.2). However, it is easy to extend Fleisher's
-main result to give the following:
-Theorem 8.1 : Any productive sequential computation of a simple symmetric k-ary
-neural network will converge.
-
-9 CONCLUSION
-It has been shown that analog neural networks with limited precision are essentially
-k-ary neural networks. If k is limited to a polynomial, then polynomial size, constant
-depth k-ary neural networks are equivalent to polynomial size, constant depth binary
-neural networks. Nonetheless, the savings in time (at most a constant multiple) and
-hardware (at most a polynomial) arising from using k-ary neural networks rather than
-binary ones can be quite significant. We do not suggest that one should actually construct binary or k-ary neural networks. Analog neural networks can be constructed by
-exploiting the analog behaviour of transistors, rather than using extra hardware to inhibit it Rather, we suggest that k-ary neural networks are a tool for reasoning about the
-behaviour of analog neural networks.
+4
+
+RESULTS
+
+Figure 3 compares the performance of the three networks for Experiment 1. As can
+be seen, the MANNCON networks show an increase in correctness over the standard
+neural network approach. Statistical analysis of the errors using a t-test show
+that they differ significantly at the 99.5% confidence level. Furthermore, while the
+difference in performance between MANNCON network I and MANNCON network II is
+
+559
+
+560
+
+Scott, Shavlik, and Ray
+l~---------------------------------------------,
+
+1 = Standard neural network
+2 = MANNCON network I
+3 = MANN CON network II
+4 = PID controller (non-learning)
+
+10000
+
+15000
+
+20000
+
+25000
+
+30000
+
+Training Instances
+Figure 3: Mean square error of networks on the testset as a function of
+the number of training instances presented for Experiment 1.
+not significant, the difference in the variance of the testing error over different runs
+is significant (99.5% confidence level). Finally, the MANNCON networks perform
+significantly better (99.95% confidence level) than the non-learning PID controller.
+The performance of the standard neural network represents the best of several trials
+with a varying number of hidden units ranging from 2 to 20.
+A second observation from Figure 3 is that the MANNCON networks learned much
+more quickly than the standard neural-network approach. The MANNCON networks
+required significantly fewer training instances to reach a performance level within
+5% of its final error rate. For each of the experiments, Table 3 summarizes the
+final mean error, as well as the number of training instances required to achieve a
+performance within 5% of this value.
+
+In Experiments 2 and 3 we again see a significant gain in correctness of the
+
+MAN-
+
+NCON networks over both the standard neural network approach (99.95% confidence
+level) as well as the non-learning PID controller (99.95% confidence level). In these
+experiments, the MANNCON network initialized with Z-N tuning also learned significantly quicker (99.95% confidence level) than the standard neural network.
+
+5
+
+FUTURE WORK
+
+One question is whether the introduction of extra hidden units into the network
+would improve the performance by giving the network "room" to learn concepts
+that are outside the given domain theory. The addition of extra hidden units as
+well as the removal of unneeded units is an area with much ongoing research.
+
+Refining PID Controllers using Neural Networks
+
+l.
+
+2.
+3.
+4.
+5.
+l.
+
+2.
+3.
+4.
+5.
+l.
+
+2.
+3.
+4.
+5.
+
+Table 3: Comparison of network performance.
+I Mean Square Error I Training Instances
+Method
+Experiment 1
+25,200 ? 2, 260
+Standard neural network
+0.0103 ? 0.0004
+5,000 ? 3,340
+MANN CON network I
+0.0090 ? 0.0006
+MANN CON network II
+640? 200
+0.0086 ? 0.0001
+PID control (Z-N tuning) 0.0109
+0.0190
+Fixed control action
+Experiment 2
+14,400 ? 3, 150
+Standard neural network
+0.0118 ? 0.00158
+12 , 000 ? 3,690
+MANN CON network I
+0.0040 ? 0.00014
+2,080? 300
+0.0038 ? 0.00006
+MANN CON network II
+PID control (Z-N tuning) 0.0045
+Fixed con trol action
+0.0181
+Experiment 3
+0.0112 ? 0.00013
+25,200 ? 2, 360
+Standard neural network
+25,000 ? 1, 550
+MANN CON network I
+0.0039 ? 0.00008
+9,400 ? 1,180
+MANN CON network II
+0.0036 ? 0.00006
+PID control (Z-N tuning) 0.0045
+Fixed control action
+0.0181
+
+The "?" indicates that the true value lies within these bounds at a 95%
+confidence level. The values given for fixed control action (5) represent
+the errors resulting from fixing the control actions at a level that produces
+outputs of [0.5,0.5) at steady state.
+
+"Ringing" (rapid changes in controller actions) occurred in some of the trained
+networks . A future enhancement of this approach would be to create a network
+architecture that prevented this ringing, perhaps by limiting the changes in the
+controller actions to some relatively small values.
+Another important goal of this approach is the application of it to other real-world
+processes. The water tank in this project, while illustrative of the approach , was
+quite simple. Much more difficult problems (such as those containing significant
+time delays) exist and should be explored.
+There are several other controller paradigms that could be used as a basis for network construction and initialization. There are several different digital controllers,
+such as Deadbeat or Dahlin's (Stephanopoulos, 1984), that could be used in place
+of the digital PID controller used in this project. Dynamic Matrix Control (DMC)
+(Pratt et al., 1980) and Internal Model Control (IMC) (Garcia & Morari, 1982) are
+also candidates for consideration for this approach.
+Finally, neural networks are generally considered to be "black boxes," in that their
+inner workings are completely uninterpretable. Since the neural networks in this
+approach are initialized with information, it may be possible to interpret the weights
+of the network and extract useful information from the trained network.
+
+561
+
+562
+
+Scott, Shavlik, and Ray
+
+6
+
+CONCLUSIONS
+
+We have described the MANNCON algorithm, which uses the information from a
+PID controller to determine a relevant network topology without resorting to trialand-error methods. In addition, the algorithm, through initialization of the weights
+with prior knowledge, gives the backpropagtion algorithm an appropriate direction
+in which to continue learning. Finally, we have shown that using the MANNCON
+algorithm significantly improves the performance of the trained network in the following ways:
+? Improved mean testset accuracy
+? Less variability between runs
+? Faster rate of learning
+? Better generalization and extrapolation ability
 Acknowledgements
-The financial support of the Air Force Office of Scientific Research, Air Force S ysterns Command, DSAF, under grant numbers AFOSR 87-0400 and AFOSR 89-0168
-and NSF grant CCR-8801659 to Ian Parberry is gratefully acknowledged.
-References
-Chandra A. K., Stockmeyer L. J. and Vishkin D., (1984) "Constant depth reducibility,"
-SIAM 1. Comput., vol. 13, no. 2, pp. 423-439.
-Fleisher M., (1987) "The Hopfield model with multi-level neurons," Proc. IEEE
-Conference on Neural Information Processing Systems, pp. 278-289, Denver, CO.
-Muroga S., Toda 1. and Takasu S., (1961) "Theory of majority decision elements," 1.
-Franklin Inst., vol. 271., pp. 376-418.
-Obradovic Z. and Parberry 1., (1989a) "Analog neural networks of limited precision I:
-Computing with multilinear threshold functions (preliminary version)," Technical Report CS-89-14, Dept of Computer Science, Penn. State Dniv.
-Obradovic Z. and Parberry I., (1989b) "Analog neural networks of limited precision II:
-Learning with multilinear threshold functions (preliminary version)," Technical Report
-CS-89-15, Dept. of Computer Science, Penn. State Dniv.
-Olafsson S. and Abu-Mostafa Y. S., (1988) "The capacity of multilevel threshold functions," IEEE Trans. Pattern Analysis and Machine Intelligence, vol. 10, no. 2, pp.
-277-281.
-Parberry I., (To Appear in 1990) "A Primer on the Complexity Theory of Neural Networks," in A Sourcebook of Formal Methods in Artificial Intelligence, ed. R. Banerji,
-North-Holland.
 
-709
+This material based upon work partially supported under a National Science Foundation Graduate Fellowship (to Scott), Office of Naval Research Grant N00014-90J-1941, and National Science Foundation Grants IRI-9002413 and CPT-8715051.
+References
+
+Bhat, N. & McAvoy, T. J. (1990). Use of neural nets for dynamic modeling and
+control of chemical process systems. Computers and Chemical Engineering, 14,
+573-583.
+Garcia, C. E. & Morari, M. (1982). Internal model control: 1. A unifying review
+and some new results. I&EC Process Design & Development, 21, 308-323.
+Jordan, M. I. & Jacobs, R. A. (1990). Learning to control an unstable system
+with forward modeling. In Advances in Neural Information Processing Systems
+(Vol. 2, pp. 325- 331). San Mateo, CA: Morgan Kaufmann.
+Miller, W. T., Sutton, R. S., & Werbos, P. J. (Eds.)(1990). Neural networks for
+control. Cambridge, MA : MIT Press.
+Pratt, D. M., Ramaker, B. L., & Cutler, C. R. (1980) . Dynamic matrix control
+method. Patent 4,349,869, Shell Oil Company.
+Psaltis, D., Sideris, A., & Yamamura, A. A. (1988). A multilayered neural network
+controller. IEEE Control Systems Magazine, 8, 17- 21.
+Ray, W . H. (1981). Advanced process control. New York: McGraw-Hill, Inc.
+Scott, G. M. (1991). Refining PID controllers using neural networks. Master's
+project, University of Wisconsin, Department of Computer Sciences.
+Stephanopoulos, G. (1984). Chemical process control: An introduction to theory
+and practice. Englewood Cliffs, NJ: Prentice Hall, Inc.
+Towell, G., Shavlik, J., & Noordewier, M. (1990). Refinement of approximate domain theories by knowledge-base neural networks. In Eighth National Conference on Aritificial Intelligence (pp. 861-866). Menlo Park, CA: AAAI Press .
 
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
@@ -5028,301 +5584,6 @@ recognition by neural networks. In Proc. IFIP 12th World Compo Cong., pages
 329-335, 1992.
 [15] R.O. Winder. Bounds on threshold gate realizability. IEEE Trans. on Elect.
 Comp., EC-12:561-564, 1963.
-
-
-<<----------------------------------------------------------------------------------------------------------------------------------------->>
-
-title: 70-on-the-power-of-neural-networks-for-solving-hard-problems.pdf
-
-137
-
-On the Power of Neural Networks for
-Solving Hard Problems
-J ehoshua Bruck
-Joseph W. Goodman
-Information Systems Laboratory
-Departmen t of Electrical Engineering
-Stanford University
-Stanford, CA 94305
-Abstract
-This paper deals with a neural network model in which each neuron
-performs a threshold logic function. An important property of the model
-is that it always converges to a stable state when operating in a serial
-mode [2,5]. This property is the basis of the potential applications of the
-model such as associative memory devices and combinatorial optimization
-
-[3,6].
-One of the motivations for use of the model for solving hard combinatorial
-problems is the fact that it can be implemented by optical devices and
-thus operate at a higher speed than conventional electronics.
-The main theme in this work is to investigate the power of the model for
-solving NP-hard problems [4,8], and to understand the relation between
-speed of operation and the size of a neural network. In particular, it will
-be shown that for any NP-hard problem the existence of a polynomial
-size network that solves it implies that NP=co-NP. Also, for Traveling
-Salesman Problem (TSP), even a polynomial size network that gets an
-?-approximate solution does not exist unless P=NP.
-The above results are of great practical interest, because right now it is
-possible to build neural networks which will operate fast but are limited
-in the number of neurons.
-
-1
-
-Background
-
-The neural network model is a discrete time system that can be represented by
-a weighted and undirected graph. There is a weight attached to each edge of
-the graph and a threshold value attached to each node (neuron) of the graph.
-
-? American Institute of Physics 1988
-
-138
-
-The order of the network is the number of nodes in the corresponding graph.
-Let N be a neural network of order n; then N is uniquely defined by (W, T)
-where:
-
-? W is an n X n symmetric matrix, Wii is equal to the weight attached to
-edge (i, j) .
-? T is a vector of dimension n, Ti denotes the threshold attached to node i.
-Every node (neuron) can be in one of two possible states, either 1 or -1. The
-state of node i at time t is denoted by Vi(t). The state of the neural network at
-time t is the vector V(t).
-The next state of a node is computed by:
-
-Vi(t + 1) = sgn(H,(t)) = {
-where
-
-~1 ~t~;2i~ 0
-
-(1)
-
-n
-
-Hi(t) =
-
-L
-
-WiiVj(t) - Ti
-
-i=l
-
-The next state of the network, i.e. V(t + 1), is computed from the current
-state by performing the evaluation (1) at a subset of the nodes of the network,
-to be denoted by S. The modes of operation are determined by the method
-by which the set S is selected in each time interval. If the computation is
-performed at a single node in any time interval, i.e. 1S 1= 1, then we will say
-that the network is operating in a serial mode; if 1S 1= n then we will say that
-that the network is operating in a fully parallel mode. All the other cases, i.e.
-1 <I S 1< n will be called parallel modes of operation. The set S can be chosen
-at random or according to some deterministic rule.
-A state V(t) is called stable iff V(t) = sgn(WV(t) - T), i.e. there is no
-change in the state of the network no matter what the mode of operation is.
-One of the most important properties of the model is the fact that it always
-converges to a stable state while operating in a serial mode. The main idea in
-the proof of the convergence property is to define a so called energy function
-and to show that this energy function is nondecreasing when the state of the
-network changes. The energy function is:
-
-(2)
-An important note is that originally the energy function was defined such that
-it is nonincreasing [5]; we changed it such that it will comply with some known
-graph problems (e.g. Min Cut).
-A neural network will always get to a stable state which corresponds to a
-local maximum in the energy function. This suggests the use of the network as a
-
-139
-
-device for performing a local search algorithm for finding a maximal value of the
-energy function [6]. Thus, the network will perform a local search by operating
-in a random and serial mode. It is also known [2,9] that maximization of E
-associated with a given network N in which T = 0 is equivalent to finding
-the Minimum Cut in N. Actually, many hard problems can be formulated as
-maximization of a quadratic form (e.g. TSP [6)) and thus can be mapped to a
-neural network.
-.
-
-2
-
-The Main Results
-
-The set of stable states is the set of possible final solutions that one will get
-using the above approach. These final solutions correspond to local maxima of
-the energy function but do not necessarily correspond to global optima of the
-corresponding problem. The main question is: suppose we allow the network to
-operate for a very long time until it converges; can we do better than just getting
-some local optimum? i.e., is it possible to design a network which will always
-find the exact solution (or some guaranteed approximation) of the problem?
-Definition: Let X be an instance of problem. Then 1 X 1 denotes the size of
-X, that is, the number of bits required to represent X. For example, for X
-being an instance of TSP, 1 X I is the number of bits needed to represent the
-matrix of the distances between cities.
-Definition: Let N be a neural network. Then 1 N 1 denotes the size of the
-network N. Namely, the number of bits needed to represent Wand T.
-Let us start by defining the desired setup for using the neural network as a
-model for solving hard problems.
-Consider an optimization problem L, we would like to have for every instance
-X of L a neural network N x with the following properties:
-? Every local maximum of the energy function associated with N x corresponds to a global optimum of X .
-? The network N x is small, that is,
-in 1X I.
-
-I
-
-Nx
-
-1
-
-is bounded by some polynomial
-
-Moreover, we would like to have an algorithm, to be denoted by A L , which given
-an instance X E L, generates the description for N x in polynomial (in I X I)
-time.
-Now, we will define the desired setup for using the neural network as a model
-for finding approximate solutions for hard problems.
-Definition: Let
-
-Eglo
-
-be the global maximum of the energy function. Let
-
-Eloc
-
-140
-
-be a local maximum of the energy function. We will say that a local maximum
-is an f-approximate of the global iff:
-Eglo - Eloc
---:;.--<
-Eglo
-
-f
-
--
-
-The setup for finding approximate solutions is similar to the one for finding
-exact solutions. For fo> 0 being some fixed number. We would like to have a
-network N x~ in which every local maximum is an f-approximate of the global
-and that the global corresponds to an optimum of X. The network N x? should
-be small, namely, 1 N x~ 1 should be bounded by a polynomial in 1 X I. Also,
-we would like to have an algorithm AL~, such that, given an instance X E L, it
-generates the description for N x? in polynomial (in 1 X I) time.
-Note that in both the exact case and the approximate case we do not put any
-restriction on the time it takes the network to converge to a solution (it can be
-exponential) .
-A t this point the reader should convince himself that the above description is
-what he imagined as the setup for using the neural network model for solving
-hard problems, because that is what the following definition is about.
-Definition: We will say that a neural network for solving (or finding an fapproximation of) a problem L exists if the algorithm AL (or ALJ which generates the description of N x (or Nx~) exists.
-The main results in the paper are summarized by the following two propositions. The first one deals with exact solutions of NP-hard problems while the
-second deals with approximate solutions to TSP.
-Proposition 1 Let L be an NP-hard problem. Then the existence of a neural
-network for solving L implies that NP = co-NP.
-Proposition 2 Let f > 0 be some fixed number. The existence of a neural
-network for finding an f-approximate solution to TSP implies that P=NP.
-Both (P=NP) and (NP=co-NP) are believed to be false statements, hence,
-we can not use the model in the way we imagine.
-
-The key observation for proving the above propositions is the fact that a
-single iteration in a neural network takes time which is bounded by a polynomial
-in the size of the instance of the corresponding problem. The proofs of the above
-two propositions follow directly from known results in complexity theory and
-should not be considered as new results in complexity theory.
-
-141
-
-3
-
-The Proofs
-
-Proof of Proposition 1: The proof follows from the definition of the classes
-NP and co-NP, and Lemma 1. The definitions and the lemma appear in Chapters 15 and 16 in [8] and also in Chapters 2 and 7 in [4].
-
-Lemma 1 If the complement of an NP-complete problem is in NP,
-then NP=co-NP.
-Let L be an NP-hard problem. Suppose there exists a neural network that solves
-L. Let 1 be an NP-complete problem. By definition, 1 can be polynomialy
-reduced to L. Thus, for every instance X E 1, we have a neural network such
-that from any of its global maxima we can efficiently recognize whether X is a
-'yes' or a 'no' instance of 1.
-We claim that we have a nondeterministic polynomial time algorithm to decide
-that a given instance X E 1 is a 'no' instance. Here is how we do it: for X E 1
-we construct the neural network that solves it by using the reduction to L. We
-then check every state of the network to see if it is a local maximum (that is
-done in polynomial time). In case it is a local maximum, we check if the instance
-is a 'yes' or a 'no' instance (this is also done in polynomial time).
-Thus, we have a nondeterministic polynomial time algorithm to recognize any
-'no' instance of 1. Thus, the complement of the problem 1 is in NP. But 1 is
-an NP-complete problem, hence, from Lemma 1 it follows that NP=co-NP. 0
-
-Proof of Proposition 2: The result is a corollary of the results in [7], the
-reader can refer to it for a more complete presentation.
-The proof uses the fact that the Restricted Hamiltonian Circuit (RHC) is an
-NP-complete problem.
-Definiton of RHC: Given a graph G = (V, E) and a Hamiltonian path in G.
-The question is whether there is a Hamiltonian circuit in G?
-It is proven in [7] that RHC is NP-complete.
-Suppose there exists a polynomial size neural network for finding an
-f-approximate solution to TSP. Then it can be shown that an instance X E
-RHC can be reduced to an instance X E TSP, such that in the network N x
-the following holds: if the Hamiltonian path that is given in X corresponds to a
-local maximum in N x? then X is a 'no' instance; else, if it does not correspond
-to a local maximum in N x? then X is a 'yes' instance. Note that we can check
-for locality in polynomial time.
-Hence, the existence of N xe for all X E TSP implies that we have a polynomial
-time algorithm for RHC. 0
-?
-
-142
-
-4
-
-Concluding Remarks
-1. In Proposition 1 we let I W I and I T I be arbitrary but bounded by a
-polynomial in the size of a given instance of a problem. If we assume
-that I W I and I T I are fixed for all instances then a similar result to
-Proposition 1 can be proved without using complexity theory; this result
-appears in [1].
-2. The network which corresponds to TSP, as suggested in [6], can not solve
-the TSP with guaranteed quality. However, one should note that all the
-analysis in this paper is a worst case type of analysis. So, it might be that
-there exist networks that have good behavior on the average.
-3. Proposition 1 is general to all NP-hard problems while Proposition 2 is
-specific to TSP. Both propositions hold for any type of networks in which
-an iteration takes polynomial time.
-4. Clearly, every network has an algorithm which is equivalent to it, but an
-algorithm does not necessarily have a corresponding network. Thus, if we
-do not know of an algorithmic solution to a problem we also will not be able
-to find a network which solves the problem. If one believes that the neural
-network model is a good model (e.g. it is amenable to implementation with
-optics), one should develop techniques to program the network to perform
-an algorithm that is known to have some guaranteed good behavior.
-
-Acknowledgement: Support of the U.S. Air Force Office of Scientific Research
-is gratefully acknowledged.
-
-References
-[1] Y. Abu Mostafa, Neural Networks for Computing? in Neural Networks
-for Computing, edited by J. Denker (AlP Conference Proceedings no. 151,
-1986).
-[2] J. Bruck and J. Sanz, A Study on Neural Networks, IBM Tech Rep, RJ
-5403, 1986. To appear in International Journal of Intelligent Systems, 1988.
-[3] J. Bruck and J. W. Goodman, A Generalized Convergence Theorem for
-Neural Networks and its Applications in Combinatorial Optimization, IEEE
-First ICNN, San-Diego, June 1987.
-[4] M. R. Garey and D. S. Johnson, Computers and Intractability: A Guide to
-the Theory of NP-Completeness, W. H. Freeman and Company, 1979.
-
-143
-
-[5] J. J. Hopfield, Neural Networks and Physical Systems with Emergent Collective Computational Abilities, Proc. Nat. Acad. Sci .. USA, Vol. 79, pp.
-2554-2558, 1982.
-[6] J. J. Hopfield and D. W. Tank, Neural Computations of Decisions in Optimization Problems, BioI. Cybern. 52, pp. 141-152, 1985.
-[7] C. H. Papadimitriou and K. Steiglitz, On the Complexity of Local Search
-for the Traveling Salesman Problem, SIAM J. on Comp., Vol. 6, No.1, pp.
-76-83, 1977.
-[8] C. H. Papadimitriou and K. Steiglitz, Combinatorial Optimization: Algo:rithms and Complexity, Prentice-Hall, Inc., 1982.
-[9] J. C. Picard and H. D. Ratliff, Minimum Cuts and Related Problems, Networks, Vol 5, pp. 357-370, 1974.
 
 
 <<----------------------------------------------------------------------------------------------------------------------------------------->>
