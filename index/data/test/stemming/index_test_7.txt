@@ -1156,7 +1156,7 @@ Proceedings of the 9th IEEE International Conference on Data Mining, pages 1034?
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4612-multi-criteria-anomaly-detection-using-pareto-depth-analysis.pdf
 
@@ -1857,7 +1857,7 @@ University of Edinburgh.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 3145-geometric-entropy-minimization-gem-for-anomaly-detection-and-localization.pdf
 
@@ -2698,7 +2698,7 @@ Annual ACM-SIAM Symposium on Discrete Algorithms, (Arlington, VA), pp. 546?555, 
 in Mathematics. Springer-Verlag, Berlin, 1998.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4287-efficient-anomaly-detection-using-bipartite-k-nn-graphs.pdf
 
@@ -3440,7 +3440,7 @@ graphs. Computing Research Repository, abs/0910.5461, 2009.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 3723-anomaly-detection-with-score-functions-based-on-nearest-neighbor-graphs.pdf
 
@@ -4511,7 +4511,7 @@ http://www.ics.uci.edu/?mlearn/MLRepository.html
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 3156-in-network-pca-and-anomaly-detection.pdf
 
@@ -5360,7 +5360,7 @@ system. In Proceedings of Network and Distributed System Security Symposium (NDS
 of Internet Measurement Conference (IMC), 2005.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4299-group-anomaly-detection-using-flexible-genre-models.pdf
 
@@ -5983,7 +5983,7 @@ process. Journal of the American Statistical Association, 101:1566 ? 1581, 2006.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1077-a-neural-network-autoassociator-for-induction-motor-failure-prediction.pdf
 
@@ -6492,7 +6492,7 @@ Schoen, R., Habetler, T., & Bartheld, R. (1994) . Motor bearing damage detection
 stator current monitoring. In Proceedings of the IEEE lAS Annual Meeting.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1459-intrusion-detection-with-neural-networks.pdf
 
@@ -7224,7 +7224,7 @@ Teng, H. S., Chen, K., and Lu, S. C. (1990). Adaptive real-time anomaly detectio
 on Research in Computer Security and Privacy, 278-284.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4044-subgraph-detection-using-eigenvector-l1-norms.pdf
 
@@ -7761,5 +7761,5 @@ Natural cluster sizes and the absence of large well-defined clusters.? arXiv.org
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

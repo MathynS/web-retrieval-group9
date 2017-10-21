@@ -660,7 +660,7 @@ Vol. 64, pp. 353-356, 1991.
 729
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1162-experiments-with-neural-networks-for-real-time-implementation-of-control.pdf
 
@@ -1229,7 +1229,7 @@ Applications of Neural Networks to Telecommunications 2 (IWANNT-95), Ed. J
 Alspector et. al. Lawrence Erlbaum Associates, New Jersey, 1995, pp. 273-280.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 211-a-large-scale-neural-network-which-recognizes-handwritten-kanji-characters.pdf
 
@@ -1584,7 +1584,7 @@ Characters by Global and Local Direction Contributivity Density-Feature", J66-D,
 722-729,1983
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1193-a-new-approach-to-hybrid-hmmann-speech-recognition-using-mutual-information-neural-networks.pdf
 
@@ -2085,7 +2085,7 @@ average
 95,4% (94,7 %)
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1968-not-bounding-the-true-error.pdf
 
@@ -3010,7 +3010,7 @@ Bayesian Methods for Supervised Neural Networks?, ??
 [5] David McAllester, ?Some PAC-Bayes bounds?, COLT 1999.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 503-refining-pid-controllers-using-neural-networks.pdf
 
@@ -3489,7 +3489,7 @@ and practice. Englewood Cliffs, NJ: Prentice Hall, Inc.
 Towell, G., Shavlik, J., & Noordewier, M. (1990). Refinement of approximate domain theories by knowledge-base neural networks. In Eighth National Conference on Aritificial Intelligence (pp. 861-866). Menlo Park, CA: AAAI Press .
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 40-neural-networks-for-template-matching-application-to-real-time-classification-of-the-action-potentials-of-real-neurons.pdf
 
@@ -4161,7 +4161,7 @@ Powers in designing and constructing support equipment. This work was supported 
 grant NS22205, the Whitaker Foundation and the Joseph Drown Foundation.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 232-analog-neural-networks-of-limited-precision-i-computing-with-multilinear-threshold-functions.pdf
 
@@ -4527,7 +4527,7 @@ North-Holland.
 709
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 822-bounds-on-the-complexity-of-recurrent-neural-network-implementations-of-finite-state-machines.pdf
 
@@ -5030,7 +5030,7 @@ recognition by neural networks. In Proc. IFIP 12th World Compo Cong., pages
 Comp., EC-12:561-564, 1963.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 70-on-the-power-of-neural-networks-for-solving-hard-problems.pdf
 
@@ -5325,5 +5325,5 @@ for the Traveling Salesman Problem, SIAM J. on Comp., Vol. 6, No.1, pp.
 [9] J. C. Picard and H. D. Ratliff, Minimum Cuts and Related Problems, Networks, Vol 5, pp. 357-370, 1974.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

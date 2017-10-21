@@ -368,7 +368,7 @@ long-lasting potentiation in the guinea pig hippocampus in vitro. Neurosci. Lett
 401
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4871-correlations-strike-back-again-the-case-of-associative-memory-retrieval.pdf
 
@@ -1279,7 +1279,7 @@ neural networks. Phys Rev Lett 55, 1530?1533 (1985).
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2859-learning-in-silicon-timing-is-everything.pdf
 
@@ -1855,7 +1855,7 @@ those of two-state neurons. Proceedings of the National Academy of Science 81(10
 neurons. Journal of Neuroscience 23(21):7750-7758.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1972-self-regulation-mechanism-of-temporally-asymmetric-hebbian-plasticity.pdf
 
@@ -2549,7 +2549,7 @@ networks with low activity level. Europhysics Letters, 6:101?105, 1988.
 patterns. Journal of Physics A: Mathematical and General, 22:559?569, 1989.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4872-a-memory-frontier-for-complex-synapses.pdf
 
@@ -3333,7 +3333,7 @@ Chains,? Journal of Applied Probability 30 (1993) no. 3, 518?528.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 353-self-organization-of-hebbian-synapses-in-hippocampal-neurons.pdf
 
@@ -3684,7 +3684,7 @@ Proc. Natl. Acad. Sci. USA 87: 6718-6722.
 45
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4364-two-is-better-than-one-distinct-roles-for-familiarity-and-recollection-in-retrieving-palimpsest-memories.pdf
 
@@ -4447,7 +4447,7 @@ memory: A complementary-learning-systems approach. Psychological Review (2003).
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1703-distributed-synchrony-of-spiking-neurons-in-a-hebbian-cell-assembly.pdf
 
@@ -5019,7 +5019,7 @@ A critical window for cooperation and competition among developing retinotectal
 synapses. Nature, 395:37 - 44, 1998.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 972-a-model-of-the-hippocampus-combining-self-organization-and-associative-memory-function.pdf
 
@@ -5579,7 +5579,7 @@ robots. In Zurada JM and Marks RJ (eds) Computational Intelligence: Imitating li
 IEEE Press.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 3917-spike-timing-dependent-plasticity-as-dynamic-filter.pdf
 
@@ -6477,5 +6477,5 @@ theta-phase coding in the entorhinal-hippocampal system. Current Opinion in Neur
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

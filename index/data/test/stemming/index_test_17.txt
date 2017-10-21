@@ -364,7 +364,7 @@ North-Holland.
 709
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2111-computing-time-lower-bounds-for-recurrent-sigmoidal-neural-networks.pdf
 
@@ -821,7 +821,7 @@ ICANN 2001, volume 2130 of Lecture Notes in Computer Science, pages 806- 813,
 Springer, Berlin.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 211-a-large-scale-neural-network-which-recognizes-handwritten-kanji-characters.pdf
 
@@ -1176,7 +1176,7 @@ Characters by Global and Local Direction Contributivity Density-Feature", J66-D,
 722-729,1983
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1175-generating-accurate-and-diverse-members-of-a-neural-network-ensemble.pdf
 
@@ -1607,7 +1607,7 @@ Intelligence, 70(1,2):119- 165.
 Wolpert, D. (1992). Stacked generalization. Neural Networks, 5:241- 259.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1692-lower-bounds-on-the-complexity-of-approximating-continuous-functions-by-sigmoidal-neural-networks.pdf
 
@@ -2058,7 +2058,7 @@ Networks, 11:15-37, 1998.
 [16] H. E. Warren. Lower bounds for approximation by nonlinear manifolds. Transactions of the American Mathematical Society, 133:167-178, 1968.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1037-quadratic-type-lyapunov-functions-for-competitive-neural-networks-with-different-time-scales.pdf
 
@@ -2638,7 +2638,7 @@ Singularly Perturbed Systems. IEEE Transactions on A utomatic Control,
 pp. 542-550, June 1984.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 503-refining-pid-controllers-using-neural-networks.pdf
 
@@ -3117,7 +3117,7 @@ and practice. Englewood Cliffs, NJ: Prentice Hall, Inc.
 Towell, G., Shavlik, J., & Noordewier, M. (1990). Refinement of approximate domain theories by knowledge-base neural networks. In Eighth National Conference on Aritificial Intelligence (pp. 861-866). Menlo Park, CA: AAAI Press .
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 657-optimal-depth-neural-networks-for-multiplication-and-related-problems.pdf
 
@@ -3435,7 +3435,7 @@ Separating the polynomial-time hierarchy by oracles. IEEE Symp. Found.
 Compo Sci., pages 1-10, 1985.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 6427-toward-deeper-understanding-of-neural-networks-the-power-of-initialization-and-a-dual-view-on-expressivity.pdf
 
@@ -4133,7 +4133,7 @@ in neural information processing systems, pages 3104?3112, 2014.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 5267-on-the-computational-efficiency-of-training-neural-networks.pdf
 
@@ -4762,5 +4762,5 @@ preprint arXiv:1311.2901, 2013.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

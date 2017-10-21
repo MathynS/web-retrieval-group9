@@ -757,7 +757,7 @@ Journal of Applied Mathematics, 35(2):285?300, 1978.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1726-a-variational-baysian-framework-for-graphical-models.pdf
 
@@ -1285,7 +1285,7 @@ networks. Journal of Artificial Intelligence Research 4, 61-76.
 experts. NIPS-8 (Touretzky, D.S. et aI, Eds). MIT Press.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4752-bayesian-hierarchical-reinforcement-learning.pdf
 
@@ -2057,7 +2057,7 @@ Control and Automation, 2010.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2935-variational-bayesian-stochastic-complexity-of-mixture-models.pdf
 
@@ -2708,7 +2708,7 @@ in variational bayes,? Proc. of ALT05, pp.107-121, 2005.
 stochastic complexity,? Neural Networks, 16, pp.1029-1038, 2003.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2912-sensory-adaptation-within-a-bayesian-framework-for-perception.pdf
 
@@ -3146,7 +3146,7 @@ Yair Weiss, and L?eon Bottou, editors, Adv. Neural Information Processing System
 vol 17, Cambridge, MA, 2005. MIT Press.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4489-efficient-coding-provides-a-direct-link-between-prior-and-likelihood-in-perceptual-bayesian-inference.pdf
 
@@ -4004,7 +4004,7 @@ Neural Networks. IEEE, 2010.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2565-instance-specific-bayesian-model-averaging-for-classification.pdf
 
@@ -4698,7 +4698,7 @@ Joint Conference on Artificial Intelligence, pages 1022-1027, San Mateo, CA. Mor
 Kaufmann.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2267-data-dependent-bounds-for-bayesian-mixture-methods.pdf
 
@@ -5384,7 +5384,7 @@ space. In Advances in Neural Information Processing Systems 15, Cambridge, MA,
 Journal of Machine Learning Research, 2:527?550, 2002.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2570-constraining-a-bayesian-model-of-human-visual-speed-perception.pdf
 
@@ -6011,7 +6011,7 @@ neurons. Journal of Vision/VSS abstract, 2003.
 Neural Systems, 6:345?358, 1995.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 5553-a-framework-for-testing-identifiability-of-bayesian-models-of-perception.pdf
 
@@ -6914,5 +6914,5 @@ coherence of visual motion stimuli. J Vis 11, 14, 1?16.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

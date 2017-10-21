@@ -334,7 +334,7 @@ be published in: Proceedings of 1991 IEEE Int. Conf. on Robotics fj Automation,
 Sacramento, CA:
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4189-joint-3d-estimation-of-objects-and-scene-layout.pdf
 
@@ -965,7 +965,7 @@ using hierarchical bayesian models. PAMI, 2009.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 218-real-time-computer-vision-and-robotics-using-analog-vlsi-circuits.pdf
 
@@ -1374,7 +1374,7 @@ tower (in c). Its effect is localized, however, to a single element.
 755
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 6090-backprop-kf-learning-discriminative-deterministic-state-estimators.pdf
 
@@ -2208,7 +2208,7 @@ Joint Conference on Neural Networks (IJCNN), 2006.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1499-vlsi-implementation-of-motion-centroid-localization-for-autonomous-navigation.pdf
 
@@ -2692,7 +2692,7 @@ Velocity of Saccadic Eye Movements by Neurons in the Superior Colliculus," Proc.
 Cold Spring Harbor Symp. Quantitative Biology, Vol. LV, 1990.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 52-teaching-artificial-neural-systems-to-drive-manual-training-techniques-for-autonomous-systems.pdf
 
@@ -3126,7 +3126,7 @@ Neural Pattern Recognition Machine," Computer Vision, Graphiu and Image Procu,in
 ( 1987), p.54
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 636-remote-sensing-image-analysis-via-a-texture-classification-neural-network.pdf
 
@@ -3466,7 +3466,7 @@ R. Goodman, C. Higgins, J. Miller and P. Smyth. (1992) Rule-Based Networks for
 Classification and Probability Estimation. Neural Computation, [4]:781-804.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4477-monte-carlo-value-iteration-with-macro-actions.pdf
 
@@ -4091,7 +4091,7 @@ optimization problem. Operations Research, 24(2):348?358, 1976.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4104-size-matters-metric-visual-search-constraints-from-monocular-metadata.pdf
 
@@ -4535,7 +4535,7 @@ Action Detection, In CVPR 2009.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1378-using-expectation-to-guide-processing-a-study-of-three-real-world-applications.pdf
 
@@ -4995,5 +4995,5 @@ Pomerleau, D.A., 1993. Neural Network Perception for Mobile Robot Guidance, Kluw
 Thorpe, C., 1991, Outdoor Visual Navigation for Autonomous Robots, in: Robotics and Autonomous Systems 7.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

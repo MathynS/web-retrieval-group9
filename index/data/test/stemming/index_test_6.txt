@@ -1249,7 +1249,7 @@ Information Processing Systems, pages 1736?1744, 2012.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2276-stochastic-neighbor-embedding.pdf
 
@@ -1856,7 +1856,7 @@ classification and clustering. http://www.cs.cmu.edu/ mccallum/bow, 1996.
 data using linear relational embedding. IEEE Transactions on Knowledge and Data Engineering, 13:232?245, 2000.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 5956-scheduled-sampling-for-sequence-prediction-with-recurrent-neural-networks.pdf
 
@@ -2495,7 +2495,7 @@ recognition using attention-based recurrent nn: First results. arXiv preprint ar
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 182-genesis-a-system-for-simulating-neural-networks.pdf
 
@@ -2898,7 +2898,7 @@ cortex. Soc. Neurosci. Abstr. 12.1358 (1986).
 Structured Networks
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4022-latent-variable-models-for-predicting-file-dependencies-in-large-scale-software-development.pdf
 
@@ -3715,7 +3715,7 @@ in Neural Information Processing Systems, pages 1185?1192, 2008.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2131-dynamic-time-alignment-kernel-in-support-vector-machine.pdf
 
@@ -4487,7 +4487,7 @@ http://www.idiap.ch/learning/SVMTorch.html.
 [12] ?The Hidden Markov Model Toolkit (HTK).? http://htk.eng.cam.ac.uk/.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2434-semi-definite-programming-by-perceptron-learning.pdf
 
@@ -5018,7 +5018,7 @@ for semidefinite programming. Technical Report TR1177, Cornell University,
 38(1):49?95, 1996.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 5767-high-dimensional-neural-spike-train-analysis-with-generalized-count-linear-dynamical-systems.pdf
 
@@ -5823,7 +5823,7 @@ vol. 14, no. 7, pp. 811?819, 2011.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1992-spectral-relaxation-for-k-means-clustering.pdf
 
@@ -6494,7 +6494,7 @@ information bottleneck method. Proceedings of SIGIR-2000.
 San Diego , CA.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 3963-learning-concept-graphs-from-text-with-stick-breaking-priors.pdf
 
@@ -7519,5 +7519,5 @@ A machine learning for language toolkit.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

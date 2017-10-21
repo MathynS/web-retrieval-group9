@@ -368,7 +368,7 @@ long-lasting potentiation in the guinea pig hippocampus in vitro. Neurosci. Lett
 401
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4871-correlations-strike-back-again-the-case-of-associative-memory-retrieval.pdf
 
@@ -1279,7 +1279,7 @@ neural networks. Phys Rev Lett 55, 1530?1533 (1985).
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4872-a-memory-frontier-for-complex-synapses.pdf
 
@@ -2063,7 +2063,7 @@ Chains,? Journal of Applied Probability 30 (1993) no. 3, 518?528.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1620-temporally-asymmetric-hebbian-learning-spike-liming-and-neural-response-variability.pdf
 
@@ -2559,7 +2559,7 @@ circuits. Neural Compo 10:1321-1327.
 Zhang LI, Tao, HW, Holt CE, Harris WA & Poo M-m (1998) A critical window for cooperation and competition among developing retinotectal synapses. Nature 395:37-44.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4364-two-is-better-than-one-distinct-roles-for-familiarity-and-recollection-in-retrieving-palimpsest-memories.pdf
 
@@ -3322,7 +3322,7 @@ memory: A complementary-learning-systems approach. Psychological Review (2003).
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 353-self-organization-of-hebbian-synapses-in-hippocampal-neurons.pdf
 
@@ -3673,7 +3673,7 @@ Proc. Natl. Acad. Sci. USA 87: 6718-6722.
 45
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 526-oscillatory-model-of-short-term-memory.pdf
 
@@ -4429,7 +4429,7 @@ Zucker ,R.S. 1989. Short-term synaptic plasticity. Ann. Rev. Neurosci. 12, 13-31
 SPEECH
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1658-spike-based-learning-rules-and-stabilization-of-persistent-neural-activity.pdf
 
@@ -5022,7 +5022,7 @@ THEORY
 PART
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4690-towards-a-learning-theoretic-analysis-of-spike-timing-dependent-plasticity.pdf
 
@@ -5811,7 +5811,7 @@ classification. Neural Comput 2005, 17(10):2176?2214.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1972-self-regulation-mechanism-of-temporally-asymmetric-hebbian-plasticity.pdf
 
@@ -6505,5 +6505,5 @@ networks with low activity level. Europhysics Letters, 6:101?105, 1988.
 patterns. Journal of Physics A: Mathematical and General, 22:559?569, 1989.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

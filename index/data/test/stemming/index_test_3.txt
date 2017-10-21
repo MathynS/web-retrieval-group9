@@ -561,7 +561,7 @@ Plaut, D., Nowlan, S., and Hinton, G. (1986). Experiments on learning by back pr
 Mellon University, Pittsburgh, PA.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 358-continuous-speech-recognition-by-linked-predictive-neural-networks.pdf
 
@@ -1047,7 +1047,7 @@ International Conference on Acoustics, Speech, and Signal Processing, April 1990
 205
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2137-relative-density-nets-a-new-way-to-combine-backpropagation-with-hmms.pdf
 
@@ -1752,7 +1752,7 @@ gradient code available from http ://www .gatsby.ucl.ac.uk/~edward/code/.
 then this might have made a difference.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1820-combining-ica-and-top-down-attention-for-robust-speech-recognition.pdf
 
@@ -2414,7 +2414,7 @@ Smaragdis, P. (1997) Information theoretic approaches to source separation,
 Masters Thesis, MIT Media Arts and Science Dept.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 5953-natural-neural-networks.pdf
 
@@ -3083,7 +3083,7 @@ second-order methods ? backpropagation learning with transformations in nonlinea
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 6270-stochastic-multiple-choice-learning-for-training-diverse-deep-ensembles.pdf
 
@@ -4294,7 +4294,7 @@ In Proceedings of IEEE Conference on Computer Vision and Pattern Recognition (CV
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 5059-compete-to-compute.pdf
 
@@ -4963,7 +4963,7 @@ blenders: Domain adaptation for sentiment classification. Annual Meeting-ACL, 20
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1541-active-noise-canceling-using-analog-neuro-chip-with-on-chip-learning-capability.pdf
 
@@ -5390,7 +5390,7 @@ Proc. International Conference on Acoustics, Speech and Signal processing, pp.
 3589-3592.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 6221-memory-efficient-backpropagation-through-time.pdf
 
@@ -6075,7 +6075,7 @@ the IEEE, 78(10):1550?1560, 1990.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 5666-variational-dropout-and-the-local-reparameterization-trick.pdf
 
@@ -6751,5 +6751,5 @@ Proceedings of the 28th International Conference on Machine Learning (ICML-11), 
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

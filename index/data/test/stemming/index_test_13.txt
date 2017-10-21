@@ -519,7 +519,7 @@ IEEE Jour. of Robotics & Automation RA 2-3 (1986), pp. 117-125.
 1987 IEEE Int. Conf. on Robotics & Automation (1987), pp. 273-279.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1105-cholinergic-suppression-of-transmission-may-allow-combined-associative-memory-function-and-self-organization-in-the-neocortex.pdf
 
@@ -1007,7 +1007,7 @@ von der Malsburg, C. (1973) Self-organization of orientation sensitive cells in 
 cortex. Kybemetik 14: 85-100.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 251-a-self-organizing-associative-memory-system-for-control-applications.pdf
 
@@ -1505,7 +1505,7 @@ T. Kohonen. (1988) Self-Organization and Associative Memory,
 339
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 972-a-model-of-the-hippocampus-combining-self-organization-and-associative-memory-function.pdf
 
@@ -2065,7 +2065,7 @@ robots. In Zurada JM and Marks RJ (eds) Computational Intelligence: Imitating li
 IEEE Press.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1210-self-organizing-and-adaptive-algorithms-for-generalized-eigen-decomposition.pdf
 
@@ -2598,7 +2598,7 @@ Receiver for CDMA Based on Space-Time MVDR Processing", submitted to IEEE Transa
 on Signal Processing.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1774-effective-learning-requires-neuronal-remodeling-of-hebbian-synapses.pdf
 
@@ -2643,7 +2643,7 @@ demonstrated in the context of self-organization of cortical maps [1, 2] and in 
 these scenarios normalization is necessary to prevent the excessive growth of synap-
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1014-associative-decorrelation-dynamics-a-theory-of-self-organization-and-optimization-in-feedback-networks.pdf
 
@@ -3163,7 +3163,7 @@ selectivity of cells in primary visual cortex of the cat Vis Res 30,1689-701.
 about cortical color representation Vis Res 33, 123-9.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 161-neural-approach-for-tv-image-compression-using-a-hopfield-type-network.pdf
 
@@ -3759,7 +3759,7 @@ Sci. USA,~, 1695, (1986).
 271
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1554-neuronal-regulation-implements-efficient-synaptic-pruning.pdf
 
@@ -4362,7 +4362,7 @@ at the terminals of a single neuron. Nature, 392(6671):82- 86, 1998.
 preceding axon withdrawal. Science, 275(5298):356-361, 1997.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 353-self-organization-of-hebbian-synapses-in-hippocampal-neurons.pdf
 
@@ -4713,5 +4713,5 @@ Proc. Natl. Acad. Sci. USA 87: 6718-6722.
 45
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

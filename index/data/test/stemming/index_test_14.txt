@@ -519,7 +519,7 @@ IEEE Jour. of Robotics & Automation RA 2-3 (1986), pp. 117-125.
 1987 IEEE Int. Conf. on Robotics & Automation (1987), pp. 273-279.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 81-invariant-object-recognition-using-a-distributed-associative-memory.pdf
 
@@ -1025,7 +1025,7 @@ with respect to vision, Bioi. Cybern., 32,4,211-216.
 [7]
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1047-selective-attention-for-handwritten-digit-recognition.pdf
 
@@ -1502,7 +1502,7 @@ R.J. Williams, D. Zipser. (1989) A Learning Algorithm for Continually Running
 Fully Recurrent Neural Networks Neural Computation, 1, 270-280.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 6057-using-fast-weights-to-attend-to-the-recent-past.pdf
 
@@ -2189,7 +2189,7 @@ David Silver, and Koray Kavukcuoglu. Asynchronous methods for deep reinforcement
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1369-learning-continuous-attractors-in-recurrent-networks.pdf
 
@@ -2579,7 +2579,7 @@ statistical mechanics perspective, pages 261-276, Singapore, 1995. World Scienti
 in collective memories. Nature, 304:158-159, 1983.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 177-neural-network-star-pattern-recognition-for-spacecraft-attitude-determination-and-control.pdf
 
@@ -3050,7 +3050,7 @@ CORRELATOR
 ...............................................................................................................................................................................................................................
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2-the-capacity-of-the-kanerva-associative-memory-is-exponential.pdf
 
@@ -3444,7 +3444,7 @@ NASA Research Institute for Advanced Computer Science, Mountain
 Viev. CA, Dec. 1986.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 100-storing-covariance-by-the-associative-long-term-potentiation-and-depression-of-synaptic-strengths-in-the-hippocampus.pdf
 
@@ -3814,7 +3814,7 @@ long-lasting potentiation in the guinea pig hippocampus in vitro. Neurosci. Lett
 401
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 6121-dense-associative-memory-for-pattern-recognition.pdf
 
@@ -4752,7 +4752,7 @@ ladder networks. In Advances in Neural Information Processing Systems (pp. 3546-
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 968-capacity-and-information-efficiency-of-a-brain-like-associative-net.pdf
 
@@ -5445,5 +5445,5 @@ Willshaw, D. (1971). Models of distributed associative memory. Ph.D. thesis, Uni
 Willshaw, D., Buneman, 0., & Longuet-Higgins, H. (1969). Non-holographic associative memory. Nature, 222, 960-962.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 

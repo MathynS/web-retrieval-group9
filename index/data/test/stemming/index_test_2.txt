@@ -599,7 +599,7 @@ pp.534-540, Goteborg, Sweden, Jun. 29-Jul. 2, 2003.
 Proceedings-G, Vol. 139, No. 1, Feb. 1992, pp. 63-71.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 1352-a-simple-and-fast-neural-network-approach-to-stereovision.pdf
 
@@ -932,7 +932,7 @@ Yuille, A.L., Geiger, D. & Biilthoff, H.H. (1991): Stereo Integration, Mean Fiel
 Theory and Psychophysics. Network 2: 423-442.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2689-modeling-nonlinear-dependencies-in-natural-images-using-mixture-of-laplacian-distribution.pdf
 
@@ -1656,7 +1656,7 @@ http://www.cis.hut.fi/projects/compneuro/extensions.html/
 Quality Assessment, IEEE Transactions on Image Processing, vol. 13, no. 4, Apr. 2004.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 2426-bayesian-color-constancy-with-non-gaussian-models.pdf
 
@@ -2189,7 +2189,7 @@ Fifth European Conference on Computer Vision, pp. 445-459, 1998.
 pp. 2513-2516, 1991.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 779-address-block-location-with-a-neural-net-system.pdf
 
@@ -2675,7 +2675,7 @@ H.P. Oraf and D. Henderson, (1990), "A Reconfigurable CMOS Neural Network", Dige
 IEEE Int. Solid State Circuits Conf. p. 144.
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 50-an-adaptive-and-heterodyne-filtering-procedure-for-the-imaging-of-moving-objects.pdf
 
@@ -3597,7 +3597,7 @@ Signal Processing, Vol. ASSSP-29, No.5, 1033-1042 (1981).
 Trans, Syst. Man Cybern. SMC 13, 900-906 (1983).
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4346-select-and-sample-a-model-of-efficient-neural-inference-and-learning.pdf
 
@@ -4427,7 +4427,7 @@ Neural Computation, 2009.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 4331-unsupervised-learning-models-of-primary-cortical-receptive-fields-and-receptive-field-plasticity.pdf
 
@@ -4851,7 +4851,7 @@ discrimination. PNAS, 97(20):11068?73, September 2000.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 224-acoustic-imaging-computations-by-echolocating-bats-unification-of-diversely-represented-stimulus-features-into-whole-images.pdf
 
@@ -5421,7 +5421,7 @@ echolocating bat, Eptesicus fuscus, 1. Compo Physiol. A 166:
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
 title: 6257-joint-line-segmentation-and-transcription-for-end-to-end-handwritten-paragraph-recognition.pdf
 
@@ -6032,5 +6032,5 @@ arXiv:1502.03044, 2015.
 9
 
 
-----------------------------------------------------------------
+<<----------------------------------------------------------------------------------------------------------------------------------------->>
 
