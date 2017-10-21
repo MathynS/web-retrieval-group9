@@ -1,4 +1,4 @@
-query sentence: genomic anomaly
+query sentence: anomaly detection
 <<------------------------------------------------------------------------------------------------------------------------------------------->>
 title: 6456-multi-view-anomaly-detection-via-robust-probabilistic-latent-variable-models.pdf
 
@@ -446,299 +446,6 @@ MY was supported by KAKENHI
 
 <<----------------------------------------------------------------------------------------------------------------------->>
 
-title: 3145-geometric-entropy-minimization-gem-for-anomaly-detection-and-localization.pdf
-
-Geometric entropy minimization GEM for anomaly
-detection and localization
-Alfred Hero III
-University of Michigan
-Ann Arbor MI
-hero@umich.edu
-Abstract
-We introduce a novel adaptive non-parametric anomaly detection approach called
-GEM that is based on the minimal covering properties of K-point entropic graphs
-when constructed on training samples from a nominal probability distribution Such graphs have the property that as their span recovers the
-entropy minimizing set that supports at least K/N of the mass of the
-Lebesgue part of the distribution When a test sample falls outside of the entropy
-minimizing set an anomaly can be declared at a statistical level of significance
-A method for implementing this non-parametric anomaly detector is
-proposed that approximates this minimum entropy set by the influence region of a
-K-point entropic graph built on the training data By implementing an incremental
-leave-one-out k-nearest neighbor graph on resampled subsets of the training data
-GEM can efficiently detect outliers at a given level of significance and compute
-their empirical p-values We illustrate GEM for several simulated and real data
-sets in high dimensional feature spaces
-Introduction
-Anomaly detection and localization are important but notoriously difficult problems In such problems it is crucial to identify a nominal or baseline feature distribution with respect to which statistically significant deviations can be reliably detected However in most applications there is seldom
-enough information to specify the nominal density accurately especially in high dimensional feature spaces for which the baseline shifts over time In such cases standard methods that involve
-estimation of the multivariate feature density from a fixed training sample are inapplicable high
-dimension or unreliable shifting baseline In this paper we propose an adaptive non-parametric
-method that is based on a class of entropic graphs called K-point minimal spanning trees
-and overcomes the limitations of high dimensional feature spaces and baseline shift This method
-detects outliers by comparing them to the most concentrated subset of points in the training sample
-It follows from that this most concentrated set converges to the minimum entropy set of probability as and K/N Thus we call this approach to anomaly detection the geometric
-entropy minimization GEM method
-Several approaches to anomaly detection have been previously proposed Parametric approaches
-such as the generalized likelihood ratio test lead to simple and classical algorithms such as the Student t-test for testing deviation of a Gaussian test sample from a nominal mean value and the Fisher
-F-test for testing deviation of a Gaussian test sample from a nominal variance These methods fall
-under the statistical nomenclature of the classical slippage problem and have been applied to
-detecting abrupt changes in dynamical systems image segmentation and general fault detection applications The main drawback of these algorithms is that they rely on a family of parameterically
-defined nominal no-fault distributions
-An alternative to parametric methods of anomaly detection are the class of novelty detection algorithms and include the GEM approach described herein Scholkopf and Smola introduced a kernelbased novelty detection scheme that relies on unsupervised support vector machines SVM The
-single class minimax probability machine of Lanckriet etal derives minimax linear decision regions that are robust to unknown anomalous densities More closely related to our GEM approach is
-that of Scott and Nowak who derive multiscale approximations of minimum-volume-sets to estimate a particular level set of the unknown nominal multivariate density from training samples For a
-simple comparative study of several of these methods in the context of detecting network intrusions
-the reader is referred to
-The GEM method introduced here has several features that are summarized below Unlike the
-MPM method of Lanckriet etal the GEM anomaly detector is not restricted to linear or even
-convex decision regions This translates to higher power for specified false alarm level GEMs
-computational complexity scales linearly in dimension and can be applied to level set estimation
-in feature spaces of unprecedented high dimensionality GEM has no complicated tuning parameters or function approximation classes that must be chosen by the user Like the method
-of Scott and Nowak GEM is completely non-parametric learning the structure of the nominal
-distribution without assumptions of linearity smoothness or continuity of the level set boundaries
-Like Scott and Nowak?s method GEM is provably optimal indeed uniformly most powerful
-of specified level for the case that the anomaly density is a mixture of the nominal and a uniform
-density GEM easily adapts to local structure changes in local dimensionality of the support
-of the nominal density
-We introduce an incremental Leave-one-out kNNG as a particularly versatile and fast anomaly detector in the GEM class Despite the similarity in nomenclature the L1O kNNG is different
-from nearest neighbor kNN anomaly detection of The kNN anomaly detector is based on
-thresholding the distance from the test point to the k-th nearest neighbor The L1O kNNG detector
-computes the change in the topology of the entire kNN graph due to the addition of a test sample and
-does not use a decision threshold Furthermore the parent GEM anomaly detection methodology
-has proven theoretical properties the restricted optimality property for uniform mixtures and
-general consistency properties
-We introduce the statistical framework for anomaly detection in the next section We then describe
-the GEM approach in Section Several simulations are presented Section
-Statistical framework
-The setup is the following Assume that a training sample Xn Xn of d-dimensional
-vectors is available Given a new sample the objective is to declare to be a nominal
-sample consistent with Xn or an anomalous sample that is significantly different from Xn This
-declaration is to be constrained to give as few false positives as possible To formulate this problem
-we adopt the standard statistical framework for testing composite hypotheses Assume that Xn is
-an independent identically distributed sample from a multivariate density f0 supported on
-the unit d-dimensional cube Let have density Anomaly detection can be formulated
-as testing the hypotheses H0 fo versus H0 fo at a prescribed level of significance
-declare H1
-The minimum-volume-set
-of level is defined as a set in IRd which minimizes the volume
-dx subject to the constraint f0 x)dx The minimum-entropy-set of level
-x)dx
-is defined as a set in IRd which minimizes the R?enyi entropy
-subject to the constraint f0 x)dx Here is any real valued parameter between
-When is a Lebesgue density in IRd it is easy to show that these three sets are identical
-almost everywhere
-The test decide anomaly if is equivalent to implementing the test function
-This test has a strong optimality property when f0 is Lebesgue continuous it is a uniformly most
-powerful UMP level for testing anomalies that follow a uniform mixture distribution Specif
-ically let have density where is the uniform density over
-and Consider testing the hypotheses
-H0
-H1
-Proposition Assume that under H0 the random vector has a Lebesgue continuous density f0
-and that f0 is also a continuous random variable Then the level-set test of level is
-uniformly most powerful for testing Furthermore its power function is
-given by
-A sufficient condition for the random variable above to be continuous is that the density f0
-have no flat spots over its support set The proof of this proposition is omitted
-There are two difficulties with implementing the level set test First for known f0 the level set
-may be very difficult if not impossible to determine in high dimensions Second when only
-a training sample from f0 is available and f0 is unknown the level sets have to be learned from
-the training data There are many approaches to doing this for minimum volume tests and these
-are reviewed in These methods can be divided into two main approaches density estimation
-followed by plug in estimation of via variational methods and direct estimation of the level
-set using function approximation and non-parametric estimation Since both approaches involve
-explicit approximation of high dimensional quantities the multivariate density or the boundary
-of the set these methods are difficult to apply in high dimensional problems The
-GEM method we propose in the next section overcomes these difficulties
-GEM and entropic graphs
-GEM is a method that directly estimates the critical region for detecting anomalies using minimum coverings of subsets of points in a nominal training sample These coverings are obtained by
-constructing minimal graphs a MST or kNNG covering a K-point subset that is a given proportion of the training sample Points not covered by these K-point minimal graphs are identified
-as tail events and allow one to adaptively set a pvalue for the detector
-For a set of points Xn in IRd a graph over Xn is a pair where Xn is the set of vertices
-and is the set of
-edges of the graph The total power weighted length or more simply the
-length of is L(Xn e?E where is a specified edge exponent parameter
-K-point MST
-The MST with power weighting is defined as the graph that spans Xn with minimum total length
-LM ST Xn min
-e?T
-where is the set of all trees spanning Xn
-subsets of distinct points from Xn
-Definition K-point MST Let Xn,K denote one of the
-Among all of the MST?s spanning these sets the K-MST is defined as the one having minimal length
-minXn,K Xn LM ST Xn,k
-The K-MST thus specifies the minimal subset of points in addition to specifying the minimum
-length This subset of points which we call a minimal graph covering of Xn of size can be viewed
-as capturing the densest region of Xn Furthermore if Xn is a sample from a multivariate
-density and if limK,n K/n and a greedy version of the K-MST is implemented this
-set converges to the minimum entropy set containing a proportion of at least K/n of
-the mass of the Lebesgue component of where This fact was used in to
-motivate the greedy K-MST as an outlier resistant estimator of entropy for finite K.
-Define the K-point subset
-Xn,K
-argminXn,K Xn LM ST Xn,K
-selected by the greedy K-MST Then we have the following As the minimum entropy set and minimum volume set are identical this suggests the following minimal-volume-set anomaly detection
-algorithm which we call the K-MST anomaly detector
-K-MST anomaly detection algorithm
-1]Process training sample Given a level of significance and a training sample Xn
-Xn construct the greedy K-MST and retain its vertex set Xn,K
-2]Process test sample Given a test sample run the K-MST on the merged training-test sample
-Xn and store the minimal set of points
-3]Make decision Using the test function defined below decide H1 if and decide H0
-if
-When the density f0 generating the training sample is Lebesgue continuous it follows from Theorem that as the K-MST anomaly detector has false alarm probability that converges
-to K/n and power that converges to that of the minimum-volume-set test of level When
-the density f0 is not Lebesgue continuous some optimality properties of the K-MST anomaly detector still hold Let this nominal density have the decomposition f0 where is Lebesgue
-continuous and is singular Then according to Theorem the K-MST anomaly detector will
-have false alarm probability that converges to where is the mass of the singular component of f0 and it is a uniformly most powerful test for anomalies in the continuous component
-for the test of H0 against H1
-It is well known that the K-MST construction is of exponential complexity in In fact even
-for a case one can call the leave-one-out MST there is no simple fast algorithm
-for computation However the leave-one-out kNNG described below admits a fast incremental
-algorithm
-K-point kNNG
-Let Xn Xn be a set of points The nearest neighbors kNN Xi(k
-of a point Xn are the closest points to points in Xn Here the measure of
-closeness is the Euclidean distance Let ei(k be the set of edges between and its
-nearest neighbors The kNN graph kNNG over Xn is defined as the union of all of the kNN edges
-ei(k and the total power weighted edge length of the kNN graph is
-LkN Xn
-subsets of distinct points from Xn
-Definition K-point kNNG Let Xn,K denote one of the
-Among all of the kNNG over each of these sets the K-kNNG is defined as the one having minimal
-length minXn,K Xn LkN Xn,k
-As the kNNG length is also a quasi additive continuous functional the asymptotic KMST
-theory of extends to the K-point kNNG Of course computation of the K-point kNNG also has
-exponential complexity However the same type of greedy approximation introduced by Ravi
-for the K-MST can be implemented to reduce complexity of the K-point kNNG This approximation
-to the K-point kNNG will satisfy the tightly coverable graph property of Defn We have the
-following result that justifies the use of such an approximation as an anomaly detector of level
-where
-Proposition Let Xn,K
-be the set of points in Xn that results from any approximation to the
-point kNNG that satisfies the property Defn Then limn P0 Xn,K
-and
-limn P0 Xn,K where is a minimum-volume-set of
-level and
-Proof We provide a rough sketch using the terminology of Recall that a set
-of resolution is representable by a union of elements of the uniform partition of into
-hypercubes of volume Lemma of asserts that there exists an such that for the
-limits claimed in Proposition hold with replaced by Am
-a minimum volume set of resolution
-that contains As limm Am
-this
-establishes
-the proposition
-Figures illustrate the use of the K-point kNNG as an anomaly detection algorithm
-K?point kNNG
-Bivariate Gaussian mixture density
-Figure Left level sets of the nominal bivariate mixture density used to illustrate the point kNNG
-anomaly detection algorithms Right K-point kNNG over random training samples drawn
-from the nominal bivariate mixture at left Here and corresponding to a significance
-level of
-K?point kNNG
-K?point kNNG
-Figure Left The test point is declared anomalous at level as it is not captured by the
-K-point kNNG constructed over the combined test sample and the training samples drawn
-from the nominal bivariate mixture shown in Right A different test point is declared
-non-anomalous as it is captured by this K-point kNNG
-Leave-one-out kNNG L1O-kNNG
-The theoretical equivalence between the K-point kNNG and the level set anomaly detector motivates
-a low complexity anomaly detection scheme which we call the leave-one-out kNNG discussed
-in this section and adopted for the experiments below As before assume a single test sample
-and a training sample Xn Fix and assume that the kNNG over the set Xn has been
-computed To determine the kNNG over the combined sample Xn one can
-execute the following algorithm
-L1O kNNG anomaly detection algorithm
-For each compute the kNNG total length difference
-LkN LkN LkN by the following steps For each
-Find the edges
-of all of the kNN?s of
-Find the edges of other points in that have as one of their
-kNNs For these points find the edges to their respective 1st NN point
-Compute LkN e?E e?E
-Define the kNNG most outlying point as Xo LkN
-Declare the test sample an anomaly if Xo
-This algorithm will detect anomalies with a false alarm level of approximately Thus larger
-sizes of the training sample will correspond to more stringent false alarm constraints Furthermore
-the p-value of each test point is easily computed by recursing over the size of the training
-sample In particular let vary from to and define as the minimum value of for which
-is declared an anomaly Then the p-value of is approximately
-A useful relative influence coefficient can be defined for each point in the combined sample
-LkN
-maxi LkN
-The coefficient when the test point is declared an anomaly
-Using matlab?s matrix sort algorithm step of this algorithm can be computed an order of magnitude
-faster than the K-point MST logN vs logN For example the experiments below have
-shown that the above algorithm can find and determine the p-value of outliers among test
-samples in a few seconds on a Dell 2GHz processor running Matlab
-Illustrative examples
-Here we focus on the L1O kNNG algorithm due to its computational speed We show a few representative experiments for simple Gaussian and Gaussian mixture nominal densities f0
-L1O kNN scores detection
-iteration pvalue
-iteration pvalue
-score max
-iteration pvalue
-iteration pvalue
-iteration pvalue
-iteration pvalue
-iteration pvalue
-iteration pvalue
-iteration pvalue
-sample number
-Figure Left The plot of the anomaly curve for the L1O kNNG anomaly detector for detecting
-deviations from a nominal 2D Gaussian density with mean and correlation coefficient
-The boxes on peaks of curve correspond to positions of detected anomalies and the height of the
-boxes are equal to one minus the computed p-value Anomalies were generated on the average
-every samples and drawn from a 2D Gaussian with correlation coefficient The parameter
-is equal to where is the user defined false alarm rate Right the resampled nominal
-distribution and anomalous points detected at the iterations indicated at left
-First we illustrate the L1O kNNG algorithm for detection of non-uniformly distributed anomalies
-from training samples following a bivariate Gaussian nominal density Specifically a 2D Gaussian
-density with mean and correlation coefficient was generated to train of the L1O kNNG
-detector The test sample consisted of a mixture of this nominal and a zero mean 2D Gaussian with
-correlation coefficient with mixture coefficient In the results of simulation with
-a training sample of samples and tests samples are shown is a plot of the relative
-influence curve over the test samples as compared to the most outlying point in the resampled
-training sample When the relative influence curve is equal to the corresponding test sample is the
-most outlying point and is declared an anomaly The detected anomalies in have p-values
-less than and therefore one would expect an average of only one false alarm at this level of
-significance In the right panel of the detected anomalies asterisks are shown along with the
-training sample dots used to grow the L1O kNNG for that particular iteration note that to protect
-against bias the training sample is resampled at each iteration
-Next we compare the performance of the L1O kNNG detector to that of the UMP test for the
-hypotheses We again trained on a bivariate Gaussian f0 with mean zero but this time with
-identical component variances of This distribution has essential support on the unit
-square For this?simple case the minimum volume set of level is a disk centered at the origin with radius and the power of the of the UMP can be computed in closed form
-We implemented the GEM anomaly detector with the incremental leave-one-out kNNG using The training set consisted of samples from f0 and
-the test set consisted of samples from the mixture of a uniform density and f0 with parameter
-ranging from to Figure shows the empirical ROC curves obtained using the GEM test vs
-the theoretical curves labeled clairvoyant for several different values of the mixing parameter
-Note the good agreement between theoretical prediction and the GEM implementation of the UMP
-using the kNNG
-ROC curves for Gaussian+uniform mixture Nrep=10
-L1O?kNN
-Clairvoyant
-Figure ROC curves for the leave-one-out kNNG anomaly detector described in Sec. The
-labeled clairvoyant curve is the ROC of the UMP anomaly detector The training sample is a zero
-mean 2D spherical Gaussian distribution with standard deviation and the test sample is a this
-2D Gaussian and a 2D uniform-[0 mixture density The plot is for various values of the mixture
-parameter
-Conclusions
-A new and versatile anomaly detection method has been introduced that uses geometric entropy
-minimization GEM to extract minimal set coverings that can be used to detect anomalies from a
-set of training samples This method can be implemented through the K-point minimal spanning tree
-MST or the K-point nearest neighbor graph kNNG The L1O kNNG is significantly less computationally demanding than the K-point MST. We illustrated the L1O kNNG method on simulated
-data containing anomalies and showed that it comes close to achieving the optimal performance of
-the UMP detector for testing the nominal against a uniform mixture with unknown mixing parameter As the L1O kNNG computes p-values on detected anomalies it can be easily extended to
-account for false discovery rate constraints By using a sliding window the methodology derived in
-this paper is easily extendible to on-line applications and has been applied to non-parametric intruder
-detection using our Crossbow sensor network testbed reported elsewhere
-Acknowledgments
-This work was partially supported by NSF under Collaborative ITR grant
-
-<<----------------------------------------------------------------------------------------------------------------------->>
-
 title: 4612-multi-criteria-anomaly-detection-using-pareto-depth-analysis.pdf
 
 Multi-criteria Anomaly Detection using
@@ -1116,410 +823,296 @@ work was supported in part by ARO grant
 
 <<----------------------------------------------------------------------------------------------------------------------->>
 
-title: 3723-anomaly-detection-with-score-functions-based-on-nearest-neighbor-graphs.pdf
+title: 3145-geometric-entropy-minimization-gem-for-anomaly-detection-and-localization.pdf
 
-Anomaly Detection with Score functions based on
-Nearest Neighbor Graphs
-Manqi Zhao
-ECE Dept
-Boston University
-Boston MA
-mqzhao@bu.edu
-Venkatesh Saligrama
-ECE Dept
-Boston University
-Boston MA
-srv@bu.edu
+Geometric entropy minimization GEM for anomaly
+detection and localization
+Alfred Hero III
+University of Michigan
+Ann Arbor MI
+hero@umich.edu
 Abstract
-We propose a novel non-parametric adaptive anomaly detection algorithm for high
-dimensional data based on score functions derived from nearest neighbor graphs
-on n-point nominal data Anomalies are declared whenever the score of a test
-sample falls below which is supposed to be the desired false alarm level The
-resulting anomaly detector is shown to be asymptotically optimal in that it is uniformly most powerful for the specified false alarm level for the case when
-the anomaly density is a mixture of the nominal and a known density Our algorithm is computationally efficient being linear in dimension and quadratic in
-data size It does not require choosing complicated tuning parameters or function
-approximation classes and it can adapt to local structure such as local change in
-dimensionality We demonstrate the algorithm on both artificial and real data sets
-in high dimensional feature spaces
+We introduce a novel adaptive non-parametric anomaly detection approach called
+GEM that is based on the minimal covering properties of K-point entropic graphs
+when constructed on training samples from a nominal probability distribution Such graphs have the property that as their span recovers the
+entropy minimizing set that supports at least K/N of the mass of the
+Lebesgue part of the distribution When a test sample falls outside of the entropy
+minimizing set an anomaly can be declared at a statistical level of significance
+A method for implementing this non-parametric anomaly detector is
+proposed that approximates this minimum entropy set by the influence region of a
+K-point entropic graph built on the training data By implementing an incremental
+leave-one-out k-nearest neighbor graph on resampled subsets of the training data
+GEM can efficiently detect outliers at a given level of significance and compute
+their empirical p-values We illustrate GEM for several simulated and real data
+sets in high dimensional feature spaces
 Introduction
-Anomaly detection involves detecting statistically significant deviations of test data from nominal
-distribution In typical applications the nominal distribution is unknown and generally cannot be
-reliably estimated from nominal training data due to a combination of factors such as limited data
-size and high dimensionality
-We propose an adaptive non-parametric method for anomaly detection based on score functions that
-maps data samples to the interval Our score function is derived from a K-nearest neighbor
-graph K-NNG on n-point nominal data Anomaly is declared whenever the score of a test sample
-falls below the desired false alarm error The efficacy of our method rests upon its close connection to multivariate p-values In statistical hypothesis testing p-value is any transformation of the
-feature space to the interval that induces a uniform distribution on the nominal data When test
-samples with p-values smaller than are declared as anomalies false alarm error is less than
-We develop a novel notion of p-values based on measures of level sets of likelihood ratio functions
-Our notion provides a characterization of the optimal anomaly detector in that it is uniformly most
-powerful for a specified false alarm level for the case when the anomaly density is a mixture of the
-nominal and a known density We show that our score function is asymptotically consistent namely
-it converges to our multivariate p-value as data length approaches infinity
-Anomaly detection has been extensively studied It is also referred to as novelty detection
-outlier detection one-class classification and single-class classification in the literature Approaches to anomaly detection can be grouped into several categories In parametric
-approaches the nominal densities are assumed to come from a parameterized family and generalized likelihood ratio tests are used for detecting deviations from nominal It is difficult to use
-parametric approaches when the distribution is unknown and data is limited A K-nearest neighbor
-anomaly detection approach is presented in There an anomaly is declared whenever
-the distance to the K-th nearest neighbor of the test sample falls outside a threshold In comparison
-our anomaly detector utilizes the global information available from the entire K-NN graph to detect
-deviations from the nominal In addition it has provable optimality properties Learning theoretic
-approaches attempt to find decision regions based on nominal data that separate nominal instances
-from their outliers These include one-class SVM of Sch?olkopf where the basic idea
-is to map the training data into the kernel space and to separate them from the origin with maximum margin Other algorithms along this line of research include support vector data description
-linear programming approach and single class minimax probability machine While
-these approaches provide impressive computationally efficient solutions on real data it is generally
-difficult to precisely relate tuning parameter choices to desired false alarm probability
-Scott and Nowak derive decision regions based on minimum volume sets which does
-provide Type I and Type error control They approximate appropriate function classes level
-sets of the unknown nominal multivariate density from training samples Related work by Hero
-based on geometric entropic minimization GEM detects outliers by comparing test samples
-to the most concentrated subset of points in the training sample This most concentrated set is the
-K-point minimum spanning tree(MST for n-point nominal data and converges asymptotically to
-the minimum entropy set which is also the MV set Nevertheless computing K-MST for n-point
-data is generally intractable To overcome these computational limitations proposes heuristic
-greedy algorithms based on leave-one out K-NN graph which while inspired by K-MST algorithm
-is no longer provably optimal Our approach is related to these latter techniques namely MV sets
-of and GEM approach of We develop score functions on K-NNG which turn out to be the
-empirical estimates of the volume of the MV sets containing the test point The volume which is a
-real number is a sufficient statistic for ensuring optimal guarantees In this way we avoid explicit
-high-dimensional level set computation Yet our algorithms lead to statistically optimal solutions
-with the ability to control false alarm and miss error probabilities
-The main features of our anomaly detector are summarized Like our algorithm scales
-linearly with dimension and quadratic with data size and can be applied to high dimensional feature
-spaces Like our algorithm is provably optimal in that it is uniformly most powerful for
-the specified false alarm level for the case that the anomaly density is a mixture of the nominal
-and any other density not necessarily uniform We do not require assumptions of linearity
-smoothness continuity of the densities or the convexity of the level sets Furthermore our algorithm
-adapts to the inherent manifold structure or local dimensionality of the nominal density Like
-and unlike other learning theoretic approaches such as we do not require choosing complex
-tuning parameters or function approximation classes
-Anomaly Detection Algorithm Score functions based on K-NNG
-In this section we present our basic algorithm devoid of any statistical context Statistical analysis
-appears in Section Let be the nominal training set of size belonging to
-the unit cube For notational convenience we use and interchangeably to denote a test
-point Our task is to declare whether the test point is consistent with nominal data or deviates from
-the nominal data If the test point is an anomaly it is assumed to come from a mixture of nominal
-distribution underlying the training data and another known density Section
-Let be a distance function denoting the distance between any two points For
-simplicity we denote the distances by dij d(xi In the simplest case we assume the distance
-function to be Euclidean However we also consider geodesic distances to exploit the underlying manifold structure The geodesic distance is defined as the shortest distance on the manifold
-The Geodesic Learning algorithm a subroutine in Isomap can be used to efficiently and
-consistently estimate the geodesic distances In addition by means of selective weighting of different coordinates note that the distance function could also account for pronounced changes in local
-dimensionality This can be accomplished for instance through Mahalanobis distances or as a by
-product of local linear embedding However we skip these details here and assume that a
-suitable distance metric is chosen
-Once a distance function is defined our next step is to form a nearest neighbor graph K-NNG or
-alternatively an neighbor graph K-NNG is formed by connecting each to the closest
-points xiK in We then sort the nearest distances for each in increasing
-order di,i1 di,iK and denote RS di,iK that is the distance from to its K-th
-nearest neighbor We construct where and are connected if and only if dij In this
-case we define NS as the degree of point in the
-For the simple case when the anomalous density is an arbitrary mixture of nominal and uniform
-density1 we consider the following two score functions associated with the two graphs K-NNG and
-NNG respectively The score functions map the test data to the interval
-K-LPE p?K
-1X
-I{RS
-1X
-I{NS
-where is the indicator function
-Finally given a pre-defined significance level we declare to be anomalous if
-p?K We call this algorithm Localized p-value Estimation LPE algorithm This
-choice is motivated by its close connection to multivariate p-values(see Section
-The score function K-LPE measures the relative concentration of point compared to
-the training set Section establishes that the scores for nominally generated data is asymptotically
-uniformly distributed in Scores for anomalous data are clustered around Hence when scores
-below level are declared as anomalous the false alarm error is smaller than asymptotically since
-the integral of a uniform distribution from to is
-anomaly detection via K?LPE
-empirical distribution of the scoring function K?LPE
-nominal data
-anomaly data
-empirical density
-Bivariate Gaussian mixture distribution
-level set at
-labeled as anomaly
-labeled as nominal
-value of K?LPE
-Figure Left Level sets of the nominal bivariate Gaussian mixture distribution used to illustrate the KLPE algorithm Middle Results of K-LPE with and Euclidean distance metric for test
-points drawn from a equal mixture of 2D uniform and the nominal bivariate distributions Scores for the test
-points are based on nominal training samples Scores falling below a threshold level are declared as
-anomalies The dotted contour corresponds to the exact bivariate Gaussian density level set at level
-Right The empirical distribution of the test point scores associated with the bivariate Gaussian appear to be
-uniform while scores for the test points drawn from 2D uniform distribution cluster around zero
-Figure illustrates the use of K-LPE algorithm for anomaly detection when the nominal data is a
-2D Gaussian mixture The middle panel of figure shows the detection results based on K-LPE are
-consistent with the theoretical contour for significance level The right panel of figure
-shows the empirical distribution derived from the kernel density estimation of the score function
-K-LPE for the nominal solid blue and the anomaly dashed red data We can see that the curve for
-the nominal data is approximately uniform in the interval and the curve for the anomaly data
-has a peak at Therefore choosing the threshold will approximately control the Type I
-error within and minimize the Type error We also take note of the inherent robustness of our
-algorithm As seen from the figure right small changes in lead to small changes in actual false
-alarm and miss levels
-Pn
-When the mixing density is not uniform but say f1 the score functions must be modified to
-I
-NS
-NS
-Pn
-and
-for the two graphs K-NNG and NNG respectively
-I
-To summarize the above discussion our LPE algorithm has three steps
-Inputs Significance level distance metric Euclidean geodesic weighted
-Score computation Construct K-NNG based on dij and compute the score function
-K-LPE from Equation LPE from Equation
-Make Decision Declare to be anomalous if and only if p?K
-Computational Complexity To compute each pairwise distance requires operations and
-operations for all the nodes in the training set In the worst-case computing the K-NN graph
-for small and the functions RS NS requires operations over all the nodes in the
-training data Finally computing the score for each test data requires O(nd+n operations(given that
-RS NS have already been computed
-Remark LPE is fundamentally different from non-parametric density estimation or level set estimation schemes MV-set These approaches involve explicit estimation of high dimensional
-quantities and thus hard to apply in high dimensional problems By computing scores for each test
-sample we avoid high-dimensional computation Furthermore as we will see in the following section the scores are estimates of multivariate p-values These turn out to be sufficient statistics for
-optimal anomaly detection
-Theory Consistency of LPE
-A statistical framework for the anomaly detection problem is presented in this section We establish
-that anomaly detection is equivalent to thresholding p-values for multivariate data We will then
-show that the score functions developed in the previous section is an asymptotically consistent estimator of the p-values Consequently it will follow that the strategy of declaring an anomaly when a
-test sample has a low score is asymptotically optimal
-Assume that the data belongs to the d-dimensional unit cube and the nominal data is sampled from a multivariate density f0 supported on the d-dimensional unit cube Anomaly
-detection can be formulated as a composite hypothesis testing problem Suppose test data comes
-from a mixture distribution namely where f1 is a mixing density
-supported on Anomaly detection involves testing the nominal hypotheses H0 versus
-the alternative anomaly H1 The goal is to maximize the detection power subject to false
-alarm level namely P(declare H1 H0
-Definition Let P0 be the nominal probability measure and f1 be P0 measurable Suppose the
-likelihood ratio f1 does not have non-zero flat spots on any open ball in Define
-the p-value of a data point as
-f1
-f1
-P0
-f0
-f0
-Note that the definition naturally accounts for singularities which may arise if the support of f0
-is a lower dimensional manifold In this case we encounter f1 f0 and the p-value
-Here anomaly is always declared(low score
-The above formula can be thought of as a mapping of Furthermore the distribution of
-under H0 is uniform on However as noted in the introduction there are other such transformations To build intuition about the above transformation and its utility consider the following
-example When the mixing density is uniform namely f1 where is uniform over
-note that is a density level set at level It is well known
-that such a density level set is equivalent to a minimum volume set of level The minimum volume
-set at level is known to be the uniformly most powerful decision region for testing H0
-versus the alternative H1 The generalization to arbitrary f1 is described next
-Theorem The uniformly most powerful test for testing H0 versus the alternative
-anomaly H1 at a prescribed level of significance P(declare H1 H0 is
+Anomaly detection and localization are important but notoriously difficult problems In such problems it is crucial to identify a nominal or baseline feature distribution with respect to which statistically significant deviations can be reliably detected However in most applications there is seldom
+enough information to specify the nominal density accurately especially in high dimensional feature spaces for which the baseline shifts over time In such cases standard methods that involve
+estimation of the multivariate feature density from a fixed training sample are inapplicable high
+dimension or unreliable shifting baseline In this paper we propose an adaptive non-parametric
+method that is based on a class of entropic graphs called K-point minimal spanning trees
+and overcomes the limitations of high dimensional feature spaces and baseline shift This method
+detects outliers by comparing them to the most concentrated subset of points in the training sample
+It follows from that this most concentrated set converges to the minimum entropy set of probability as and K/N Thus we call this approach to anomaly detection the geometric
+entropy minimization GEM method
+Several approaches to anomaly detection have been previously proposed Parametric approaches
+such as the generalized likelihood ratio test lead to simple and classical algorithms such as the Student t-test for testing deviation of a Gaussian test sample from a nominal mean value and the Fisher
+F-test for testing deviation of a Gaussian test sample from a nominal variance These methods fall
+under the statistical nomenclature of the classical slippage problem and have been applied to
+detecting abrupt changes in dynamical systems image segmentation and general fault detection applications The main drawback of these algorithms is that they rely on a family of parameterically
+defined nominal no-fault distributions
+An alternative to parametric methods of anomaly detection are the class of novelty detection algorithms and include the GEM approach described herein Scholkopf and Smola introduced a kernelbased novelty detection scheme that relies on unsupervised support vector machines SVM The
+single class minimax probability machine of Lanckriet etal derives minimax linear decision regions that are robust to unknown anomalous densities More closely related to our GEM approach is
+that of Scott and Nowak who derive multiscale approximations of minimum-volume-sets to estimate a particular level set of the unknown nominal multivariate density from training samples For a
+simple comparative study of several of these methods in the context of detecting network intrusions
+the reader is referred to
+The GEM method introduced here has several features that are summarized below Unlike the
+MPM method of Lanckriet etal the GEM anomaly detector is not restricted to linear or even
+convex decision regions This translates to higher power for specified false alarm level GEMs
+computational complexity scales linearly in dimension and can be applied to level set estimation
+in feature spaces of unprecedented high dimensionality GEM has no complicated tuning parameters or function approximation classes that must be chosen by the user Like the method
+of Scott and Nowak GEM is completely non-parametric learning the structure of the nominal
+distribution without assumptions of linearity smoothness or continuity of the level set boundaries
+Like Scott and Nowak?s method GEM is provably optimal indeed uniformly most powerful
+of specified level for the case that the anomaly density is a mixture of the nominal and a uniform
+density GEM easily adapts to local structure changes in local dimensionality of the support
+of the nominal density
+We introduce an incremental Leave-one-out kNNG as a particularly versatile and fast anomaly detector in the GEM class Despite the similarity in nomenclature the L1O kNNG is different
+from nearest neighbor kNN anomaly detection of The kNN anomaly detector is based on
+thresholding the distance from the test point to the k-th nearest neighbor The L1O kNNG detector
+computes the change in the topology of the entire kNN graph due to the addition of a test sample and
+does not use a decision threshold Furthermore the parent GEM anomaly detection methodology
+has proven theoretical properties the restricted optimality property for uniform mixtures and
+general consistency properties
+We introduce the statistical framework for anomaly detection in the next section We then describe
+the GEM approach in Section Several simulations are presented Section
+Statistical framework
+The setup is the following Assume that a training sample Xn Xn of d-dimensional
+vectors is available Given a new sample the objective is to declare to be a nominal
+sample consistent with Xn or an anomalous sample that is significantly different from Xn This
+declaration is to be constrained to give as few false positives as possible To formulate this problem
+we adopt the standard statistical framework for testing composite hypotheses Assume that Xn is
+an independent identically distributed sample from a multivariate density f0 supported on
+the unit d-dimensional cube Let have density Anomaly detection can be formulated
+as testing the hypotheses H0 fo versus H0 fo at a prescribed level of significance
+declare H1
+The minimum-volume-set
+of level is defined as a set in IRd which minimizes the volume
+dx subject to the constraint f0 x)dx The minimum-entropy-set of level
+x)dx
+is defined as a set in IRd which minimizes the R?enyi entropy
+subject to the constraint f0 x)dx Here is any real valued parameter between
+When is a Lebesgue density in IRd it is easy to show that these three sets are identical
+almost everywhere
+The test decide anomaly if is equivalent to implementing the test function
+This test has a strong optimality property when f0 is Lebesgue continuous it is a uniformly most
+powerful UMP level for testing anomalies that follow a uniform mixture distribution Specif
+ically let have density where is the uniform density over
+and Consider testing the hypotheses
+H0
 H1
-H0 otherwise
-Proof We provide the main idea for the proof First measure theoretic arguments are used to
-establish as a random variable over under both nominal and anomalous distributions
-Next when f0 distributed with nominal density it follows that the random variable
-When with the random variable where
-is a monotonically decreasing PDF supported on Consequently the uniformly most powerful
-test for a significance level is to declare p-values smaller than as anomalies
-Next we derive the relationship between the p-values and our score function By definition RS
-and RS are correlated because the neighborhood of and might overlap We modify our
-algorithm to simplify our analysis We assume is odd say and can be written as 2m
-We divide training set into two parts
-S1 S2 xm x2m
-We modify LPE to
-I{NS2 K-LPE to
-I
-Now
-and
-are
-independent
-S2
-S1
-Furthermore we assume f0 satisfies the following two smoothness conditions
-the Hessian matrix of f0 is always dominated by a matrix with largest eigenvalue
-and max
-In the support of f0 its value is always lower bounded by some
-We have the following theorem
-Theorem Consider the setup above with the training data generated from f0
-Let be an arbitrary test sample It follows that for a suitable choice and under the
-above smoothness conditions
-pK almost surely
-For simplicity we limit ourselves to the case when f1 is uniform The proof of Theorem consists
-of two steps
-We show that the expectation ES1
-Lemma This result is then exn
-tended to K-LPE ES1
-pK in Lemma
-Next we show that p?K ES1
-pK via concentration inequality Lemma
-with probability at least
-Lemma By picking 5d
-lm ES1
-um
+Proposition Assume that under H0 the random vector has a Lebesgue continuous density f0
+and that f0 is also a continuous random variable Then the level-set test of level is
+uniformly most powerful for testing Furthermore its power function is
+given by
+A sufficient condition for the random variable above to be continuous is that the density f0
+have no flat spots over its support set The proof of this proposition is omitted
+There are two difficulties with implementing the level set test First for known f0 the level set
+may be very difficult if not impossible to determine in high dimensions Second when only
+a training sample from f0 is available and f0 is unknown the level sets have to be learned from
+the training data There are many approaches to doing this for minimum volume tests and these
+are reviewed in These methods can be divided into two main approaches density estimation
+followed by plug in estimation of via variational methods and direct estimation of the level
+set using function approximation and non-parametric estimation Since both approaches involve
+explicit approximation of high dimensional quantities the multivariate density or the boundary
+of the set these methods are difficult to apply in high dimensional problems The
+GEM method we propose in the next section overcomes these difficulties
+GEM and entropic graphs
+GEM is a method that directly estimates the critical region for detecting anomalies using minimum coverings of subsets of points in a nominal training sample These coverings are obtained by
+constructing minimal graphs a MST or kNNG covering a K-point subset that is a given proportion of the training sample Points not covered by these K-point minimal graphs are identified
+as tail events and allow one to adaptively set a pvalue for the detector
+For a set of points Xn in IRd a graph over Xn is a pair where Xn is the set of vertices
+and is the set of
+edges of the graph The total power weighted length or more simply the
+length of is L(Xn e?E where is a specified edge exponent parameter
+K-point MST
+The MST with power weighting is defined as the graph that spans Xn with minimum total length
+LM ST Xn min
+e?T
+where is the set of all trees spanning Xn
+subsets of distinct points from Xn
+Definition K-point MST Let Xn,K denote one of the
+Among all of the MST?s spanning these sets the K-MST is defined as the one having minimal length
+minXn,K Xn LM ST Xn,k
+The K-MST thus specifies the minimal subset of points in addition to specifying the minimum
+length This subset of points which we call a minimal graph covering of Xn of size can be viewed
+as capturing the densest region of Xn Furthermore if Xn is a sample from a multivariate
+density and if limK,n K/n and a greedy version of the K-MST is implemented this
+set converges to the minimum entropy set containing a proportion of at least K/n of
+the mass of the Lebesgue component of where This fact was used in to
+motivate the greedy K-MST as an outlier resistant estimator of entropy for finite K.
+Define the K-point subset
+Xn,K
+argminXn,K Xn LM ST Xn,K
+selected by the greedy K-MST Then we have the following As the minimum entropy set and minimum volume set are identical this suggests the following minimal-volume-set anomaly detection
+algorithm which we call the K-MST anomaly detector
+K-MST anomaly detection algorithm
+1]Process training sample Given a level of significance and a training sample Xn
+Xn construct the greedy K-MST and retain its vertex set Xn,K
+2]Process test sample Given a test sample run the K-MST on the merged training-test sample
+Xn and store the minimal set of points
+3]Make decision Using the test function defined below decide H1 if and decide H0
+if
+When the density f0 generating the training sample is Lebesgue continuous it follows from Theorem that as the K-MST anomaly detector has false alarm probability that converges
+to K/n and power that converges to that of the minimum-volume-set test of level When
+the density f0 is not Lebesgue continuous some optimality properties of the K-MST anomaly detector still hold Let this nominal density have the decomposition f0 where is Lebesgue
+continuous and is singular Then according to Theorem the K-MST anomaly detector will
+have false alarm probability that converges to where is the mass of the singular component of f0 and it is a uniformly most powerful test for anomalies in the continuous component
+for the test of H0 against H1
+It is well known that the K-MST construction is of exponential complexity in In fact even
+for a case one can call the leave-one-out MST there is no simple fast algorithm
+for computation However the leave-one-out kNNG described below admits a fast incremental
+algorithm
+K-point kNNG
+Let Xn Xn be a set of points The nearest neighbors kNN Xi(k
+of a point Xn are the closest points to points in Xn Here the measure of
+closeness is the Euclidean distance Let ei(k be the set of edges between and its
+nearest neighbors The kNN graph kNNG over Xn is defined as the union of all of the kNN edges
+ei(k and the total power weighted edge length of the kNN graph is
+LkN Xn
+subsets of distinct points from Xn
+Definition K-point kNNG Let Xn,K denote one of the
+Among all of the kNNG over each of these sets the K-kNNG is defined as the one having minimal
+length minXn,K Xn LkN Xn,k
+As the kNNG length is also a quasi additive continuous functional the asymptotic KMST
+theory of extends to the K-point kNNG Of course computation of the K-point kNNG also has
+exponential complexity However the same type of greedy approximation introduced by Ravi
+for the K-MST can be implemented to reduce complexity of the K-point kNNG This approximation
+to the K-point kNNG will satisfy the tightly coverable graph property of Defn We have the
+following result that justifies the use of such an approximation as an anomaly detector of level
 where
-lm P0
-um P0
+Proposition Let Xn,K
+be the set of points in Xn that results from any approximation to the
+point kNNG that satisfies the property Defn Then limn P0 Xn,K
 and
-Proof We only prove the lower bound since the upper bound follows along similar lines By interchanging the expectation with the summation
-ES1
-ES1
-I{NS2
-Exi ES1 I{NS2
-Ex1 NS1
-where the last inequality follows from the symmetric structure of xm
-Clearly the objective of the proof is to show PS1 NS1
-Skipping technical details this can be accomplishedRin two steps Note that NS is a binomial
-random variable with success probability f0 t)dt This relates PS1
-NS1 to We relate to based on the function
-smoothness condition The details of these two steps are shown in the below
-Note that NS1 Binom(m By Chernoff bound of binomial distribution we have
-2mq(x
-PS1 mq(x1
-that is NS1 is concentrated around mq(x1 This implies
-PS1 NS1 I{NS
-2mq(x
-We choose will be specified later and reformulate equation as
-PS1 NS1 I
-NS
-q(x
-Vol(B1
-mVol(B
-Next we relate f0 t)dt to f0 via the Taylor?s expansion and the smoothness
-condition of f0
-f0 t)dt
-f0
-ktk2 dt
-Vol(B
-Vol(B
-and then equation becomes
-PS1 NS1 I
-NS
-f0
-mVol(B
-By applying the same steps to NS2 as equation Chernoff bound and equation Taylor?s
-explansion we have with probability at least
-Ex1 NS1
-Finally by choosing 5d
-f0
-Px1 f0
-and we prove the lemma
-Lemma By picking with probability at least
-lm ES1
-pK um
-Proof The proof is very similar to the proof to Lemma and we only give a brief outline here Now
-the objective is to show PS1 RS1 The basic idea is to use
-the result of Lemma To accomplish this we note that RS1 contains the events
-or equivalently
-By the tail probability of Binomial distribution the probability of the above two events converges to
-exponentially fast if and By using the same two-step bounding
-techniques developed in the proof to Lemma these two inequalities are implied by
-and
-Therefore if we choose we have with probability at least
-PS1 RS1
-Remark Lemma and Lemma were proved with specific choices for and K. However they
-can be chosen in a range of values but will lead to different lower and upper bounds We will show
-in Section via simulation that our LPE algorithm is generally robust to choice of parameter K.
-Lemma Suppose and denote p?K
-I{RS2 We have
-c2
-P0
-pK p?K 2e
-where is a constant and is defined as the minimal number of cones centered at the origin of angle
-that cover Rd
-Proof We can not apply Law of Large Number in this case because I{RS2 are correlated Instead we need to use the more generalized concentration-of-measure
-inequality such
-as MacDiarmid?s inequality[17 Denote xm
-I{RS2 From
-Corollary in
-sup
-xm
-xm x0i K?d
-Then the lemma directly follows from applying McDiarmid?s inequality
-Theorem directly follows from the combination of Lemma and Lemma and a standard application of the first Borel-Cantelli lemma We have used Euclidean distance in Theorem When the
-support of f0 lies on a lower dimensional manifold say d0 adopting the geodesic metric leads
-to faster convergence It turns out that d0 replaces in the expression for in Lemma
-Experiments
-First to test the sensitivity of K-LPE to parameter changes we run K-LPE on the benchmark dataset Banana with varying from to We randomly pick points with label and
-regard them as the nominal training data The test data comprises of points and
-points ground truth and the algorithm is supposed to predict data as nominal and data
-as anomalous Scores computed for test set using Equation is oblivious to true f1 density
-labels Euclidean distance metric is adopted for this experiment
-To control false alarm at level points with score smaller than are predicted as anomaly Empirical false alarm and true positives are computed from ground truth We vary to obtain the empirical
-ROC curve The above procedure is followed for the rest of the experiments in this section As
-shown in the LPE algorithm is insensitive to K. For comparison we plot the empirical ROC
-curve of the one-class SVM of For our OC-SVM implementation for a fixed bandwidth we
-obtain the empirical ROC curve by varying We then vary the bandwidth to obtain the best
-terms of AUC ROC curve The optimal bandwidth turns out to be In LPE if we set
-we get empirical A and for empirical A For OC-SVM we
-are unaware of any natural way of picking and to control FA rate based on training data
-Next we apply our K-LPE to the problem where the nominal and anomalous data are generated in
-the following way
-49
-f0
-f1
-49
-We call ROC curve corresponding to the optimal Bayesian classifier as the Clairvoyant ROC the
-red dashed curve in Figure The other two curves are averaged over trials empirical ROC
-curves via LPE. Here we set and or We see that for a relatively small
-training set of size the average empirical ROC curve is very close to the clairvoyant ROC curve
-Finally we ran LPE on three real-world datasets Wine Ionosphere[20 and MNIST US Postal
-Service USPS database of handwritten digits If there are more than labels in the data set we
-artificially regard points with one particular label as nominal and regard the points with other labels
-as anomalous For example for the USPS dataset we regard instances of digit as nominal and
-instances of digits as anomaly The data points are normalized to be within and we
-2D Gaussian mixture
-true positives
-true positives
-banana data set
-ROC of LPE
-ROC of LPE
-ROC of LPE
-ROC of LPE
-ROC of LPE
-ROC of LPE
-ROC of
-ROC of
-Clairvoyant ROC
-ROC of one?class SVM
-false positives
-SVM K-LPE for Banana Data
-false positives
-Clairvoyant K-LPE
-Figure Empirical ROC curve of LPE on the banana dataset with with
-vs the empirical ROC curve of one class SVM developed in Empirical ROC curves of
-LPE algorithm vs clairvoyant ROC curve is given by Equation for and for or
-true positive
-true positive
-true positive
-use geodesic distance The ROC curves are shown in Figure The feature dimension of Wine
-is 13 and we apply the LPE algorithm with and 39 The test set is a mixture of
-nominal points and anomaly points The feature dimension of Ionosphere is 34 and we
-apply the K-LPE algorithm with and The test set is a mixture of nominal points
-and anomaly points The feature dimension of USPS is and we apply the K-LPE algorithm
-with and The test set is a mixture of nominal points and 33 anomaly points
-In USPS setting induces empirical false-positive and empirical false alarm rate
-In contrast and A with for OC-SVM as reported in Practically we
-find that K-LPE is more preferable to LPE and as a rule of thumb setting is generally
-effective
-false positive
-Wine
-false positive
-Ionosphere
-false positive
-USPS
-Figure ROC curves on real datasets via LPE Wine dataset with 13 39
-Ionosphere dataset with 34 USPS dataset with
-Conclusion
-In this paper we proposed a novel non-parametric adaptive anomaly detection algorithm which leads
-to a computationally efficient solution with provable optimality guarantees Our algorithm takes a
-K-nearest neighbor graph as an input and produces a score for each test point Scores turn out to be
-empirical estimates of the volume of minimum volume level sets containing the test point While
-minimum volume level sets provide an optimal characterization for anomaly detection they are
-high dimensional quantities and generally difficult to reliably compute in high dimensional feature
-spaces Nevertheless a sufficient statistic for optimal tradeoff between false alarms and misses is
-the volume of the MV set itself which is a real number By computing score functions we avoid
-computing high dimensional quantities and still ensure optimal control of false alarms and misses
-The computational cost of our algorithm scales linearly in dimension and quadratically in data size
+limn P0 Xn,K where is a minimum-volume-set of
+level and
+Proof We provide a rough sketch using the terminology of Recall that a set
+of resolution is representable by a union of elements of the uniform partition of into
+hypercubes of volume Lemma of asserts that there exists an such that for the
+limits claimed in Proposition hold with replaced by Am
+a minimum volume set of resolution
+that contains As limm Am
+this
+establishes
+the proposition
+Figures illustrate the use of the K-point kNNG as an anomaly detection algorithm
+K?point kNNG
+Bivariate Gaussian mixture density
+Figure Left level sets of the nominal bivariate mixture density used to illustrate the point kNNG
+anomaly detection algorithms Right K-point kNNG over random training samples drawn
+from the nominal bivariate mixture at left Here and corresponding to a significance
+level of
+K?point kNNG
+K?point kNNG
+Figure Left The test point is declared anomalous at level as it is not captured by the
+K-point kNNG constructed over the combined test sample and the training samples drawn
+from the nominal bivariate mixture shown in Right A different test point is declared
+non-anomalous as it is captured by this K-point kNNG
+Leave-one-out kNNG L1O-kNNG
+The theoretical equivalence between the K-point kNNG and the level set anomaly detector motivates
+a low complexity anomaly detection scheme which we call the leave-one-out kNNG discussed
+in this section and adopted for the experiments below As before assume a single test sample
+and a training sample Xn Fix and assume that the kNNG over the set Xn has been
+computed To determine the kNNG over the combined sample Xn one can
+execute the following algorithm
+L1O kNNG anomaly detection algorithm
+For each compute the kNNG total length difference
+LkN LkN LkN by the following steps For each
+Find the edges
+of all of the kNN?s of
+Find the edges of other points in that have as one of their
+kNNs For these points find the edges to their respective 1st NN point
+Compute LkN e?E e?E
+Define the kNNG most outlying point as Xo LkN
+Declare the test sample an anomaly if Xo
+This algorithm will detect anomalies with a false alarm level of approximately Thus larger
+sizes of the training sample will correspond to more stringent false alarm constraints Furthermore
+the p-value of each test point is easily computed by recursing over the size of the training
+sample In particular let vary from to and define as the minimum value of for which
+is declared an anomaly Then the p-value of is approximately
+A useful relative influence coefficient can be defined for each point in the combined sample
+LkN
+maxi LkN
+The coefficient when the test point is declared an anomaly
+Using matlab?s matrix sort algorithm step of this algorithm can be computed an order of magnitude
+faster than the K-point MST logN vs logN For example the experiments below have
+shown that the above algorithm can find and determine the p-value of outliers among test
+samples in a few seconds on a Dell 2GHz processor running Matlab
+Illustrative examples
+Here we focus on the L1O kNNG algorithm due to its computational speed We show a few representative experiments for simple Gaussian and Gaussian mixture nominal densities f0
+L1O kNN scores detection
+iteration pvalue
+iteration pvalue
+score max
+iteration pvalue
+iteration pvalue
+iteration pvalue
+iteration pvalue
+iteration pvalue
+iteration pvalue
+iteration pvalue
+sample number
+Figure Left The plot of the anomaly curve for the L1O kNNG anomaly detector for detecting
+deviations from a nominal 2D Gaussian density with mean and correlation coefficient
+The boxes on peaks of curve correspond to positions of detected anomalies and the height of the
+boxes are equal to one minus the computed p-value Anomalies were generated on the average
+every samples and drawn from a 2D Gaussian with correlation coefficient The parameter
+is equal to where is the user defined false alarm rate Right the resampled nominal
+distribution and anomalous points detected at the iterations indicated at left
+First we illustrate the L1O kNNG algorithm for detection of non-uniformly distributed anomalies
+from training samples following a bivariate Gaussian nominal density Specifically a 2D Gaussian
+density with mean and correlation coefficient was generated to train of the L1O kNNG
+detector The test sample consisted of a mixture of this nominal and a zero mean 2D Gaussian with
+correlation coefficient with mixture coefficient In the results of simulation with
+a training sample of samples and tests samples are shown is a plot of the relative
+influence curve over the test samples as compared to the most outlying point in the resampled
+training sample When the relative influence curve is equal to the corresponding test sample is the
+most outlying point and is declared an anomaly The detected anomalies in have p-values
+less than and therefore one would expect an average of only one false alarm at this level of
+significance In the right panel of the detected anomalies asterisks are shown along with the
+training sample dots used to grow the L1O kNNG for that particular iteration note that to protect
+against bias the training sample is resampled at each iteration
+Next we compare the performance of the L1O kNNG detector to that of the UMP test for the
+hypotheses We again trained on a bivariate Gaussian f0 with mean zero but this time with
+identical component variances of This distribution has essential support on the unit
+square For this?simple case the minimum volume set of level is a disk centered at the origin with radius and the power of the of the UMP can be computed in closed form
+We implemented the GEM anomaly detector with the incremental leave-one-out kNNG using The training set consisted of samples from f0 and
+the test set consisted of samples from the mixture of a uniform density and f0 with parameter
+ranging from to Figure shows the empirical ROC curves obtained using the GEM test vs
+the theoretical curves labeled clairvoyant for several different values of the mixing parameter
+Note the good agreement between theoretical prediction and the GEM implementation of the UMP
+using the kNNG
+ROC curves for Gaussian+uniform mixture Nrep=10
+L1O?kNN
+Clairvoyant
+Figure ROC curves for the leave-one-out kNNG anomaly detector described in Sec. The
+labeled clairvoyant curve is the ROC of the UMP anomaly detector The training sample is a zero
+mean 2D spherical Gaussian distribution with standard deviation and the test sample is a this
+2D Gaussian and a 2D uniform-[0 mixture density The plot is for various values of the mixture
+parameter
+Conclusions
+A new and versatile anomaly detection method has been introduced that uses geometric entropy
+minimization GEM to extract minimal set coverings that can be used to detect anomalies from a
+set of training samples This method can be implemented through the K-point minimal spanning tree
+MST or the K-point nearest neighbor graph kNNG The L1O kNNG is significantly less computationally demanding than the K-point MST. We illustrated the L1O kNNG method on simulated
+data containing anomalies and showed that it comes close to achieving the optimal performance of
+the UMP detector for testing the nominal against a uniform mixture with unknown mixing parameter As the L1O kNNG computes p-values on detected anomalies it can be easily extended to
+account for false discovery rate constraints By using a sliding window the methodology derived in
+this paper is easily extendible to on-line applications and has been applied to non-parametric intruder
+detection using our Crossbow sensor network testbed reported elsewhere
+Acknowledgments
+This work was partially supported by NSF under Collaborative ITR grant
 
 <<----------------------------------------------------------------------------------------------------------------------->>
 
@@ -1956,378 +1549,410 @@ BP-kNNG easily extendable to incorporating false discovery rate constraints
 
 <<----------------------------------------------------------------------------------------------------------------------->>
 
-title: 4299-group-anomaly-detection-using-flexible-genre-models.pdf
+title: 3723-anomaly-detection-with-score-functions-based-on-nearest-neighbor-graphs.pdf
 
-Group Anomaly Detection using Flexible Genre Models
-Liang Xiong
-Machine Learning Department
-Carnegie Mellon University
-lxiong@cs.cmu.edu
-Barnab?as P?oczos
-Robotics Institute
-Carnegie Mellon University
-bapoczos@cs.cmu.edu
-Jeff Schneider
-Robotics Institute
-Carnegie Mellon University
-schneide@cs.cmu.edu
+Anomaly Detection with Score functions based on
+Nearest Neighbor Graphs
+Manqi Zhao
+ECE Dept
+Boston University
+Boston MA
+mqzhao@bu.edu
+Venkatesh Saligrama
+ECE Dept
+Boston University
+Boston MA
+srv@bu.edu
 Abstract
-An important task in exploring and analyzing real-world data sets is to detect
-unusual and interesting phenomena In this paper we study the group anomaly
-detection problem Unlike traditional anomaly detection research that focuses on
-data points our goal is to discover anomalous aggregated behaviors of groups of
-points For this purpose we propose the Flexible Genre Model FGM is
-designed to characterize data groups at both the point level and the group level so
-as to detect various types of group anomalies We evaluate the effectiveness of
-FGM on both synthetic and real data sets including images and turbulence data
-and show that it is superior to existing approaches in detecting group anomalies
+We propose a novel non-parametric adaptive anomaly detection algorithm for high
+dimensional data based on score functions derived from nearest neighbor graphs
+on n-point nominal data Anomalies are declared whenever the score of a test
+sample falls below which is supposed to be the desired false alarm level The
+resulting anomaly detector is shown to be asymptotically optimal in that it is uniformly most powerful for the specified false alarm level for the case when
+the anomaly density is a mixture of the nominal and a known density Our algorithm is computationally efficient being linear in dimension and quadratic in
+data size It does not require choosing complicated tuning parameters or function
+approximation classes and it can adapt to local structure such as local change in
+dimensionality We demonstrate the algorithm on both artificial and real data sets
+in high dimensional feature spaces
 Introduction
-Anomaly detection is a crucial problem in processing large-scale data sets when our goal is to
-find rare or unusual events These events can either be outliers that should be ignored or novel
-observations that could lead to new discoveries See for a recent survey of this field Traditional
-research often focuses on individual data points In this paper however we are interested in finding
-group anomalies where a set of points together exhibit unusual behavior For example consider
-text data where each article is considered to be a set group of words points While the phrases
-machine learning or gummy bears will not surprise anyone on their own an article containing
-both of them might be interesting
-We consider two types of group anomalies A point-based group anomaly is a group of individually
-anomalous points A distribution-based anomaly is a group where the points are relatively normal
-but as a whole they are unusual Most existing work on group anomaly detection focuses on pointbased anomalies A common way to detect point-based anomalies is to first identify anomalous
-points and then find their aggregations using scanning or segmentation methods This
-paradigm clearly does not work well for distribution-based anomalies where the individual points
-are normal To handle distribution-based anomalies we can design features for groups and then treat
-them as points However this approach relies on feature engineering that is domain specific
-and can be difficult Our contribution is to propose a new method FGM for detecting both types of
-group anomalies in an integral way
-Group anomalies exist in many real-world problems In astronomical studies modern telescope
-pipelines1 produce descriptions for a vast amount of celestial objects Having these data we want
-to pick out scientifically valuable objects like planetary nebulae or special clusters of galaxies that
-could shed light on the development of the universe In physics researchers often simulate the
-motion of particles or fluid In these systems a single particle is seldom interesting but a group of
-particles can exhibit interesting motion patterns like the interweaving of vortices Other examples
-are abundant in the fields of computer vision text processing time series and spatial data analysis
-For example the Sloan Digital Sky Survey SDSS http://www.sdss.org
-We take a generative approach to address this problem If we have a model to generate normal
-data then we can mark the groups that have small probabilities under this model as anomalies
-Here we make the bag-of-points assumption points in the same group are unordered and
-exchangeable Under this assumption mixture models are often used to generate the data due to
-De Finetti?s theorem The most famous class of mixture models for modeling group data is
-the family of topic models In topic models distributions of points in different groups are
-mixtures of components topics which are shared among all the groups
-Our proposed method is closely related to the class of topic models but it is designed specifically for
-the purpose of detecting group anomalies We use two levels of concepts/latent variables to describe
-a group At the group level a flexible structure based on genres is used to characterize the topic
-distributions so that complex normal behaviors are allowed and can be recognized At the point level
-each group has its own topics to accommodate and capture the variations of points distributions
-while global topic information is still shared among groups We call this model the Flexible Genre
-Model Given a group of points we can examine whether or not it conforms to the normal
-behavior defined by the learned genres and topics We will also propose scoring functions that can
-detect both point-based and distribution-based group anomalies Exact inference and learning for
-FGM is intractable so we resort to approximate methods Inference for the FGM model will be
-done by Gibbs sampling which is efficient and simple to implement due to the application of
-conjugate distributions Single-sample Monte Carlo EM is used to learn parameters based on
-samples produced by the Gibbs sampler
-We demonstrate the effectiveness of the FGM on synthetic and on real-world data sets including
-scene images and turbulence data Empirical results show that FGM is superior to existing approaches in finding group anomalies
-The paper is structured as follows In Section we review related work and discuss the limitations
-with existing algorithms and why a new method is needed for group anomaly detection Section introduces our proposed model The parameter learning of our model and inference on it are explained
-in Section Section describes how to use our method for group anomaly detection Experimental
-results are shown in Section We finish that paper by drawing conclusions Section
-Background and Related Work
-In this section we provide background about topic models and explain the limitation of existing
-methods in detecting group anomalies For intuition we introduce the problem in the context of
-detecting anomalous images rare galaxy clusters and unusual motion in a dynamic fluid simulation
-We consider a data set with pre-defined groups G1 GM spatial clusters of galaxies patches in an image or fluid motions in a local region Group Gm contains Nm points
-galaxies image patches simulation grid points The features of these points are denoted by
-xm xm,n Rf where is the dimensionality of the points features These would
-be spectral features of each galaxy SIFT features of each image patch or velocities at each grid
-point of a simulation We assume that points in the same group are unordered and exchangeable
-Having these data we ask the question whether in group Gm the distribution of features xm looks
-anomalous
-Topic models such as Latent Dirichlet Allocation LDA are widely used to model data having
-this kind of group structure The original LDA model was proposed for text processing It represents
-the distribution of points words in a group document as a mixture of global topics
-each of which is a distribution Sf where Sf is the dimensional probability simplex
-Let be the multinomial distribution parameterized by SK and be the Dirichlet
-distribution with parameter RK
-LDA generates the mth group by first drawing its topic
-distribution from the prior distribution Then for each point xmn in the mth group
-it draws one of the topics from zmn and then generates the point
-according to this topic xmn zmn
-In our examples the topics can represent galaxy types blue?,?red or emissive with
-image features edge detectors representing various orientations or common motion patterns in the fluid fast left slow right etc Each point in the group has its own topic We
-consider points that have multidimensional continuous feature vectors In this case topics can be
-modeled by Gaussian distributions and each point is generated from one of the Gaussian topics
-At a higher level a group is characterized by the distribution of topics the proportion of
-different types in the group Gm The concepts of topic and topic distribution help us define group
-anomalies a point-based anomaly contains points that do not belong to any of the normal topics
-and a distribution-based anomaly has a topic distribution that is uncommon
-Although topic models are very useful in estimating the topics and topic distributions in groups the
-existing methods are incapable of detecting group anomalies comprehensively In order to detect
-anomalies the model should be flexible enough to enable complex normal behaviors For example
-it should be able to model complex and multi-modal distributions of the topic distribution LDA
-however only uses a single Dirichlet distribution to generate topic distributions and cannot effectively define what normal and abnormal distributions should be It also uses the same topics for
-every group which makes groups indifferentiable when looking at their topics In addition these
-shared topics are not adapted to each group either
-The Mixture of Gaussian Mixture Model MGMM firstly uses topic modeling for group
-anomaly detection It allows groups to select their topic distributions from a dictionary of multinomials which is learned from data to define what is normal employed the same idea but
-did not apply their model to anomaly detection The problem of using multinomials is that it does
-not consider the uncertainty of topic distributions The Theme Model ThM lets a mixture
-of Dirichlets generate the topic distributions and then uses the memberships in this mixture to do
-clustering on groups This idea is useful for modeling group-level behaviors but fails to capture
-anomalous point-level behaviors The topics are still shared globally in the same way as in LDA. In
-contrast proposed to use different topics for different groups in order to account for the burstiness of the words points These adaptive topics are useful in recognizing point-level anomalies
-but cannot be used to detect anomalous behavior at the group level For the group anomaly detection
-problem we propose a new method the Flexible Genre Model and demonstrate that it is able to cope
-with the issues mentioned above and performs better than the existing state-of-the-art algorithms
-Model Specification
-The flexible genre model FGM extends LDA such that the generating processes of topics and topic
-distributions can model more complex distributions To achieve this goal two key components are
-added To model the behavior of topic distributions we use several genres each of which is a
-typical distribution of topic distributions We use topic generators to generate adaptive topics
-for different groups We will also use them to learn how the normal topics have been generated The
-generative process of FGM is presented in Algorithm A graphical representation of FGM is given
-in Figure
-Algorithm Generative process of FGM
-for Groups to do
-Draw a genre ym
-Draw a topic distribution according to the genre ym SK Dir(?ym
-Draw topics m,k m,k
-for Points to Nm do
-Draw a topic membership zm,n m,zmn topic will be active
-Generate a point xm,n xm,n m,zmn
-end for
-end for
-We assume there are genres and topics denotes the global distribution of genres Each
-genre is a Dirichlet distribution for generating the topic distributions and is the
-set of genre parameters Each group has topics m,k The topic generators
-are the global distributions for generating the corresponding topics
-Having the topic distribution and the topics m,k points are generated as in LDA.
-By comparing FGM to LDA the advantages of FGM become evident In FGM each group has a
-latent genre attribute ym which determines how the topic distribution in this group should look like
-Dir(?ym and each group has its own topics m,k
-but they are still tied through the
-ym
-zmn
-xmn
-Figure The Flexible Genre Model
-global distributions Thus the topics can be adapted to local group data but the information
-is still shared globally Moreover the topic generators determine how the topics m,k
-should look like In turn if a group uses unusual topics to generate its points it can be identified
-To handle real-valued multidimensional data we set the point-generating distributions the topics to be Gaussians xm,n m,k xm,n m,k where m,k includes
-the mean and covariance parameters For computational convenience the topic generators are
-Gaussian-Inverse-Wishart GIW distributions which are conjugate to the Gaussian topics Hence
-parameterizes the GIW distribution See the supplementary materials
-for more details Let denote the model parameters We can write the complete
-likelihood of data and latent variables in group Gm under FGM as follows
-Gm ym
-M(ym
-GIW
-m,k
-M(zmn xmn
-m,zmn
-By integrating out and summing out ym we get the marginal likelihood of Gm
-YX
-Gm
-Dir(?m
-GIW m,k
-mk xmn m,k d?m
-Finally the data-set?s likelihood is just the product of all groups likelihoods
-Inference and Learning
-To learn FGM we update the parameters to maximize the likelihood of data The inferred latent
-states?including the topic distributions the topics and the topic and genre memberships
-zm ym can be used for detecting anomalies and exploring the data Nonetheless the inference
-and learning in FGM is intractable so we train FGM using an approximate method described below
-Inference
-The approximate inference of the latent variables can be done using Gibbs sampling In Gibbs
-sampling we iteratively update one variable at a time by drawing samples from its conditional
-distribution when all the other parameters are fixed Thanks to the use of conjugate distributions
-Gibbs sampling in FGM is simple and easy to implement The sampling distributions of the latent
-variables in group are given below We use to denote the distribution of one variable
-conditioned on all the others For the genre membership ym we have that
-ym ym Dir(?m
-For the topic distribution
-zm ym M(zm Dir(?m Dir(?ym nm
-where nm denotes the histogram of the values in vector zm The last equation follows from the
-Dirichlet-Multinomial conjugacy For m,k the kth topic in group one can find that
-m,k
-m,k m,k
-m,k GIW m,k
-GIW
-m,k
-where xm are points in group Gm from topic zm,n The last equation follows from
-the Gaussian-Inverse-Wishart-Gaussian conjugacy is the parameter of the posterior GIW distri(k
-bution given xm its exact form can be found in the supplementary material For zmn the topic
-membership of point in group is as follows
-zmn xmn zmn
-zmn
-xmn
-m,k
-Learning
-Learning the parameters of FGM helps us identify the groups and points normal behaviors Each of
-the genres captures one typical distribution of topic distributions as Dir(?t
-The topic generators determine how the normal topics m,k should look like
-We use single-sample Monte Carlo EM to learn parameters from the samples provided by
-the Gibbs sampler Given sampled latent variables we update the parameters to their maximum
-likelihood estimations we learn from and from and from
-can easily be estimated from the histogram of is learned by the MLE of a Dirichlet distribution given the multinomials ym the topic distributions having
-genre which can be solved using the Newton?Raphson method The kth topic-generator?s
-parameter 0k is the MLE of a GIW distribution given the parameters
-m,k the kth topics of all groups We have derived an efficient solution for this MLE problem The details can be found in the supplementary material
-The overall learning algorithm works by repeating the following procedure until convergence
-do Gibbs sampling to infer the states of the latent variables update the model parameters using
-the estimations above To select appropriate values for the parameters and the number of
-genres and topics we can apply the Bayesian information criterion BIC or use the values
-that maximize the likelihood of a held-out validation set
-Scoring Criteria
-The learned FGM model can easily be used for anomaly detection on test data Given a test group
-we first infer its latent variables including the topics and the topic distribution Then we treat these
-latent states as the group?s characteristicsand examine if they are compatible with the normal behaviors defined by the FGM parameters
-Point-based group anomalies can be detected by examining the topics of the groups If a group
-contains anomalous points with rare feature values xmn then the topics m,k
-that generate these points will deviate from the normal behavior defined by the topic generators Let
-QK
-GIW m,k The point-based anomaly score PB score of group Gm is
-Gm
-The posterior Gm can again be approximated using Gibbs sampling and the expectation
-can be done by Monte Carlo integration
-Distribution-based group anomalies can be detected by examining the topic distributions The genres
-capture the typical distributions of topic distributions If a group?s topic distribution
-is unlikely to be generated from any of these genres we call it anomalous Let
-PT
-Dir(?m The distribution-based anomaly score DB score of group Gm is defined as
-E?m
-Gm
-Again this expectation can be approximated using Gibbs sampling and Monte Carlo integration
-Using a combination of the point-based and distribution-based scores we can detect both pointbased and distribution-based group anomalies
+Anomaly detection involves detecting statistically significant deviations of test data from nominal
+distribution In typical applications the nominal distribution is unknown and generally cannot be
+reliably estimated from nominal training data due to a combination of factors such as limited data
+size and high dimensionality
+We propose an adaptive non-parametric method for anomaly detection based on score functions that
+maps data samples to the interval Our score function is derived from a K-nearest neighbor
+graph K-NNG on n-point nominal data Anomaly is declared whenever the score of a test sample
+falls below the desired false alarm error The efficacy of our method rests upon its close connection to multivariate p-values In statistical hypothesis testing p-value is any transformation of the
+feature space to the interval that induces a uniform distribution on the nominal data When test
+samples with p-values smaller than are declared as anomalies false alarm error is less than
+We develop a novel notion of p-values based on measures of level sets of likelihood ratio functions
+Our notion provides a characterization of the optimal anomaly detector in that it is uniformly most
+powerful for a specified false alarm level for the case when the anomaly density is a mixture of the
+nominal and a known density We show that our score function is asymptotically consistent namely
+it converges to our multivariate p-value as data length approaches infinity
+Anomaly detection has been extensively studied It is also referred to as novelty detection
+outlier detection one-class classification and single-class classification in the literature Approaches to anomaly detection can be grouped into several categories In parametric
+approaches the nominal densities are assumed to come from a parameterized family and generalized likelihood ratio tests are used for detecting deviations from nominal It is difficult to use
+parametric approaches when the distribution is unknown and data is limited A K-nearest neighbor
+anomaly detection approach is presented in There an anomaly is declared whenever
+the distance to the K-th nearest neighbor of the test sample falls outside a threshold In comparison
+our anomaly detector utilizes the global information available from the entire K-NN graph to detect
+deviations from the nominal In addition it has provable optimality properties Learning theoretic
+approaches attempt to find decision regions based on nominal data that separate nominal instances
+from their outliers These include one-class SVM of Sch?olkopf where the basic idea
+is to map the training data into the kernel space and to separate them from the origin with maximum margin Other algorithms along this line of research include support vector data description
+linear programming approach and single class minimax probability machine While
+these approaches provide impressive computationally efficient solutions on real data it is generally
+difficult to precisely relate tuning parameter choices to desired false alarm probability
+Scott and Nowak derive decision regions based on minimum volume sets which does
+provide Type I and Type error control They approximate appropriate function classes level
+sets of the unknown nominal multivariate density from training samples Related work by Hero
+based on geometric entropic minimization GEM detects outliers by comparing test samples
+to the most concentrated subset of points in the training sample This most concentrated set is the
+K-point minimum spanning tree(MST for n-point nominal data and converges asymptotically to
+the minimum entropy set which is also the MV set Nevertheless computing K-MST for n-point
+data is generally intractable To overcome these computational limitations proposes heuristic
+greedy algorithms based on leave-one out K-NN graph which while inspired by K-MST algorithm
+is no longer provably optimal Our approach is related to these latter techniques namely MV sets
+of and GEM approach of We develop score functions on K-NNG which turn out to be the
+empirical estimates of the volume of the MV sets containing the test point The volume which is a
+real number is a sufficient statistic for ensuring optimal guarantees In this way we avoid explicit
+high-dimensional level set computation Yet our algorithms lead to statistically optimal solutions
+with the ability to control false alarm and miss error probabilities
+The main features of our anomaly detector are summarized Like our algorithm scales
+linearly with dimension and quadratic with data size and can be applied to high dimensional feature
+spaces Like our algorithm is provably optimal in that it is uniformly most powerful for
+the specified false alarm level for the case that the anomaly density is a mixture of the nominal
+and any other density not necessarily uniform We do not require assumptions of linearity
+smoothness continuity of the densities or the convexity of the level sets Furthermore our algorithm
+adapts to the inherent manifold structure or local dimensionality of the nominal density Like
+and unlike other learning theoretic approaches such as we do not require choosing complex
+tuning parameters or function approximation classes
+Anomaly Detection Algorithm Score functions based on K-NNG
+In this section we present our basic algorithm devoid of any statistical context Statistical analysis
+appears in Section Let be the nominal training set of size belonging to
+the unit cube For notational convenience we use and interchangeably to denote a test
+point Our task is to declare whether the test point is consistent with nominal data or deviates from
+the nominal data If the test point is an anomaly it is assumed to come from a mixture of nominal
+distribution underlying the training data and another known density Section
+Let be a distance function denoting the distance between any two points For
+simplicity we denote the distances by dij d(xi In the simplest case we assume the distance
+function to be Euclidean However we also consider geodesic distances to exploit the underlying manifold structure The geodesic distance is defined as the shortest distance on the manifold
+The Geodesic Learning algorithm a subroutine in Isomap can be used to efficiently and
+consistently estimate the geodesic distances In addition by means of selective weighting of different coordinates note that the distance function could also account for pronounced changes in local
+dimensionality This can be accomplished for instance through Mahalanobis distances or as a by
+product of local linear embedding However we skip these details here and assume that a
+suitable distance metric is chosen
+Once a distance function is defined our next step is to form a nearest neighbor graph K-NNG or
+alternatively an neighbor graph K-NNG is formed by connecting each to the closest
+points xiK in We then sort the nearest distances for each in increasing
+order di,i1 di,iK and denote RS di,iK that is the distance from to its K-th
+nearest neighbor We construct where and are connected if and only if dij In this
+case we define NS as the degree of point in the
+For the simple case when the anomalous density is an arbitrary mixture of nominal and uniform
+density1 we consider the following two score functions associated with the two graphs K-NNG and
+NNG respectively The score functions map the test data to the interval
+K-LPE p?K
+1X
+I{RS
+1X
+I{NS
+where is the indicator function
+Finally given a pre-defined significance level we declare to be anomalous if
+p?K We call this algorithm Localized p-value Estimation LPE algorithm This
+choice is motivated by its close connection to multivariate p-values(see Section
+The score function K-LPE measures the relative concentration of point compared to
+the training set Section establishes that the scores for nominally generated data is asymptotically
+uniformly distributed in Scores for anomalous data are clustered around Hence when scores
+below level are declared as anomalous the false alarm error is smaller than asymptotically since
+the integral of a uniform distribution from to is
+anomaly detection via K?LPE
+empirical distribution of the scoring function K?LPE
+nominal data
+anomaly data
+empirical density
+Bivariate Gaussian mixture distribution
+level set at
+labeled as anomaly
+labeled as nominal
+value of K?LPE
+Figure Left Level sets of the nominal bivariate Gaussian mixture distribution used to illustrate the KLPE algorithm Middle Results of K-LPE with and Euclidean distance metric for test
+points drawn from a equal mixture of 2D uniform and the nominal bivariate distributions Scores for the test
+points are based on nominal training samples Scores falling below a threshold level are declared as
+anomalies The dotted contour corresponds to the exact bivariate Gaussian density level set at level
+Right The empirical distribution of the test point scores associated with the bivariate Gaussian appear to be
+uniform while scores for the test points drawn from 2D uniform distribution cluster around zero
+Figure illustrates the use of K-LPE algorithm for anomaly detection when the nominal data is a
+2D Gaussian mixture The middle panel of figure shows the detection results based on K-LPE are
+consistent with the theoretical contour for significance level The right panel of figure
+shows the empirical distribution derived from the kernel density estimation of the score function
+K-LPE for the nominal solid blue and the anomaly dashed red data We can see that the curve for
+the nominal data is approximately uniform in the interval and the curve for the anomaly data
+has a peak at Therefore choosing the threshold will approximately control the Type I
+error within and minimize the Type error We also take note of the inherent robustness of our
+algorithm As seen from the figure right small changes in lead to small changes in actual false
+alarm and miss levels
+Pn
+When the mixing density is not uniform but say f1 the score functions must be modified to
+I
+NS
+NS
+Pn
+and
+for the two graphs K-NNG and NNG respectively
+I
+To summarize the above discussion our LPE algorithm has three steps
+Inputs Significance level distance metric Euclidean geodesic weighted
+Score computation Construct K-NNG based on dij and compute the score function
+K-LPE from Equation LPE from Equation
+Make Decision Declare to be anomalous if and only if p?K
+Computational Complexity To compute each pairwise distance requires operations and
+operations for all the nodes in the training set In the worst-case computing the K-NN graph
+for small and the functions RS NS requires operations over all the nodes in the
+training data Finally computing the score for each test data requires O(nd+n operations(given that
+RS NS have already been computed
+Remark LPE is fundamentally different from non-parametric density estimation or level set estimation schemes MV-set These approaches involve explicit estimation of high dimensional
+quantities and thus hard to apply in high dimensional problems By computing scores for each test
+sample we avoid high-dimensional computation Furthermore as we will see in the following section the scores are estimates of multivariate p-values These turn out to be sufficient statistics for
+optimal anomaly detection
+Theory Consistency of LPE
+A statistical framework for the anomaly detection problem is presented in this section We establish
+that anomaly detection is equivalent to thresholding p-values for multivariate data We will then
+show that the score functions developed in the previous section is an asymptotically consistent estimator of the p-values Consequently it will follow that the strategy of declaring an anomaly when a
+test sample has a low score is asymptotically optimal
+Assume that the data belongs to the d-dimensional unit cube and the nominal data is sampled from a multivariate density f0 supported on the d-dimensional unit cube Anomaly
+detection can be formulated as a composite hypothesis testing problem Suppose test data comes
+from a mixture distribution namely where f1 is a mixing density
+supported on Anomaly detection involves testing the nominal hypotheses H0 versus
+the alternative anomaly H1 The goal is to maximize the detection power subject to false
+alarm level namely P(declare H1 H0
+Definition Let P0 be the nominal probability measure and f1 be P0 measurable Suppose the
+likelihood ratio f1 does not have non-zero flat spots on any open ball in Define
+the p-value of a data point as
+f1
+f1
+P0
+f0
+f0
+Note that the definition naturally accounts for singularities which may arise if the support of f0
+is a lower dimensional manifold In this case we encounter f1 f0 and the p-value
+Here anomaly is always declared(low score
+The above formula can be thought of as a mapping of Furthermore the distribution of
+under H0 is uniform on However as noted in the introduction there are other such transformations To build intuition about the above transformation and its utility consider the following
+example When the mixing density is uniform namely f1 where is uniform over
+note that is a density level set at level It is well known
+that such a density level set is equivalent to a minimum volume set of level The minimum volume
+set at level is known to be the uniformly most powerful decision region for testing H0
+versus the alternative H1 The generalization to arbitrary f1 is described next
+Theorem The uniformly most powerful test for testing H0 versus the alternative
+anomaly H1 at a prescribed level of significance P(declare H1 H0 is
+H1
+H0 otherwise
+Proof We provide the main idea for the proof First measure theoretic arguments are used to
+establish as a random variable over under both nominal and anomalous distributions
+Next when f0 distributed with nominal density it follows that the random variable
+When with the random variable where
+is a monotonically decreasing PDF supported on Consequently the uniformly most powerful
+test for a significance level is to declare p-values smaller than as anomalies
+Next we derive the relationship between the p-values and our score function By definition RS
+and RS are correlated because the neighborhood of and might overlap We modify our
+algorithm to simplify our analysis We assume is odd say and can be written as 2m
+We divide training set into two parts
+S1 S2 xm x2m
+We modify LPE to
+I{NS2 K-LPE to
+I
+Now
+and
+are
+independent
+S2
+S1
+Furthermore we assume f0 satisfies the following two smoothness conditions
+the Hessian matrix of f0 is always dominated by a matrix with largest eigenvalue
+and max
+In the support of f0 its value is always lower bounded by some
+We have the following theorem
+Theorem Consider the setup above with the training data generated from f0
+Let be an arbitrary test sample It follows that for a suitable choice and under the
+above smoothness conditions
+pK almost surely
+For simplicity we limit ourselves to the case when f1 is uniform The proof of Theorem consists
+of two steps
+We show that the expectation ES1
+Lemma This result is then exn
+tended to K-LPE ES1
+pK in Lemma
+Next we show that p?K ES1
+pK via concentration inequality Lemma
+with probability at least
+Lemma By picking 5d
+lm ES1
+um
+where
+lm P0
+um P0
+and
+Proof We only prove the lower bound since the upper bound follows along similar lines By interchanging the expectation with the summation
+ES1
+ES1
+I{NS2
+Exi ES1 I{NS2
+Ex1 NS1
+where the last inequality follows from the symmetric structure of xm
+Clearly the objective of the proof is to show PS1 NS1
+Skipping technical details this can be accomplishedRin two steps Note that NS is a binomial
+random variable with success probability f0 t)dt This relates PS1
+NS1 to We relate to based on the function
+smoothness condition The details of these two steps are shown in the below
+Note that NS1 Binom(m By Chernoff bound of binomial distribution we have
+2mq(x
+PS1 mq(x1
+that is NS1 is concentrated around mq(x1 This implies
+PS1 NS1 I{NS
+2mq(x
+We choose will be specified later and reformulate equation as
+PS1 NS1 I
+NS
+q(x
+Vol(B1
+mVol(B
+Next we relate f0 t)dt to f0 via the Taylor?s expansion and the smoothness
+condition of f0
+f0 t)dt
+f0
+ktk2 dt
+Vol(B
+Vol(B
+and then equation becomes
+PS1 NS1 I
+NS
+f0
+mVol(B
+By applying the same steps to NS2 as equation Chernoff bound and equation Taylor?s
+explansion we have with probability at least
+Ex1 NS1
+Finally by choosing 5d
+f0
+Px1 f0
+and we prove the lemma
+Lemma By picking with probability at least
+lm ES1
+pK um
+Proof The proof is very similar to the proof to Lemma and we only give a brief outline here Now
+the objective is to show PS1 RS1 The basic idea is to use
+the result of Lemma To accomplish this we note that RS1 contains the events
+or equivalently
+By the tail probability of Binomial distribution the probability of the above two events converges to
+exponentially fast if and By using the same two-step bounding
+techniques developed in the proof to Lemma these two inequalities are implied by
+and
+Therefore if we choose we have with probability at least
+PS1 RS1
+Remark Lemma and Lemma were proved with specific choices for and K. However they
+can be chosen in a range of values but will lead to different lower and upper bounds We will show
+in Section via simulation that our LPE algorithm is generally robust to choice of parameter K.
+Lemma Suppose and denote p?K
+I{RS2 We have
+c2
+P0
+pK p?K 2e
+where is a constant and is defined as the minimal number of cones centered at the origin of angle
+that cover Rd
+Proof We can not apply Law of Large Number in this case because I{RS2 are correlated Instead we need to use the more generalized concentration-of-measure
+inequality such
+as MacDiarmid?s inequality[17 Denote xm
+I{RS2 From
+Corollary in
+sup
+xm
+xm x0i K?d
+Then the lemma directly follows from applying McDiarmid?s inequality
+Theorem directly follows from the combination of Lemma and Lemma and a standard application of the first Borel-Cantelli lemma We have used Euclidean distance in Theorem When the
+support of f0 lies on a lower dimensional manifold say d0 adopting the geodesic metric leads
+to faster convergence It turns out that d0 replaces in the expression for in Lemma
 Experiments
-In this section we provide empirical results produced by FGM on synthetic and real data We show
-that FGM outperforms several sate-of-the-art competitors in the group anomaly detection task
-Synthetic Data
-In the first experiment we compare FGM with the Mixture of Gaussian Mixture Model
-MGMM and with an adaptation of the Theme Model ThM on synthetic data sets The
-original ThM handles only discrete data and was proposed for clustering To handle continuous data
-and detect anomalies we modified it by using Gaussian topics and applied the distribution-based
-anomaly scoring function To detect both distribution-based and point-based anomalies we can
-use the data?s likelihood under ThM as the scoring function
-Using the synthetic data sets described below we can demonstrate the behavior of the different
-models and scoring functions We generated the data using 2-dimensional GMMs as in Here
-each group has a GMM to generate its points All GMMs share three Gaussian components with
-covariance I2 and centered at points and respectively A group?s
-mixing weights are randomly chosen from w1 or w2 Thus
-a group is normal if its points are sampled from these three Gaussians and their mixing weights are
-close to either w1 or w2 To test the detectors we injected both point-based and distribution-based
-anomalies Point-based anomalies were groups of points sampled from I2 Distributionbased anomalies were generated by GMMs consisting of normal Gaussian components but with
-mixing weights and which were different from w1 and w2 We
-generated groups each of which had Nm oisson(100 points One point-based
-anomalous group and two distribution-based anomalous groups were injected into the data set
-The detection results of MGMM ThM and FGM are shown in We show out of the
-groups Normal groups are surrounded by black solid boxes point-based anomalies have green
-dashed boxes and distribution-based anomalies have red/magenta dashed boxes Points are colored by the anomaly scores of the groups darker color means more anomalous An ideal detector
-would make dashed boxes points dark and solid boxes points light gray We can see that all the
-MGMM
-ThM
-FGM
-ThM Likelihood
-Figure Detection results on synthetic data
-models can find the distribution-based anomalies since they are able to learn the topic distributions
-However MGMM and ThM miss the point-based anomaly The explanation is simple the anomalous points are distributed in the middle of the topics thus the inferred topic distribution is around
-which is exactly w1 As a result MGMM and ThM infer this group to be normal
-although it is not This example shows one possible problem of scoring groups based on topic distributions only On the contrary using the sum of point-based and distribution-based scores FGM
-found all of the group anomalies thanks to its ability to characterize groups both at the point-level
-and the group-level We also show the result of scoring the groups by the ThM likelihood Only
-point anomalies are found This is because the data likelihood under ThM is dominated by the
-anomalousness of points thus a few eccentric points will overshadow group-level behaviors
-Figures show the density estimations given by MGMM ThM and FGM respectively for
-the point-based anomalous group We can see that FGM gives a better estimation due to its adaptive
-topics while MGMM and ThM are limited to use their global topics Figure shows the learned
-PT
-genres visualized as the distribution on the topic simplex This distribution summarizes the normal topic distributions in this data set Observe that the two peaks in the probability
-simplex are very close to w1 and w2 indeed
-Figure show the density of the point-based anomaly estimated by MGMM ThM and
-FGM respectively In MGMM and ThM topics must be shared globally therefore their perform
-badly The genres in the synthetic data set learned by FGM.
-Image Data
-In this experiment we test the performance of our method on detecting anomalous scene images We
-use the data set from We selected the first images from categories mountain coast
-and inside city These images are randomly divided are used for training and the rest
-for testing We created anomalies by stitching random normal test images from different categories
-For example an anomaly may be a picture that is half mountain and half city street These anomalies are challenging since they have the same local patches as the normal images We mixed the
-anomalies with normal test images and asked the detectors to find them Some examples are shown
-in The images are represented as in we treat each of them as a group of local points
-On each image we randomly sample patches on each patch extract the 128-dimensional SIFT
-feature and then reduce its dimension to using PCA. Points near the stitching boundaries are
-discarded to avoid boundary artifacts
-We compare FGM with several other methods We implemented a simple detector based on Gaussian
-mixture models it is able to detect point-based anomalies This method fits a GMM to all
-data points calculates the points scores as their likelihood under this GMM and finally scores
-a group by averaging these numbers To be able to detect distribution-based anomalies we also
-implemented two other competitors The first one called LDA-KNN uses LDA to estimate the topic
-distributions of the groups and treats these topic distributions vector parameters of multinomials
-as the groups features Then a k-nearest neighbor KNN based point detector is used to score
-the groups features The second method uses symmetrized Kullback-Leibler divergences
-between densities For each group DD uses a GMM to estimate the distribution of its points
-Then KL divergences between these GMMs are estimated using Monte Carlo method and then the
-KNN-based detector is used to find anomalous GMMs groups
-For all algorithms we used topics and genres as it was suggested by BIC searches We
-set for FGM. The performance is measured by the area under the ROC curve AUC
-of retrieving the anomalies from the test set In the supplementary material we also show results
-using the average precision performance measure The performances from random runs are
-shown in Figure GMM cannot detect the group anomalies that do not have anomalous points
-The performance of LDA-KNN was also close to the random baseline A possible reason is
-that the KNN detector did not perform well in the dimensional space MGMM ThM and
-FGM show improvements over the random baseline and FGM achieves significantly better results
-than others the paired t-test gives a p-value of for FGM ThM. We can also see that
-the DD method performs poorly possibly due to many error-prone steps including fitting the GMMs
-and estimating divergences using Monte Carlo method
-Turbulence Data
-We present an explorative study of detecting group anomalies on turbulence data from the JHU Turbulence Database Cluster2 TDC TDC simulates fluid motion through time on a 3-dimensional
-grid and here we perform our experiment on a continuous sub-grid In each time step and each
-http://turbulence.pha.jhu.edu
-AUC
-Sample images and stitched anomalies
-LDA?KNN MGMM
-ThM
-FGM?DB
-DD
-Detection performance
-Figure Detection of stitched images Images samples Green boxes first row contain natural
-images and yellow boxes second row contain stitched anomalies The detection AUCs
-vertex of the grid TDC records the 3-dimensional velocity of the fluid We consider the vertices in a
-local cubic region as a group and the goal is to find groups of vertices whose velocity distributions
-moving patterns are unusual and potentially interesting The following steps were used to extract the groups We chose the grid points as centers of our groups Around
-these centers the points in 73 sized cubes formed our groups The feature of a point in the cube
-was its velocity relative to the velocity at its cube?s center point After these pre-processing steps
-we had groups each of which had 3-dimensional feature vectors
-We applied MGMM ThM and FGM to find anomalies in this group data genres and
-topics were used for all methods We do not have a groundtruth for anomalies in this data set
-However we can compute the vorticity score for each vertex that indicates the tendency of
-the fluid to spin Vortices and especially their interactions are uncommon and of great interest in
-the field of fluid dynamics This vorticity can be considered as a hand crafted anomaly score based
-on expert knowledge of this fluid data We do not want an anomaly detector to match this score
-perfectly because there are other non-vortex anomalous events it should find as well However
-we do think higher correlation with this score indicates better anomaly detection performance
-Figure visualizes the anomaly scores of FGM and the vorticity We can see that these pictures are
-highly correlated which implies that FGM was able to find interesting turbulence activities based on
-velocity only and without using the definition of vorticity or any other expert knowledge Correlation
-values between vorticity and the MGMM ThM and FGM scores from random runs are displayed
-in showing that FGM is better at finding regions with high vorticity
-Correlation with Vorticity
-MGMM
-FGM-DB Score
-Vorticity
-ThM
-FGM?DB
-Figure Detection results for the turbulence data FGM-DB anomaly score and vorticity
-visualized on one slice of the cube Correlations of the anomaly scores with the vorticity
+First to test the sensitivity of K-LPE to parameter changes we run K-LPE on the benchmark dataset Banana with varying from to We randomly pick points with label and
+regard them as the nominal training data The test data comprises of points and
+points ground truth and the algorithm is supposed to predict data as nominal and data
+as anomalous Scores computed for test set using Equation is oblivious to true f1 density
+labels Euclidean distance metric is adopted for this experiment
+To control false alarm at level points with score smaller than are predicted as anomaly Empirical false alarm and true positives are computed from ground truth We vary to obtain the empirical
+ROC curve The above procedure is followed for the rest of the experiments in this section As
+shown in the LPE algorithm is insensitive to K. For comparison we plot the empirical ROC
+curve of the one-class SVM of For our OC-SVM implementation for a fixed bandwidth we
+obtain the empirical ROC curve by varying We then vary the bandwidth to obtain the best
+terms of AUC ROC curve The optimal bandwidth turns out to be In LPE if we set
+we get empirical A and for empirical A For OC-SVM we
+are unaware of any natural way of picking and to control FA rate based on training data
+Next we apply our K-LPE to the problem where the nominal and anomalous data are generated in
+the following way
+49
+f0
+f1
+49
+We call ROC curve corresponding to the optimal Bayesian classifier as the Clairvoyant ROC the
+red dashed curve in Figure The other two curves are averaged over trials empirical ROC
+curves via LPE. Here we set and or We see that for a relatively small
+training set of size the average empirical ROC curve is very close to the clairvoyant ROC curve
+Finally we ran LPE on three real-world datasets Wine Ionosphere[20 and MNIST US Postal
+Service USPS database of handwritten digits If there are more than labels in the data set we
+artificially regard points with one particular label as nominal and regard the points with other labels
+as anomalous For example for the USPS dataset we regard instances of digit as nominal and
+instances of digits as anomaly The data points are normalized to be within and we
+2D Gaussian mixture
+true positives
+true positives
+banana data set
+ROC of LPE
+ROC of LPE
+ROC of LPE
+ROC of LPE
+ROC of LPE
+ROC of LPE
+ROC of
+ROC of
+Clairvoyant ROC
+ROC of one?class SVM
+false positives
+SVM K-LPE for Banana Data
+false positives
+Clairvoyant K-LPE
+Figure Empirical ROC curve of LPE on the banana dataset with with
+vs the empirical ROC curve of one class SVM developed in Empirical ROC curves of
+LPE algorithm vs clairvoyant ROC curve is given by Equation for and for or
+true positive
+true positive
+true positive
+use geodesic distance The ROC curves are shown in Figure The feature dimension of Wine
+is 13 and we apply the LPE algorithm with and 39 The test set is a mixture of
+nominal points and anomaly points The feature dimension of Ionosphere is 34 and we
+apply the K-LPE algorithm with and The test set is a mixture of nominal points
+and anomaly points The feature dimension of USPS is and we apply the K-LPE algorithm
+with and The test set is a mixture of nominal points and 33 anomaly points
+In USPS setting induces empirical false-positive and empirical false alarm rate
+In contrast and A with for OC-SVM as reported in Practically we
+find that K-LPE is more preferable to LPE and as a rule of thumb setting is generally
+effective
+false positive
+Wine
+false positive
+Ionosphere
+false positive
+USPS
+Figure ROC curves on real datasets via LPE Wine dataset with 13 39
+Ionosphere dataset with 34 USPS dataset with
 Conclusion
-We presented the generative Flexible Genre Model FGM for the group anomaly detection problem
-Compared to traditional topic models FGM is able to characterize groups behaviors at multiple
-levels This detailed characterization makes FGM an ideal tool for detecting different types of group
-anomalies Empirical results show that FGM achieves better performance than existing approaches
-In the future we will examine other possibilities as well For model selection we can extend FGM
-by using nonparametric Bayesian techniques such as hierarchical Dirichlet processes It would
-also be interesting to study structured groups in which the exchangeability assumption is not valid
+In this paper we proposed a novel non-parametric adaptive anomaly detection algorithm which leads
+to a computationally efficient solution with provable optimality guarantees Our algorithm takes a
+K-nearest neighbor graph as an input and produces a score for each test point Scores turn out to be
+empirical estimates of the volume of minimum volume level sets containing the test point While
+minimum volume level sets provide an optimal characterization for anomaly detection they are
+high dimensional quantities and generally difficult to reliably compute in high dimensional feature
+spaces Nevertheless a sufficient statistic for optimal tradeoff between false alarms and misses is
+the volume of the MV set itself which is a real number By computing score functions we avoid
+computing high dimensional quantities and still ensure optimal control of false alarms and misses
+The computational cost of our algorithm scales linearly in dimension and quadratically in data size
 
 <<----------------------------------------------------------------------------------------------------------------------->>
 
@@ -2739,6 +2364,381 @@ alarm rate of network anomaly detection
 
 <<----------------------------------------------------------------------------------------------------------------------->>
 
+title: 4299-group-anomaly-detection-using-flexible-genre-models.pdf
+
+Group Anomaly Detection using Flexible Genre Models
+Liang Xiong
+Machine Learning Department
+Carnegie Mellon University
+lxiong@cs.cmu.edu
+Barnab?as P?oczos
+Robotics Institute
+Carnegie Mellon University
+bapoczos@cs.cmu.edu
+Jeff Schneider
+Robotics Institute
+Carnegie Mellon University
+schneide@cs.cmu.edu
+Abstract
+An important task in exploring and analyzing real-world data sets is to detect
+unusual and interesting phenomena In this paper we study the group anomaly
+detection problem Unlike traditional anomaly detection research that focuses on
+data points our goal is to discover anomalous aggregated behaviors of groups of
+points For this purpose we propose the Flexible Genre Model FGM is
+designed to characterize data groups at both the point level and the group level so
+as to detect various types of group anomalies We evaluate the effectiveness of
+FGM on both synthetic and real data sets including images and turbulence data
+and show that it is superior to existing approaches in detecting group anomalies
+Introduction
+Anomaly detection is a crucial problem in processing large-scale data sets when our goal is to
+find rare or unusual events These events can either be outliers that should be ignored or novel
+observations that could lead to new discoveries See for a recent survey of this field Traditional
+research often focuses on individual data points In this paper however we are interested in finding
+group anomalies where a set of points together exhibit unusual behavior For example consider
+text data where each article is considered to be a set group of words points While the phrases
+machine learning or gummy bears will not surprise anyone on their own an article containing
+both of them might be interesting
+We consider two types of group anomalies A point-based group anomaly is a group of individually
+anomalous points A distribution-based anomaly is a group where the points are relatively normal
+but as a whole they are unusual Most existing work on group anomaly detection focuses on pointbased anomalies A common way to detect point-based anomalies is to first identify anomalous
+points and then find their aggregations using scanning or segmentation methods This
+paradigm clearly does not work well for distribution-based anomalies where the individual points
+are normal To handle distribution-based anomalies we can design features for groups and then treat
+them as points However this approach relies on feature engineering that is domain specific
+and can be difficult Our contribution is to propose a new method FGM for detecting both types of
+group anomalies in an integral way
+Group anomalies exist in many real-world problems In astronomical studies modern telescope
+pipelines1 produce descriptions for a vast amount of celestial objects Having these data we want
+to pick out scientifically valuable objects like planetary nebulae or special clusters of galaxies that
+could shed light on the development of the universe In physics researchers often simulate the
+motion of particles or fluid In these systems a single particle is seldom interesting but a group of
+particles can exhibit interesting motion patterns like the interweaving of vortices Other examples
+are abundant in the fields of computer vision text processing time series and spatial data analysis
+For example the Sloan Digital Sky Survey SDSS http://www.sdss.org
+We take a generative approach to address this problem If we have a model to generate normal
+data then we can mark the groups that have small probabilities under this model as anomalies
+Here we make the bag-of-points assumption points in the same group are unordered and
+exchangeable Under this assumption mixture models are often used to generate the data due to
+De Finetti?s theorem The most famous class of mixture models for modeling group data is
+the family of topic models In topic models distributions of points in different groups are
+mixtures of components topics which are shared among all the groups
+Our proposed method is closely related to the class of topic models but it is designed specifically for
+the purpose of detecting group anomalies We use two levels of concepts/latent variables to describe
+a group At the group level a flexible structure based on genres is used to characterize the topic
+distributions so that complex normal behaviors are allowed and can be recognized At the point level
+each group has its own topics to accommodate and capture the variations of points distributions
+while global topic information is still shared among groups We call this model the Flexible Genre
+Model Given a group of points we can examine whether or not it conforms to the normal
+behavior defined by the learned genres and topics We will also propose scoring functions that can
+detect both point-based and distribution-based group anomalies Exact inference and learning for
+FGM is intractable so we resort to approximate methods Inference for the FGM model will be
+done by Gibbs sampling which is efficient and simple to implement due to the application of
+conjugate distributions Single-sample Monte Carlo EM is used to learn parameters based on
+samples produced by the Gibbs sampler
+We demonstrate the effectiveness of the FGM on synthetic and on real-world data sets including
+scene images and turbulence data Empirical results show that FGM is superior to existing approaches in finding group anomalies
+The paper is structured as follows In Section we review related work and discuss the limitations
+with existing algorithms and why a new method is needed for group anomaly detection Section introduces our proposed model The parameter learning of our model and inference on it are explained
+in Section Section describes how to use our method for group anomaly detection Experimental
+results are shown in Section We finish that paper by drawing conclusions Section
+Background and Related Work
+In this section we provide background about topic models and explain the limitation of existing
+methods in detecting group anomalies For intuition we introduce the problem in the context of
+detecting anomalous images rare galaxy clusters and unusual motion in a dynamic fluid simulation
+We consider a data set with pre-defined groups G1 GM spatial clusters of galaxies patches in an image or fluid motions in a local region Group Gm contains Nm points
+galaxies image patches simulation grid points The features of these points are denoted by
+xm xm,n Rf where is the dimensionality of the points features These would
+be spectral features of each galaxy SIFT features of each image patch or velocities at each grid
+point of a simulation We assume that points in the same group are unordered and exchangeable
+Having these data we ask the question whether in group Gm the distribution of features xm looks
+anomalous
+Topic models such as Latent Dirichlet Allocation LDA are widely used to model data having
+this kind of group structure The original LDA model was proposed for text processing It represents
+the distribution of points words in a group document as a mixture of global topics
+each of which is a distribution Sf where Sf is the dimensional probability simplex
+Let be the multinomial distribution parameterized by SK and be the Dirichlet
+distribution with parameter RK
+LDA generates the mth group by first drawing its topic
+distribution from the prior distribution Then for each point xmn in the mth group
+it draws one of the topics from zmn and then generates the point
+according to this topic xmn zmn
+In our examples the topics can represent galaxy types blue?,?red or emissive with
+image features edge detectors representing various orientations or common motion patterns in the fluid fast left slow right etc Each point in the group has its own topic We
+consider points that have multidimensional continuous feature vectors In this case topics can be
+modeled by Gaussian distributions and each point is generated from one of the Gaussian topics
+At a higher level a group is characterized by the distribution of topics the proportion of
+different types in the group Gm The concepts of topic and topic distribution help us define group
+anomalies a point-based anomaly contains points that do not belong to any of the normal topics
+and a distribution-based anomaly has a topic distribution that is uncommon
+Although topic models are very useful in estimating the topics and topic distributions in groups the
+existing methods are incapable of detecting group anomalies comprehensively In order to detect
+anomalies the model should be flexible enough to enable complex normal behaviors For example
+it should be able to model complex and multi-modal distributions of the topic distribution LDA
+however only uses a single Dirichlet distribution to generate topic distributions and cannot effectively define what normal and abnormal distributions should be It also uses the same topics for
+every group which makes groups indifferentiable when looking at their topics In addition these
+shared topics are not adapted to each group either
+The Mixture of Gaussian Mixture Model MGMM firstly uses topic modeling for group
+anomaly detection It allows groups to select their topic distributions from a dictionary of multinomials which is learned from data to define what is normal employed the same idea but
+did not apply their model to anomaly detection The problem of using multinomials is that it does
+not consider the uncertainty of topic distributions The Theme Model ThM lets a mixture
+of Dirichlets generate the topic distributions and then uses the memberships in this mixture to do
+clustering on groups This idea is useful for modeling group-level behaviors but fails to capture
+anomalous point-level behaviors The topics are still shared globally in the same way as in LDA. In
+contrast proposed to use different topics for different groups in order to account for the burstiness of the words points These adaptive topics are useful in recognizing point-level anomalies
+but cannot be used to detect anomalous behavior at the group level For the group anomaly detection
+problem we propose a new method the Flexible Genre Model and demonstrate that it is able to cope
+with the issues mentioned above and performs better than the existing state-of-the-art algorithms
+Model Specification
+The flexible genre model FGM extends LDA such that the generating processes of topics and topic
+distributions can model more complex distributions To achieve this goal two key components are
+added To model the behavior of topic distributions we use several genres each of which is a
+typical distribution of topic distributions We use topic generators to generate adaptive topics
+for different groups We will also use them to learn how the normal topics have been generated The
+generative process of FGM is presented in Algorithm A graphical representation of FGM is given
+in Figure
+Algorithm Generative process of FGM
+for Groups to do
+Draw a genre ym
+Draw a topic distribution according to the genre ym SK Dir(?ym
+Draw topics m,k m,k
+for Points to Nm do
+Draw a topic membership zm,n m,zmn topic will be active
+Generate a point xm,n xm,n m,zmn
+end for
+end for
+We assume there are genres and topics denotes the global distribution of genres Each
+genre is a Dirichlet distribution for generating the topic distributions and is the
+set of genre parameters Each group has topics m,k The topic generators
+are the global distributions for generating the corresponding topics
+Having the topic distribution and the topics m,k points are generated as in LDA.
+By comparing FGM to LDA the advantages of FGM become evident In FGM each group has a
+latent genre attribute ym which determines how the topic distribution in this group should look like
+Dir(?ym and each group has its own topics m,k
+but they are still tied through the
+ym
+zmn
+xmn
+Figure The Flexible Genre Model
+global distributions Thus the topics can be adapted to local group data but the information
+is still shared globally Moreover the topic generators determine how the topics m,k
+should look like In turn if a group uses unusual topics to generate its points it can be identified
+To handle real-valued multidimensional data we set the point-generating distributions the topics to be Gaussians xm,n m,k xm,n m,k where m,k includes
+the mean and covariance parameters For computational convenience the topic generators are
+Gaussian-Inverse-Wishart GIW distributions which are conjugate to the Gaussian topics Hence
+parameterizes the GIW distribution See the supplementary materials
+for more details Let denote the model parameters We can write the complete
+likelihood of data and latent variables in group Gm under FGM as follows
+Gm ym
+M(ym
+GIW
+m,k
+M(zmn xmn
+m,zmn
+By integrating out and summing out ym we get the marginal likelihood of Gm
+YX
+Gm
+Dir(?m
+GIW m,k
+mk xmn m,k d?m
+Finally the data-set?s likelihood is just the product of all groups likelihoods
+Inference and Learning
+To learn FGM we update the parameters to maximize the likelihood of data The inferred latent
+states?including the topic distributions the topics and the topic and genre memberships
+zm ym can be used for detecting anomalies and exploring the data Nonetheless the inference
+and learning in FGM is intractable so we train FGM using an approximate method described below
+Inference
+The approximate inference of the latent variables can be done using Gibbs sampling In Gibbs
+sampling we iteratively update one variable at a time by drawing samples from its conditional
+distribution when all the other parameters are fixed Thanks to the use of conjugate distributions
+Gibbs sampling in FGM is simple and easy to implement The sampling distributions of the latent
+variables in group are given below We use to denote the distribution of one variable
+conditioned on all the others For the genre membership ym we have that
+ym ym Dir(?m
+For the topic distribution
+zm ym M(zm Dir(?m Dir(?ym nm
+where nm denotes the histogram of the values in vector zm The last equation follows from the
+Dirichlet-Multinomial conjugacy For m,k the kth topic in group one can find that
+m,k
+m,k m,k
+m,k GIW m,k
+GIW
+m,k
+where xm are points in group Gm from topic zm,n The last equation follows from
+the Gaussian-Inverse-Wishart-Gaussian conjugacy is the parameter of the posterior GIW distri(k
+bution given xm its exact form can be found in the supplementary material For zmn the topic
+membership of point in group is as follows
+zmn xmn zmn
+zmn
+xmn
+m,k
+Learning
+Learning the parameters of FGM helps us identify the groups and points normal behaviors Each of
+the genres captures one typical distribution of topic distributions as Dir(?t
+The topic generators determine how the normal topics m,k should look like
+We use single-sample Monte Carlo EM to learn parameters from the samples provided by
+the Gibbs sampler Given sampled latent variables we update the parameters to their maximum
+likelihood estimations we learn from and from and from
+can easily be estimated from the histogram of is learned by the MLE of a Dirichlet distribution given the multinomials ym the topic distributions having
+genre which can be solved using the Newton?Raphson method The kth topic-generator?s
+parameter 0k is the MLE of a GIW distribution given the parameters
+m,k the kth topics of all groups We have derived an efficient solution for this MLE problem The details can be found in the supplementary material
+The overall learning algorithm works by repeating the following procedure until convergence
+do Gibbs sampling to infer the states of the latent variables update the model parameters using
+the estimations above To select appropriate values for the parameters and the number of
+genres and topics we can apply the Bayesian information criterion BIC or use the values
+that maximize the likelihood of a held-out validation set
+Scoring Criteria
+The learned FGM model can easily be used for anomaly detection on test data Given a test group
+we first infer its latent variables including the topics and the topic distribution Then we treat these
+latent states as the group?s characteristicsand examine if they are compatible with the normal behaviors defined by the FGM parameters
+Point-based group anomalies can be detected by examining the topics of the groups If a group
+contains anomalous points with rare feature values xmn then the topics m,k
+that generate these points will deviate from the normal behavior defined by the topic generators Let
+QK
+GIW m,k The point-based anomaly score PB score of group Gm is
+Gm
+The posterior Gm can again be approximated using Gibbs sampling and the expectation
+can be done by Monte Carlo integration
+Distribution-based group anomalies can be detected by examining the topic distributions The genres
+capture the typical distributions of topic distributions If a group?s topic distribution
+is unlikely to be generated from any of these genres we call it anomalous Let
+PT
+Dir(?m The distribution-based anomaly score DB score of group Gm is defined as
+E?m
+Gm
+Again this expectation can be approximated using Gibbs sampling and Monte Carlo integration
+Using a combination of the point-based and distribution-based scores we can detect both pointbased and distribution-based group anomalies
+Experiments
+In this section we provide empirical results produced by FGM on synthetic and real data We show
+that FGM outperforms several sate-of-the-art competitors in the group anomaly detection task
+Synthetic Data
+In the first experiment we compare FGM with the Mixture of Gaussian Mixture Model
+MGMM and with an adaptation of the Theme Model ThM on synthetic data sets The
+original ThM handles only discrete data and was proposed for clustering To handle continuous data
+and detect anomalies we modified it by using Gaussian topics and applied the distribution-based
+anomaly scoring function To detect both distribution-based and point-based anomalies we can
+use the data?s likelihood under ThM as the scoring function
+Using the synthetic data sets described below we can demonstrate the behavior of the different
+models and scoring functions We generated the data using 2-dimensional GMMs as in Here
+each group has a GMM to generate its points All GMMs share three Gaussian components with
+covariance I2 and centered at points and respectively A group?s
+mixing weights are randomly chosen from w1 or w2 Thus
+a group is normal if its points are sampled from these three Gaussians and their mixing weights are
+close to either w1 or w2 To test the detectors we injected both point-based and distribution-based
+anomalies Point-based anomalies were groups of points sampled from I2 Distributionbased anomalies were generated by GMMs consisting of normal Gaussian components but with
+mixing weights and which were different from w1 and w2 We
+generated groups each of which had Nm oisson(100 points One point-based
+anomalous group and two distribution-based anomalous groups were injected into the data set
+The detection results of MGMM ThM and FGM are shown in We show out of the
+groups Normal groups are surrounded by black solid boxes point-based anomalies have green
+dashed boxes and distribution-based anomalies have red/magenta dashed boxes Points are colored by the anomaly scores of the groups darker color means more anomalous An ideal detector
+would make dashed boxes points dark and solid boxes points light gray We can see that all the
+MGMM
+ThM
+FGM
+ThM Likelihood
+Figure Detection results on synthetic data
+models can find the distribution-based anomalies since they are able to learn the topic distributions
+However MGMM and ThM miss the point-based anomaly The explanation is simple the anomalous points are distributed in the middle of the topics thus the inferred topic distribution is around
+which is exactly w1 As a result MGMM and ThM infer this group to be normal
+although it is not This example shows one possible problem of scoring groups based on topic distributions only On the contrary using the sum of point-based and distribution-based scores FGM
+found all of the group anomalies thanks to its ability to characterize groups both at the point-level
+and the group-level We also show the result of scoring the groups by the ThM likelihood Only
+point anomalies are found This is because the data likelihood under ThM is dominated by the
+anomalousness of points thus a few eccentric points will overshadow group-level behaviors
+Figures show the density estimations given by MGMM ThM and FGM respectively for
+the point-based anomalous group We can see that FGM gives a better estimation due to its adaptive
+topics while MGMM and ThM are limited to use their global topics Figure shows the learned
+PT
+genres visualized as the distribution on the topic simplex This distribution summarizes the normal topic distributions in this data set Observe that the two peaks in the probability
+simplex are very close to w1 and w2 indeed
+Figure show the density of the point-based anomaly estimated by MGMM ThM and
+FGM respectively In MGMM and ThM topics must be shared globally therefore their perform
+badly The genres in the synthetic data set learned by FGM.
+Image Data
+In this experiment we test the performance of our method on detecting anomalous scene images We
+use the data set from We selected the first images from categories mountain coast
+and inside city These images are randomly divided are used for training and the rest
+for testing We created anomalies by stitching random normal test images from different categories
+For example an anomaly may be a picture that is half mountain and half city street These anomalies are challenging since they have the same local patches as the normal images We mixed the
+anomalies with normal test images and asked the detectors to find them Some examples are shown
+in The images are represented as in we treat each of them as a group of local points
+On each image we randomly sample patches on each patch extract the 128-dimensional SIFT
+feature and then reduce its dimension to using PCA. Points near the stitching boundaries are
+discarded to avoid boundary artifacts
+We compare FGM with several other methods We implemented a simple detector based on Gaussian
+mixture models it is able to detect point-based anomalies This method fits a GMM to all
+data points calculates the points scores as their likelihood under this GMM and finally scores
+a group by averaging these numbers To be able to detect distribution-based anomalies we also
+implemented two other competitors The first one called LDA-KNN uses LDA to estimate the topic
+distributions of the groups and treats these topic distributions vector parameters of multinomials
+as the groups features Then a k-nearest neighbor KNN based point detector is used to score
+the groups features The second method uses symmetrized Kullback-Leibler divergences
+between densities For each group DD uses a GMM to estimate the distribution of its points
+Then KL divergences between these GMMs are estimated using Monte Carlo method and then the
+KNN-based detector is used to find anomalous GMMs groups
+For all algorithms we used topics and genres as it was suggested by BIC searches We
+set for FGM. The performance is measured by the area under the ROC curve AUC
+of retrieving the anomalies from the test set In the supplementary material we also show results
+using the average precision performance measure The performances from random runs are
+shown in Figure GMM cannot detect the group anomalies that do not have anomalous points
+The performance of LDA-KNN was also close to the random baseline A possible reason is
+that the KNN detector did not perform well in the dimensional space MGMM ThM and
+FGM show improvements over the random baseline and FGM achieves significantly better results
+than others the paired t-test gives a p-value of for FGM ThM. We can also see that
+the DD method performs poorly possibly due to many error-prone steps including fitting the GMMs
+and estimating divergences using Monte Carlo method
+Turbulence Data
+We present an explorative study of detecting group anomalies on turbulence data from the JHU Turbulence Database Cluster2 TDC TDC simulates fluid motion through time on a 3-dimensional
+grid and here we perform our experiment on a continuous sub-grid In each time step and each
+http://turbulence.pha.jhu.edu
+AUC
+Sample images and stitched anomalies
+LDA?KNN MGMM
+ThM
+FGM?DB
+DD
+Detection performance
+Figure Detection of stitched images Images samples Green boxes first row contain natural
+images and yellow boxes second row contain stitched anomalies The detection AUCs
+vertex of the grid TDC records the 3-dimensional velocity of the fluid We consider the vertices in a
+local cubic region as a group and the goal is to find groups of vertices whose velocity distributions
+moving patterns are unusual and potentially interesting The following steps were used to extract the groups We chose the grid points as centers of our groups Around
+these centers the points in 73 sized cubes formed our groups The feature of a point in the cube
+was its velocity relative to the velocity at its cube?s center point After these pre-processing steps
+we had groups each of which had 3-dimensional feature vectors
+We applied MGMM ThM and FGM to find anomalies in this group data genres and
+topics were used for all methods We do not have a groundtruth for anomalies in this data set
+However we can compute the vorticity score for each vertex that indicates the tendency of
+the fluid to spin Vortices and especially their interactions are uncommon and of great interest in
+the field of fluid dynamics This vorticity can be considered as a hand crafted anomaly score based
+on expert knowledge of this fluid data We do not want an anomaly detector to match this score
+perfectly because there are other non-vortex anomalous events it should find as well However
+we do think higher correlation with this score indicates better anomaly detection performance
+Figure visualizes the anomaly scores of FGM and the vorticity We can see that these pictures are
+highly correlated which implies that FGM was able to find interesting turbulence activities based on
+velocity only and without using the definition of vorticity or any other expert knowledge Correlation
+values between vorticity and the MGMM ThM and FGM scores from random runs are displayed
+in showing that FGM is better at finding regions with high vorticity
+Correlation with Vorticity
+MGMM
+FGM-DB Score
+Vorticity
+ThM
+FGM?DB
+Figure Detection results for the turbulence data FGM-DB anomaly score and vorticity
+visualized on one slice of the cube Correlations of the anomaly scores with the vorticity
+Conclusion
+We presented the generative Flexible Genre Model FGM for the group anomaly detection problem
+Compared to traditional topic models FGM is able to characterize groups behaviors at multiple
+levels This detailed characterization makes FGM an ideal tool for detecting different types of group
+anomalies Empirical results show that FGM achieves better performance than existing approaches
+In the future we will examine other possibilities as well For model selection we can extend FGM
+by using nonparametric Bayesian techniques such as hierarchical Dirichlet processes It would
+also be interesting to study structured groups in which the exchangeability assumption is not valid
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
 title: 1077-a-neural-network-autoassociator-for-induction-motor-failure-prediction.pdf
 
 A Neural Network Autoassociator for
@@ -3022,412 +3022,6 @@ locations on the gearbox In a blind test the autoassociator was able to correctl
 between feature vectors taken from a damaged gearbox and other feature vectors taken
 from normal gearboxes all recorded in flight Our anomaly detector will be included in
 test flights of a gearbox monitoring system later this year
-
-<<----------------------------------------------------------------------------------------------------------------------->>
-
-title: 5236-localized-data-fusion-for-kernel-k-means-clustering-with-application-to-cancer-biology.pdf
-
-Localized Data Fusion for Kernel k-Means Clustering
-with Application to Cancer Biology
-Adam A. Margolin
-margolin@ohsu.edu
-Department of Biomedical Engineering
-Oregon Health Science University
-Portland OR USA
-Mehmet G?onen
-gonen@ohsu.edu
-Department of Biomedical Engineering
-Oregon Health Science University
-Portland OR USA
-Abstract
-In many modern applications from for example bioinformatics and computer vision samples have multiple feature representations coming from different data
-sources Multiview learning algorithms try to exploit all these available information to obtain a better learner in such scenarios In this paper we propose a novel
-multiple kernel learning algorithm that extends kernel k-means clustering to the
-multiview setting which combines kernels calculated on the views in a localized
-way to better capture sample-specific characteristics of the data We demonstrate
-the better performance of our localized data fusion approach on a human colon
-and rectal cancer data set by clustering patients Our method finds more relevant
-prognostic patient groups than global data fusion methods when we evaluate the
-results with respect to three commonly used clinical biomarkers
-Introduction
-Clustering algorithms aim to find a meaningful grouping of the samples at hand in an unsupervised
-manner for exploratory data analysis k-means clustering is one of the classical algorithms Hartigan which uses prototype vectors centers or centroids of clusters to characterize
-the data and minimizes a sum-of-squares cost function to find these prototypes with a coordinate
-descent optimization method However the final cluster structure heavily depends on the initialization because the optimization scheme of k-means clustering is prone to local minima Fortunately
-the sum-of-squares minimization can be formulated as a trace maximization problem which can
-not be solved easily due to binary decision variables used to denote cluster memberships but this
-hard optimization problem can be reduced to an eigenvalue decomposition problem by relaxing the
-constraints Zha Ding and He In such a case overall clustering algorithm can be
-formulated in two steps performing principal component analysis PCA Pearson on the
-covariance matrix and recovering cluster membership matrix using the eigenvectors that correspond to the largest eigenvalues Similar to many other learning algorithms k-means clustering
-is also extended towards a nonlinear version with the help of kernel functions which is called kernel
-k-means clustering Girolami The kernelized variant can also be optimized with a spectral
-relaxation approach using kernel PCA KPCA Sch?olkopf instead of canonical PCA.
-In many modern applications samples have multiple feature representations views coming
-from different data sources Instead of using only one of the views it is better to use all available information and let the learning algorithm decide how to combine these data sources which is known
-as multiview learning There are three main categories for the combination strategy Noble
-combination at the feature level by concatenating the views early integration combination at the decision level by concatenating the outputs of learners trained on each view separately
-late integration and iii combination at the learning level by trying to find a unified distance
-kernel or latent matrix using all views simultaneously intermediate integration
-Related work
-When we have multiple views for clustering we can simply concatenate the views and train a standard clustering algorithm on the concatenated view which is known as early integration However
-this approach does not assign weights to the views and the view with the highest number of features
-might dominate the clustering step due to the unsupervised nature of the problem
-Late integration algorithms obtain a clustering on each view separately and combine these clustering
-results using an ensemble learning scheme Such clustering algorithms are also known as cluster
-ensembles Strehl and Ghosh However they do not exploit the dependencies between the
-views during clustering and these dependencies might already be lost if we combine only clustering
-results in the second step
-Intermediate integration algorithms combine the views in a single learning scheme to collectively
-find a unified clustering Chaudhuri propose to extract a unifying feature representation
-from the views by performing canonical correlation analysis CCA Hotelling and to train
-a clustering algorithm on this common representation Similarly Blaschko and Lampert extract a common feature representation but with a nonlinear projection step using kernel CCA Lai
-and Fyfe and then perform clustering Such CCA-based algorithms assume that all views are
-informative and if there are some noisy views this can degrade the clustering performance drastically Lange and Buhmann propose to optimize the weights of a convex combination of
-view-specific similarity measures within a nonnegative matrix factorization framework and to assign samples to clusters using the latent matrices obtained in the factorization step Valizadegan and
-Jin extend the maximum margin clustering formulation of Xu to perform kernel combination and clustering jointly by formulating a semidefinite programming SDP problem
-Chen further improve this idea by formulating a quadratically constrained quadratic
-programming problem instead of an SDP problem Tang convert the views into graphs
-by placing samples into vertices and creating edges using the similarity values between samples
-in each view and then factorize these graphs jointly with a shared factor common to all graphs
-which is used for clustering at the end Kumar propose a co-regularization strategy
-for multiview spectral clustering by enforcing agreement between the similarity matrices calculated
-on the latent representations obtained from the spectral decomposition of each view Huang
-formulate another multiview spectral clustering method that finds a weighted combination
-of the affinity matrices calculated on the views Yu develop a multiple kernel k-means
-clustering algorithm that optimizes the weights in a conic sum of kernels calculated on the views
-However their formulation uses the same kernel weights for all of the samples
-Multiview clustering algorithms have attracted great interest in cancer biology due to the availability
-of multiple genomic characterizations of cancer patients Yuan formulate a patientspecific data fusion algorithm that uses a nonparametric Bayesian model coupled with a Markov
-chain Monte Carlo inference scheme which can combine only two views and is computationally
-very demanding due to the high dimensionality of genomic data Shen and Mo
-find a shared latent subspace across genomic views and cluster cancer patients using their
-representations in this subspace Wang construct patient networks from patient?patient
-similarity matrices calculated on the views combine these into a single unified network using a
-network fusion approach and then perform clustering on the final patient network
-Our contributions
-Intermediate integration using kernel matrices is also known as multiple kernel learning MKL
-G?onen and Alpayd?n Most of the existing MKL algorithms use the same kernel weights
-for all samples which may not be a good idea due to sample-specific characteristics of the data or
-measurement noise present in some of the views In this work we study kernel k-means clustering under the multiview setting and propose a novel MKL algorithm that combines kernels with
-sample-specific weights to obtain a better clustering We demonstrate the better performance of our
-algorithm on the human colon and rectal cancer data set provided by TCGA consortium The Cancer
-Genome Atlas Network where we use three genomic characterizations of the patients
-DNA copy number mRNA gene expression and DNA methylation for clustering Our localized
-data fusion approach obtains more relevant prognostic patient groups than global fusion approaches
-when we evaluate the results with respect to three commonly used clinical biomarkers microsatellite instability hypermutation and mutation in BRAF gene of colon and rectal cancer
-Kernel k-means clustering
-We first review kernel k-means clustering Girolami before extending it to the multiview
-setting Given independent and identically distributed samples we assume that
-there is a function that maps the samples into a feature space in which we try to minimize a
-sum-of-squares cost function over the cluster assignment variables zic
-The optimization
-problem defines kernel k-means clustering as a binary integer programming problem where
-nc is the number of samples assigned to cluster and is the centroid of cluster
-minimize
-zic k?(xi
-with respect to zic
-subject to
-zic
-where nc
-zic
-zic
-nc
-We can convert this optimization problem into an equivalent matrix-vector form problem as follows
-minimize tr
-with respect to
-subject to Z1k 1n
-where
-ZLZ
-diag
-n2 nk
-Using that tr tr and the objective function of the
-optimization problem can be rewritten as
-tr tr ZLZ ZLZ
-tr ZLZ ZLZ ZLZ
-tr 2KZLZ KZLZ ZLZ tr KZL
-where is the kernel matrix that holds the similarity values between the samples and is defined
-as taking the square root of the diagonal elements The resulting optimization problem is a
-trace maximization problem but it is still very difficult to solve due to the binary decision variables
-maximize tr KZL
-with respect to
-subject to Z1k 1n
-However we can formulate a relaxed version of this optimization problem by renaming ZL as
-and letting take arbitrary real values subject to orthogonality constraints
-maximize tr KH
-with respect to Rn?k
-subject to Ik
-The final optimization problem can be solved by performing KPCA on the kernel matrix
-and setting to the eigenvectors that correspond to largest eigenvalues Sch?olkopf
-We can finally extract a clustering solution by first normalizing all rows of to be on the
-unit sphere and then performing k-means clustering on this normalized matrix Note that after the
-normalization step contains k-dimensional representations of the samples on the unit sphere and
-k-means is not very sensitive to initialization in such a case
-Multiple kernel k-means clustering
-In a multiview learning scenario we have multiple feature representations where we assume that
-each representation has its own mapping function Instead of an unweighted
-combination of these views simple concatenation we can obtain a weighted mapping function
-by concatenating views using a convex sum nonnegative weights that sum up to This
-corresponds to replacing with
-where Rp is the vector of kernel weights that we need to optimize during training The kernel
-function defined over the weighted mapping function becomes
-h?m
-km
-where we combine kernel functions using a conic sum nonnegative weights which guarantees
-to have a positive semi-definite kernel function at the end The optimization problem gives
-the trace maximization problem we need to solve
-maximize tr
-with respect to Rn?k Rp
-subject to Ik 1p
-where
-Km
-We solve this problem using a two-step alternating optimization strategy Optimize given
-If we know the kernel weights initialize randomly in the first iteration solving reduces
-to solving with the combined kernel matrix which requires performing KPCA on
-Optimize given H. If we know the eigenvectors from the first step solving reduces to
-solving which is a convex quadratic programming problem with decision variables
-and one equality constraint and is solvable with any standard QP solver up to a moderate number
-of kernels
-minimize
-tr Km Km
-with respect to Rp
-subject to 1p
-Note that
-Ppusing a convex combination of kernels in is not a viable option because if we set
-to Km there would be a trivial solution to the trace maximization problem with a
-single active kernel and others with zero weights which is also observed by Yu
-Localized multiple kernel k-means clustering
-Instead of using the same kernel weights for all samples we propose to use a localized data fusion approach by assigning sample-specific weights to kernels which enables us to capture samplespecific characteristics of the data and to get rid of sample-specific noise that may be present in
-some of the views In our localized combination approach the mapping function is represented as
-ip where Rn?p
-is the matrix of
-sample-specific kernel weights which are nonnegative and sum up to for each sample G?onen and
-Alpayd?n The locally combined kernel function can be written as
-h?im jm
-im jm km
-where we are guaranteed to have a positive semi-definite kernel function The optimization problem
-gives the trace maximization problem with the locally combined kernel matrix where
-Rn is the vector of kernel weights assigned to kernel and denotes the Hadamard product
-maximize tr
-with respect to Rn?k Rn?p
-subject to Ik 1n
-where
-Km
-We solve this problem using a two-step alternating optimization strategy Optimize given
-If we know the sample-specific kernel weights initialize randomly in the first iteration solving
-reduces to solving with the combined kernel matrix which requires performing
-KPCA on Optimize given H. If we know the eigenvectors from the first step using that
-tr solving reduces to solving which is
-a convex QP problem with decision variables and equality constraints
-minimize
-HH Km
-n?p
-with respect to
-subject to 1n
-Training the localized combination approach requires more computational effort than training the
-global approach due to the increased size of QP problem in the second step However the blockdiagonal structure of the Hessian matrix in can be exploited to solve this problem much
-more efficiently Note that the objective function of can be written as
-In HH K1
-In HH K2
-In HH Kp
-where we have an matrix for each kernel on the diagonal of the Hessian matrix
-Experiments
-Clustering patients is one of the clinically important applications in cancer biology because it helps
-to identify prognostic cancer subtypes and to develop personalized strategies to guide therapy Making use of multiple genomic characterizations in clustering is critical because different patients may
-manifest their disease in different genomic platforms due to cancer heterogeneity and measurement
-noise We use the human colon and rectal cancer data set provided by TCGA consortium The Cancer Genome Atlas Network which contains several genomic characterizations of the patients
-to test our new clustering algorithm in a challenging real-world application
-We use DNA copy number mRNA gene expression and DNA methylation data of the patients
-for clustering In order to evaluate the clustering results we use three commonly used clinical
-biomarkers of colon and rectal cancer The Cancer Genome Atlas Network micro-satellite
-instability a hypermutable phenotype caused by the loss of DNA mismatch repair activity
-hypermutation defined as having mutations in more than or equal to genes and iii mutation in BRAF gene Note that these three biomarkers are not directly identifiable from the input
-data sources used The preprocessed genomic characterizations of the patients can be downloaded
-from a public repository at https://www.synapse.org/#!Synapse:syn300013 where
-DNA copy number mRNA gene expression DNA methylation and mutation data consist of
-and features respectively The micro-satellite instability data can be downloaded from https://tcga-data.nci.nih.gov/tcga/dataAccessMatrix.htm In
-the resulting data set there are patients with available genomic and clinical biomarker data
-We implement kernel k-means clustering and its multiview variants in Matlab Our implementations
-are publicly available at https://github.com/mehmetgonen/lmkkmeans We solve the
-QP problems of the multiview variants using the Mosek optimization software Mosek For
-all methods we perform replications of k-means with different initializations as the last step and
-use the solution with the lowest sum-of-squares cost to decide cluster memberships
-We calculate four different kernels to use in our experiments KC the Gaussian kernel on DNA
-copy number data KG the Gaussian kernel on mRNA gene expression data iii KM the
-Gaussian kernel on DNA methylation data and KCGM the Gaussian kernel on concatenated
-data early combination Before calculating each kernel the input data is normalized to have
-zero mean and unit standard deviation z-normalization for each feature For each kernel we
-set the kernel width parameter to the square root of the number of features in its corresponding view
-We compare seven clustering algorithms on this colon and rectal cancer data set kernel k-means
-clustering with KC kernel k-means clustering with KG iii kernel k-means clustering with KM
-kernel k-means clustering with KCGM kernel k-means clustering with KC KG KM
-multiple kernel k-means clustering with KC KG KM and vii localized multiple kernel kmeans clustering with KC KG KM The first three algorithms are single-view clustering methods
-that work on a single genomic characterization The fourth algorithm is the early integration approach that combines the views at the feature level The fifth and sixth algorithms are intermediate
-integration approaches that combine the kernels using unweighted and weighted sums respectively
-where the latter is very similar to the formulations of Huang and Yu The
-last algorithm is our localized MKL approach that combines the kernels in a sample-specific way
-We assign three different binary labels to each sample as the ground truth using the three clinical
-biomarkers mentioned and evaluate the clustering results using three different performance metrics
-normalized mutual information purity and iii the Rand index We set the number
-of clusters to for all of the algorithms because each ground truth label has only two categories
-Cluster
-pre
-ex
-ion
-lat
-Ge
-ne
-thy
-Me
-sio
-We first show the kernel weights assigned to
-colon and rectal cancer patients by our localized
-data fusion approach As we can see from Figure some of the patients are very well characterized by their DNA copy number data Our localized algorithm assigns weights larger than
-to DNA copy number data for most of the patients
-in the second cluster whereas all three views are
-used with comparable weights for the remaining
-patients Note that the kernel weights of each patient are strictly nonnegative and sum up to
-defined on the unit simplex Our proposed clustering algorithm can identify the most informative genomic platforms in an unsupervised and
-patient-specific manner Together with the better clustering performance and biological interpretation presented next this particular application from cancer biology shows the potential for
-localized combination strategy
-Copy number
-Figure Kernel weights assigned to patients
-by our localized data fusion approach Each dot
-denotes a single cancer patient and patients in
-the same cluster are drawn with the same color
-Figure summarizes the results obtained by seven clustering algorithms on the colon and rectal cancer data set For each algorithm the cluster assignment and the values of three clinical biomarkers
-are aligned to each other and we report the performance values of nine biomarker?metric pairs We
-see that DNA copy number KC is the most informative genomic characterization when we
-compare the performance of single-view clustering algorithms where it obtains better results than
-mRNA gene expression KG and DNA methylation KM in terms of NMI and RI on all
-biomarkers We also see that the early integration strategy KCGM does not improve the results because mRNA gene expression and DNA methylation dominate the clustering step due to the
-unsupervised nature of the problem However when we combine the kernels using an unweighted
-combination strategy KC KG KM the performance values are significantly improved
-compared to single-view clustering methods and early integration in terms of NMI and RI on all
-biomarkers Instead of using an unweighted sum we can optimize the combination weights using
-the multiple kernel k-means clustering of Section In this case the performance values are slightly
-improved compared to the unweighted sum in terms of NMI and RI on all biomarkers Our localized data fusion approach significantly outperforms the other algorithms in terms of NMI and RI on
-micro-satellite instability and hypermutation biomarkers and it is the only algorithm that can
-obtain purity values higher than the ratio of the majority class samples on mutation in BRAF gene
-biomarker These results validate the benefit of our localized approach for the multiview setting
-Algorithm Kernel means clustering with KC
-Clusters
-patients
-MSI high
-Hypermutation
-BRAF mutation
-patients
-Algorithm Kernel means clustering with KG
-Clusters
-patients
-MSI high
-Hypermutation
-BRAF mutation
-NMI
-Purity
-RI
-NMI
-Purity
-RI
-NMI
-Purity
-RI
-NMI
-Purity
-RI
-85 patients
-NMI
-Purity
-RI
-82 patients
-NMI
-Purity
-RI
-NMI
-Purity
-RI
-87 patients
-Algorithm Kernel means clustering with KM
-Clusters
-83 patients
-MSI high
-Hypermutation
-BRAF mutation
-patients
-Algorithm Kernel means clustering with KCGM
-Clusters
-87 patients
-MSI high
-Hypermutation
-BRAF mutation
-patients
-Algorithm Kernel means clustering with KC KG KM
-Clusters
-patients
-MSI high
-Hypermutation
-BRAF mutation
-Algorithm Multiple kernel means clustering with KG KM
-Clusters
-patients
-MSI high
-Hypermutation
-BRAF mutation
-Algorithm Localized multiple kernel means clustering with KG KM
-Clusters
-patients
-MSI high
-Hypermutation
-BRAF mutation
-46 patients
-Figure Results obtained by seven clustering algorithms on the colon and rectal cancer data set
-provided by TCGA consortium The Cancer Genome Atlas Network For each algorithm we
-first display the cluster assignment and report the number of patients in each cluster We then display
-the values of three clinical biomarkers aligned with the cluster assignment where MSI high shows
-the patients with high micro-satellite instability status in darker color Hypermutation shows the
-patients with mutations in more than or equal to genes in darker color and BRAF mutation
-shows the patients with a mutation in their BRAF gene in darker color We compare the algorithms
-in terms of their clustering performance on three clinical biomarkers under three metrics normalized
-mutual information purity and the Rand index For all performance metrics a higher
-value means better performance and for each biomarker?metric pair the best result is reported in
-bold face We see that our localized clustering algorithm obtains the best result for eight out of nine
-biomarker?metric pairs whereas all algorithms have the same purity value for BRAF mutation
-Copy number
-Gene expression
-Methylation
-Clusters
-Mutation
-Figure Important features in genomic views determined using the solution of multiple kernel
-k-means clustering together with cluster assignment and mutations in frequently mutated genes
-For each genomic view we calculate the Pearson correlation values between features and clustering
-assignment and display topmost positively correlated and bottommost negatively correlated
-features red high blue low We also display the mutation status black mutated white wildtype of patients for most frequently mutated genes which are mutated in at least patients
-Copy number
-Gene expression
-Methylation
-Clusters
-Mutation
-Figure Important features in genomic views determined using the solution of localized multiple
-kernel k-means clustering together with cluster assignment and mutations in frequently mutated
-genes See Figure for details
-We perform an additional biological interpretation step by looking at the features that can be used
-to differentiate the clusters found Figures and show features in genomic views that are highly
-positively or negatively correlated with the cluster assignments of the two best performing algorithms in terms of clustering performance namely multiple kernel k-means clustering and localized
-multiple kernel k-means clustering We clearly see that the genomic signatures of the hyper-mutated
-cluster especially the one for DNA copy number obtained using our localized data fusion approach
-are much less noisy than those of global data fusion Identifying clear genomic signatures are clinically important because they can be used for diagnostic and prognostic purposes on new patients
-Discussion
-We introduce a localized data fusion approach for kernel k-means clustering to better capture
-sample-specific characteristics of the data in the multiview setting which can not be captured using
-global data fusion strategies such as Huang and Yu The proposed method
-is from the family of MKL algorithms and combines the kernels defined on the views with samplespecific weights to determine the relative importance of the views for each sample We illustrate the
-practical importance of the method on a human colon and rectal cancer data set by clustering patients
-using their three different genomic characterizations The results show that our localized data fusion
-strategy can identify more relevant prognostic patient groups than global data fusion strategies
-The interesting topics for future research are exploiting the special structure of the Hessian
-matrix in our formulation by developing a customized solver instead of using an off-the-shelf optimization software to improve the time complexity and integrating prior knowledge about the
-samples that we may have into our formulation to be able to find more relevant clusters
-Acknowledgments This study was financially supported by the Integrative Cancer Biology Program grant no and the Cancer Target Discovery and Development CTDD Network grant no of the National Cancer Institute
 
 <<----------------------------------------------------------------------------------------------------------------------->>
 
@@ -3786,6 +3380,342 @@ Special thanks to Mike Dahlin and Tom Ziaja for feedback on an earlier version o
 Jim Bednar for help with the PlaNet simulator This research was supported in part by DOD-ARPA
 contract NSF grant and the Texas Higher Education Coordinating
 board grant
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 4044-subgraph-detection-using-eigenvector-l1-norms.pdf
+
+Subgraph Detection Using Eigenvector L1 Norms
+Nadya T. Bliss
+Lincoln Laboratory
+Massachusetts Institute of Technology
+Lexington MA
+nt@ll.mit.edu
+Benjamin A. Miller
+Lincoln Laboratory
+Massachusetts Institute of Technology
+Lexington MA
+bamiller@ll.mit.edu
+Patrick J. Wolfe
+Statistics and Information Sciences Laboratory
+Harvard University
+Cambridge MA
+wolfe@stat.harvard.edu
+Abstract
+When working with network datasets the theoretical framework of detection theory for Euclidean vector spaces no longer applies Nevertheless it is desirable to
+determine the detectability of small anomalous graphs embedded into background
+networks with known statistical properties Casting the problem of subgraph detection in a signal processing context this article provides a framework and empirical results that elucidate a detection theory for graph-valued data Its focus is
+the detection of anomalies in unweighted undirected graphs through L1 properties
+of the eigenvectors of the graph?s so-called modularity matrix This metric is observed to have relatively low variance for certain categories of randomly-generated
+graphs and to reveal the presence of an anomalous subgraph with reasonable reliability when the anomaly is not well-correlated with stronger portions of the
+background graph An analysis of subgraphs in real network datasets confirms the
+efficacy of this approach
+Introduction
+A graph denotes a collection of entities represented by vertices along with some
+relationship between pairs represented by edges E. Due to this ubiquitous structure graphs are used
+in a variety of applications including the natural sciences social network analysis and engineering
+While this is a useful and popular way to represent data it is difficult to analyze graphs in the
+traditional statistical framework of Euclidean vector spaces
+In this article we investigate the problem of detecting a small dense subgraph embedded into an
+unweighted undirected background We use L1 properties of the eigenvectors of the graph?s modularity matrix to determine the presence of an anomaly and show empirically that this technique has
+reasonable power to detect a dense subgraph where lower connectivity would be expected
+In Section we briefly review previous work in the area of graph-based anomaly detection In
+Section we formalize our notion of graph anomalies and describe our experimental regime In
+Section we give an overview of the modularity matrix and observe how its eigenstructure plays
+a role in anomaly detection Sections and respectively detail subgraph detection results on
+simulated and actual network data and in Section we summarize and outline future research
+Related Work
+The area of anomaly detection has in recent years expanded to graph-based data The work of
+Noble and Cook focuses on finding a subgraph that is dissimilar to a common substructure in the
+network Eberle and Holder extend this work using the minimum description length heuristic to
+determine a normative pattern in the graph from which the anomalous subgraph deviates basing
+detection algorithms on this property This work however does not address the kind of anomaly
+we describe in Section our background graphs may not have such a normative pattern that
+occurs over a significant amount of the graph Research into anomaly detection in dynamic graphs
+by Priebe al uses the history of a node?s neighborhood to detect anomalous behavior but this
+is not directly applicable to our detection of anomalies in static graphs
+There has been research on the use of eigenvectors of matrices derived from the graphs of interest
+to detect anomalies In the angle of the principal eigenvector is tracked in a graph representing
+a computer system and if the angle changes by more than some threshold an anomaly is declared
+present Network anomalies are also dealt with in but here it is assumed that each node in the
+network has some highly correlated time-domain input Since we are dealing with simple graphs
+this method is not general enough for our purposes Also we want to determine the detectability of
+small anomalies that may not have a significant impact on one or two principal eigenvectors
+There has been a significant amount of work on community detection through spectral properties of
+graphs Here we specifically aim to detect small dense communities by exploiting these
+same properties The approach taken here is similar to that of in which graph anomalies are
+detected by way of eigenspace projections We here focus on smaller and more subtle subgraph
+anomalies that are not immediately revealed in a graph?s principal components
+Graph Anomalies
+As in we cast the problem of detecting a subgraph embedded in a background as one of
+detecting a signal in noise Let GB denote the background graph a network in which
+there exists no anomaly This functions as the noise in our system We then define the anomalous subgraph the signal GS VS ES with VS The objective is then to evaluate the
+following binary hypothesis test to decide between the null hypothesis H0 and alternate hypothesis
+H1
+H0 The observed graph is noise GB
+H1 The observed graph is signal+noise GB GS
+Here the union of the two graphs GB GS is defined as GB GS ES
+In our simulations we formulate our noise and signal graphs as follows The background graph GB
+is created by a graph generator such as those outlined in with a certain set of parameters We
+then create an anomalous signal graph GS to embed into the background We select the vertex
+subset VS from the set of vertices in the network and embed GS into GB by updating the edge set
+to be ES We apply our detection algorithm to graphs with and without the embedding present
+to evaluate its performance
+The Modularity Matrix and its Eigenvectors
+Newman?s notion of the modularity matrix associated with an unweighted undirected graph
+is given by
+A
+KK
+Here A aij is the adjacency matrix of where aij is if there is an edge between vertex
+and vertex and is otherwise and is the degree vector of where the ith component of
+is the number of edges adjacent to vertex If we assume that edges from one vertex are equally
+likely to be shared with all other vertices then the modularity matrix is the difference between the
+actual and expected number of edges between each pair of vertices This is also very similar to
+Figure Scatterplots of an R-MAT generated graph projected into spaces spanned by two eigenvectors of its modularity matrix with each point representing a vertex The graph with no embedding
+and with an embedded 8-vertex clique look the same in the principal components but the
+embedding is visible in the eigenvectors corresponding to the and largest eigenvalues
+the matrix used as an observed-minus-expected model in to analyze the spectral properties of
+random graphs
+Since is real and symmetric it admits the eigendecomposition where R|V
+is a matrix where each column is an eigenvector of and is a diagonal matrix of eigenvalues
+We denote by the eigenvalues of where for all and by ui the
+unit-magnitude eigenvector corresponding to
+Newman analyzed the eigenvalues of the modularity matrix to determine if the graph can be split
+into two separate communities As demonstrated in analysis of the principal eigenvectors of
+can also reveal the presence of a small tightly-connected component embedded in a large graph
+This is done by projecting into the space of its two principal eigenvectors calculating a Chisquared test statistic and comparing this to a threshold Figure demonstrates the projection of
+an R-MAT Kronecker graph into the principal components of its modularity matrix
+Small graph anomalies however may not reveal themselves in this subspace Figure demonstrates an 8-vertex clique embedded into the same background graph In the space of the two principal eigenvectors the symmetry of the projection looks the same as in Figure The foreground
+vertices are not at all separated from the background vertices and the symmetry of the projection has
+not changed implying no change in the test statistic Considering only this subspace the subgraph
+of interest cannot be detected reliably its inward connectivity is not strong enough to stand out in
+the two principal eigenvectors
+The fact that the subgraph is absorbed into the background in the space of u1 and u2 however does
+not imply that it is inseparable in general only in the subspace with the highest variance Borrowing
+language from signal processing there may be another channel in which the anomalous signal
+subgraph can be separated from the background noise There is in fact a space spanned by two
+eigenvectors in which the 8-vertex clique stands out in the space of the and the two
+eigenvectors with the largest components in the rows corresponding to VS the subgraph is clearly
+separable from the background as shown in Figure
+Eigenvector L1 Norms
+The subgraph detection technique we propose here is based on L1 properties of the eigenvectors
+of the graph?s modularity matrix where the L1 norm of a vector xN is kxk1
+PN
+When a vector is closely aligned with a small number of axes if is only large for
+a few values of then its L1 norm will be smaller than that of a vector of the same magnitude where
+this is not the case For example if
+has unit magnitude and only has nonzero components
+along two of the axes then kxk1 If it has a component of equal magnitude along all
+axes then kxk1 32 This property has been exploited in the past in a graph-theoretic setting for
+finding maximal cliques
+This property can also be useful when detecting anomalous clustering behavior If there is a subgraph
+GS that is significantly different from its expectation this will manifest itself in the modularity
+Figure L1 analysis of modularity matrix eigenvectors Under the null model has the
+distribution in With an 8-vertex clique embedded k1 falls far from its average value as
+shown in
+matrix as follows The subgraph GS has a set of vertices VS which is associated with a set of indices
+corresponding to rows and columns of the adjacency matrix A. Consider the vector
+where is if vi VS and otherwise For any and letP
+dS denote the
+number of edges between the vertex and the vertex set S. Also let dS v?S dS and
+dV We then have
+d(VS
+kBxk2
+dVS
+d(V
+v?V
+xT Bx dVS VS
+d2 VS
+d(V
+and kxk2 VS Note that d(V A natural interpretation of is that Bx represents the difference between the actual and expected connectivity to VS across the entire graph
+and likewise represents this difference within the subgraph If is an eigenvector of then
+of course xT Bx/(kBxk2 kxk2 Letting
+internal and
+each subgraph vertex have uniform
+external degree this ratio approaches as v?V
+dVS d(v)d(VS is dominated by
+v?VS dVS d(v)d(VS This suggests that if VS is much more dense than a typical
+subset of background vertices is likely to be well-correlated with an eigenvector of B. This becomes more complicated when there are several eigenvalues that are approximately dVS VS
+but this typically occurs for smaller graphs than are of interest Newman made a similar observation that the magnitude of a vertex?s component in an eigenvector is related to the strength with
+which it is a member of the associated community Thus if a small set of vertices forms a community with few belonging to other communities there will be an eigenvector well aligned with this
+set and this implies that the L1 norm of this eigenvector would be smaller than that of an eigenvector
+with a similar eigenvalue when there is no anomalously dense subgraph
+Null Model Characterization
+To examine the L1 behavior of the modularity matrix?s eigenvectors we performed the following
+experiment Using the R-MAT generator we created graphs with vertices an average
+degree of the result being an average degree of about since we make the graph undirected
+and a probability matrix
+For each graph we compute the modularity matrix and its eigendecomposition We then compute
+kui k1 for each and store this value as part of our background statistics Figure demonstrates
+the distribution of k1 The distribution has a slight left skew but has a tight variance standard
+deviation of and no large deviations from the mean under the null model
+After compiling background data we computed the mean and standard deviation of the L1 norms
+for each ui Let be the average of kui k1 and be its standard deviation Using the R-MAT graph
+with the embedded 8-vertex clique we observed eigenvector L1 norms as shown in Figure In
+the figure we plot kui k1 as well as and The vast majority of eigenvectors
+have L1 norms close to the mean for the associated index There are very few cases with a deviation
+from the mean of greater than Note also that decreases with decreasing This suggests that
+the community formation inherent in the R-MAT generator creates components strongly associated
+with the eigenvectors with larger eigenvalues
+The one outlier is which has an L1 norm that is over standard deviations away from the mean
+Note that is the horizontal axis in Figure which by itself provides significant separation
+between the subgraph and the background Simple L1 analysis would certainly reveal the presence
+of this particular embedding
+Embedded Subgraph Detection
+With the L1 properties detailed in Section in mind we propose the following method to determine
+the presence of an embedding Given a graph compute the eigendecomposition of its modularity
+matrix For each eigenvector calculate its L1 norm subtract its expected value computed from the
+background statistics and normalize by its standard deviation If any of these modified L1 norms
+is less than a certain threshold since the embedding makes the L1 norm smaller H1 is declared
+and H0 is declared otherwise Pseudocode for this detection algorithm is provided in Algorithm
+Algorithm L1S UBGRAPH ETECTION
+Input Graph Integer Numbers 1MIN
+OD AT(G
+EIGENVECTORS(B hhk eigenvectors of Bii
+for to do
+kui k1
+if 1MIN then
+return H1 hhdeclare the presence of an embeddingii
+end if
+end for
+return H0 hhno embedding foundii
+We compute the eigenvectors of using eigs in MATLAB which has running time O(|E|kh
+where is the number of iterations required for eigs to converge While
+the modularity matrix is not sparse it is the sum of a sparse matrix and a rank-one matrix so we
+can still compute its eigenvalues efficiently as mentioned in Computing the modified L1 norms
+and comparing them to the threshold takes time so the complexity is dominated by the
+eigendecomposition
+The signal subgraphs are created as follows In all simulations in this section VS For each
+simulation a subgraph density of or is chosen For subraphs of this size and
+density the method of does not yield detection performance better than chance
+The subgraph
+is created by uniformly at random selecting the chosen proportion of the 82 possible edges To
+determine where to embed the subgraph into the background we find all vertices with at most
+or edges and select of these at random The subgraph is then induced on these vertices
+For each density/external degree pair we performed a Monte Carlo simulation in which
+we create an R-MAT background with the same parameters as the null model embed an anomalous
+subgraph as described above and run Algorithm with to determine whether the embedding is detected Figure demonstrates detection performance in this experiment In the receiver
+operating characteristic changing the L1 threshold in Algorithm changes the position on the curve Each curve corresponds to a different subgraph density In Figure each
+vertex of the subgraph has edge adjacent to the background In this case the subgraph connectivity
+is overwhelmingly inward and the ROC curve reflects this Also the more dense subgraphs are
+more detectable When the external degree is increased so that a subgraph vertex may have up to
+edges adjacent to the background we see a decline in detection performance as shown in Figure
+Figure demonstrates the additional decrease in detection performance when the external
+subgraph connectivity is increased again to as much as edges per vertex
+Figure ROC curves for the detection of 8-vertex subgraphs in a 1024-vertex R-MAT background
+Performance is shown for subgraphs of varying density when each foreground vertex is connected
+to the background by up to and edges in and respectively
+Subgraph Detection in Real-World Networks
+To verify that we see similar properties in real graphs that we do in simulated ones we analyzed
+five data sets available in the Stanford Network Analysis Package SNAP database Each network is made undirected before we perform our analysis The data sets used here are the Epinions
+who-trusts-whom graph Epinions the arXiv.org collaboration
+networks on astrophysics AstroPh and condensed matter CondMat
+an autonomous system graph asOregon
+and the Slashdot social network Slashdot For each graph we
+compute the top eigenvectors of the modularity matrix and the L1 norm of each Comparing
+each L1 sequence to a smoothed low-pass filtered version we choose the two eigenvectors that deviate the most from this trend except in the case of Slashdot where there is only one
+significant deviation
+Plots of the L1 norms and scatterplots in the space of the two eigenvectors that deviate most are
+shown in Figure The eigenvectors declared are highlighted Note that with the exception of the
+asOregon we see as similar trend in these networks that we did in the R-MAT simulations with
+the L1 norms decreasing as the eigenvalues increase the L1 trend in asOregon is fairly flat Also
+with the exception of Slashdot each dataset has a few eigenvectors with much smaller norms than
+those with similar eigenvalues Slashdot decreases gradually with one sharp drop at the maximum
+eigenvalue
+The subgraphs detected by L1 analysis are presented in Table Two subgraphs are chosen for each
+dataset corresponding to the highlighted points in the scatterplots in Figure For each subgraph
+we list the size number of vertices density internal degree divided by the maximum number of
+edges external degree and the eigenvector that separates it from the background The subgraphs
+are quite dense at least in each case
+To determine whether a detected subgraph is anomalous with respect to the rest of the graph we
+sample the network and compare the sample graphs to the detected subgraphs in terms of density
+and external degree For each detected subgraph we take million samples with the same number
+of vertices Our sampling method consists of doing a random walk and adding all neighbors of each
+vertex in the path We then count the number of samples with density above a certain threshold
+and external degree below another threshold These thresholds are the parenthetical values in the
+4th and 5th columns of Table Note that the thresholds are set so that the detected subgraphs
+comfortably meet them The 6th column lists the number of samples out of million that satisfy
+both thresholds In each case far less than of the samples meet the criteria For the Slashdot
+dataset no sample was nearly as dense as the two subgraphs we selected by thresholding along the
+principal eigenvector After removing samples that are predominantly correlated with the selected
+eigenvectors we get the parenthetical values in the same column In most cases all of the samples
+meeting the thresholds are correlated with the detected eigenvectors Upon further inspection those
+remaining are either correlated with another eigenvector that deviates from the overall L1 trend or
+correlated with multiple eigenvectors as we discuss in the next section
+Epinions L1 norms
+Epinions scatterplot
+AstroPh L1 norms
+AstroPh scatterplot
+CondMat L1 norms
+CondMat scatterplot
+asOregon L1 norms
+asOregon scatterplot
+Slashdot L1 norms
+Slashdot scatterplot
+Figure Eigenvector L1 norms in real-world network data left column and scatterplots of the
+projection into the subspace defined by the indicated eigenvectors right column
+dataset
+eigenvector
+subgraph
+size
+Epinions
+Epinions
+AstroPh
+AstroPh
+CondMat
+CondMat
+asOregon
+asOregon
+Slashdot
+Slashdot
+u6
+u1
+u1
+34
+27
+24
+19
+36
+51
+subgraph
+sample
+density
+subgraph
+sample
+external degree
+93
+73
+70
+samples
+that meet
+threshold
+46
+23
+Table Subgraphs detected by L1 analysis and a comparison with randomly-sampled subgraphs
+in the same network
+Figure An 8-vertex clique that does not create an anomalously small L1 norm in any eigenvector
+The scatterplot looks similar to one in which the subgraph is detectable but is rotated
+Conclusion
+In this article we have demonstrated the efficacy of using eigenvector L1 norms of a graph?s modularity matrix to detect small dense anomalous subgraphs embedded in a background Casting the
+problem of subgraph detection in a signal processing context we have provided the intuition behind
+the utility of this approach and empirically demonstrated its effectiveness on a concrete example
+detection of a dense subgraph embedded into a graph generated using known parameters In real
+network data we see trends similar to those we see in simulation and examine outliers to see what
+subgraphs are detected in real-world datasets
+Future research will include the expansion of this technique to reliably detect subgraphs that can be
+separated from the background in the space of a small number of eigenvectors but not necessarily
+one While the L1 norm itself can indicate the presence of an embedding it requires the subgraph to
+be highly correlated with a single eigenvector Figure demonstrates a case where considering multiple eigenvectors at once would likely improve detection performance The scatterplot in this figure
+looks similar to the one in Figure but is rotated such that the subgraph is equally aligned with
+the two eigenvectors into which the matrix has been projected There is not significant separation in
+any one eigenvector so it is difficult to detect using the method presented in this paper Minimizing
+the L1 norm with respect to rotation in the plane will likely make the test more powerful but could
+prove computationally expensive Other future work will focus on developing detectability bounds
+the application of which would be useful when developing detection methods like the algorithm
+outlined here
+Acknowledgments
+This work is sponsored by the Department of the Air Force under Air Force Contract Opinions interpretations conclusions and recommendations are those of the author and are
+not necessarily endorsed by the United States Government
 
 <<----------------------------------------------------------------------------------------------------------------------->>
 
