@@ -44,6 +44,9 @@ class QueryController extends Controller
                 $i ++;
                 continue;
             }
+            if (substr($terms[$i], -1) == ":"){
+                return array("error" => "Missing a term after your filter, is there maybe a space after a :?");
+            }
             while (substr_count($terms[$i], "\"") % 2 == 1){
                 if (!array_key_exists($i+$lookup, $terms)){
                     return array("error" => "You made a mistake in your query: you forgot a \" somewhere");
@@ -73,13 +76,16 @@ class QueryController extends Controller
             elseif(substr($term, 0, 5) == "year:"){
                 $documents = $this->document->filter($documents, $term, 'documents', 'year', '=', ',');
             }
+            elseif(substr($term, 0, 6) == "title:"){
+                $document = $this->docuemnt->filter($documents, $queryTerm, $order, $mode, "QUERY_TITLE");
+            }
             else{
                 $queryTerm = $term;
             }
         }
 
         if ($queryTerm != null){
-            $documents = $this->document->searchIndex($documents, $queryTerm, $order, $mode);
+            $documents = $this->document->searchIndex($documents, $queryTerm, $order, $mode, "QUERY_CONTENT");
         }
         elseif ($order != 'relevance'){
             $documents = $documents->orderBy($order, $mode);

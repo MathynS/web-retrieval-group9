@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\ProcessBuilder;
 use Symfony\Component\Process\Process;
+use DB;
 
 class Document extends Model
 {
@@ -50,11 +51,11 @@ class Document extends Model
         return $process->getOutput();
     }
 
-    public function searchIndex($documents, $queryTerm, $order, $mode){
+    public function searchIndex($documents, $queryTerm, $order, $mode, $searchMode){
         $index_command = array(
             env('APP_LOCATION') . 'index/script_index_engine_controller.py',
             "--command",
-            "QUERY",
+            $searchMode,
             "--query",
             $queryTerm,
             "--amount",
@@ -71,8 +72,15 @@ class Document extends Model
         }
         $result = $process->getOutput();
         $result_ids = array_map('intval', explode(' ', $result));
+        var_dump($result_ids);
+        $orderby_case = "CASE ";
+        for($x=0; $x<count($result_ids); $x++){
+            $orderby_case .= " WHEN id = " . $result_ids[$x] . " THEN " . $x . " ";
+        }
+        $orderby_case .= "END";
+        var_dump($orderby_case);
         if ($order == 'relevance'){
-            return $documents->whereIn('id', $result_ids)->orderByRaw('Field(id,' . implode(",", $result_ids) . ')');
+            return $documents->whereIn('id', $result_ids)->orderByRaw(DB::raw($orderby_case));
         }
         else{
             return $documents->whereIn('id', $result_ids)->orderBy($order, $mode);
