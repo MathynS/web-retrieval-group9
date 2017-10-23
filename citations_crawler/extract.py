@@ -18,10 +18,12 @@ LIMIT = 6603
 #Cookie file for less Captcha requests
 COOKIE = "cookies.txt"
 
+
 def citations_to_csv(n_citations):
     with open('citations.csv', 'a') as myfile:
         wr = csv.writer(myfile, quoting=csv.QUOTE_MINIMAL)
         wr.writerow(n_citations)
+
 
 def scrape_citation_count(p):
     scholar.ScholarConf.COOKIE_JAR_FILE = COOKIE
@@ -37,6 +39,7 @@ def scrape_citation_count(p):
         print("Google Scholar captcha :(")
         return -1
 
+
 def main():
     papers = Papers.select().limit(LIMIT)
     n_citations = []
@@ -50,6 +53,7 @@ def main():
         time.sleep(2)
     citations_to_csv(n_citations)
     print(n_citations)
+
 
 if __name__ == '__main__':
     main()

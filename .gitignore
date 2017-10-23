@@ -18,3 +18,4 @@ index/data/*.sqlite
 *.db
 .idea/workspace.xml
 .idea/web-retrieval-group9.iml
+rating_crawler/rating_comparison.png
