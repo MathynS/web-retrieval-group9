@@ -59,7 +59,7 @@ class Document extends Model
             "--query",
             $queryTerm,
             "--amount",
-            100
+            6560
             );
 
         $builder = new ProcessBuilder();
@@ -72,13 +72,13 @@ class Document extends Model
         }
         $result = $process->getOutput();
         $result_ids = array_map('intval', explode(' ', $result));
-        var_dump($result_ids);
+        // var_dump($result_ids);
         $orderby_case = "CASE ";
         for($x=0; $x<count($result_ids); $x++){
             $orderby_case .= " WHEN id = " . $result_ids[$x] . " THEN " . $x . " ";
         }
         $orderby_case .= "END";
-        var_dump($orderby_case);
+        // var_dump($orderby_case);
         if ($order == 'relevance'){
             return $documents->whereIn('id', $result_ids)->orderByRaw(DB::raw($orderby_case));
         }

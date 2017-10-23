@@ -77,7 +77,11 @@ class QueryController extends Controller
                 $documents = $this->document->filter($documents, $term, 'documents', 'year', '=', ',');
             }
             elseif(substr($term, 0, 6) == "title:"){
-                $document = $this->docuemnt->filter($documents, $queryTerm, $order, $mode, "QUERY_TITLE");
+                $searchTerm = explode(":", $term, 2)[1];
+                if (substr($searchTerm, 0, 1) === "\""){
+                    $searchTerm = substr($searchTerm, 1, -1);
+                }
+                $document = $this->document->searchIndex($documents, $searchTerm, $order, $mode, "QUERY_TITLE");
             }
             else{
                 $queryTerm = $term;
