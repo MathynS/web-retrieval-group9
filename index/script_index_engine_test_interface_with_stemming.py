@@ -4,11 +4,12 @@ import json
 import subprocess
 import sys
 from subprocess import PIPE
+from script_stemming import stemming
 
 query_content_cmd = 'QUERY_CONTENT'
 query_title_cmd = 'QUERY_TITLE'
 create_index_cmd = 'CREATE_INDEX'
-apply_stemming = False
+apply_stemming = True
 
 from optparse import OptionParser
 
@@ -22,20 +23,18 @@ parser.add_option("-a", "--amount-document", dest="amount", help="Enter the docu
 def create_index():
     # print("Executing: java -jar java-code/executable/indexengine.jar {0}".format(create_index_cmd))
     #subprocess.call(['java', '-jar', '/home/mathyn/Documents/web-retrieval-group9/index/java-code/executable/indexengine.jar', create_index_cmd])
-    subprocess.call(['java', '-jar', '/home/jorge/Documents/courses/third-quartile/information-retrieval/project/web-retrieval-group9/index/java-code/executable/indexengine.jar', create_index_cmd])
+    subprocess.call(['java', '-jar', '/home/jorge/Documents/courses/third-quartile/information-retrieval/project/web-retrieval-group9/index/java-code/executable/indexengine-with-stemming.jar', create_index_cmd])
     
-# TODO Add stemming for query & stopword removal
-def stemming(data):
-    return data
-
 def search_per_content(command, data, amount):
     # print("Executing: java -jar java-code/executable/indexengine.jar {0} {1} {2}".format(query_cmd, data, number_of_docs))
     if apply_stemming:
         data = stemming(data)
+    #print(data)
+    #exit(0)
     #search = subprocess.Popen(['java', '-jar', '/home',
                                #command, data, amount],
                               #stdout=subprocess.PIPE)
-    search = subprocess.Popen(['java', '-jar', '/home/jorge/Documents/courses/third-quartile/information-retrieval/project/web-retrieval-group9/index/java-code/executable/indexengine.jar', command, data, amount], stdout=subprocess.PIPE)
+    search = subprocess.Popen(['java', '-jar', '/home/jorge/Documents/courses/third-quartile/information-retrieval/project/web-retrieval-group9/index/java-code/executable/indexengine-with-stemming.jar', command, data, amount], stdout=subprocess.PIPE)
     output = search.communicate()
     print(output[0])
     return str(output[0], "utf-8").strip().split()
@@ -44,7 +43,7 @@ def search_per_title(command, data, amount):
     #search = subprocess.Popen(['java', '-jar', '/home/mathyn/Documents/web-retrieval-group9/index/java-code/executable/indexengine.jar',
                                #command, query, amount],
                               #stdout=subprocess.PIPE)
-    search = subprocess.Popen(['java', '-jar', '/home/jorge/Documents/courses/third-quartile/information-retrieval/project/web-retrieval-group9/index/java-code/executable/indexengine.jar', command, data, amount], stdout=subprocess.PIPE)
+    search = subprocess.Popen(['java', '-jar', '/home/jorge/Documents/courses/third-quartile/information-retrieval/project/web-retrieval-group9/index/java-code/executable/indexengine-with-stemming.jar', command, data, amount], stdout=subprocess.PIPE)
     output = search.communicate()
     print(output[0])
     return output[0]
@@ -52,8 +51,10 @@ if __name__ == '__main__':
     usage = """Usage
 * To create the index run: python3 CREATE_INDEX
 * To search documents in the index run: python3 QUERY [QUERY_DATA] [NUMBER_OF_DOCUMENTS]
-""" 
+"""
+    print(len(sys.argv))
     if len(sys.argv) >= 2:
+        print(options.command)
         if options.command == create_index_cmd:
             create_index()
         elif options.command == query_content_cmd and options.query is not None and options.amount is not None:
