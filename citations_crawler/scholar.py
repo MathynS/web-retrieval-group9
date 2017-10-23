@@ -289,7 +289,7 @@ class ScholarArticle(object):
             'title':         [None, 'Title',          0],
             'url':           [None, 'URL',            1],
             'year':          [None, 'Year',           2],
-                'num_citations': [0,    'Citations',      3],
+            'num_citations': [0,    'Citations',      3],
             'num_versions':  [0,    'Versions',       4],
             'cluster_id':    [None, 'Cluster ID',     5],
             'url_pdf':       [None, 'PDF link',       6],

@@ -10,8 +10,12 @@ from models import Papers, connect_to_db
 # Connect to the database
 connect_to_db('../nips-papers.db')
 
+#Starting point and ending point
+#Necessary due to Captchas interrupting cycles
 BEGIN = 6284
 LIMIT = 6603
+
+#Cookie file for less Captcha requests
 COOKIE = "cookies.txt"
 
 def citations_to_csv(n_citations):
@@ -22,15 +26,14 @@ def citations_to_csv(n_citations):
 def scrape_citation_count(p):
     scholar.ScholarConf.COOKIE_JAR_FILE = COOKIE
     query = scholar.SearchScholarQuery()
-    #query.set_author(p.author)
     query.set_words(p.title)
     querier = scholar.ScholarQuerier()
     querier.send_query(query)
-    #print(querier.articles[0].as_txt())
     try:
         print(querier.articles[0].attrs['num_citations'][0])
         return querier.articles[0].attrs['num_citations'][0]
     except:
+        #Practically only fails on Captchas or connection timeout
         print("Google Scholar captcha :(")
         return -1
 
