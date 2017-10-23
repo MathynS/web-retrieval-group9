@@ -1,0 +1,10 @@
+Noninfinitesimal algorithm 
+Bayesian framework 
+Nearest neighbours search algorithm for similarity comparison 
+Self-organization of associative database and its applications
+Associative database
+Storing covariance by the associative long-term potentiation and depression of synaptic strengths in the hippocampus 
+Storing potentiation of synaptic strengths 
+Neural networks
+Neural-network
+Sentiment of tweets on twitter 

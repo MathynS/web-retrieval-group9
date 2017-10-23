@@ -1,0 +1,2693 @@
+query sentence: Bayesian framework
+<<------------------------------------------------------------------------------------------------------------------------------------------->>
+title: 5537-a-statistical-decision-theoretic-framework-for-social-choice.pdf
+
+A Statistical Decision-Theoretic Framework for
+Social Choice
+Hossein Azari Soufiani
+David C. Parkes
+Lirong Xia
+Abstract
+In this paper we take a statistical decision-theoretic viewpoint on social choice
+putting a focus on the decision to be made on behalf of a system of agents In
+our framework we are given a statistical ranking model a decision space and a
+loss function defined on parameter decision pairs and formulate social choice
+mechanisms as decision rules that minimize expected loss This suggests a general
+framework for the design and analysis of new social choice mechanisms We
+compare Bayesian estimators which minimize Bayesian expected loss for the
+Mallows model and the Condorcet model respectively and the Kemeny rule We
+consider various normative properties in addition to computational complexity
+and asymptotic behavior In particular we show that the Bayesian estimator for the
+Condorcet model satisfies some desired properties such as anonymity neutrality
+and monotonicity can be computed in polynomial time and is asymptotically
+different from the other two rules when the data are generated from the Condorcet
+model for some ground truth parameter
+Introduction
+Social choice studies the design and evaluation of voting rules rank aggregation rules There
+have been two main perspectives reach a compromise among subjective preferences of agents or
+make an objectively correct decision The former has been extensively studied in classical social
+choice in the context of political elections while the latter is relatively less developed even though
+it can be dated back to the Condorcet Jury Theorem in the century
+In many multi-agent and social choice scenarios the main consideration is to achieve the second
+objective and make an objectively correct decision Meanwhile we also want to respect agents
+preferences and opinions and require the voting rule to satisfy well-established normative properties in social choice For example when a group of friends vote to choose a restaurant for dinner
+perhaps the most important goal is to find an objectively good restaurant but it is also important
+to use a good voting rule in the social choice sense Even for applications with less societal context using voting rules to aggregate rankings in meta-search engines recommender systems crowdsourcing semantic webs some social choice normative properties are still
+desired For example monotonicity may be desired which requires that raising the position of an
+alternative in any vote does not hurt the alternative in the outcome of the voting rule In addition
+we require voting rules to be efficiently computable
+Such scenarios propose the following new challenge How can we design new voting rules with
+good statistical properties as well as social choice normative properties
+To tackle this challenge we develop a general framework that adopts statistical decision theory
+Our approach couples a statistical ranking model with an explicit decision space and loss function
+azari@google.com Google Research New York NY USA. The work was done when the author
+was at Harvard University
+parkes@eecs.harvard.edu Harvard University Cambridge MA USA.
+xial@cs.rpi.edu Rensselaer Polytechnic Institute Troy NY USA.
+Anonymity neutrality Majority
+Consistency
+Monotonicity
+Condorcet
+Kemeny
+Bayesian est of
+uni prior
+Bayesian est of
+uni prior
+Complexity
+NP-hard
+NP-hard
+PNP
+hard
+PNP
+hard
+Theorem
+Theorem
+Min. Bayesian risk
+Table Kemeny for winners Bayesian estimators of and to choose winners
+Given these we can adopt Bayesian estimators as social choice mechanisms which make decisions
+to minimize the expected loss the posterior distribution on the parameters called the Bayesian
+risk This provides a principled methodology for the design and analysis of new voting rules
+To show the viability of the framework we focus on selecting multiple alternatives the alternatives
+that can be thought of as being tied for the first place under a natural extension of the loss
+function for two models let denote the Mallows model with fixed dispersion and let
+denote the Condorcet model proposed by Condorcet in the century In both models the
+dispersion parameter denoted is taken as a fixed parameter The difference is that in the Mallows
+model the parameter space is composed of all linear orders over alternatives while in the Condorcet
+model the parameter space is composed of all possibly cyclic rankings over alternatives irreflexive
+antisymmetric and total binary relations is a natural model that captures real-world scenarios
+where the ground truth may contain cycles or agents preferences are cyclic but they have to report
+a linear order due to the protocol More importantly as we will show later a Bayesian estimator on
+is superior from a computational viewpoint
+Through this approach we obtain two voting rules as Bayesian estimators and then evaluate them
+with respect to various normative properties including anonymity neutrality monotonicity the majority criterion the Condorcet criterion and consistency Both rules satisfy anonymity neutrality
+and monotonicity but fail the majority criterion Condorcet criterion,1 and consistency Admittedly
+the two rules do not enjoy outstanding normative properties but they are not bad either We also
+investigate the computational complexity of the two rules Strikingly despite the similarity of the
+two models the Bayesian estimator for can be computed in polynomial time while computing
+the Bayesian estimator for is PNP
+hard which means that it is at least NP-hard Our results are
+summarized in Table
+We also compare the asymptotic outcomes of the two rules with the Kemeny rule for winners
+which is a natural extension of the maximum likelihood estimator of proposed by Fishburn
+It turns out that when votes are generated under all three rules select the same winner
+asymptotically almost surely as When the votes are generated according to
+the rule for still selects the same winner as Kemeny however for some parameters the
+winner selected by the rule for is different with non-negligible probability These are confirmed
+by experiments on synthetic datasets
+Related work Along the second perspective in social choice to make an objectively correct decision in addition to Condorcet?s statistical approach to social choice most previous work
+in economics political science and statistics focused on extending the theorem to heterogeneous
+correlated or strategic agents for two alternatives see among many others Recent work in
+computer science views agents votes as samples from a statistical model and computes the
+MLE to estimate the parameters that maximize the likelihood 33 32 29 A limitation
+of these approaches is that they estimate the parameters of the model but may not directly inform
+the right decision to make in the multi-agent context The main approach has been to return the
+modal rank order implied by the estimated parameters or the alternative with the highest predicted
+marginal probability of being ranked in the top position
+There have also been some proposals to go beyond MLE in social choice In fact Young
+proposed to select a winning alternative that is most likely to be the best top-ranked in the true
+ranking and provided formulas to compute it for three alternatives This idea has been formalized
+and extended by Procaccia to choose a given number of alternatives with highest marginal
+The new voting rule for fails them for all
+probability under the Mallows model More recently independent to our work Elkind and Shah
+investigated a similar question for choosing multiple winners under the Condorcet model We
+will see that these are special cases of our proposed framework in Example Pivato conducted
+a similar study to Conitzer and Sandholm examining voting rules that can be interpreted as
+expect-utility maximizers
+We are not aware of previous work that frames the problem of social choice from the viewpoint
+of statistical decision theory which is our main conceptual contribution Technically the approach
+taken in this paper advocates a general paradigm of design by statistics evaluation by social choice
+and computer science We are not aware of a previous work following this paradigm to design
+and evaluate new rules Moreover the normative properties for the two voting rules investigated in
+this paper are novel even though these rules are not really novel Our result on the computational
+complexity of the first rule strengthens the NP-hardness result by Procaccia and the
+complexity for the second rule Theorem was independently discovered by Elkind and Shah
+The statistical decision-theoretic framework is quite general allowing considerations such as estimators that minimize the maximum expected loss or the maximum expected regret In a different
+context focused on uncertainty about the availability of alternatives Lu and Boutilier adopt a
+decision-theoretic view of the design of an optimal voting rule Caragiannis studied the
+robustness of social choice mechanisms model uncertainty and characterized a unique social
+choice mechanism that is consistent a large class of ranking models
+A number of recent papers in computational social choice take utilitarian and decision-theoretical
+approaches towards social choice Most of them evaluate the joint decision agents
+subjective preferences for example the sum of agents subjective utilities the social welfare
+We don?t view this as fitting into the classical approach to statistical decision theory as formulated
+by Wald In our framework the joint decision is evaluated objectively the ground truth in
+the statistical model Several papers in machine learning developed algorithms to compute MLE or
+Bayesian estimators for popular ranking models 19 but without considering the normative
+properties of the estimators
+Preliminaries
+In social choice we have a set of alternatives cm and a set of agents Let
+denote the set of all linear orders over C. For any alternative let Lc denote the set
+of linear orders over where is ranked at the top Agent uses a linear order Vj to
+represent her preferences called her vote The collection of agents votes is called a profile denoted
+by Vn A irresolute voting rule L(C)n selects a set of winners that
+are tied for the first place for every profile of votes
+For any pair of linear orders let Kendall(V denote the Kendall-tau distance between
+and that is the number of different pairwise comparisons in and The Kemeny rule
+Kemeny-Young method selects all linear orders with the minimum Kendall-tau distance from the preference profile that is Kemeny(P arg minW Kendall(P The most
+well-known variant of Kemeny to select winning alternatives denoted by KemenyC is due to Fishburn who defined it as a voting rule that selects all alternatives that are ranked in the top
+position of some winning linear orders under the Kemeny rule That is KemenyC top(V
+Kemeny(P where top(V is the top-ranked alternative in
+Voting rules are often evaluated by the following normative properties An irresolute rule satisfies
+anonymity if is insensitive to permutations over agents
+neutrality if is insensitive to permutations over alternatives
+monotonicity if for any r(P and any that is obtained from by only raising the
+positions of in one or multiple votes then r(P
+Condorcet criterion if for any profile where a Condorcet winner exists it must be the unique
+winner A Condorcet winner is the alternative that beats every other alternative in pair-wise elections
+majority criterion if for any profile where an alternative is ranked in the top positions for more
+than half of the votes then r(P If satisfies Condorcet criterion then it also satisfies the
+majority criterion
+consistency if for any pair of profiles P1 P2 with
+For any profile its weighted majority graph denoted by WMG(P is a weighted directed
+graph whose vertices are and there is an edge between any pair of alternatives with weight
+wP a
+A parametric model Pr is composed of three parts a parameter space a sample
+space composing of all datasets and a set of probability distributions over indexed by elements
+of for each the distribution indexed by is denoted by
+Given a parametric model a maximum likelihood estimator MLE is a function fMLE
+such that for any data fMLE is a parameter that maximizes the likelihood of the data
+That is fMLE arg Pr(P
+In this paper we focus on parametric ranking models Given a parametric ranking model MC
+Pr is composed of a parameter space and a distribution over for each
+such that for any number of voters the sample space is Sn L(C)n where each vote is
+generated
+from Hence for any profile Sn and any we have Pr(P
+Pr(V We omit the sample space because it is determined by and
+Definition In the Mallows model a parameter is composed of a linear order
+and
+parameter with For any profile and
+Pr(P
+a dispersion
+Kendall(V,W
+Kendall(V,W
+where
+is
+the
+normalization
+factor
+with
+Statistical decision theory studies scenarios where the decision maker must make a decision
+based on the data generated from a parametric model generally Pr). The
+quality of the decision is evaluated by a loss function which takes the true parameter
+and the decision as inputs
+In this paper we focus on the Bayesian principle of statistical decision theory to design social
+choice mechanisms as choice functions that minimize the Bayesian risk under a prior distribution
+over More precisely the Bayesian risk RB is the expected loss of the decision when
+the parameter is generated according to the posterior distribution given data That is RB
+Given a parametric model a loss function and a prior distribution over a
+deterministic Bayesian estimator fB is a decision rule that makes a deterministic decision in
+to minimize the Bayesian risk that is for any fB arg mind RB We focus on
+deterministic estimators in this work and leave randomized estimators for future research
+Example When is discrete an MLE of a parametric model is a Bayesian estimator of the
+statistical decision problem under the uniform prior distribution where is
+the loss function such that if otherwise
+In this sense all previous MLE approaches in social choice can be viewed as the Bayesian estimators
+of a statistical decision-theoretic framework for social choice where a loss function and
+the uniform prior
+Our Framework
+Our framework is quite general and flexible because we can choose any parametric ranking model
+any decision space any loss function and any prior to use the Bayesian estimators social choice
+mechanisms Common choices of both and are and
+Definition A statistical decision-theoretic framework for social choice is a tuple
+MC where is the set of alternatives MC Pr is a parametric ranking model
+is the decision space and is a loss function
+Let denote the set of all irreflexive antisymmetric and total binary relations over C. For
+any let Bc denote the relations in where a for all a It follows
+that and moreover the Kendall-tau distance can be defined to count the number of
+pairwise disagreements between elements of
+In the rest of the paper we focus on the following two parametric ranking models where the dispersion is a fixed parameter
+This notation should not be taken to mean a conditional distribution over unless we are taking a Bayesian
+point of view
+Definition Mallows model with fixed dispersion and the Condorcet model Let denote
+the Mallows model with fixed dispersion where the parameter space is and given any
+is in the Mallows model where is fixed
+In the Condorcet model the parameter space is For any and any profile
+we have Pr(P Z1 Kendall(V,W where is the normalization factor such that
+Kendall(V,W and parameter is fixed.3
+and degenerate to the Condorcet model for two alternatives The Kemeny rule that
+selects a linear order is an MLE of for any
+We now formally define two statistical decision-theoretic frameworks associated with and
+which are the focus of the rest of our paper
+Definition For or any and any we define a loss function Ltop
+such that Ltop if for all in otherwise Ltop
+Let 2C Ltop and 2C Ltop where for any Ltop
+c?C Ltop Let fB respectively fB denote the Bayesian estimators of respectively
+under the uniform prior
+We note that Ltop in the above definition takes a parameter and a decision in 2C as inputs which
+makes it different from the loss function that takes a pair of parameters as inputs as the
+one in Example Hence fB1 and fB2 are not the MLEs of their respective models as was the
+case in Example We focus on voting rules obtained by our framework with Ltop Certainly our
+framework is not limited to this loss function
+Example Bayesian estimators fB1 and fB2 coincide with Young idea of selecting the alternative that is most likely to be the best top-ranked in the true ranking under and
+respectively This gives a theoretical justification of Young?s idea and other followups under
+our framework Specifically fB1 is similar to rule studied by Procaccia and fB2 was
+independently studied by Elkind and Shah
+Normative Properties of Bayesian Estimators
+All omitted proofs can be found in the full version on arXiv
+Theorem For any fB1 satisfies anonymity neutrality and monotonicity fB1 does not satisfy
+majority or the Condorcet criterion for any and it does not satisfy consistency
+Proof sketch Anonymity and neutrality are obviously satisfied
+Monotonicity Monotonicity follows from the following lemma
+Lemma For any let denote a profile obtained from by raising the position of in
+one vote For any Lc Pr(P Pr(P for any and any Lb
+Pr(P Pr(P
+Majority and the Condorcet criterion Let c3 cm We construct a profile
+where is ranked in the top positions for more than half of the votes but fB1
+For any let denote a profile composed of copies of c3 cm of
+cm c3 and copies of cm c3 It is not hard to verify that
+the WMG of is as in Figure
+Then we prove that for any
+we can find and so that
+Lc
+Lb
+Pr(P
+Pr(P
+It follows that is the Condorcet winner in but it does not
+minimize the Bayesian risk under which means that it is not the winner under fB1
+In the Condorcet model the sample space is B(C)n We study a variant with sample space L(C)n
+Characterizing majority and Condorcet criterion of fB
+for is an open question
+c3
+c4
+2k
+2k
+2k
+2k
+4k
+c3
+cm
+The WMG of
+2k
+2k
+c4
+c3
+2k
+4k
+c4
+The WMGs of P1 left and P2 right
+a
+WMG of 6P
+The WMG of Thm
+Figure WMGs of the profiles for proofs for majority and Condorcet Thm for consistency
+Thm for computational complexity Thm
+Consistency We construct an example to show that fB1 does not satisfy consistency In our construction and are even and c3 c4 Let P1 and P2 denote profiles whose WMGs are
+as shown in Figure respectively We have the following lemma
+Lemma Let P2
+Pr(P
+Lc
+Pr(P
+4k
+For any
+2k for all It is not hard to verify that fB fB
+and fB P2 which means that fB is not consistent
+Similarly we can prove the following theorem for fB2
+Theorem For any fB2 satisfies anonymity neutrality and monotonicity It does not satisfy
+majority the Condorcet criterion or consistency
+By Theorem and fB1 and fB2 do not satisfy as many desired normative properties as the Kemeny
+rule for winners On the other hand they minimize Bayesian risk under and respectively
+for which Kemeny does neither In addition neither fB1 nor fB2 satisfy consistency which means
+that they are not positional scoring rules
+Computational Complexity
+We consider the following two types of decision problems
+Definition In the BETTER BAYESIAN DECISION problem for a statistical decision-theoretic
+framework MC under a prior distribution we are given d1 d2 and a profile We are
+asked whether RB d1 RB d2
+We are also interested in checking whether a given alternative is the optimal decision
+Definition In the OPTIMAL BAYESIAN DECISION problem for a statistical decision-theoretic
+framework MC under a prior distribution we are given and a profile We are
+asked whether minimizes the Bayesian risk RB
+PNP
+is the class of decision problems that can be computed by a oracle machine with polynomial
+NP
+number of parallel calls to an NP oracle A decision problem A is PNP
+hard if for any problem
+there exists a polynomial-time many-one reduction from to A. It is known that PNP
+hard
+problems are NP-hard
+Theorem For any BETTER BAYESIAN DECISION and OPTIMAL BAYESIAN DECISION for
+under uniform prior are PNP
+hard
+Proof The hardness of both problems is proved by a unified reduction from the EMENY WINNER
+problem which is PNP
+complete In a EMENY WINNER problem we are given a profile and
+an alternative and we are asked if is ranked in the top of at least one that minimizes
+Kendall(P
+For any alternative the Kemeny score of under is the smallest distance between the profile
+and any linear order where is ranked in the top We next prove that when
+the Bayesian
+risk of is largely determined by the Kemeny score of
+any and any profile if the Kemeny score of is strictly
+Lemma For any
+smaller than the Kemeny score of in then RB RB for
+Let be any natural number such that
+For any EMENY WINNER instance for
+alternatives we add two more alternatives and define a profile whose WMG is as
+shown in Figure using McGarvey?s trick The WMG of contains the WMG(P as a
+subgraph where the weights are times the weights in WMG(P
+Then we let tP which is copies of It follows that for any Pr(P
+Pr(P By Lemma if an alternative has the strictly lowest Kemeny score for profile
+then it the unique alternative that minimizes the Bayesian risk for and dispersion parameter
+which means that minimizes the Bayesian risk for and dispersion parameter
+Let denote the set of linear orders over that minimizes the Kendall tau distance from and let
+denote this minimum distance Choose an arbitrary Let a It follows
+that Kendall(P If there exists where is ranked in the top position then
+we let a We have Kendall(P If is not a Kemeny
+winner in then for any where is not ranked in the top position Kendall(P
+Therefore a minimizes the Bayesian risk if and only if is a Kemeny winner in and if does not
+minimize the Bayesian risk then does Hence BETTER DECISION checking if a is better than
+and OPTIMAL BAYESIAN DECISION checking if a is the optimal alternative are PNP
+hard
+We note that OPTIMAL BAYESIAN DECISION in Theorem is equivalent to checking whether a
+given alternative is in fB1 We do not know whether these problems are PNP
+complete In
+sharp contrast to fB the next theorem states that fB under uniform prior is in P.
+Theorem For any rational number5 BETTER BAYESIAN DECISION and OPTIMAL BAYESIAN
+under uniform prior are in P.
+DECISION for
+The theorem is a corollary of the following stronger theorem that provides a closed-form formula
+for Bayesian loss for We recall that for any profile and any pair of alternatives that
+wP is the weight on in the weighted majority graph of
+Theorem For under uniform prior for any and any profile RB
+wP
+The comparisons of Kemeny fB1 and fB2 are summarized in Table According to the criteria we
+consider none of the three outperforms the others Kemeny does well in normative properties but
+does not minimize Bayesian risk under either or and is hard to compute fB1 minimizes the
+Bayesian risk under but is hard to compute We would like to highlight fB2 which minimizes
+the Bayesian risk under and more importantly can be computed in polynomial time despite the
+similarity between and
+Asymptotic Comparisons
+In this section we ask the following question as the number of voters what is the
+probability that Kemeny fB1 and fB2 choose different winners We show that when the data is
+generated from all three methods are equal asymptotically almost surely that is they
+are equal with probability as
+Theorem Let Pn denote a profile of votes generated from given Lc Then
+Prn Kemeny(Pn fB1 Pn fB2 Pn
+However when the data are generated from we have a different story
+Theorem For any and any fB1 Pn Kemeny(Pn as and votes in
+Pn are generated from given
+For any there exists such that for any there exists such that with
+probability at least fB1 Pn fB2 Pn and Kemeny(Pn fB2 Pn as and votes in Pn
+are generated from given
+We require to be rational to avoid representational issues
+The formula resembles Young?s calculation for three alternatives where it was not clear whether the
+calculation was done for Recently it was clarified by Xia that this is indeed the case
+c1
+c5
+c2
+c4
+c3
+for
+Probability that is different from Kemeny under
+Figure The ground truth and asymptotic comparisons between Kemeny and in Definition
+Proof sketch The first part of Theorem is proved by the Central Limit Theorem For the second
+part the proof for uses an acyclic illustrated in Figure
+Theorem suggests that when is large and the votes are generated from it does not matter
+much which of fB1 fB2 and Kemeny we use A similar observation has been made for other voting
+rules by Caragiannis On the other hand Theorem states that when the votes are generated
+from interestingly for some ground truth parameter fB2 is different from the other two with
+non-negligible probability and as we will see in the experiments this probability can be quite large
+Experiments
+We focus on the comparison between rule fB2 and Kemeny using synthetic data generated from
+given the binary relation illustrated in Figure By Theorem the computation involves
+computing which is exponentially small for large since Hence we need a special
+data structure to handle the computation of fB2 because a straightforward implementation easily
+loses precision In our experiments we use the following approximation for fB2
+Definition For any and profile let b:wP wP Let be the voting
+rule such that for any profile g(P arg minc
+In words selects the alternative with the minimum total weight on the incoming edges in the
+WMG. By Theorem the Bayesian risk is largely determined by Therefore is a good
+approximation of fB2 with reasonably large Formally this is stated in the following theorem
+Theorem For any and any fB2 Pn g(Pn as and votes in Pn are
+generated from given
+In our experiments data are generated by given in Figure for
+and For each setting we generate profiles and
+calculate the fraction of trials in which and Kemeny are different The results are shown in Figuire We observe that for and the probability for g(Pn Kemeny(Pn is about
+for most in our experiments when the probability is about In light of Theorem these results confirm Theorem We have also conducted similar experiments for and
+found that the winner is the same as the Kemeny winner in all randomly generated profiles
+with This provides a check for Theorem
+Acknowledgments
+We thank Shivani Agarwal Craig Boutilier Yiling Chen Vincent Conitzer Edith Elkind Ariel
+Procaccia and anonymous reviewers of AAAI-14 and NIPS-14 for helpful suggestions and discussions Azari Soufiani acknowledges Siebel foundation for the scholarship in his last year of PhD
+studies Parkes was supported in part by NSF grant CCF and the SEAS TomKat fund
+Xia acknowledges an RPI startup fund for support
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 1726-a-variational-baysian-framework-for-graphical-models.pdf
+
+A Variational Bayesian Framework for
+Graphical Models
+Hagai Attias
+hagai@gatsby.ucl.ac.uk
+Gatsby Unit University College London
+17 Queen Square
+London WC1N U.K.
+Abstract
+This paper presents a novel practical framework for Bayesian model
+averaging and model selection in probabilistic graphical models
+Our approach approximates full posterior distributions over model
+parameters and structures as well as latent variables in an analytical manner These posteriors fall out of a free-form optimization
+procedure which naturally incorporates conjugate priors Unlike
+in large sample approximations the posteriors are generally nonGaussian and no Hessian needs to be computed Predictive quantities are obtained analytically The resulting algorithm generalizes
+the standard Expectation Maximization algorithm and its convergence is guaranteed We demonstrate that this approach can be
+applied to a large class of models in several domains including
+mixture models and source separation
+Introduction
+A standard method to learn a graphical model from data is maximum likelihood
+Given a training dataset ML estimates a single optimal value for the model
+parameters within a fixed graph structure However ML is well known for its tendency to overfit the data Overfitting becomes more severe for complex models
+involving high-dimensional real-world data such as images speech and text Another problem is that ML prefers complex models since they have more parameters
+and fit the data better Hence ML cannot optimize model structure
+The Bayesian framework provides in principle a solution to these problems Rather
+than focusing on a single model a Bayesian considers a whole finite or infinite class
+of models For each model its posterior probability given the dataset is computed
+Predictions for test data are made by averaging the predictions of all the individual models weighted by their posteriors Thus the Bayesian framework avoids
+overfitting by integrating out the parameters In addition complex models are
+automatically penalized by being assigned a lower posterior probability therefore
+optimal structures can be identified
+Unfortunately computations in the Bayesian framework are intractable even for
+lWe use the term model to refer collectively to parameters and structure
+H. Attias
+very simple cases factor analysis see Most existing approximation methods fall into two classes Markov chain Monte Carlo methods and large sample
+methods Laplace approximation MCMC methods attempt to achieve exact
+results but typically require vast computational resources and become impractical
+for complex models in high data dimensions Large sample methods are tractable
+but typically make a drastic approximation by modeling the posteriors over all
+parameters as Normal even for parameters that are not positive definite covariance matrices In addition they require the computation ofthe Hessian which
+may become quite intensive
+In this paper I present Variational Bayes a practical framework for Bayesian
+computations in graphical models VB draws together variational ideas from intractable latent variables models and from Bayesian inference which in
+turn draw on the work of This framework facilitates analytical calculations of
+posterior distributions over the hidden variables parameters and structures The
+posteriors fall out of a free-form optimization procedure which naturally incorporates conjugate priors and emerge in standard forms only one of which is Normal
+They are computed via an iterative algorithm that is closely related to Expectation
+Maximization and whose convergence is guaranteed No Hessian needs to
+be computed In addition averaging over models to compute predictive quantities
+can be performed analytically Model selection is done using the posterior over
+structure in particular the BIC/MDL criteria emerge as a limiting case
+General Framework
+We restrict our attention in this paper to directed acyclic graphs DAGs
+Bayesian networks Let denote the visible data nodes where
+runs over the data instances and let XN denote the
+hidden nodes Let denote the parameters which are simply additional hidden
+nodes with their own distributions A model with a fixed structure is fully defined
+by the joint distribution elm In a DAG this joint factorizes over the
+nodes p(Y,X I TIiP(Ui I pai,Oi,m where Ui YUX pai is the set
+of parents of Ui and Oi parametrize the edges directed toward Ui. In addition
+we usually assume independent instances Ie TIn p(y Xn Ie
+We shall also consider a set of structures where controls the number
+of hidden nodes and the functional forms of the dependencies Ui I pai
+including the range of values assumed by each node the number of components
+in a mixture model Associated with the set of structures is a structure prior
+Marginal likelihood and posterior over parameters For a fixed structure
+we are interested in two quantities The first is the parameter posterior distribution
+p(e I The second is the marginal likelihood p(Y I also known as the
+evidence assigned to structure by the data In the following the
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 4752-bayesian-hierarchical-reinforcement-learning.pdf
+
+Bayesian Hierarchical Reinforcement Learning
+Soumya Ray
+Department of EECS
+Case Western Reserve University
+Cleveland OH
+sray@case.edu
+Feng Cao
+Department of EECS
+Case Western Reserve University
+Cleveland OH
+fxc100@case.edu
+Abstract
+We describe an approach to incorporating Bayesian priors in the MAXQ framework
+for hierarchical reinforcement learning We define priors on the primitive
+environment model and on task pseudo-rewards Since models for composite tasks
+can be complex we use a mixed model-based/model-free learning approach to
+find an optimal hierarchical policy We show empirically that our approach
+results in improved convergence over non-Bayesian baselines using both task
+hierarchies and Bayesian priors is better than either alone iii taking advantage
+of the task hierarchy reduces the computational cost of Bayesian reinforcement
+learning and in this framework task pseudo-rewards can be learned instead of
+being manually specified leading to hierarchically optimal rather than recursively
+optimal policies
+Introduction
+Reinforcement learning is a well known framework that formalizes decision making in unknown uncertain environments RL agents learn policies that map environment states to available
+actions while optimizing some measure of long-term utility While various algorithms have been developed for RL and applied successfully to a variety of tasks the standard RL setting suffers
+from at least two drawbacks First it is difficult to scale standard RL approaches to large state spaces
+with many factors the well-known curse of dimensionality Second vanilla RL approaches do
+not incorporate prior knowledge about the environment and good policies
+Hierarchical reinforcement learning HRL attempts to address the scaling problem by simplifying the overall decision making problem in different ways For example one approach introduces
+macro-operators for sequences of primitive actions Planning at the level of these operators may
+result in simpler policies Another idea is to decompose the task?s overall value function for
+example by defining task hierarchies or partial programs with choice points The structure
+of the decomposition provides several benefits first for the higher level subtasks policies are
+defined by calling lower level subtasks which may themselves be quite complex as a result
+policies for higher level subtasks may be expressed compactly Second a task hierarchy or partial
+program can impose constraints on the space of policies by encoding knowledge about the structure
+of good policies and thereby reduce the search space Third learning within subtasks allows state
+abstraction that is some state variables can be ignored because they do not affect the policy within
+that subtask This also simplifies the learning problem
+While HRL attempts to address the scalability issue it does not take into account probabilistic prior
+knowledge the agent may have about the task For example the agent may have some idea about
+where high/low utility states may be located and what their utilities may be or some idea about the
+approximate shape of the value function or policy Bayesian reinforcement learning addresses this
+issue by incorporating priors on models value functions or policies Specifying good
+priors leads to many benefits including initial good policies directed exploration towards regions
+of uncertainty and faster convergence to the optimal policy
+In this paper we propose an approach that incorporates Bayesian priors in hierarchical reinforcement
+learning We use the MAXQ framework that decomposes the overall task into subtasks so that
+value functions of the individual subtasks can be combined to recover the value function of the
+overall task We extend this framework by incorporating priors on the primitive environment model
+and on task pseudo-rewards In order to avoid building models for composite tasks which can
+be very complex we adopt a mixed model-based/model-free learning approach We empirically
+evaluate our algorithm to understand the effect of the priors in addition to the task hierarchy Our
+experiments indicate that taking advantage of probabilistic prior knowledge can lead to faster
+convergence even for HRL task hierarchies and Bayesian priors can be complementary sources
+of information and using both sources is better than either alone iii taking advantage of the task
+hierarchy can reduce the computational cost of Bayesian RL which generally tends to be very
+high and task pseudo-rewards can be learned instead of being manually specified leading to
+automatic learning of hierarchically optimal rather than recursively optimal policies In this way
+Bayesian RL and HRL are synergistic Bayesian RL improves convergence of HRL and can learn
+hierarchy parameters while HRL can reduce the significant computational cost of Bayesian RL.
+Our work assumes the probabilistic priors to be given in advance and focuses on learning with
+them Other work has addressed the issue of obtaining these priors For example one source of
+prior information is multi-task reinforcement learning where an agent uses the solutions of
+previous RL tasks to build priors over models or policies for future tasks We also assume the task
+hierarchy is given Other work has explored learning MAXQ hierarchies in different settings
+Background and Related Work
+In the MAXQ framework each composite subtask Ti defines a semi-Markov decision process with
+parameters hSi Ci Gi Si defines the set of non-terminal states for Ti where Ti may be
+called by its parent Gi defines a set of goal states for Ti The actions available within Ti are
+described by the set of child tasks Ci Finally denotes the set of relevant state variables for
+Ti Often we unify the non-Si states and Gi into a single termination predicate Pi An a s0
+triple where Pi is false Pi is true a Ci and the transition probability
+can be defined over exits to
+is called an exit of the subtask Ti A pseudo-reward function
+express preferences over the possible exits of a subtask
+A hierarchical policy for the overall task is an assignment of a local policy to each SMDP Ti
+A hierarchically optimal policy is a hierarchical policy that has the maximum expected reward A
+hierarchical policy is said to be recursively optimal if the local policy for each subtask is optimal
+given that all its subtask policies are optimal Given a task graph model-free or model-based
+methods can be used to learn value functions for each task-subtask pair In the model-free method
+a policy is produced by maintaining a value and a completion function for each subtask For a task
+the value denotes the expected value of calling child task a in state This is recursively
+estimated as the expected reward obtained while executing a The completion function
+denotes the expected reward obtained while completing after having called a in The central idea
+behind MAXQ is that the value of can be recursively decomposed in terms of
+and The model-based RMAXQ algorithm extends RMAX to MAXQ by learning
+models for all primitive and composite tasks Value iteration is used with these models to learn a
+policy for each subtask An optimistic exploration strategy is used together with a parameter that
+determines how often a transition or reward needs to be seen to be usable in the planning step
+In the MAXQ framework pseudo-rewards must be manually specified to learn hierarchically optimal
+policies Recent work has attempted to directly learn hierarchically optimal policies for ALisp
+partial programs that generalize MAXQ task hierarchies using a model-free approach Here
+along with task value and completion functions an external function QE is maintained for each
+subtask This function stores the reward obtained after the parent of a subtask exits A problem here
+is that this hurts state abstraction since QE is no longer local to a subtask In later work
+this is addressed by recursively representing QE in terms of task value and completion functions
+linked by conditional probabilities of parent exits given child exits The conditional probabilities
+and recursive decomposition are used to compute QE as needed to select actions
+Bayesian reinforcement learning methods incorporate probabilistic prior knowledge on models
+value functions policies or combinations One Bayesian model-based RL algorithm
+proceeds as follows At each step a distribution over model parameters is maintained At each
+step a model is sampled from this distribution Thompson sampling This model is then
+solved and actions are taken according to the policy obtained This yields observations that are used
+to update the parameters of the current distribution to create a posterior distribution over models
+This procedure is then iterated to convergence Variations of this idea have been investigated for
+example some work converts the distribution over models to an empirical distribution over Qfunctions and produces policies by sampling from this distribution instead
+Relatively little work exists that attempts to incorporate probabilistic priors into HRL. We have
+found one preliminary attempt that builds on the RMAX MAXQ method This approach
+adds priors to each subtask model and performs separate Bayesian model-based learning for each
+subtask In our approach we do not construct models for subtasks which can be very complex
+in general Instead we only maintain distributions over primitive actions and use a mixed modelbased/model-free learning algorithm that is naturally integrated with the standard MAXQ learning
+algorithm Further we show how to learn pseudo-rewards for MAXQ in the Bayesian framework
+Bayesian MAXQ Algorithm
+In this section we describe our approach to incorporating probabilistic priors into MAXQ We use
+priors over primitive models and pseudo-rewards As we explain below pseudo-rewards are value
+functions thus our approach uses priors both on models and value functions While such an integration may not be needed for standard Bayesian RL it appears naturally in our setting
+We first describe our approach to incorporating priors on environment models alone assuming
+pseudo-rewards are fixed We do this following the Bayesian model-based RL framework At
+each step we have a distribution over environment models initially the prior The algorithm has
+two main subroutines the main BAYESIAN MAXQ routine Algorithm and an auxiliary ECOM PUTE VALUE routine Algorithm In this description the value and completion functions
+are assumed to be global At the start of each episode the BAYESIAN MAXQ routine is called with
+the Root task and the initial state for the current episode The MAXQ execution protocol is then
+followed where each task chooses an action based on its current value function initially random
+When a primitive action is reached and executed it updates the posterior over model parameters
+Line and its own value estimate which is just the reward function for primitive actions When
+a task exits and returns to its parent the parent subsequently updates its completion function based
+on the current estimates of the value of the exit state Lines and Note that in MAXQ the
+value function of a composite task can be recursively computed using the completion functions of
+subtasks and the rewards obtained by executing primitive actions so we do not need to separately
+store or update the value functions except for the primitive actions where the value function is the
+reward Finally each primitive action maintains a count of how many times it has been executed
+and each composite task maintains a count of how many child actions have been taken
+When an algorithm parameter steps have been executed in a composite task BAYESIAN MAXQ
+calls ECOMPUTE VALUE to re-estimate the value and completion functions the check on is
+shown in ECOMPUTE VALUE Line When activated this function recursively re-estimates the
+value/completion functions for all subtasks of the current task At the level of a primitive action
+this simply involves resampling the reward and transition parameters from the current posterior
+over models For a composite task we use the MAXQ algorithm Table in We run this
+algorithm for Sim episodes starting with the current subtask as the root with the current pseudoreward estimates we explain below how these are obtained This algorithm recursively updates the
+completion function of the task graph below the current task Note that in this step the subtasks
+with primitive actions use model-based updates That is when a primitive action is executed in
+such tasks the currently sampled transition function part of in Line is used to find the next
+state and then the associated reward is used to update the completion function This is similar to
+Lines and in BAYESIAN MAXQ except that it uses the sampled model instead of the
+While we believe this description is accurate unfortunately due to language issues and some missing
+technical and experimental details in the cited article we have been unable to replicate this work
+Algorithm BAYESIAN MAXQ
+Input Task State Update Interval Simulation Episodes Sim
+Output Next state s0 steps taken cumulative reward CR
+if is primitive then
+Execute observe s0
+Update current posterior parameters using s0
+Update current value estimate
+Count(i Count(i
+return
+else
+CR taskStack Stack(){i is composite
+while is not terminated do
+ECOMPUTE VALUE(i Sim
+a greedy action from
+hs0 Na cri BAYESIAN MAXQ(a
+taskStack.push(ha
+a cri
+s0 a0 s0
+as0 arg maxa0
+Na s0 s0
+s0
+s0 s0
+Na
+s0 CR CR cr Na Count(i Count(i
+end while
+s0
+PDATE PSEUDO REWARD(taskStack
+return CR
+end if
+Algorithm ECOMPUTE VALUE
+Input Task Update Interval Simulation Episodes Sim
+Output Recomputed value and completion functions for the task graph below and including
+if Count(i then
+return
+end if
+if is primitive then
+Sample new transition and reward parameters from current posterior
+else
+for all child tasks a of do
+ECOMPUTE VALUE(a Sim
+end for
+for Sim episodes do
+random nonterminal state of
+Run MAXQ
+end for
+end if
+Count(i
+real environment After ECOMPUTE VALUE terminates a new set of value/completion functions
+are available for BAYESIAN MAXQ to use to select actions
+Next we discuss task pseudo-rewards A PR is a value associated with a subtask exit that
+defines how good that exit is for that subtask The ideal PR for an exit is the expected reward under
+the hierarchically optimal policy after exiting the subtask until the global task Root ends thus the
+PR is a value function This PR would enable the subtask to choose the right exit in the context
+of what the rest of the task hierarchy is doing In standard MAXQ these have to be set manually
+This is problematic because it presupposes quite detailed knowledge of the hierarchically optimal
+policy Further setting the wrong PRs can result in non-convergence or highly suboptimal policies
+Sometimes this problem is sidestepped simply by setting all PRs to zero resulting in recursively
+optimal policies However it is easy to construct examples where a recursively optimal policy
+Algorithm PDATE PSEUDO REWARD
+Input taskStack Parent?s pseudo reward
+tempCR Rp Na cr
+while taskStack is not empty do
+ha Na cri taskStack.pop
+tempCR Na tempCR cr0
+using tempCR
+Update pseudo-reward posterior for
+from
+Resample
+Na0 Na cr0 cr
+end while
+is arbitrarily worse than the hierarchically optimal policy For all these reasons PRs are major
+nuisance parameters in the MAXQ framework
+What makes learning PRs tricky is that they are not only value functions but also function as parameters of MAXQ That is setting different PRs essentially results in a new learning problem For
+this reason simply trying to learn PRs in a standard temporal difference way fails as we show
+in our experiments Fortunately Bayesian RL allows us to address both these issues First we
+can treat value functions as probabilistic unknown parameters Second and more importantly a key
+idea in Bayesian RL is the lifting of exploration to the space of task parameters That is instead
+of exploration through action selection Bayesian RL can perform exploration by sampling task parameters Thus treating a PR as an unknown Bayesian parameter also leads to exploration over the
+value of this parameter until an optimal value is found In this way hierarchically optimal policies
+can be learned from scratch?a major advantage over the standard MAXQ setting
+To learn PRs we again maintain a distribution over all such parameters initially a prior For
+simplicity we only focus on tasks with multiple exits since otherwise a PR has no effect on the
+policy though the value function changes When a composite task executes we keep track of each
+child task?s execution in a stack When the parent itself exits we obtain a new observation of the
+PRs of each child by computing the discounted cumulative reward received after it exited added to
+the current estimate of the parent?s PR Algorithm This observation is used to update the current
+posterior over the child?s PR. Since this is a value function estimate early in the learning process
+the estimates are noisy Following prior work we use a window containing the most recent
+observations When a new observation arrives the oldest observation is removed the new one is
+added and a new posterior estimate is computed After updating the posterior it is sampled to obtain
+a new PR estimate for the associated exit This estimate is used where needed Algorithms and
+until the next posterior update Combined with the model-based priors above we hypothesize
+that this procedure iterated till convergence will produce a hierarchically optimal policy
+Empirical Evaluation
+In this section we evaluate our approach and test four hypotheses First does incorporating modelbased priors help speed up the convergence of MAXQ to the optimal policy Second does the
+task hierarchy still matter if very good priors are available for primitive actions Third how does
+Bayesian MAXQ compare to standard flat Bayesian RL Does Bayesian RL perform better
+terms of computational time if a task hierarchy is available Finally can our approach effectively
+learn PRs and policies that are hierarchically optimal
+We first focus on evaluating the first three hypotheses using domains where a zero PR results in
+hierarchical optimality To evaluate these hypotheses we use two domains the fickle version of
+Taxi-World states and Resource-collection states In Taxi-World the
+agent controls a taxi in a grid-world that has to pick up a passenger from a source location and drop
+them off at their destination The state variables consist of the location of the taxi and the source
+and destination of the passenger The actions available to the agent consist of navigation actions and
+actions to pickup and putdown the passenger The agent gets a reward of upon completing the
+task a constant reward for every action and a penalty for an erroneous action Further each
+Task hierarchies for all domains are available in the supplementary material
+Average Cumulative Reward Per Episode
+B-MaxQ Uninformed
+B-MaxQ Good
+B-MB-Q Uninformed
+B-MB-Q Good
+B-MB-Q Good Comparable Simulations
+Average Cumulative Reward Per Episode
+B-MaxQ Uninformed
+B-MaxQ Good
+B-MB-Q Uninformed
+B-MB-Q Good
+B-MaxQ Uninformed
+R-MaxQ
+MaxQ
+FlatQ
+B-MaxQ Uninformed
+MaxQ
+R-MaxQ
+FlatQ
+Episode
+Episode
+Figure Performance on Taxi-World top row and Resource-collection bottom The x-axis
+shows episodes The prefix denotes Bayesian Uninformed/Good denotes the prior and
+denotes model-based Left column Bayesian methods right non-Bayesian methods with Bayesian
+MAXQ for
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 2935-variational-bayesian-stochastic-complexity-of-mixture-models.pdf
+
+Variational Bayesian Stochastic
+Complexity of Mixture Models
+Kazuho Watanabe
+Department of Computational Intelligence
+and Systems Science
+Tokyo Institute of Technology
+Mail Nagatsuta
+Midori-ku Yokohama Japan
+kazuho23@pi.titech.ac.jp
+Sumio Watanabe
+I Lab.
+Tokyo Institute of Technology
+swatanab@pi.titech.ac.jp
+Abstract
+The Variational Bayesian framework has been widely used to approximate the Bayesian learning In various applications it has
+provided computational tractability and good generalization performance In this paper we discuss the Variational Bayesian learning of the mixture of exponential families and provide some additional theoretical support by deriving the asymptotic form of
+the stochastic complexity The stochastic complexity which corresponds to the minimum free energy and a lower bound of the
+marginal likelihood is a key quantity for model selection It also
+enables us to discuss the e?ect of hyperparameters and the accuracy of the Variational Bayesian approach as an approximation of
+the true Bayesian learning
+Introduction
+The Variational Bayesian framework has been widely used as an approximation of the Bayesian learning for models involving hidden latent variables such as
+mixture This framework provides computationally tractable posterior
+distributions with only modest computational costs in contrast to Markov chain
+Monte Carlo MCMC methods In many applications it has performed better
+generalization compared to the maximum likelihood estimation
+In spite of its tractability and its wide range of applications little has been done
+to investigate the theoretical properties of the Variational Bayesian learning itself
+For example questions like how accurately it approximates the true one remained
+unanswered until quite recently To address these issues the stochastic complexity
+in the Variational Bayesian learning of gaussian mixture models was clari?ed and
+the accuracy of the Variational Bayesian learning was discussed[10
+This work was supported by the Ministry of Education Science Sports and Culture
+Grant-in-Aid for JSPS Fellows and for Scientific Research
+In this paper we focus on the Variational Bayesian learning of more general mixture models namely the mixtures of exponential families which include mixtures of
+distributions such as gaussian binomial and gamma Mixture models are known to
+be non-regular statistical models due to the non-identi?ability of parameters caused
+by their hidden variables[7 In some recent studies the Bayesian stochastic complexities of non-regular models have been clari?ed and it has been proven that they
+become smaller than those of regular This indicates an advantage
+of the Bayesian learning when it is applied to non-regular models
+As our main results the asymptotic upper and lower bounds are obtained for the
+stochastic complexity or the free energy in the Variational Bayesian learning of the
+mixture of exponential families The stochastic complexity is important quantity
+for model selection and giving the asymptotic form of it also contributes to the
+following two issues One is the accuracy of the Variational Bayesian learning as
+an approximation method since the stochastic complexity shows the distance from
+the variational posterior distribution to the true Bayesian posterior distribution in
+the sense of Kullback information Indeed we give the asymptotic form of the
+stochastic complexity as log where is the sample size by comparing
+the coe?cient with that of the true Bayesian learning we discuss the accuracy of
+the VB approach Another is the in?uence of the hyperparameter on the learning
+process Since the Variational Bayesian algorithm is a procedure of minimizing the
+functional that nally gives the stochastic complexity the derived bounds indicate
+how the hyperparameters in?uence the process of the learning Our results have
+an implication for how to determine the hyperparameter values before the learning
+process
+We consider the case in which the true distribution is contained in the learner model
+Analyzing the stochastic complexity in this case is most valuable for comparing the
+Variational Bayesian learning with the true Bayesian learning This is because the
+advantage of the Bayesian learning is typical in this Furthermore this
+analysis is necessary and essential for addressing the model selection problem and
+hypothesis testing
+The paper is organized as follows In Section we introduce the mixture of exponential family model In Section we describe the Bayesian learning In Section
+the Variational Bayesian framework is described and the variational posterior
+distribution for the mixture of exponential family model is derived In Section
+we present our main result Discussion and conclusion follow in Section
+Mixture of Exponential Family
+Denote by a density function of the input RN given an dimensional
+parameter vector b(M where is a subset of RM The
+general mixture model with a parameter vector is de?ned by
+ak c(x|bk
+where integer is the number of components and ak ak
+ak is the
+set of mixing proportions The model parameter is ak bk
+A mixture model is called a mixture of exponential family MEF model or exponential family mixture model if the probability distribution for each component
+is given by the following form
+exp{b f0
+where is called the natural parameter is its inner product with the
+vector fM f0 and are real-valued functions of the
+input and the parameter respectively[3 Suppose functions f1 fM and a
+constant function are linearly independent which means the e?ective number of
+parameters in a single component distribution is
+The conjugate prior distribution for the MEF model is given by the product
+of the following two distributions on a ak
+and bk
+ak
+bk g(bk
+where RM and are constants called hyperparameters and
+is a function of and RM
+The mixture model can be rewritten as follows by using a hidden variable
+yK
+yk
+ak c(x|bk
+If and only if the datum is generated from the kth component yk
+The Bayesian Learning
+Suppose training samples are independently and identically
+taken from the true distribution p0 In the Bayesian learning of a model
+whose parameter is rst the prior distribution on the parameter is set
+Then the posterior distribution is computed from the given dataset and
+the prior by
+exp(?nHn
+Z(X
+where Hn is the empirical Kullback information
+Hn
+p0
+log
+p(xi
+and Z(X is the normalization constant that is also known as the marginal likelihood or the evidence of the dataset The Bayesian predictive distribution
+p(x|X is given by averaging the model over the posterior distribution as follows
+p(x|X
+The stochastic complexity is de?ned by
+log Z(X
+which is also called the free energy and is important in most data modelling problems Practically it is used as a criterion by which the model is selected and the
+hyperparameters in the prior are optimized[1][9
+De?ne the average stochastic complexity by
+EX
+where EX denotes the expectation value over all sets of training samples Recently it was proved that has the following asymptotic
+log log log
+where and are the rational number and the natural number respectively which
+are determined by the singularities of the set of true parameters In regular statistical models is equal to the number of parameters and whereas in
+non-regular models such as mixture models is not larger than the number of
+parameters and This means an advantage of the Bayesian learning
+However in the Bayesian learning one computes the stochastic complexity or the
+predictive distribution by integrating over the posterior distribution which typically
+cannot be performed analytically As an approximation the VB framework was
+proposed[2][4
+The Variational Bayesian Learning
+The Variational Bayesian Framework
+In the VB framework the Bayesian posterior p(Y of the hidden variables
+and the parameters is approximated by the variational posterior q(Y which
+factorizes as
+q(Y Q(Y
+where Q(Y and are posteriors on the hidden variables and the parameters respectively The variational posterior q(Y is chosen to minimize
+the functional de?ned by
+q(Y
+q(Y log
+p(X
+K(q(Y
+where K(q(Y is the Kullback information between the true
+Bayesian posterior p(Y and the variational posterior q(Y This
+leads to the following theorem The proof is well known[8
+Theorem If the functional is minimized under the constraint then the
+variational posteriors and Q(Y satisfy
+exp log p(X Q(Y
+Cr
+Q(Y
+exp log p(X
+CQ
+denotes the Kullback information from a distribution to a distribution that is
+dx
+log
+where Cr and CQ are the normalization constants2
+We de?ne the stochastic complexity in the VB learning by the minimum
+value of the functional that is
+min
+r,Q
+which shows the accuracy of the VB approach as an approximation of the Bayesian
+learning is also used for model selection since it gives an upper bound of
+the true Bayesian stochastic complexity
+Variational Posterior for MEF Model
+In this subsection we derive the variational posterior for the MEF model
+based on and then de?ne the variational parameter for this model
+Using the complete data y1 yn we put
+ki yik nk
+ki and
+f(xi
+nk
+where yik if and only if the ith datum is from the kth component The
+variable nk is the expected number of the data that are estimated to be from the
+kth component From and the respective prior and the variational
+posterior is obtained as the product of the following two distributions3
+nk
+ak
+r(bk
+nk
+and
+nk
+where
+exp{?k bk g(bk
+nk Let
+nk
+log
+bk bk r(bk
+and de?ne the variational parameter by ak bk
+Then it is
+noted that the variational posterior and CQ in are parameterized by the
+variational parameter Therefore we denote them as and CQ henceforth
+We de?ne the variational estimator vb by the variational parameter that attains
+the minimum value of the stochastic complexity Then putting into
+we obtain
+ak ak
+where S(X
+log S(X
+vb log CQ vb S(X
+log p0
+Therefore our aim is to evaluate the minimum value of as a function of the
+variational parameter
+denotes the expectation over
+Hereafter we omit the condition of the variational posteriors and abbreviate them
+to q(Y Q(Y and
+Main Result
+The average stochastic complexity in the VB learning is de?ned by
+EX
+We assume the following conditions
+The true distribution p0 is an MEF model which has K0 com0
+ponents and the parameter b?k
+K0
+a?k exp{b?k f0 g(b?k
+b?k
+and
+where
+has components
+b?k
+b?j And suppose that the model
+ak exp{bk f0 g(bk
+and K0 holds
+The prior distribution of the parameters is given by
+and with bounded
+iii Regarding the distribution of each component the Fisher information
+matrix
+satis?es for arbitrary The
+function has a stationary point at in the interior of for each
+B}.
+Under these conditions we prove the following
+Theorem Main Result Assume the conditions and Then the
+average stochastic complexity defined by satisfies
+log EX nHn vb C1 log C2
+for an arbitrary natural number where C1 C2 are constants independent of and
+K0 K0
+This theorem shows the asymptotic form of the average stochastic complexity in
+the Variational Bayesian learning The coe?cients of the leading terms are
+identi?ed by that are the numbers of components of the learner and the true
+distribution the number of parameters of each component and the hyperparameter of the conjugate prior given by
+In this theorem nHn log p(xi and log p(xi vb
+is a training error which is computable during the learning If the term
+EX nHn vb is a bounded function of then it immediately follows from this
+theorem that
+log log
+denotes the matrix whose ijth entry is
+of a matrix
+and denotes the determinant
+where is a bounded function of In certain cases such as binomial mixtures
+and mixtures of von-Mises distributions it is actually a bounded function of In
+the case of gaussian mixtures if RN it is conjectured that the minus likelihood
+ratio min nHn a lower bound of nHn vb is at most of the order of log log
+Since the dimension of the parameter is the average stochastic
+complexity of regular statistical models which coincides with the Bayesian information criterion is given by BIC log where BIC
+Theorem
+claims that the coe?cient of log is smaller than BIC when
+This implies that the advantage of non-regular models in the Bayesian learning still
+remains in the VB learning
+Outline of the proof of Theorem
+From the condition calculating in by the saddle point approximation in is evaluated as follows
+log Op
+where the function of a ak
+is given by
+MK
+log ak
+log
+Then log CQ in is evaluated as follows
+nHn log CQ S(X nH Op
+where
+p(xi
+log
+ak c(xi bk exp
+nk
+and is a constant Thus from evaluating the right-hand sides of and
+at speci?c points near the true parameter we obtain the upper bound in
+The lower bound in is obtained from and by Jensen?s inequality
+and the constraint ak
+Discussion and Conclusion
+In this paper we showed the upper and lower bounds of the stochastic complexity
+for the mixture of exponential family models in the VB learning
+Firstly we compare the stochastic complexity shown in Theorem with the one
+in the true Bayesian learning On the mixture models with parameters in each
+component the following upper bound for the coe?cient of in is known
+K0
+K0 K0 K0
+By the certain conditions about the prior distribution under which the above bound
+was derived we can compare the stochastic complexity when Putting
+in we have
+K0 K0 K0
+Op denotes a random variable bounded in probability
+Since we obtain log under certain assumptions[11 let us compare
+of the VB learning to in of the true Bayesian learning When that
+is each component has one parameter holds since K0 K. This means
+that the more redundant components the model has the more the VB learning
+di?ers from the true Bayesian learning In this case is equal to the number
+of the parameters of the model Hence the corresponds to log when
+If the upper bound of is equal to This implies that the
+variational posterior is close to the true Bayesian posterior when More
+precise discussion about the accuracy of the approximation can be done for models
+on which tighter bounds or exact values of the coe?cient in are
+Secondly we point out that Theorem shows how the hyperparameter in?uence the process of the VB learning The coe?cient in indicates that only
+when the prior distribution works to eliminate the redundant
+components that the model has and otherwise it works to use all the components
+And lastly let us give examples of how to use the theoretical bounds in One
+can examine experimentally whether the actual iterative algorithm converges to the
+optimal variational posterior instead of local minima by comparing the stochastic
+complexity with our theoretical result The theoretical bounds would also enable us
+to compare the accuracy of the VB learning with that of the Laplace approximation
+or the MCMC method As mentioned in Section our result will be important for
+developing e?ective model selection methods using in the future work
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 2912-sensory-adaptation-within-a-bayesian-framework-for-perception.pdf
+
+Sensory Adaptation within a Bayesian
+Framework for Perception
+Alan A. Stocker and Eero P. Simoncelli
+Howard Hughes Medical Institute and
+Center for Neural Science
+New York University
+Abstract
+We extend a previously developed Bayesian framework for perception
+to account for sensory adaptation We first note that the perceptual effects of adaptation seems inconsistent with an adjustment of the internally represented prior distribution Instead we postulate that adaptation
+increases the signal-to-noise ratio of the measurements by adapting the
+operational range of the measurement stage to the input range We show
+that this changes the likelihood function in such a way that the Bayesian
+estimator model can account for reported perceptual behavior In particular we compare the model?s predictions to human motion discrimination
+data and demonstrate that the model accounts for the commonly observed
+perceptual adaptation effects of repulsion and enhanced discriminability
+Motivation
+A growing number of studies support the notion that humans are nearly optimal when performing perceptual estimation tasks that require the combination of sensory observations
+with a priori knowledge The Bayesian formulation of these problems defines the optimal
+strategy and provides a principled yet simple computational framework for perception that
+can account for a large number of known perceptual effects and illusions as demonstrated
+in sensorimotor learning cue combination or visual motion perception just to
+name a few of the many examples
+Adaptation is a fundamental phenomenon in sensory perception that seems to occur at all
+processing levels and modalities A variety of computational principles have been suggested as explanations for adaptation Many of these are based on the concept of maximizing the sensory information an observer can obtain about a stimulus despite limited sensory
+resources More mechanistically adaptation can be interpreted as the attempt of
+the sensory system to adjusts its limited dynamic range such that it is maximally informative with respect to the statistics of the stimulus A typical example is observed in the
+retina which manages to encode light intensities that vary over nine orders of magnitude
+using ganglion cells whose dynamic range covers only two orders of magnitude This is
+achieved by adapting to the local mean as well as higher order statistics of the visual input
+over short time-scales
+corresponding author
+If a Bayesian framework is to provide a valid computational explanation of perceptual
+processes then it needs to account for the behavior of a perceptual system regardless of
+its adaptation state In general adaptation in a sensory estimation task seems to have two
+fundamental effects on subsequent perception
+Repulsion The estimate of parameters of subsequent stimuli are repelled by
+those of the adaptor stimulus the perceived values for the stimulus variable
+that is subject to the estimation task are more distant from the adaptor value after
+adaptation This repulsive effect has been reported for perception of visual speed
+direction-of-motion and orientation
+Increased sensitivity Adaptation increases the observer?s discrimination ability
+around the adaptor for visual speed however it also seems to decrease it further away from the adaptor as shown in the case of direction-of-motion
+discrimination
+In this paper we show that these two perceptual effects can be explained within a Bayesian
+estimation framework of perception Note that our description is at an abstract functional
+level we do not attempt to provide a computational model for the underlying mechanisms
+responsible for adaptation and this clearly separates this paper from other work which
+might seem at first glance similar
+Adaptive Bayesian estimator framework
+Suppose that an observer wants to estimate a property of a stimulus denoted by the variable
+based on a measurement In general the measurement can be vector-valued and
+is corrupted by both internal and external noise Hence combining the noisy information
+gained by the measurement with a priori knowledge about is advantageous According
+to Bayes rule
+That is the probability of stimulus value given posterior is the product of the likelihood of the particular measurement and the prior The normalization constant
+serves to ensure that the posterior is a proper probability distribution Under the assump
+tion of a squared-error loss function the optimal estimate
+is the mean of the posterior
+thus
+Note that
+describes an estimate for a single measurement As discussed in
+the measurement will vary stochastically over the course of many exposures to the same
+stimulus and thus the estimator will also vary We return to this issue in Section
+Figure 1a illustrates a Bayesian estimator in which the shape of the arbitrary prior distribution leads on average to a shift of the estimate toward a lower value of than the true
+stimulus value stim The likelihood and the prior are the fundamental constituents of the
+Bayesian estimator model Our goal is to describe how adaptation alters these constituents
+so as to account for the perceptual effects of repulsion and increased sensitivity
+Adaptation does not change the prior
+An intuitively sensible hypothesis is that adaptation changes the prior distribution Since
+the prior is meant to reflect the knowledge the observer has about the distribution of occurrences of the variable in the world repeated viewing of stimuli with the same parameter
+a
+probability
+probability
+attraction
+posterior
+likelihood
+prior
+modified prior
+adapt
+Figure Hypothetical model in which adaptation alters the prior distribution Unadapted Bayesian estimation configuration in which the prior leads to a shift of the estimate
+relative to the stimulus parameter stim Both the likelihood function and the prior distri
+bution contribute to the exact value of the estimate mean of the posterior Adaptation
+acts by increasing the prior distribution around the value adapt of the adapting stimulus
+parameter Consequently an subsequent estimate of the same stimulus parameter value
+stim is attracted toward the adaptor This is the opposite of observed perceptual effects
+and we thus conclude that adjustments of the prior in a Bayesian model do not account for
+adaptation
+value adapt should presumably increase the prior probability in the vicinity of adapt Figure 1b schematically illustrates the effect of such a change in the prior distribution The
+estimated perceived value of the parameter under the adapted condition is attracted to the
+adapting parameter value In order to account for observed perceptual repulsion effects
+the prior would have to decrease at the location of the adapting parameter a behavior that
+seems fundamentally inconsistent with the notion of a prior distribution
+but increases the reliability of the measurements
+Since a change in the prior distribution is not consistent with repulsion we are led to the
+conclusion that adaptation must change the likelihood function But why and how should
+this occur
+In order to answer this question we reconsider the functional purpose of adaptation We assume that adaptation acts to allocate more resources to the representation of the parameter
+values in the vicinity of the adaptor resulting in a local increase in the signal-to-noise
+ratio This can be accomplished for example by dynamically adjusting the operational range to the statistics of the input This kind of increased operational gain around
+the adaptor has been effectively demonstrated in the process of retinal adaptation In
+the context of our Bayesian estimator framework and restricting to the simple case of a
+scalar-valued measurement adaptation results in a narrower conditional probability density in the immediate vicinity of the adaptor thus an increase in the reliability of
+the measurement This is offset by a broadening of the conditional probability density in the region beyond the adaptor vicinity we assume that total resources are
+conserved and thus an increase around the adaptor must necessarily lead to a decrease
+elsewhere
+Figure illustrates the effect of this local increase in signal-to-noise ratio on the likeli
+unadapted
+adapted
+adapt
+1/SNR
+m2
+m1
+adapt
+likelihoods
+p(m|?adapt
+conditionals
+Figure Measurement noise conditionals and likelihoods The two-dimensional conditional density is shown as a grayscale image for both the unadapted and adapted
+cases We assume here that adaptation increases the reliability SNR of the measurement
+around the parameter value of the adaptor This is balanced by a decrease in SNR of the
+measurement further away from the adaptor Because the likelihood is a function of horizontal slices shown plotted at right this results in an asymmetric change in the likelihood
+that is in agreement with a repulsive effect on the estimate
+a
+deg
+adapt
+90
+90
+adapt
+deg
+Figure Repulsion Model predictions human psychophysics Difference in perceived direction in the pre and post-adaptation condition as predicted by the model Postadaptive percepts of motion direction are repelled away from the direction of the adaptor
+Typical human subject data show a qualitatively similar repulsive effect Data and fit
+are replotted from
+hood function The two gray-scale images represent the conditional probability densities
+in the unadapted and the adapted state They are formed by assuming additive
+noise on the measurement of constant variance unadapted or with a variance that
+decreases symmetrically in the vicinity of the adaptor parameter value adapt and grows
+slightly in the region beyond In the unadapted state the likelihood is convolutional and
+the shape and variance are equivalent to the distribution of measurement noise However
+in the adapted state because the likelihood is a function of horizontal slice through the
+conditional surface it is no longer convolutional around the adaptor As a result the mean
+is pushed away from the adaptor as illustrated in the two graphs on the right Assuming
+that the prior distribution is fairly smooth this repulsion effect is transferred to the posterior
+distribution and thus to the estimate
+Simulation Results
+We have qualitatively demonstrated that an increase in the measurement reliability around
+the adaptor is consistent with the repulsive effects commonly seen as a result of perceptual adaptation In this section we simulate an adapted Bayesian observer by assuming a
+simple model for the changes in signal-to-noise ratio due to adaptation We address both
+repulsion and changes in discrimination threshold In particular we compare our model
+predictions with previously published data from psychophysical experiments examining
+human perception of motion direction
+Repulsion
+In the unadapted state we assume the measurement noise to be additive and normally
+distributed and constant over the whole measurement space Thus assuming that and
+live in the same space the likelihood is a Gaussian of constant width In the adapted
+state we assume a simple functional description for the variance of the measurement noise
+around the adapter Specifically we use a constant plus a difference of two Gaussians
+a
+relative discrimination threshold
+relative discrimination threshold
+adapt
+adapt
+deg
+Figure Discrimination thresholds Model predictions human psychophysics The
+model predicts that thresholds for direction discrimination are reduced at the adaptor It
+also predicts two side-lobes of increased threshold at further distance from the adaptor
+Data of human psychophysics are in qualitative agreement with the model Data are
+replotted from also
+each having equal area with one twice as broad as the other Finally for
+simplicity we assume a flat prior but any reasonable smooth prior would lead to results
+that are qualitatively similar Then according to we compute the predicted estimate of
+motion direction in both the unadapted and the adapted case
+Figure 3a shows the predicted difference between the pre and post-adaptive average estimate of direction as a function of the stimulus direction stim The adaptor is indicated with
+an arrow The repulsive effect is clearly visible For comparison Figure 3b shows human
+subject data replotted from The perceived motion direction of a grating was estimated
+under both adapted and unadapted conditions using a two-alternative-forced-choice experimental paradigm The plot shows the change in perceived direction as a function of test
+stimulus direction relative to that of the adaptor Comparison of the two panels of Figure
+indicate that despite the highly simplified construction of the model the prediction is quite
+good and even includes the small but consistent repulsive effects observed degrees
+from the adaptor
+Changes in discrimination threshold
+Adaptation also changes the ability of human observers to discriminate between the direction of two different moving stimuli In order to model discrimination thresholds we
+need to consider a Bayesian framework that can account not only for the mean of the estimate but also its variability We have recently developed such a framework and used
+it to quantitatively constrain the likelihood and the prior from psychophysical data
+This framework accounts for the effect of the measurement noise on the variability of the
+Specifically it provides a characterization of the distribution
+stim of the
+estimate
+estimate for a given stimulus direction in terms of its expected value and its variance as a
+function of the measurement noise As in we write
+stim varhmi
+varh
+stim
+Assuming that discrimination threshold is proportional to the standard deviation
+stim we can now predict how discrimination thresholds should change after adapvarh
+tation Figure 4a shows the predicted change in discrimination thresholds relative to the unadapted condition for the same model parameters as in the repulsion example Figure
+Thresholds are slightly reduced at the adaptor but increase symmetrically for directions
+further away from the adaptor For comparison Figure 4b shows the relative change in discrimination thresholds for a typical human subject Again the behavior of the human
+observer is qualitatively well predicted
+Discussion
+We have shown that adaptation can be incorporated into a Bayesian estimation framework
+for human sensory perception Adaptation seems unlikely to manifest itself as a change
+in the internal representation of prior distributions as this would lead to perceptual bias
+effects that are opposite to those observed in human subjects Instead we argue that adaptation leads to an increase in reliability of the measurement in the vicinity of the adapting
+stimulus parameter We show that this change in the measurement reliability results in
+changes of the likelihood function and that an estimator that utilizes this likelihood function will exhibit the commonly-observed adaptation effects of repulsion and changes in
+discrimination threshold We further confirm our model by making quantitative predictions
+and comparing them with known psychophysical data in the case of human perception of
+motion direction
+Many open questions remain The results demonstrated here indicate that a resource allocation explanation is consistent with the functional effects of adaptation but it seems unlikely
+that theory alone can lead to a unique quantitative prediction of the detailed form of these
+effects Specifically the constraints imposed by biological implementation are likely to
+play a role in determining the changes in measurement noise as a function of adaptor parameter value and it will be important to characterize and interpret neural response changes
+in the context of our framework Also although we have argued that changes in the prior
+seem inconsistent with adaptation effects it may be that such changes do occur but are
+offset by the likelihood effect or occur only on much longer timescales
+Last if one considers sensory perception as the result of a cascade of successive processing
+stages with both feedforward and feedback connections it becomes necessary to expand
+the Bayesian description to describe this cascade 18 For example it may be
+possible to interpret this cascade as a sequence of Bayesian estimators in which the measurement of each stage consists of the estimate computed at the previous stage Adaptation
+could potentially occur in each of these processing stages and it is of fundamental interest
+to understand how such a cascade can perform useful stable computations despite the fact
+that each of its elements is constantly readjusting its response properties
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 4489-efficient-coding-provides-a-direct-link-between-prior-and-likelihood-in-perceptual-bayesian-inference.pdf
+
+Efficient coding provides a direct link between prior
+and likelihood in perceptual Bayesian inference
+Xue-Xin Wei and Alan A. Stocker
+Departments of Psychology and
+Electrical and Systems Engineering
+University of Pennsylvania
+Philadelphia
+Abstract
+A common challenge for Bayesian models of perception is the fact that the two
+fundamental Bayesian components the prior distribution and the likelihood function are formally unconstrained Here we argue that a neural system that emulates
+Bayesian inference is naturally constrained by the way it represents sensory information in populations of neurons More specifically we show that an efficient
+coding principle creates a direct link between prior and likelihood based on the
+underlying stimulus distribution The resulting Bayesian estimates can show biases away from the peaks of the prior distribution a behavior seemingly at odds
+with the traditional view of Bayesian estimation yet one that has been reported
+in human perception We demonstrate that our framework correctly accounts for
+the repulsive biases previously reported for the perception of visual orientation
+and show that the predicted tuning characteristics of the model neurons match
+the reported orientation tuning properties of neurons in primary visual cortex
+Our results suggest that efficient coding is a promising hypothesis in constraining Bayesian models of perceptual inference
+Motivation
+Human perception is not perfect Biases have been observed in a large number of perceptual tasks
+and modalities of which the most salient ones constitute many well-known perceptual illusions It
+has been suggested however that these biases do not reflect a failure of perception but rather an observer?s attempt to optimally combine the inherently noisy and ambiguous sensory information with
+appropriate prior knowledge about the world This hypothesis which we will refer to as
+the Bayesian hypothesis has indeed proven quite successful in providing a normative explanation of
+perception at a qualitative and more recently quantitative level A major challenge in
+forming models based on the Bayesian hypothesis is the correct selection of two main components
+the prior distribution belief and the likelihood function This has encouraged some to criticize the
+Bayesian hypothesis altogether claiming that arbitrary choices for these components always allow
+for unjustified post-hoc explanations of the data
+We do not share this criticism referring to a number of successful attempts to constrain prior beliefs
+and likelihood functions based on principled grounds For example prior beliefs have been defined
+as the relative distribution of the sensory variable in the environment in cases where these statistics
+are relatively easy to measure local visual orientations or where it can be assumed that
+subjects have learned them over the course of the experiment time perception Other
+studies have constrained the likelihood function according to known noise characteristics of neurons
+that are crucially involved in the specific perceptual process motion tuned neurons in visual cor
+http://www.sas.upenn.edu astocker/lab
+world
+neural representation
+efficient
+encoding
+percept
+Bayesian
+decoding
+Figure Encoding-decoding framework A stimulus representing a sensory variable elicits a firing
+rate response r2 rN in a population of neurons The perceptual task is to generate a
+good estimate
+of the presented value of the sensory variable based on this population response
+Our framework assumes that encoding is efficient and decoding is Bayesian based on the likelihood
+the prior and a squared-error loss function
+tex However we agree that finding appropriate constraints is generally difficult and that prior
+beliefs and likelihood functions have been often selected on the basis of mathematical convenience
+Here we propose that the efficient coding hypothesis offers a joint constraint on the prior and
+likelihood function in neural implementations of Bayesian inference Efficient coding provides a
+normative description of how neurons encode sensory information and suggests a direct link between measured perceptual discriminability neural tuning characteristics and environmental statistics We show how this link can be extended to a full Bayesian account of perception that
+includes perceptual biases We validate our model framework against behavioral as well as neural
+data characterizing the perception of visual orientation We demonstrate that we can account not
+only for the reported perceptual biases away from the cardinal orientations but also for the specific response characteristics of orientation-tuned neurons in primary visual cortex Our work is a
+novel proposal of how two important normative hypotheses in perception science namely efficient
+en)coding and Bayesian decoding might be linked
+Encoding-decoding framework
+We consider perception as an inference process that takes place along the simplified neural encodingdecoding cascade illustrated in
+Efficient encoding
+Efficient encoding proposes that the tuning characteristics of a neural population are adapted to
+the prior distribution of the sensory variable such that the population optimally represents the
+sensory variable Different definitions of optimally are possible and may lead to different
+results Here we assume an efficient representation that maximizes the mutual information between
+the sensory variable and the population response With this definition and an upper limit on the total
+firing activity the square-root of the Fisher Information must be proportional to the prior distribution
+In order to constrain the tuning curves of individual neurons in the population we also impose a
+homogeneity constraint requiring that there exists a one-to-one mapping that transforms the
+physical space with units to a homogeneous space with units in which the stimulus
+distribution becomes uniform This defines the mapping as
+which is the cumulative of the prior distribution We then assume a neural population with identical tuning curves that evenly tiles the stimulus range in this homogeneous space The population
+provides an efficient representation of the sensory variable according to the above constraints
+The tuning curves in the physical space are obtained by applying the inverse mapping
+In the context of this paper we consider inferring decoding and estimating as synonymous
+stimulus distribution
+samples
+a
+Fisher information
+discriminability
+and
+average firing rates
+and
+firing rate Hz
+efficient encoding
+likelihood function
+likelihood
+symmetric
+asymmetric
+homogeneous space
+physical space
+Figure Efficient encoding constrains the likelihood function Prior distribution derived
+from stimulus statistics Efficient coding defines the shape of the tuning curves in the physical
+space by transforming a set of homogeneous neurons using a mapping that is the inverse of
+the cumulative of the prior As a result the likelihood shape is constrained by
+the prior distribution showing heavier tails on the side of lower prior density Fisher information
+discrimination threshold and average firing rates are all uniform in the homogeneous space
+illustrates the applied efficient encoding scheme the mapping and the concept of the homogeneous
+space for the example of a symmetric exponentially decaying prior distribution The key idea
+here is that by assuming efficient encoding the prior the stimulus distribution in the world
+directly constrains the likelihood function In particular the shape of the likelihood is determined
+by the cumulative distribution of the prior As a result the likelihood is generally asymmetric as
+shown in exhibiting heavier tails on the side of the prior with lower density
+Bayesian decoding
+Let us consider a population of sensory neurons that efficiently represents a stimulus variable
+as described above A stimulus elicits a specific population response that is characterized by the
+vector r2 rN where ri is the spike-count of the ith neuron over a given time-window
+Under the assumption that the variability in the individual firing rates is governed by a Poisson
+process we can write the likelihood function over as
+fi
+ri
+fi
+with fi describing the tuning curve of neuron We then define a Bayesian decoder LSE as
+the estimator that minimizes the expected squared-error between the estimate and the true stimulus
+value thus
+LSE
+where we use Bayes rule to appropriately combine the sensory evidence with the stimulus prior
+Bayesian estimates can be biased away from prior peaks
+Bayesian models of perception typically predict perceptual biases toward the peaks of the prior density a characteristic often considered a hallmark of Bayesian inference This originates from the
+a
+prior attraction
+prior
+prior attraction likelihood repulsion
+likelihood
+prior
+prior
+repulsive bias
+likelihood
+likelihood mean
+posterior mean
+posterior mean
+Figure Bayesian estimates biased away from the prior If the likelihood function is symmetric
+then the estimate posterior mean is on average shifted away from the actual value of the sensory
+variable towards the prior peak Efficient encoding typically leads to an asymmetric likelihood
+function whose normalized mean is away from the peak of the prior relative to The estimate
+is determined by a combination of prior attraction and shifted likelihood mean and can exhibit an
+overall repulsive bias If and the likelihood is relatively narrow then
+blue line and the estimate is biased away from the prior peak
+common approach of choosing a parametric description of the likelihood function that is computationally convenient Gaussian As a consequence likelihood functions are typically assumed to
+be symmetric but see leaving the bias of the Bayesian estimator to be mainly determined
+by the shape of the prior density leading to biases toward the peak of the prior
+In our model framework the shape of the likelihood function is constrained by the stimulus prior
+via efficient neural encoding and is generally not symmetric for non-flat priors It has a heavier tail
+on the side with lower prior density The intuition is that due to the efficient allocation
+of neural resources the side with smaller prior density will be encoded less accurately leading to a
+broader likelihood function on that side The likelihood asymmetry pulls the Bayes least-squares
+estimate away from the peak of the prior while at the same time the prior pulls it toward its peak
+Thus the resulting estimation bias is the combination of these two counter-acting forces and both
+are determined by the prior
+General derivation of the estimation bias
+In the following we will formally derive the mean estimation bias of the proposed encodingdecoding framework Specifically we will study the conditions for which the bias is repulsive
+away from the peak of the prior density
+We first re-write the estimator LSE by replacing with the inverse of its mapping to the homo The motivation for this is that the likelihood in the homogeneous
+geneous space
+space is symmetric Given a value and the elicited population response we can write
+the estimator as
+LSE
+p(R|F
+Calculating the derivative of the inverse function and noting that is the cumulative of the prior
+density we get
+dF
+p(F
+Hence we can simplify LSE as
+LSE
+p(R|F
+With
+p(R|F
+p(R|F
+we can further simplify the notation and get
+LSE
+we marginalize over the population
+In order to get the expected value of the estimate LSE
+response space
+dR
+LSE
+p(R)F
+where we define
+Due to the symmetry in this space it can be shown that
+is
+It follows that
+symmetric around the true stimulus value Intuitively can be thought as the normalized
+average likelihood in the homogeneous space We can then compute the expected bias at as
+is defined as the inverse of the cumulative of an arbitrary
+This is expression is general where
+is determined by the internal noise level
+prior density and the dispersion of
+Assuming the prior density to be smooth we expand in a neighborhood that
+is larger than the support of the likelihood function Using Taylor?s theorem with mean-value forms
+of the remainder we get
+with lying between and By applying this expression to we find
+p(F
+In general there is no simple rule to judge the sign of However if the prior is monotonic
+on the interval then the sign of is always the same as the sign of
+Also if the likelihood is sufficiently narrow we can approximate by
+and therefore approximate the bias as
+where is a positive constant
+The result is quite surprising because it states that as long as the prior is monotonic over the support
+of the likelihood function the expected estimation bias is always away from the peaks of the prior
+Internal neural versus external stimulus noise
+The above derivation of estimation bias is based on the assumption that all uncertainty about the
+sensory variable is caused by neural response variability This level of internal noise depends on the
+response magnitude and thus can be modulated by changing stimulus contrast This contrastcontrolled noise modulation is commonly exploited in perceptual studies Internal noise
+will always lead to repulsive biases in our framework if the prior is monotonic If internal noise is
+low the likelihood is narrow and thus the bias is small Increasing internal noise leads to increasingly
+larger biases up to the point where the likelihood becomes wide enough such that monotonicity of
+the prior over the support of the likelihood is potentially violated
+Stimulus noise is another way to modulate the noise level in perception random-dot motion
+stimuli Such external noise however has a different effect on the shape of the likelihood function
+as compared to internal noise It modifies the likelihood function by convolving it with the noise
+kernel External noise is frequently chosen as additive and symmetric zero-mean Gaussian It
+is straightforward to prove that such symmetric external noise does not lead to a change in the mean
+of the likelihood and thus does not alter the repulsive effect induced by its asymmetry However by
+increasing the overall width of the likelihood the attractive influence of the prior increases resulting
+in an estimate that is closer to the prior peak than without external noise2
+Perception of visual orientation
+We tested our framework by modelling the perception of visual orientation Our choice was based
+on the fact that we have pretty good estimates of the prior distribution of local orientations in
+natural images ii tuning characteristics of orientation selective neurons in visual cortex are wellstudied monkey/cat and iii biases in perceived stimulus orientation have been well characterized
+We start by creating an efficient neural population based on measured prior distributions of local
+visual orientation and then compare the resulting tuning characteristics of the population and the
+predicted perceptual biases with reported data in the literature
+Efficient neural model population for visual orientation
+Previous studies measured the statistics of the local orientation in large sets of natural images and
+consistently found that the orientation distribution is multimodal peaking at the two cardinal orientations as shown in 4a We assumed that the visual system?s prior belief over orientation
+follows this distribution and approximate it formally as
+black line in
+Based on this prior distribution we defined an efficient neural representation for orientation We
+assumed a population of model neurons with tuning curves that follow a von-Mises
+distribution in the homogeneous space on top of a constant spontaneous firing rate Hz). We then
+to all these tuning curves to get the corresponding tuning
+applied the inverse transformation
+curves in the physical space 4b red curves where is the cumulative of the prior The
+concentration parameter for the von-Mises tuning curves was set to in the homogeneous
+space in order to match the measured average tuning width 32 deg of neurons in area V1 of the
+macaque
+Predicted tuning characteristics of neurons in primary visual cortex
+The orientation tuning characteristics of our model population well match neurophysiological data
+of neurons in primary visual cortex Efficient encoding predicts that the distribution of neurons
+preferred orientation follows the prior with more neurons tuned to cardinal than oblique orientations
+by a factor of approximately A similar ratio has been found for neurons in area V1 of monkey/cat Also the tuning widths of the model neurons vary between deg depending
+on their preferred tuning matching the measured tuning width ratio of between
+neurons tuned to the cardinal versus oblique orientations
+An important prediction of our model is that most of the tuning curves should be asymmetric Such
+asymmetries have indeed been reported for the orientation tuning of neurons in area V1
+We computed the asymmetry index for our model population as defined in previous studies
+and plotted it as a function of the preferred tuning of each neuron The overall asymmetry
+index in our model population is which approximately matches the measured values for
+neurons in area V1 of the cat It also predicts that neurons tuned to the cardinal and
+oblique orientations should show less symmetry than those tuned to orientations in between Finally
+Note that these predictions are likely to change if the external noise is not symmetric
+a
+firing rate(Hz
+orientation(deg
+asymmetry tuning width
+90
+asymmetry
+asymmetry index
+width deg
+90
+preferred tuning(deg
+90
+90
+asymmetry index
+orientation(deg
+tuning width
+90
+probability
+90
+efficient representation
+image statistics
+90
+90
+preferred tuning(deg
+35
+tuning width deg
+Figure Tuning characteristics of model neurons Distribution of local orientations in natural
+images replotted from Prior used in the model black and predicted tuning curves according
+to efficient coding Tuning width as a function of preferred orientation Tuning curves
+of cardinal and oblique neurons are more symmetric than those tuned to orientations in between
+Both narrowly and broadly tuned neurons neurons show less asymmetry than neurons with tuning
+widths in between
+neurons with tuning widths at the lower and upper end of the range are predicted to exhibit less
+asymmetry than those neurons whose widths lie in between these extremes illustrated in
+These last two predictions have not been tested yet
+Predicted perceptual biases
+Our model framework also provides specific predictions for the expected perceptual biases Humans
+show systematic biases in perceived orientation of visual stimuli such as arrays of Gabor patches
+Two types of biases can be distinguished First perceived orientations show an absolute
+bias away from the cardinal orientations thus away from the peaks of the orientation prior
+We refer to these biases as absolute because they are typically measured by adjusting a noise-free
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 2565-instance-specific-bayesian-model-averaging-for-classification.pdf
+
+Instance-Specific Bayesian Model
+Averaging or Classification
+Shyam Visweswaran
+Center for Biomedical Informatics
+Intelligent Systems Program
+Pittsburgh PA
+shyam@cbmi.pitt.edu
+Gregory F. Cooper
+Center for Biomedical Informatics
+Intelligent Systems Program
+Pittsburgh PA
+gfc@cbmi.pitt.edu
+Abstract
+Classification algorithms typically induce population-wide models
+that are trained to perform well on average on expected future
+instances We introduce a Bayesian framework for learning
+instance-specific models from data that are optimized to predict
+well for a particular instance Based on this framework we present
+a lazy instance-specific algorithm called ISA that performs
+selective model averaging over a restricted class of Bayesian
+networks On experimental evaluation this algorithm shows
+superior performance over model selection We intend to apply
+such instance-specific algorithms to improve the performance of
+patient-specific predictive models induced from medical data
+In ro
+Commonly used classification algorithms such as neural networks decision trees
+Bayesian networks and support vector machines typically induce a single model
+from a training set of instances with the intent of applying it to all future instances
+We call such a model a population-wide model because it is intended to be applied
+to an entire population of future instances A population-wide model is optimized to
+predict well on average when applied to expected future instances In contrast an
+instance-specific model is one that is constructed specifically for a particular
+instance The structure and parameters of an instance-specific model are specialized
+to the particular features of an instance so that it is optimized to predict especially
+well for that instance
+Usually methods that induce population-wide models employ eager learning in
+which the model is induced from the training data before the test instance is
+encountered In contrast lazy learning defers most or all processing until a response
+to a test instance is required Learners that induce instance-specific models are
+necessarily lazy in nature since they take advantage of the information in the test
+instance An example of a lazy instance-specific method is the lazy Bayesian rule
+LBR learner implemented by Zheng and Webb which induces rules in a lazy
+fashion from examples in the neighborhood of the test instance A rule generated by
+LBR consists of a conjunction of the attribute-value pairs present in the test instance
+as the antecedent and a local simple na?ve Bayes classifier as the consequent The
+structure of the local simple Bayes classifier consists of the attribute of interest as
+the parent of all other attributes that do not appear in the antecedent and the
+parameters of the classifier are estimated from the subset of training instances that
+satisfy the antecedent A greedy step-forward search selects the optimal LBR rule
+for a test instance to be classified When evaluated on 29 UCI datasets LBR had the
+lowest average error rate when compared to several eager learning methods
+Typically both eager and lazy algorithms select a single model from some model
+space ignoring the uncertainty in model selection Bayesian model averaging is a
+coherent approach to dealing with the uncertainty in model selection and it has
+been shown to improve the predictive performance of classifiers However since
+the number of models in practically useful model spaces is enormous exact model
+averaging over the entire model space is usually not feasible In this paper we
+describe a lazy instance-specific averaging ISA algorithm for classification that
+approximates Bayesian model averaging in an instance-sensitive manner ISA
+extends LBR by adding Bayesian model averaging to an instance-specific model
+selection algorithm
+While the ISA algorithm is currently able to directly handle only discrete variables
+and is computationally more intensive than comparable eager algorithms the results
+in this paper show that it performs well In medicine such lazy instance-specific
+algorithms can be applied to patient-specific modeling for improving the accuracy
+of diagnosis prognosis and risk assessment
+The rest of this paper is structured as follows Section introduces a Bayesian
+framework for instance-specific learning Section describes the implementation of
+ISA. In Section we evaluate ISA and compare its performance to that of LBR.
+Finally in Section we discuss the results of the comparison
+Deci si on Th eo ret rame wo rk
+We use the following notation Capital letters like denote random variables
+and corresponding lower case letters denote specific values assigned to them
+Thus denotes that variable is assigned the value Bold upper case letters
+such as represent sets of variables or random vectors and their realization is
+denoted by the corresponding bold lower case letters Hence denotes that
+the variables in have the states given by In addition denotes the target
+variable being predicted denotes the set of attribute variables denotes a model
+denotes the training dataset and Xt Zt denotes a generic test instance that is
+not in D.
+We now characterize population-wide and instance-specific model selection in
+decision theoretic terms Given training data and a separate generic test instance
+the Bayes optimal prediction for Zt is obtained by combining the
+predictions of all models weighted by their posterior probabilities as follows
+dM
+The optimal population-wide model for predicting Zt is as follows
+max
+Xt
+where the function gives the utility of approximating the Bayes optimal estimate
+P(Zt Xt with the estimate P(Zt Xt obtained from model M. The term
+P(X is given by
+D)dM
+The optimal instance-specific model for predicting Zt is as follows
+max
+where are the values of the attributes of the test instance Xt for which we want to
+predict Zt. The Bayes optimal estimate P(Zt Xt in Equation is derived
+using Equation for the special case in which Xt
+The difference between the population-wide and the instance-specific models can be
+noted by comparing Equations and Equation for the population-wide model
+selects the model that on average will have the greatest utility Equation for the
+instance-specific model however selects the model that will have the greatest
+expected utility for the specific instance Xt For predicting Zt in a given instance
+Xt the model selected using Equation can never have an expected utility
+greater than the model selected using Equation This observation provides support
+for developing instance-specific models
+Equations and represent theoretical ideals for population-wide and instancespecific model selection respectively we are not suggesting they are practical to
+compute The current paper focuses on model averaging rather than model
+selection Ideal Bayesian model averaging is given by Equation Model averaging
+has previously been applied using population-wide models Studies have shown that
+approximate Bayesian model averaging using population-wide models can improve
+predictive performance over population-wide model selection The current paper
+concentrates on investigating the predictive performance of approximate Bayesian
+model averaging using instance-specific models
+In st an ce eci fi Algo ri
+We present the implementation of the lazy instance-specific algorithm based on the
+above framework ISA searches the space of a restricted class of Bayesian networks
+to select a subset of the models over which to derive a weighted averaged
+posterior of the target variable Zt A key characteristic of the search is the use of a
+heuristic to select models that will have a significant influence on the weighted
+posterior We introduce Bayesian networks briefly and then describe ISA in detail
+ay a or
+A Bayesian network is a probabilistic model that combines a graphical
+representation the Bayesian network structure with quantitative information the
+parameters of the Bayesian network to represent the joint probability distribution
+over a set of random variables Specifically a Bayesian network representing
+the set of variables consists of a pair is a directed acyclic graph that
+contains a node for every variable in and an arc between every pair of nodes if the
+corresponding variables are directly probabilistically dependent Conversely the
+absence of an arc between a pair of nodes denotes probabilistic independence
+between the corresponding variables represents the parameterization of the
+model
+In a Bayesian network the immediate predecessors of a node in are called
+the parents of and the successors both immediate and remote of in are
+called the descendants of The immediate successors of are called the children
+of For each node there is a local probability distribution that may be discrete
+or continuous on that node given the state of its parents The complete joint
+probability distribution over represented by the parameterization can be
+factored into a product of local probability distributions defined on each node in the
+network This factorization is determined by the independences captured by the
+structure of the Bayesian network and is formalized in the Bayesian network
+Markov condition A node representing a variable is independent of its nondescendants given just its parents According to this Markov condition the joint
+probability distribution on model variables can be factored as
+follows
+parents
+where parents(Xi denotes the set of nodes that are the parents of If has no
+parents then the set parents(Xi is empty and P(Xi parents(X is just P(Xi
+I A od
+The LBR models of Zheng and Webb can be represented as members of a
+restricted class of Bayesian networks Figure We use the same class of
+Bayesian networks for the ISA models to facilitate comparison between the two
+algorithms In Figure all nodes represent attributes that are discrete Each node in
+has either an outgoing arc into target node or receives an arc from Z. That is
+each node is either a parent or a child of Z. Thus is partitioned into two sets the
+first containing nodes in Figure each of which is a parent of and
+every node in the second set and the second containing nodes in Figure
+that have as parents the node and every node in the first set The nodes in the
+first set are instantiated to the corresponding values in the test instance for which Zt
+is to be predicted Thus the first set of nodes represents the antecedent of the LBR
+rule and the second set of nodes represents the consequent
+Xk
+Figure An example of a Bayesian network LBR model with target
+node and attribute nodes of which X1 are instantiated to
+values in are present in the antecedent of the LBR
+rule and that form the local simple Bayes classifier are
+present in the consequent The indices need not be ordered as shown
+but are presented in this example for convenience of exposition
+od A ve ag
+For Bayesian networks Equation can be evaluated as follows
+with being a Bayesian network comprised of structure and parameters The
+probability distribution of interest is a weighted average of the posterior distribution
+over all possible Bayesian networks where the weight is the probability of the
+Bayesian network given the data Since exhaustive enumeration of all possible
+models is not feasible even for this class of simple Bayesian networks we
+approximate exact model averaging with selective model averaging Let be the set
+of models selected by the search procedure from all possible models in the model
+space as described in the next section Then with selective model averaging
+P(Zt is estimated as
+Assuming uniform prior belief over all possible models the model posterior
+P(M in Equation can be replaced by the marginal likelihood P(D to
+obtain the following equation
+The unconditional marginal likelihood P(D in Equation is a measure of the
+goodness of fit of the model to the data and is also known as the model score While
+this score is suitable for assessing the model?s fit to the joint probability
+distribution it is not necessarily appropriate for assessing the goodness of fit to a
+conditional probability distribution which is the focus in prediction and
+classification tasks as is the case here A more suitable score in this situation is a
+conditional model score that is computed from training data of instances as
+score
+This score is computed in a predictive and sequential fashion for the pth training
+instance the probability of predicting the observed value zp for the target variable is
+computed based on the values of all the variables in the preceding training
+instances and the values xp of the attributes in the pth instance One limitation of this
+score is that its value depends on the ordering of the data Despite this limitation it
+has been shown to be an effective scoring criterion for classification models
+The parameters of the Bayesian network used in the above computations are
+defined as follows
+parents ijk
+ijk ijk
+ij ij
+where Nijk is the number of instances in the training dataset where variable
+has value and the parents of are in state ij ijk iii ijk is a
+parameter prior that can be interpreted as the belief equivalent of having previously
+observed ijk instances in which variable has value and the parents of are in
+state and ij ijk
+od Se a
+We use a two-phase best-first heuristic search to sample the model space The first
+phase ignores the evidence in the test instance while searching for models that
+have high scores as given by Equation This is followed by the second phase that
+searches for models having the greatest impact on the prediction of Zt for the test
+instance which we formalize below
+The first phase searches for models that predict in the training data very well
+these are the models that have high conditional model scores The initial model is
+the simple Bayes network that includes all the attributes in as children of Z. A
+succeeding model is derived from a current model by reversing the arc of a child
+node in the current model adding new outgoing arcs from it to and the remaining
+children and instantiating this node to the value in the test instance This process is
+performed for each child in the current model An incoming arc of a child node is
+considered for reversal only if the node?s value is not missing in the test instance
+The newly derived models are added to a priority queue Q. During each iteration of
+the search the model with the highest score given by Equation is removed from
+and placed in a set following which new models are generated as described just
+above scored and added to Q. The first phase terminates after a user-specified
+number of models have accumulated in R.
+The second phase searches for models that change the current model-averaged
+estimate of P(Zt the most The idea here is to find viable competing models
+for making this posterior probability prediction When no competitive models can
+be found the prediction becomes stable During each iteration of the search the
+highest ranked model is removed from and added to R. The ranking is based
+on how much the model changes the current estimate of P(Zt D). More change is
+better In particular is the model in that maximizes the following function
+where for a set of models the function computes the approximate model
+averaged prediction for Zt as follows
+P(Z
+score
+score
+The second phase terminates when no new model can be found that has a value as
+given by Equation that is greater than a user-specified minimum threshold T.
+The final distribution of Zt is then computed from the models in using Equation
+Ev a lu a
+We evaluated ISA on the 29 UCI datasets that Zheng and Webb used for the
+evaluation of LBR. On the same datasets we also evaluated a simple Bayes
+classifier and LBR. For SB and LBR we used the Weka implementations
+Weka http://www.cs.waikato.ac.nz/ml/weka with default settings We
+implemented the ISA algorithm as a standalone application in Java The following
+settings were used for ISA a maximum of phase-1 models a threshold of
+in phase-2 and an upper limit of models in R. For the parameter priors in
+Equation all ijk were set to
+All error rates were obtained by averaging the results from two stratified 10-fold
+cross-validation trials total similar to that used by Zheng and Webb Since
+both LBR and ISA can handle only discrete attributes all numeric attributes were
+discretized in a pre-processing step using the entropy based discretization method
+described in For each pair of training and test folds the discretization intervals
+were first estimated from the training fold and then applied to both folds The error
+rates of two algorithms on a dataset were compared with a paired t-test carried out at
+the significance level on the error rate statistics obtained from the trials
+The results are shown in Table Compared to SB ISA has significantly fewer
+errors on datasets and significantly more errors on one dataset Compared to LBR
+ISA has significantly fewer errors on datasets and significantly more errors on two
+datasets On two datasets chess and tic-tac-toe ISA shows considerable
+improvement in performance over both SB and LBR. With respect to computation
+Table Percent error rates of simple Bayes Lazy Bayesian Rule LBR
+and Instance-Specific Averaging A indicates that the ISA error rate is
+statistically significantly lower than the marked SB or LBR error rate A
+indicates that the ISA error rate is statistically significantly higher
+Dataset
+Size
+Annealing
+Audiology
+Breast
+Chess KR-KP
+Credit
+Echocardiogram
+Glass
+Heart
+Hepatitis
+Horse colic
+House votes 84
+Hypothyroid
+Iris
+Labor
+LED 24
+Liver disorders
+Lung cancer
+Lymphography
+Pima
+Postoperative
+Primary tumor
+Promoters
+Solar flare
+Sonar
+Soybean
+Splice junction
+Tic-Tac-Toe
+Wine
+Zoo
+57
+32
+90
+No. of
+classes
+24
+22
+19
+Num.
+Attrib
+13
+13
+Nom.
+Attrib
+32
+69
+36
+13
+18
+24
+56
+18
+17
+57
+35
+Percent error rate
+SB
+LBR
+ISA
+times ISA took times longer to run than LBR on average for a single test instance
+on a desktop computer with a GHz Pentium processor and GB of RAM.
+lu si a Fu re ea rc
+We have introduced a Bayesian framework for instance-specific model averaging
+and presented ISA as one example of a classification algorithm based on this
+framework An instance-specific algorithm like LBR that does model selection has
+been shown by Zheng and Webb to perform classification better than several eager
+algorithms Our results show that ISA which extends LBR by adding Bayesian
+model averaging improves overall on LBR which provides support that we can
+obtain additional prediction improvement by performing instance-specific model
+averaging rather than just instance-specific model selection
+In future work we plan to explore further the behavior of ISA with respect to the
+number of models being averaged and the effect of the number of models selected in
+each of the two phases of the search We will also investigate methods to improve
+the computational efficiency of ISA. In addition we plan to examine other
+heuristics for model search as well as more general model spaces such as
+unrestricted Bayesian networks
+The instance-specific framework is not restricted to the Bayesian network models
+that we have used in this investigation In the future we plan to explore other
+models using this framework Our ultimate interest is to apply these instancespecific algorithms to improve patient-specific predictions for diagnosis therapy
+selection and prognosis and thereby to improve patient care
+A ow me
+This work was supported by the grant from the National Library
+of Medicine NLM to the University of Pittsburgh?s Biomedical Informatics
+Training Program We would like to thank the three anonymous reviewers for their
+helpful comments
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 2267-data-dependent-bounds-for-bayesian-mixture-methods.pdf
+
+Data-Dependent Bounds for Bayesian
+Mixture Methods
+Ron Meir
+Department of Electrical Engineering
+Technion Haifa Israel
+rmeir@ee.technion.ac.il
+Tong Zhang
+IBM T.J. Watson Research Center
+Yorktown Heights NY USA
+tzhang@watson.ibm.com
+Abstract
+We consider Bayesian mixture approaches where a predictor is
+constructed by forming a weighted average of hypotheses from some
+space of functions While such procedures are known to lead to
+optimal predictors in several cases where sufficiently accurate prior
+information is available it has not been clear how they perform
+when some of the prior assumptions are violated In this paper we
+establish data-dependent bounds for such procedures extending
+previous randomized approaches such as the Gibbs algorithm to
+a fully Bayesian setting The finite-sample guarantees established
+in this work enable the utilization of Bayesian mixture approaches
+in agnostic settings where the usual assumptions of the Bayesian
+paradigm fail to hold Moreover the bounds derived can be directly
+applied to non-Bayesian mixture approaches such as Bagging and
+Boosting
+Introduction and Motivation
+The standard approach to Computational Learning Theory is usually formulated
+within the so-called frequentist approach to Statistics Within this paradigm one is
+interested in constructing an estimator based on a finite sample which possesses a
+small loss generalization error While many algorithms have been constructed and
+analyzed within this context it is not clear how these approaches relate to standard
+optimality criteria within the frequentist framework Two classic optimality criteria
+within the latter approach are the minimax and admissibility criteria which characterize optimality of estimators in a rigorous and precise fashion Except in some
+special cases it is not known whether any of the approaches used within the
+Learning community lead to optimality in either of the above senses of the word
+On the other hand it is known that under certain regularity conditions Bayesian
+estimators lead to either minimax or admissible estimators and thus to well-defined
+optimality in the classical frequentist sense In fact it can be shown that Bayes
+estimators are essentially the only estimators which can achieve optimality in the
+above senses This optimality feature provides strong motivation for the study
+of Bayesian approaches in a frequentist setting
+While Bayesian approaches have been widely studied there have not been generally
+applicable bounds in the frequentist framework Recently several approaches have
+attempted to address this problem In this paper we establish finite sample datadependent bounds for Bayesian mixture methods which together with the above
+optimality properties suggest that these approaches should become more widely
+used
+Consider the problem of supervised learning where we attempt to construct an estimator based on a finite sample of pairs of examples y1 yn
+each drawn independently according to an unknown distribution Let A be
+a learning algorithm which based on the sample constructs a hypothesis estimator from some set of hypotheses H. Denoting by the instantaneous
+loss of the hypothesis we wish to assess the true loss where
+the expectation is taken with respect to In particular the objective is to provide
+data-dependent bounds of the following form For any and with
+probability at least
+where is some empirical assessment of the true loss and is a complexity term For example inPthe classic Vapnik-Chervonenkis framework
+is the empirical error h(xi and depends on the VCdimension of but is independent of both the hypothesis and the sample S. By
+algorithm and data-dependent bounds we mean bounds where the complexity term
+depends on both the hypothesis chosen by the algorithm A and the sample S.
+A Decision Theoretic Bayesian Framework
+Consider a decision theoretic setting where we define the sample dependent loss of
+an algorithm A by A S)). Let be the optimal predictor
+for namely the function minimizing over It is clear that the
+best algorithm A Bayes algorithm is the one that always return assuming
+is known We are interested in the expected loss of an algorithm averaged over
+samples
+A ES A A
+where the expectation is taken with respect to the sample drawn from the
+probability measure If we consider a family of measures which possesses some
+underlying prior distribution then we can construct the averaged risk function
+with respect to the prior as
+A A A
+where
+is the posterior distribution on the family which
+induces a posterior distribution on the sample space as An algorithm
+minimizing the Bayes risk A is referred to as a Bayes algorithm In fact for a
+given prior and a given sample the optimal algorithm should return the Bayes
+optimal predictor with respect to the posterior measure
+For many important practical problems the optimal Bayes predictor is a linear
+functional of the underlying probability measure For example if the loss function is
+quadratic namely then the optimal Bayes predictor
+is the conditional mean of namely For binary classification problems we
+can let the predictor be the conditional probability the optimal
+classification decision rule then corresponds to a test of whether which
+is also a linear functional of Clearly if the Bayes predictor is a linear functional
+of the probability measure then the optimal Bayes algorithm with respect to the
+prior is given by
+AB
+In this case an optimal Bayesian algorithm can be regarded as the predictor constructed by averaging over all predictors with respect to a data-dependent posterior
+We refer to such methods as Bayesian mixture methods While the Bayes
+estimator AB is optimal with respect to the Bayes risk it can be
+shown that under appropriate conditions and an appropriate prior it is also a
+minimax and admissible estimator
+In general is unknown Rather we may have some prior information about
+possible models for In view of we consider a hypothesis space and an
+algorithm based on a mixture of hypotheses H. This should be contrasted
+with classical approaches where an algorithm selects a single hypothesis form
+H. For simplicity we consider a countable hypothesis space h2 the
+general case will be deferredPto the full paper Let qj
+be a probability
+vector namely qj and qj and construct the composite predictor by
+fq
+qj hj Observe that in general fq may be a great deal more
+complex that any single hypothesis hj For example if hj are non-polynomial
+ridge functions the composite predictor corresponds to a two-layer neural network
+with universal approximation
+power We denote by the probability distribution
+defined by namely qj hj Eh?Q
+A main feature of this work is the establishment of data-dependent bounds on
+L(Eh?Q the loss of the Bayes mixture algorithm There has been a flurry of
+recent activity concerning data-dependent bounds non-exhaustive list includes
+In a related vein McAllester provided a data-dependent bound
+for the so-called Gibbs algorithm which selects a hypothesis at random from
+based on the posterior distribution Essentially this result provides a bound
+on the average error Eh?Q rather than a bound on the error of the averaged
+hypothesis Later Langford extended this result to a mixture of classifiers
+using a margin-based loss function A more general result can also be obtained using
+the covering number approach described in Finally Herbrich and Graepel
+showed that under certain conditions the bounds for the Gibbs classifier can
+be extended to a Bayesian mixture classifier However their bound contained an
+explicit dependence on the dimension Thm. in
+Although the approach pioneered by McAllester came to be known as PAC-Bayes
+this term is somewhat misleading since an optimal Bayesian method the decision
+theoretic framework outline above does not average over loss functions but rather
+over hypotheses In this regard the learning behavior of a true Bayesian method is
+not addressed in the PAC-Bayes analysis In this paper we would like to narrow the
+discrepancy by analyzing Bayesian mixture methods where we consider a predictor
+that is the average of a family of predictors with respect to a data-dependent posterior distribution Bayesian mixtures can often be regarded as a good approximation
+to a true optimal Bayesian method In fact we have shown above that they are
+equivalent for many important practical problems
+Therefore the main contribution of the present work is the extension of the above
+mentioned results in PAC-Bayes analysis to a rather unified setting for Bayesian
+mixture methods where different regularization criteria may be incorporated and
+their effect on the performance easily assessed Furthermore it is also essential that
+the bounds obtained are dimension-independent since otherwise they yield useless
+results when applied to kernel-based methods which often map the input space into
+a space of very high dimensionality Similar results can also be obtained using the
+covering number analysis in However the approach presented in the current
+paper which relies on the direct computation of the Rademacher complexity is more
+direct and gives better bounds The analysis is also easier to generalize than the
+corresponding covering number approach Moreover our analysis applies directly
+to other non-Bayesian mixture approaches such as Bagging and Boosting
+Before moving to the derivation of our bounds we formalize our approach Consider
+a countable hypothesis space hj
+and a probability distribution qj over
+H. Introduce the vector notation qk hk A learning algorithm
+within the Bayesian mixture framework uses the sample to select a distribution
+over and then constructs a mixture hypothesis fq In order to
+constrain the class of mixtures used in constructing the mixture we impose
+constraints on the mixture vector Let be a non-negative convex function of
+and define for any positive A
+A A FA fq fq A
+where denotes the probability simplex In subsequent sections we will consider
+different choices for which essentially acts as a regularization term Finally
+for any mixture we define the loss by and the
+Pn h)(xi
+empirical loss incurred on the sample by L(q
+A Mixture Algorithm with an Entropic Constraint
+In this section we consider an entropic constraint which penalizes weights deviating significantly from some prior probability distribution
+which may
+incorporate our prior information about he problem The weights themselves are
+chosen by the algorithm based on the data In particular in this section we set
+to be the Kullback-Leibler divergence of from
+qj log(qj
+Let be a class of real-valued functions and denote by independent Bernoulli
+random variables assuming the values with equal probability We define the
+data-dependent Rademacher complexity of as
+sup
+with respect to will be denoted by Rn We note
+The expectation of
+that Rn is concentrated around its mean value Rn Thm. in We
+quote a slightly adapted result from
+Theorem Adapted from Theorem in
+Let be a sequence of points generated independently at random
+according to a probability distribution and let be a class of measurable functions
+from to R. Furthermore let be a non-negative Lipschitz function with Lipschitz
+constant such that is uniformly bounded by a constant Then for all
+with probability at least
+1X
+2n
+An immediate consequence of Theorem is the following
+Lemma Let the loss function be bounded by and assume that it is Lipschitz with constant Then for all A with probability at least
+L(q L(q FA
+2n
+Next we bound the empirical Rademacher average of FA using
+Lemma The empirical Rademacher complexity of FA is upper bounded as follows
+u1
+2A
+Rn FA
+sup
+hj
+Proof We first recall a few facts from the theory of convex duality Let
+be a convex function over a domain and set its dual supP
+u?U
+It is known that is also convex Setting and qj log(qj we
+find that log ezj From the definition of it follows that for any
+qj log(qj log
+ez
+Since is arbitrary we set h(xi and conclude that for A and
+any
+sup
+A log
+exp
+h(xi
+hj
+Taking the
+to and using the Chernoff bound
+expectation with
+2respect
+exp exp
+a
+we
+have
+that
+FA
+exp
+A log
+hj
+A sup log exp
+hj
+Jensen
+hj
+A sup log exp
+Chernoff
+A
+sup
+hj
+2n
+Minimizing the with respect to we obtain the desired result
+Combining Lemmas and yields our basic bound where and are defined
+in Lemma
+Theorem Let y1 yn be a sample of points each
+drawn according to a distribution Let be a countable hypothesis class
+and set FA to be the class defined in with Set
+supj
+Pn
+hj
+Then for any A with probability at least
+2A
+L(q L(q
+2n
+Note that if hj are uniformly bounded hj then Theorem holds for a
+fixed value of A. Using the so-called multiple testing Lemma we obtain
+Corollary Let the assumptions
+of Theorem hold and let Ai pi be a set of
+positive numbers such that pi Then for all Ai and Ai with probability
+at least
+2Ai
+log(1/pi
+L(q L(q
+2n
+Note that the only distinction with Theorem is the extra factor of log pi which is
+the price paid for the uniformity of the bound
+Finally we present a data-dependent bound of the form
+Theorem Let the assumptions of Theorem hold Then for all with
+probability at least
+L(q L(q max(??H
+Proof sketch Pick Ai 2i and pi note that pi
+For each let be the smallest index for which Ai(q implying that
+log(1/pi(q log log2 A few lines of algebra to be presented in the
+full paper yield the desired result
+The results of Theorem can be compared to those derived by McAllester for
+the randomized Gibbs procedure In the latter case the first term on the is
+Eh?Q
+namely the average empirical error of the base classifiers In our case
+h?Q namely the empirical error of the average
+the corresponding term is L(E
+hypothesis Since Eh?Q is potentially much more complex than any single
+we expect that the empirical term in is much smaller than the corresponding
+term in Moreover the complexity term we obtain is in fact tighter than the
+corresponding term in by a logarithmic factor in although the logarithmic
+factor in could probably be eliminated We thus expect that Bayesian mixture
+approach advocated here leads to better performance guarantees
+Finally we comment that Theorem can be used to obtain so-called oracle inequalities In particular let be the optimal distribution minimizing which
+can only be computed if the underlying distribution is known Consider an
+by minimizing
+algorithm which based only on the data selects a distribution
+the of with the implicit constants appropriately specified Then using
+standard approaches we can obtain a bound on
+For
+lack of space we defer the derivation of the precise bound to the full paper
+General Data-Dependent Bounds for Bayesian Mixtures
+The Kullback-Leibler divergence is but one way to incorporate prior information
+In this section we extend the results to general convex regularization functions
+Some possible choices for besides the Kullback-Leibler divergence are
+the standard Lp norms kqkp
+In order to proceed along the lines of Section we let
+be the convex function associated with namely supq??A Repeating
+Pn
+the arguments of Section we have for any that n1 h(xi
+h(xi which implies that
+A+s
+Rn FA inf
+A
+h(xi
+Pn
+Assume that is second order differentiable and that for any h(xi
+s(h Then assuming that it is
+easy to show by induction that
+Xn
+h(xi
+In the remainder of the section we focus on the the case of regularization based on
+the Lp norm Consider and such that and let p0
+max(p and min(q Note that if then p0 and if
+then p0 Consider p-norm regularization kqkpp in which
+case kzkqq The Rademacher averaging result for p-norm regularization
+is known in the Geometric theory of Banach spaces type structure of the Banach
+space and it also follows from Khinchtine?s inequality We show that it can be
+easily obtained in our framework
+In this case it is easy to see that
+Substituting in we have
+FA inf
+A
+q0
+where Cq
+q0
+kzkq
+implies
+q0
+kh(x)kq
+Cq
+1X
+q0
+q0
+kh(xi kq A
+kh(xi kq
+Combining this result with the methods described in Section we establish a bound
+for regularization based on the Lp norm Assume that kh(xi kq is finite for all
+Pn
+and set kh(xi kqq
+Theorem Let the conditions of Theorem hold and set
+Then for all with probability at least
+max(??H,q
+L(q L(q
+kqkp
+p0
+p0 kqkp
+log log(kqkp
+where hides a universal constant that depends only on
+Discussion
+We have introduced and analyzed a class of regularized Bayesian mixture approaches which construct complex composite estimators by combining hypotheses
+from some underlying hypothesis class using data-dependent weights Such weighted
+averaging approaches have been used extensively within the Bayesian framework
+as well as in more recent approaches such as Bagging and Boosting While Bayesian
+methods are known under favorable conditions to lead to optimal estimators in a
+frequentist setting their performance in agnostic settings where no reliable assumptions can be made concerning the data generating mechanism has not been well
+understood Our data-dependent bounds allow the utilization of Bayesian mixture
+models in general settings while at the same time taking advantage of the benefits
+of the Bayesian approach in terms of incorporation of prior knowledge The bounds
+established being independent of the cardinality of the underlying hypothesis space
+can be directly applied to kernel based methods
+Acknowledgments We thank Shimon Benjo for helpful discussions The research
+of R.M. is partially supported by the fund for promotion of research at the Technion
+and by the Ollendorff foundation of the Electrical Engineering department at the
+Technion
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 2570-constraining-a-bayesian-model-of-human-visual-speed-perception.pdf
+
+Constraining a Bayesian Model of Human Visual
+Speed Perception
+Alan A. Stocker and Eero P. Simoncelli
+Howard Hughes Medical Institute
+Center for Neural Science and Courant Institute of Mathematical Sciences
+New York University
+Abstract
+It has been demonstrated that basic aspects of human visual motion perception are qualitatively consistent with a Bayesian estimation framework where the prior probability distribution on velocity favors slow
+speeds Here we present a refined probabilistic model that can account
+for the typical trial-to-trial variabilities observed in psychophysical speed
+perception experiments We also show that data from such experiments
+can be used to constrain both the likelihood and prior functions of the
+model Specifically we measured matching speeds and thresholds in a
+two-alternative forced choice speed discrimination task Parametric fits
+to the data reveal that the likelihood function is well approximated by
+a LogNormal distribution with a characteristic contrast-dependent variance and that the prior distribution on velocity exhibits significantly
+heavier tails than a Gaussian and approximately follows a power-law
+function
+Humans do not perceive visual motion veridically Various psychophysical experiments
+have shown that the perceived speed of visual stimuli is affected by stimulus contrast
+with low contrast stimuli being perceived to move slower than high contrast ones
+Computational models have been suggested that can qualitatively explain these perceptual
+effects Commonly they assume the perception of visual motion to be optimal either within
+a deterministic framework with a regularization constraint that biases the solution toward
+zero motion or within a probabilistic framework of Bayesian estimation with a prior
+that favors slow velocities
+The solutions resulting from these two frameworks are similar and in some cases identical but the probabilistic framework provides a more principled formulation of the problem
+in terms of meaningful probabilistic components Specifically Bayesian approaches rely
+on a likelihood function that expresses the relationship between the noisy measurements
+and the quantity to be estimated and a prior distribution that expresses the probability of
+encountering any particular value of that quantity A probabilistic model can also provide a
+richer description by defining a full probability density over the set of possible percepts
+rather than just a single value Numerous analyses of psychophysical experiments have
+made use of such distributions within the framework of signal detection theory in order to
+model perceptual behavior
+Previous work has shown that an ideal Bayesian observer model based on Gaussian forms
+posterior
+low contrast
+probability density
+probability density
+high contrast
+likelihood
+prior
+a
+posterior
+likelihood
+prior
+visual speed
+visual speed
+Figure Bayesian model of visual speed perception For a high contrast stimulus the
+likelihood has a narrow width high signal-to-noise ratio and the prior induces only a
+small shift of the mean of the posterior For a low contrast stimuli the measurement
+is noisy leading to a wider likelihood The shift is much larger and the perceived speed
+lower than under condition
+for both likelihood and prior is sufficient to capture the basic qualitative features of global
+translational motion perception But the behavior of the resulting model deviates
+systematically from human perceptual data most importantly with regard to trial-to-trial
+variability and the precise form of interaction between contrast and perceived speed A
+recent article achieved better fits for the model under the assumption that human contrast
+perception saturates In order to advance the theory of Bayesian perception and provide
+significant constraints on models of neural implementation it seems essential to constrain
+quantitatively both the likelihood function and the prior probability distribution In previous
+work the proposed likelihood functions were derived from the brightness constancy constraint or other generative principles Also previous approaches defined the prior
+distribution based on general assumptions and computational convenience typically choosing a Gaussian with zero mean although a Laplacian prior has also been suggested In
+this paper we develop a more general form of Bayesian model for speed perception that
+can account for trial-to-trial variability We use psychophysical speed discrimination data
+in order to constrain both the likelihood and the prior function
+Probabilistic Model of Visual Speed Perception
+Ideal Bayesian Observer
+Assume that an observer wants to obtain an estimate for a variable based on a measurement that she/he performs A Bayesian observer knows that the measurement device
+is not ideal and therefore the measurement is affected by noise Hence this observer
+combines the information gained by the measurement with a priori knowledge about
+Doing so and assuming that the prior knowledge is valid the observer will on average
+perform better in estimating than just trusting the measurements According to Bayes
+rule
+the probability of perceiving given posterior is the product of the likelihood of for
+a particular measurements and the a priori knowledge about the estimated variable
+prior is a normalization constant independent of that ensures that the posterior is a
+proper probability distribution
+a
+vmatch vthres
+v2
+Figure 2AFC speed discrimination experiment Two patches of drifting gratings were
+displayed simultaneously motion without movement The subject was asked to fixate
+the center cross and decide after the presentation which of the two gratings was moving
+faster A typical psychometric curve obtained under such paradigm The dots represent
+the empirical probability that the subject perceived stimulus2 moving faster than stimulus1
+The speed of stimulus1 was fixed while v2 is varied The point of subjective equality vmatch
+is the value of v2 for which Pcum The threshold velocity vthresh is the velocity for
+which Pcum
+It is important to note that the measurement is an internal variable of the observer and
+is not necessarily represented in the same space as The likelihood embodies both the
+mapping from to and the noise in this mapping So far we assume that there is a
+monotonic function vm that maps into the same space as m-space
+Doing so allows us to analytically treat and vm in the same space We will later propose
+a suitable form of the mapping function
+An ideal Bayesian observer selects the estimate that minimizes the expected loss given the
+posterior and a loss function We assume a least-squares loss function Then the optimal
+estimate is the mean of the posterior in Equation It is easy to see why this model
+of a Bayesian observer is consistent with the fact that perceived speed decreases with contrast The width of the likelihood varies inversely with the accuracy of the measurements
+performed by the observer which presumably decreases with decreasing contrast due to
+a decreasing signal-to-noise ratio As illustrated in Figure the shift in perceived speed
+towards slow velocities grows with the width of the likelihood and thus a Bayesian model
+can qualitatively explain the psychophysical results
+Two Alternative Forced Choice Experiment
+We would like to examine perceived speeds under a wide range of conditions in order to
+constrain a Bayesian model Unfortunately perceived speed is an internal variable and it is
+not obvious how to design an experiment that would allow subjects to express it directly
+Perceived speed can only be accessed indirectly by asking the subject to compare the speed
+of two stimuli For a given trial an ideal Bayesian observer in such a two-alternative forced
+choice experimental paradigm simply decides on the basis of the two trial estimates
+stimulus1 and stimulus2 which stimulus moves faster Each estimate is based
+on a particular measurement For a given stimulus with speed an ideal Bayesian
+observer will produce a distribution of estimates
+because is noisy Over trials
+the observers behavior can be described by classical signal detection theory based on the
+distributions of the estimates hence the probability of perceiving stimulus2 moving
+Although see for an example of determining and even changing the prior of a Bayesian
+model for a sensorimotor task where the estimates are more directly accessible
+faster than stimulus1 is given as the cumulative probability
+Pcum
+v2
+v2
+v1
+v1
+v2
+Pcum describes the full psychometric curve Figure 2b illustrates the measured psychometric curve and its fit from such an experimental situation
+Experimental Methods
+We measured matching speeds Pcum and thresholds Pcum in a 2AFC
+speed discrimination task Subjects were presented simultaneously with two circular
+patches of horizontally drifting sine-wave gratings for the duration of one second Figure Patches were 3deg in diameter and were displayed at 6deg eccentricity to either
+side of a fixation cross The stimuli had an identical spatial frequency of cycle/deg One
+stimulus was considered to be the
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 5553-a-framework-for-testing-identifiability-of-bayesian-models-of-perception.pdf
+
+A Framework for Testing Identifiability
+of Bayesian Models of Perception
+Luigi Acerbi1,2
+Wei Ji Ma2
+Sethu Vijayakumar1
+School of Informatics University of Edinburgh UK
+Center for Neural Science Department of Psychology New York University USA
+luigi.acerbi,weijima}@nyu.edu
+sethu.vijayakumar@ed.ac.uk
+Abstract
+Bayesian observer models are very effective in describing human performance in
+perceptual tasks so much so that they are trusted to faithfully recover hidden mental representations of priors likelihoods or loss functions from the data However
+the intrinsic degeneracy of the Bayesian framework as multiple combinations of
+elements can yield empirically indistinguishable results prompts the question of
+model identifiability We propose a novel framework for a systematic testing of
+the identifiability of a significant class of Bayesian observer models with practical applications for improving experimental design We examine the theoretical
+identifiability of the inferred internal representations in two case studies First
+we show which experimental designs work better to remove the underlying degeneracy in a time interval estimation task Second we find that the reconstructed
+representations in a speed perception task under a slow-speed prior are fairly robust
+Motivation
+Bayesian Decision Theory BDT has been traditionally used as a benchmark of ideal perceptual
+performance and a large body of work has established that humans behave close to Bayesian
+observers in a variety of psychophysical tasks The efficacy of the Bayesian
+framework in explaining a huge set of diverse behavioral data suggests a stronger interpretation
+of BDT as a process model of perception according to which the formal elements of the decision
+process priors likelihoods loss functions are independently represented in the brain and shared
+across tasks Importantly such mental representations albeit not directly accessible to the
+experimenter can be tentatively recovered from the behavioral data by inverting a model of the
+decision process priors 13 likelihood and loss functions
+The ability to faithfully reconstruct the observer?s internal representations is key to the understanding
+of several outstanding issues such as the complexity of statistical learning the nature
+of mental categories and linking behavioral to neural representations of uncertainty
+In spite of these successes the validity of the conclusions reached by fitting Bayesian observer
+models to the data can be questioned A major issue is that the inverse mapping from
+observed behavior to elements of the decision process is not unique To see this degeneracy
+consider a simple perceptual task in which the observer is exposed to stimulus that induces a noisy
+sensory measurement The Bayesian observer reports the optimal estimate that minimizes his
+or her expected loss where the loss function encodes the loss cost for choosing when
+the real stimulus is The optimal estimate for a given measurement is computed as follows
+arg min qmeas x|s)qprior ds
+where qprior is the observer?s prior density over stimuli and qmeas the observer?s sensory
+likelihood as a function of Crucially for a given the solution of is the same for any
+triplet of prior qprior likelihood qmeas and loss function
+where
+Q3
+the are three generic functions such that for a constant This analysis
+shows that the inverse problem is ill-posed as multiple combinations of priors likelihoods and
+loss functions yield identical behavior even before considering other confounding issues such
+as latent states If uncontrolled this redundancy of solutions may condemn the Bayesian models of
+perception to a severe form of model non-identifiability that prevents the reliable recovery of model
+components and in particular the sought-after internal representations from the data
+In practice the degeneracy of can be prevented by enforcing constraints on the shape that the
+internal representations are allowed to take Such constraints include theoretical considerations
+that the likelihood emerges from a specific noise model assumptions related to
+the experimental layout that the observer will adopt the loss function imposed by the reward
+system of the task additional measurements obtained either in independent experiments or
+in distinct conditions of the same experiment through Bayesian transfer Crucially both
+and are under partial control of the experimenter as they depend on the experimental design
+choice of reward system number of conditions separate control experiments Although
+several approaches have been used or proposed to suppress the degeneracy of Bayesian models of
+perception there has been no systematic analysis neither empirical nor theoretical of
+their effectiveness nor a framework to perform such study a priori before running an experiment
+This paper aims to fill this gap for a large class of psychophysical tasks Similar issues of model
+non-identifiability are not new to psychology and generic techniques of analysis have been
+proposed Here we present an efficient method that exploits the common structure shared
+by many Bayesian models of sensory estimation First we provide a general framework that allows a
+modeller to perform a systematic a priori investigation of identifiability that is the ability to reliably
+recover the parameters of interest for a chosen Bayesian observer model Second we show how
+by comparing identifiability within distinct ideal experimental setups our framework can be used
+to improve experimental design In Section we introduce a novel class of observer models that is
+both flexible and efficient key requirements for the subsequent analysis In Section we describe
+a method to efficiently explore identifiability of a given observer model within our framework In
+Section we show an application of our technique to two well-known scenarios in time perception
+and speed perception We conclude with a few remarks in Section
+Bayesian observer model
+Here we introduce a continuous class of Bayesian observer models parametrized by vector Each
+value of corresponds to a specific observer that can be used to model the psychophysical task of
+interest The current model class extends previous work by encompassing any sensorimotor estimation task in which a one-dimensional stimulus magnitude variable such as duration
+distance speed etc is directly estimated by the observer This is a fundamental experimental condition representative of several studies in the field 24 With minor modifications
+the model can also cover angular variables such as orientation for small errors and multidimensional variables when symmetries make the actual inference space one-dimensional The
+main novel feature of the presented model is that it covers a large representational basis with a single parametrization while still allowing fast computation of the observer?s behavior both necessary
+requirements to permit an exploration of the complex model space as described in Section
+The generic observer model is constructed in four steps Figure a the sensation stage
+describes how the physical stimulus determines the internal measurement the perception stage
+describes how the internal measurement is combined with the prior to yield a posterior distribution
+the decision-making stage describes how the posterior distribution and loss function guide the
+choice of an optimal estimate possibly corrupted by lapses and finally the response stage
+describes how the optimal estimate leads to the observed response
+Sensation stage
+For computational convenience we assume that the stimulus the task space
+comes from
+a discrete experimental distribution of stimuli si with frequencies Pi with Pi Pi
+for Nexp Discrete distributions of stimuli are common in psychophysics and continu2
+Internal model
+Generative model
+a
+Perception
+Decision-making
+Sensation
+pmeas
+pest
+Response
+preport
+Decision-making
+Perception
+qmeas
+qprior
+minimizeE
+lapse
+Figure Observer model Graphical model of a sensorimotor estimation task as seen from the
+outside and from the subjective point of view of the observer a Objective generative
+model of the task Stimulus induces a noisy sensory measurement in the observer who decides
+for estimate The recorded response is further perturbed by reporting noise Shaded
+nodes denote experimentally accessible variables Observer?s internal model of the task The
+observer performs inference in an internal measurement space in which the unknown stimulus is
+denoted by with The observer either chooses the subjectively optimal value of given
+internal measurement by minimizing the expected loss or simply lapses with probability The
+observer?s chosen estimate is converted to task space through the inverse mapping
+The whole process in this panel is encoded in by the estimate distribution pest
+ous distributions can be binned and approximated up to the desired precision by increasing Nexp
+Due to noise in the sensory systems stimulus induces an internal measurement according
+to measurement distribution pmeas In general the magnitude of sensory noise may be
+stimulus-dependent in task space in which case the shape of the likelihood would change from point
+to point which is unwieldy for subsequent computations We want instead to find a transformed
+space in which the scale of the noise is stimulus-independent and the likelihood translationally invariant Supplementary Material We assume that such change of variables is performed by
+a function that monotonically maps stimulus from task space into which
+lives with in an internal measurement space We assume for the following parametric form
+t?B
+A
+with inverse s0 A
+s0
+where A and are chosen without loss of generality such that the discrete distribution of stimuli
+mapped in internal space si for Nexp has range The parametric form of the
+sensory map in can approximate both Weber-Fechner?s law and Steven?s law for different
+values of base noise magnitude s0 and power exponent Supplementary Material
+We determine the shape of pmeas with a maximum-entropy approach by fixing the first four
+moments of the distribution and under the rather general assumptions that the sensory measurement
+is unimodal and centered on the stimulus in internal measurement space For computational convenience we express pmeas as a mixture of two Gaussians in internal measurement space
+pmeas x|f x|f
+where is a normal distribution with mean and variance this paper we consider
+a two-component mixture but derivations easily generalize to more components The parameters in
+are partially determined by specifying the first four central moments Var[x
+Skew[x Kurt[x where are free parameters The remaining degrees of freedom
+one for two Gaussians are fixed by picking a distribution that satisfies unimodality and locally
+maximizes the differential entropy Supplementary Material The sensation model represented
+by Eqs. and allows to express a large class of sensory models in the psychophysics literature
+including for instance stimulus-dependent noise and robust mixture models
+Perceptual stage
+Without loss of generality we represent the observer?s prior distribution qprior as a mixture of
+dense regularly spaced Gaussian distributions in internal measurement space
+qprior
+wm t|?min a2
+a
+max min
+where wm are the mixing weights a the lattice spacing and min max the range in internal space
+over which the prior is defined chosen wider than the true stimulus range allows
+the modeller to approximate any observer?s prior where regulates the fine-grainedness of the
+representation and is determined by computational constraints for all our analyses we fix
+For simplicity we assume that the observer?s internal representation of the likelihood qmeas
+is expressed in the same measurement space and takes again the form of a unimodal mixture of two
+Gaussians although with possibly different variance skewness and kurtosis respectively
+and
+than the true likelihood We write the observer?s posterior distribution as qpost
+meas with the normalization constant
+prior
+Decision-making stage
+According to Bayesian Decision Theory the observer?s optimal estimate corresponds to the
+value of the stimulus that minimizes the expected loss with respect to loss function where
+is the true value of the stimulus and its estimate In general the loss could depend on and in
+different ways but for now we assume a functional dependence only on the stimulus difference in
+internal measurement space The subjectively optimal estimate is
+arg min qpost dt
+where the integral on the represents the expected loss We make the further assumption that
+the loss function is well-behaved that is smooth with a unique minimum at zero the loss is
+minimal when the estimate matches the true stimulus and with no other local minima As before
+we adopt a maximum-entropy approach and we restrict ourselves to the class of loss functions that
+can be described as mixtures of two inverted Gaussians
+Although the loss function is not a distribution we find convenient to parametrize it in terms
+of statistics of a corresponding unimodal distribution obtained by flipping upside down
+Mode Var Skew Kurt with t0 Note that we fix
+the location of the mode of the mixture of Gaussians so that the global minimum of the loss is at
+zero As before the remaining free parameter is fixed by taking a local maximum-entropy solution
+A single inverted Gaussian already allows to express a large variety of losses from a delta function
+MAP strategy for to a quadratic loss for practice for and it has been
+shown to capture human sensorimotor behavior quite well further extends the range of
+describable losses to asymmetric and more or less peaked functions Crucially Eqs. and
+combined yield an analytical expression for the expected loss that is a mixture of Gaussians
+Supplementary Material that allows for a fast numerical solution
+We allow the possibility that the observer may occasionally deviate from BDT due to lapses with
+probability In the case of lapse the observer?s estimate is drawn randomly from the prior
+The combined stochastic estimator with lapse in task space has distribution
+pest qprior
+where is the derivative of the mapping in Supplementary Material
+Response stage
+We assume that the observer?s response is equal to the observer?s estimate corrupted by independent normal noise in task space due to motor error and other residual sources of variability
+preport report
+where we choose a simple parameteric form for the variance report
+s2 that is the
+sum of two independent noise terms constant noise plus some noise that grows with the magnitude
+of the stimulus In our current analysis we are interested in observer models of perception so we do
+not explicitly model details of the motor aspect of the task and we do not include the consequences
+of response error into the decision making part of the model
+Finally the main observable that the experimenter can measure is the response probability density
+presp of a response for a given stimulus and observer?s parameter vector
+presp report
+pest x)pmeas ds dx
+obtained by marginalizing over unobserved variables Figure and which we can compute
+through Eqs. An observer model is fully characterized by parameter vector
+s0
+wn m0 m1
+An experimental design is specified by a
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+

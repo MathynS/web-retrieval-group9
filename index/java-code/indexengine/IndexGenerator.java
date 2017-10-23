@@ -75,7 +75,8 @@ public class IndexGenerator {
     	try (	Connection conn = this.connect();
     			Statement stmt = conn.createStatement()){
     		
-        	String firstIdQuery = "select id from papers_nr_nsw limit 1"; 
+        	String firstIdQuery = "select id from papers_nr_nsw limit 1";
+    		//String firstIdQuery = "select id from papers_nr_nsw_ste limit 1";
         	ResultSet rsFirstId = stmt.executeQuery(firstIdQuery);
         	int firstId = -1;
         	if (rsFirstId != null){
@@ -83,6 +84,7 @@ public class IndexGenerator {
         	}
         	
         	String maxIdQuery = "select id from papers_nr_nsw order by id desc limit 1";
+        	//String maxIdQuery = "select id from papers_nr_nsw_ste order by id desc limit 1";
         	ResultSet rsMaxId = stmt.executeQuery(maxIdQuery);
         	int maxId = -1;
         	if (rsMaxId != null){

@@ -1,0 +1,2326 @@
+query sentence: Neural networks
+<<------------------------------------------------------------------------------------------------------------------------------------------->>
+title: 232-analog-neural-networks-of-limited-precision-i-computing-with-multilinear-threshold-functions.pdf
+
+Obradovic and Pclrberry
+Analog Neural Networks of Limited Precision I
+Computing with Multilinear Threshold Functions
+Preliminary Version
+Zoran Obradovic and Ian Parberry
+Department of Computer Science
+Penn State University
+University Park Pa.
+ABSTRACT
+Experimental evidence has shown analog neural networks to be ex~mely fault-tolerant in particular their performance does not appear to be significantly impaired when precision is limited Analog
+neurons with limited precision essentially compute k-ary weighted
+multilinear threshold functions which divide into regions with
+k-l hyperplanes The behaviour of k-ary neural networks is investigated There is no canonical set of threshold values for
+although they exist for binary and ternary neural networks The
+weights can be made integers of only log bits where
+is the number of processors without increasing hardware or running time The weights can be made while increasing running
+time by a constant multiple and hardware by a small polynomial in
+and Binary neurons can be used if the running time is allowed to
+increase by a larger constant multiple and the hardware is allowed to
+increase by a slightly larger polynomial in and Any symmetric
+k-ary function can be computed in constant depth and size
+and any k-ary function can be computed in constant
+depth and size The alternating neural networks of Olafsson
+and Abu-Mostafa and the quantized neural networks of Fleisher are
+closely related to this model
+Analog Neural Networks of Limited Precision I
+INTRODUCTION
+Neural networks are typically circuits constructed from processing units which compute simple functions of the form f(Wl wlI):RII-+S where SeR wieR for
+and
+WII)(Xl xlI)=g LWi
+for some output function There are two choices for the set which are
+currently popular in the literature The first is the discrete model with S=B where
+denotes the Boolean set In this case is typically a linear threshold function
+iff and is called a weighted linear threshold function The second is
+the analog model with where denotes re In this case
+is typically a monotone increasing function such as the sigmoid function
+for some constant R. The analog neural network model is popular
+because it is easy to construct processors with the required characteristics using a few
+transistors The digital model is popular because its behaviour is easy to analyze
+Experimental evidence indicates that analog neural networks can produce accurate
+computations when the precision of their components is limited Consider what actually happens to the analog model when the precision is limited Suppose the neurons
+can take on distinct excitation values for example by restricting the number of digits in their binary or decimal expansions Then is isomorphic to
+We will show that is essentially the multilinear threshold function
+hloh2 defined by
+Here and throughout this paper we will assume that and for convenience define ho=-oo and h/c=oo We will call a k-ary weighted multilinear threshold
+function when is a multilinear threshold function
+We will study neural networks constructed from k-ary multilinear threshold functions
+We will call these k-ary neural networks in order to distinguish them from the standard 2-ary or binary neural network We are particularly concerned with the resources
+of time size number of processors and weight sum of all the weights of k-ary
+neural networks when used in accordance with the classical computational paradigm
+The reader is referred to parberry for similar results on binary neural networks
+A companion paper Obradovic Parberry deals with learning on k-ary neural networks A more detailed version of this paper appears in Obradovic Parberry
+A K-ARY NEURAL NETWORK MODEL
+A k-ary neural network is a weighted graph where is a set of processors and cVxV is a set of connections between processors Function
+w:VxV assign weights to interconnections and h:V assign a set of k-l
+thresholds to each of the processors We assume that if eE The
+size of is defined to be the number of processors and the weight of is
+Obradovic and Parberry
+The processors of a k-ary neural network are relatively limited in computing power
+A k-ary function is a function Let denote the set of all n-input k-ary
+functions Define by It where
+It iff hi
+The set of k-ary weighted multilinear threshold functions is the union over all N.
+of the range of Each processor of a k-ary neural network can compute a k-ary
+weighted multilinear threshold function of its inputs
+Each processor can be in one of states through Initially the input processors of are placed into states which encode the input If processor was updated
+during interval its state at time was and output was then at time its state
+will be A k-ary neural network computes by having the processors change state until a stable configuration is reached The output of are the states of the output processors after a stable state has been reached A neural network is said to be equivalent to iff for all inputs for every computation of on input which
+terminates in time there is a computation of on input which terminates in time
+with the same output A neural network is said to be equivalent to iff it
+is equivalent to it
+ANALOG NEURAL NETWORKS
+Let be a function with range Any limited-precision device which purports to
+compute must actually compute some function with range the rational values
+for some keN This is sufficient for all practical purposes
+provided is large enough Since is isomorphic to Z". we will formally define
+the limited precision variant of to be the function defined by
+f,,(x)=round(j where round:R~N is the natural rounding function defined
+by round(x)=n iff
+Theorem Letf(Wlo where WieR for
+be defined by
+LWiXi
+i=l
+where is monotone increasing and invertible Then f(Wlo
+is a k-ary weighted multilinear threshold function
+Proof It is easy to verify that f(Wlo where
+hi
+Thus we see that analog neural networks with limited precision are essentially k-ary
+neural networks
+Analog Neural Networks of Limited Precision I
+CANONICAL THRESHOLDS
+Binary neural networks have the advantage that all thresholds can be taken equal to
+zero see for example Theorem of Parberry A similar result holds for
+ternary neural networks
+Theorem For every n-input ternary weighted multilinear threshold function there
+is an equivalent I)-input ternary weighted multilinear threshold function with
+threshold values equal to zero and one
+Proof Suppose WII hloh2E R. Without loss of generality assume
+l<h
+Define W=(Wl RII+I by wj=wjl(hrh for and
+wlI It can be demonstrated by a simple case analysis that for all
+xll)e
+Z;.
+l,hz)(x xll
+The choice of threshold values in Theorem was arbitrary Unfortunately there is
+no canonical set of thresholds for
+Theorem For every 1o hk 1E R. there exists an n-input k-ary
+weighted multilinear threshold function
+such that for all input k-ary weighted multilinear threshold functions
+WII+m hk-l
+A
+Proof Sketch Suppose that I tk-l is a canonical set of thresholds and
+assume Let 1o hk where l=h hi for 4Si and
+By hypothesis there exist wlo and y=(ylo such that for all xeZi
+Let I:Wi+2Yi Since it follows that
+2(Wl+Wz+S
+Since and it follows that
+Obradovic and Pdrberry
+Inequalities and imply that
+By similar arguments from we can conclude that
+But contradicts
+NETWORKS OF BOUNDED WEIGHT
+Although our model allows each weight to take on an infinite number of possible
+values there are only a finite number of threshold functions since there are only a
+finite number of k-ary functions with a fixed number of inputs Thus the number of
+input threshold functions is bounded above by some function in and In fact
+something stronger can be shown All weights can be made integral and
+log bits are sufficient to describe each one
+Theorem For every k-ary neural network of size there exists an equivalent
+k-ary neural network M2 of size and weight with integer
+weights
+Proof Sketch It is sufficient to prove that for every weighted threshold function
+f:(Wlt for some neN there is an equivalent we1f.hted threshold function w:.hi such that for
+By extending the techniques used by Muroga Toda and Takasu in the
+binary case we see that the weights are bounded above by the maximum determinant
+of a matrix of dimension lover Z".
+Thus if is bounded above by a polynomial in we are guaranteed of being able to
+describe the weights using a polynomial number of bits
+THRESHOLD CIRCUITS
+A k-ary neural network with weights drawn from is said to have unit weights A
+unit-weight directed acyclic k-ary neural network is called a k-ary threshold circuit
+A k-ary threshold circuit can be divided into layers with each layer receiving inputs
+only from the layers above it The depth of a k-ary threshold circuit is defined to be
+the number of layers The weight is equal to the number of edges which is bounded
+above by the square of the size Despite the apparent handicap of limited weights kary threshold circuits are surprisingly powerful
+Much interest has focussed on the computation of symmetric functions by neural networks motivated by the fact that the visual system appears to be able to recognize objects regardless of their position on the retina A function is called symmetric if its output remains the same no matter how the input is permuted
+Analog Neural Networks of Limited Precision I
+Theorem Any symmetric k-ary function on inputs can be computed by a k-ary
+threshold circuit of depth and size
+Proof Omitted
+It has been noted many times that neural networks can compute any Boolean function
+in constant depth The same is true of k-ary neural networks although both results
+appear to require exponential size for many interesting functions
+Theorem Any k-ary function of inputs can be computed by a k-ary threshold
+circuit with size and depth
+Proof Similar to that for Chandra Parberry
+The interesting problem remaining is to determine which functions require exponential
+size to achieve constant depth and which can be computed in polynomial size and
+constant depth We will now consider the problem of adding integers represented in
+k-ary notation
+Theorem The sum of two k-ary integers of size can be computed by a k-ary
+threshold circuit with size and depth
+Proof First compute the carry of and in luadratic size and depth using the standard elementary school algorithm Then the it position of the result can be computed
+from the tit position of the operands and a carry propagated in that position in constant size and depth
+Theorem The sum of integers of size can be computed by a k-ary
+threshold circuit with size and constant depth
+Proof Similar to the proof for using Theorem Chandra Parberry
+Theorem For every k-ary neural network of size there exists an t)equivalent unit-weight k-ary neural network M2 of size
+Proof By Theorem we can bound all weights to have size in
+binary notation By Theorem we can replace every processor with non-unit
+weights by a threshold circuit of size and constant depth
+Theorem implies that we can assume unit weights by increasing the size by a polynomial and the running time by only a constant multiple provided the number of
+logic levels is bounded above by a polynomial in the size of the network The
+number of thresholds can also be reduced to one if the size is increased by a larger
+polynomial
+Theorem For every k-ary neural network of size there exists an equivalent unit-weight binary neural network of size 4k log
+which outputs the binary encoding of the required result
+Proof Similar to the proof of Theorem
+This result is primarily of theoretical interest Binary neural networks appear simpler
+and hence more desirable than analog neural networks However analog neural networks are actually more desirable since they are easier to build With this in mind
+Theorem simply serves as a limit to the functions that an analog neural network
+Obradovic and Parberry
+can be expected to compute efficiently We are more concerned with constructing a
+model of the computational abilities of neural networks rather than a model of their
+implementation details
+NONMONOTONE MULTILINEAR NEURAL NETWORKS
+Olafsson and Abu-Mostafa study
+f(Wlt for w;ER where
+information
+capacity
+of functions
+xlI)=g
+and is the alternating threshold function for some monotone
+increasing h;ER defined by if for some We
+will call an alternating weighted multilinear threshold function and a neural network constructed from functions of this form alternating multilinear neural networks
+Alternating multilinear neural networks are closely related to k-ary neural networks
+Theorem For every k-ary neural network of size and weight there is an
+equivalent alternating multilinear neural network of size log and weight
+log which produces the output of the former in binary notation
+Proof Sketch Each k-ary gate is replaced by log gates which together essentially
+perform a binary search to determine each bit of the k-ary gate Weights which increase exponentially are used to provide the correct output value
+Theorem For every alternating multilinear neural network of size and weight
+there is a 3t-equivalent k-ary neural network of size 4z and weight
+Proof Sketch Without loss of generality assume is odd Each alternating gate is
+replaced by a k-ary gate with identical weights and thresholds The output of this gate
+goes with weight one to a k-ary gate with thresholds and with weight
+minus one to a k-ary gate with thresholds The output of these gates
+goes to a binary gate with threshold
+Both k-ary and alternating multilinear neural networks are a special case of nonmonotone multilinear neural networks where is the defined by iff
+hi~<h;+lt for some monotone increasing h;ER and co Ck-1EZk Nonmonotone neural networks correspond to analog neural networks whose output function is not necessarily monotone nondecreasing Many of the result of this paper including Theorems and also apply to nonmonotone neural networks The
+size weight and running time of many of the upper-bounds can also be improved by a
+small amount by using nonmonotone neural networks instead of k-ary ones The details are left to the interested reader
+MUL TILINEAR HOPFIELD NETWORKS
+A multilinear version of the Hopfield network called the quantized neural network has
+been studied by Fleisher Using the terminology of parberry a quantized neural network is a simple symmetric k-ary neural network that is its interconnection pattern is an undirected graph without self-loops with the additional property
+that all processors have an identical set of thresholds Although the latter assumption
+Analog Neural Networks of Limited Precision I
+is reasonable for binary neural networks see for example Theorem of Parberry
+and ternary neural networks Theorem it is not necessarily so for k-ary
+neural networks with Theorem However it is easy to extend Fleisher's
+main result to give the following
+Theorem Any productive sequential computation of a simple symmetric k-ary
+neural network will converge
+CONCLUSION
+It has been shown that analog neural networks with limited precision are essentially
+k-ary neural networks If is limited to a polynomial then polynomial size constant
+depth k-ary neural networks are equivalent to polynomial size constant depth binary
+neural networks Nonetheless the savings in time at most a constant multiple and
+hardware at most a polynomial arising from using k-ary neural networks rather than
+binary ones can be quite significant We do not suggest that one should actually construct binary or k-ary neural networks Analog neural networks can be constructed by
+exploiting the analog behaviour of transistors rather than using extra hardware to inhibit it Rather we suggest that k-ary neural networks are a tool for reasoning about the
+behaviour of analog neural networks
+Acknowledgements
+The financial support of the Air Force Office of Scientific Research Air Force ysterns Command DSAF under grant numbers AFOSR and AFOSR
+and NSF grant to Ian Parberry is gratefully acknowledged
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 2111-computing-time-lower-bounds-for-recurrent-sigmoidal-neural-networks.pdf
+
+Computing Time Lower Bounds for
+Recurrent Sigmoidal Neural Networks
+Michael Schmitt
+Lehrstuhl Mathematik und Informatik Fakultat fUr Mathematik
+Ruhr-Universitat Bochum Bochum Germany
+mschmitt@lmi.ruhr-uni-bochum.de
+Abstract
+Recurrent neural networks of analog units are computers for realvalued functions We study the time complexity of real computation in general recurrent neural networks These have sigmoidal
+linear and product units of unlimited order as nodes and no restrictions on the weights For networks operating in discrete time
+we exhibit a family of functions with arbitrarily high complexity
+and we derive almost tight bounds on the time required to compute
+these functions Thus evidence is given of the computational limitations that time-bounded analog recurrent neural networks are
+subject to
+Introduction
+Analog recurrent neural networks are known to have computational capabilities that
+exceed those of classical Turing machines see Siegelmann and Sontag
+Kilian and Siegelmann Siegelmann Very little however is known
+about their limitations Among the rare results in this direction for instance
+is the one of Sima and Orponen showing that continuous-time Hopfield
+networks may require exponential time before converging to a stable state This
+bound however is expressed in terms of the size of the network and hence does
+not apply to fixed-size networks with a given number of nodes Other bounds
+on the computational power of analog recurrent networks have been established by
+Maass and Orponen and Maass and Sontag They show that discretetime recurrent neural networks recognize only a subset of the regular languages in
+the presence of noise This model of computation in recurrent networks however
+receives its inputs as sequences Therefore computing time is not an issue since
+the network halts when the input sequence terminates Analog recurrent neural
+networks however can also be run as real computers that get as input a vector
+of real numbers and after computing for a while yield a real output value No
+results are available thus far regarding the time complexity of analog recurrent
+neural networks with given size
+We investigate here the time complexity of discrete-time recurrent neural networks
+that compute functions over the reals As network nodes we allow sigmoidal units
+linear units and product units that is monomials where the exponents are ad
+justable weights Durbin and Rumelhart We study the complexity of real
+computation in the sense of Blum aI That means we consider real numbers as entities that are represented exactly and processed without restricting their
+precision Moreover we do not assume that the information content of the network
+weights is bounded as done in the works of Balcazar aI Gavalda and
+Siegelmann With such a general type of network the question arises which
+functions can be computed with a given number of nodes and a limited amount of
+time In the following we exhibit a family of real-valued functions ft in one
+variable that is computed by some fixed size network in time Our main result
+is then showing that every recurrent neural network computing the functions ft
+requires at least time nW Thus we obtain almost tight time bounds for real
+computation in recurrent neural networks
+Analog Computation in Recurrent Neural Networks
+We study a very comprehensive type of discrete-time recurrent neural network that
+we call general recurrent neural network Figure For every there is
+a recurrent neural architecture consisting of computation nodes YI Yk and
+input nodes Xl The size of a network is defined to be the number ofits computation nodes The computation nodes form a fully connected recurrent network
+Every computation node also receives connections from every input node The input
+nodes play the role of the input variables of the system All connections are parameterized by real-valued adjustable weights There are three types of computation
+nodes product units sigmoidal units and linear units Assume that computation
+node has connections from computation nodes weighted by Wil Wi and from
+input nodes weighted by ViI Vi Let YI Yk and Xl be the
+values of the computation nodes and input nodes at time respectively If node
+is a product unit it computes at time the value
+that is after weighting them exponentially the incoming values are multiplied
+Sigmoidal and linear units have an additional parameter associated with them the
+threshold or bias A sigmoidal unit computes the value
+where is the standard sigmoid
+simply outputs the weighted sum
+If node is a linear unit it
+We allow the networks to be heterogeneous that is they may contain all three types
+of computation nodes simultaneously Thus this model encompasses a wide class of
+network types considered in research and applications For instance architectures
+have been proposed that include a second layer of linear computation nodes which
+have no recurrent connections to computation nodes but serve as output nodes see
+Koiran and Sontag Haykin Siegelmann It is clear that in
+the definition given here the linear units can function as these output nodes if the
+weights of the outgoing connections are set to Also very common is the use
+of sigmoidal units with higher-order as computation nodes in recurrent networks
+see Omlin and Giles Gavalda and Siegelmann Carrasco
+Obviously the model here includes these higher-order networks as a special
+case since the computation of a higher-order sigmoidal unit can be simulated by
+first computing the higher-order terms using product units and then passing their
+I
+I
+sigmoidal product and linear units
+computation
+nodes
+Yl
+Yk
+input nodes
+Xl
+Xn
+I
+Figure A general recurrent neural network of size Any computation node may
+serve as output node
+outputs to a sigmoidal unit Product units however are even more powerful than
+higher-order terms since they allow to perform division operations using negative
+weights Moreover if a negative input value is weighted by a non-integer weight
+the output of a product unit may be a complex number We shall ensure here that
+all computations are real-valued Since we are mainly interested in lower bounds
+however these bounds obviously remain valid if the computations of the networks
+are extended to the complex domain
+We now define what it means that a recurrent neural network computes a function
+llt Assume that has input nodes and let Given tE
+we say that computes in steps if after initializing at time the input
+nodes with and the computation nodes with some fixed values and performing
+computation steps as defined in Equations and one of the computation
+nodes yields the value We assume that the input nodes remain unchanged
+during the computation We further say that computes in time if for every
+network computes in at most steps Note that may depend
+on but must be independent of the input vector We emphasize that this is
+a very general definition of analog computation in recurrent neural networks In
+particular we do not specify any definite output node but allow the output to occur
+at any node Moreover it is not even required that the network reaches a stable
+state as with attractor or Hopfield networks It is sufficient that the output value
+appears at some point of the trajectory the network performs A similar view of
+computation in recurrent networks is captured in a model proposed by Maass
+Clearly the lower bounds remain valid for more restrictive definitions of
+analog computation that require output nodes or stable states Moreover they
+hold for architectures that have no input nodes but receive their inputs as initial
+values of the computation nodes Thus the bounds serve as lower bounds also for
+the transition times between real-valued states of discrete-time dynamical systems
+comprising the networks considered here
+Our main tool of investigation is the Vapnik-Chervonenkis dimension of neural
+networks It is defined as follows also Anthony and Bartlett A dichotomy
+of a set is a partition of into two disjoint subsets So Sd satisfying
+So S1 S. A class of functions mapping to I is said to shatter if
+for every dichotomy So Sd of there is some that satisfies f(So
+and The Vapnik-Chervonenkis dimension of is defined as
+I
+output
+Y5
+Y4
+Figure A recurrent neural network computing the functions fl in time 2l
+the largest number such that there is a set of elements shattered by F. A
+neural network given in terms of an architecture represents a class of functions
+obtained by assigning real numbers to all its adjustable parameters that is weights
+and thresholds or a subset thereof The output of the network is assumed to be
+thresholded at some fixed constant so that the output values are binary The VC
+dimension of a neural network is then defined as the VC dimension of the class of
+functions computed by this network
+In deriving lower bounds in the next section we make use of the following result
+on networks with product and sigmoidal units that has been previously established
+Schmitt We emphasize that the only constraint on the parameters of the
+product units is that they yield real-valued that is not complex-valued functions
+This means further that the statement holds for networks of arbitrary order that is
+it does not impose any restrictions on the magnitude of the weights of the product
+units
+Proposition Schmitt Theorem Suppose is a feedforward neural
+network consisting of sigmoidal product and linear units Let be its size and
+the number of adjustable weights The VC dimension of restricted to real-valued
+functions is at most
+Bounds on Computing Time
+We establish bounds on the time required by recurrent neural networks for computing a family of functions fl JR JR where can be considered as a measure
+of the complexity of fl Specifically fl is defined in terms of a dynamical system as
+the lth iterate of the logistic map that is
+fl(X
+We observe that there is a single recurrent network capable of computing every fl
+in time
+Lemma There is a general recurrent neural network that computes fl in time
+2l for every
+Proof The network is shown in Figure It consists of linear and second-order
+units All computation nodes are initialized with except Yl which starts with
+and outputs during all following steps The purpose of Yl is to let the input
+output
+Figure Network Nt.
+enter node Y2 at time and keep it away at later times Clearly the value fl
+results at node Y5 after 2l steps
+The network used for computing fl requires only linear and second-order units The
+following result shows that the established upper bound is asymptotically almost
+tight with a gap only of order four Moreover the lower bound holds for networks
+of unrestricted order and with sigmoidal units
+Theorem Every general recurrent neural network of size requires at least time
+cl to compute function fl where is some constant
+Proof The idea is to construct higher-order networks Nt of small size that have
+comparatively large VC dimension Such a network will consist of linear and product
+units and hypothetical units that compute functions fJ for certain values of We
+shall derive a lower bound on the VC dimension of these networks Assuming that
+the hypothetical units can be replaced by time-bounded general recurrent networks
+we determine an upper bound on the VC dimension of the resulting networks in
+terms of size and computing time using an idea from Koiran and Sontag and
+Proposition The comparison of the lower and upper VC dimension bounds will
+give an estimate of the time required for computing
+Network Nt shown in Figure is a feedforward network composed of three networks
+JVI
+JVI
+ach networ JVI
+as lnput no es Xl
+JVI
+and 2l computation nodes Y~r~l Figure There is only one
+adjustable parameter in Nt denoted all other weights are fixed The computation
+nodes are defined as follows omitting time parameter
+for J.L
+for J.L
+for and J.L
+for and
+YIH
+J.L
+lor
+J.L
+The nodes can be considered as additional input nodes for where
+gets this input from and from for J.L Node Y~r~l is the
+output node of and node is also the output node of Nt. Thus the entire
+network has 3l nodes that are linear or product units and 3l nodes that compute
+functions fl or
+output
+I
+I
+I
+input
+or
+output of
+Figure Network
+We show that Ni shatters some set of cardinality in particular the set ei
+where ei is the unit vector with a in position and
+elsewhere Every dichotomy of can be programmed into the network parameter
+using the following fact about the logistic function Koiran and Sontag
+Lemma For every binary vector b1 bm there is some
+real number such that for
+if bi
+if bi
+Hence for every dichotomy Sd of the parameter can be chosen such that
+every ei2 satisfies
+if eillei2,eis So
+if eillei2,eiJ S1.
+Since this is the value computed by Ni on
+input eill where ei is the input given to network Input ei selects
+the function in Hence is shattered by Ni implying that Ni has
+VC dimension at least
+Assume now that Ii can be computed by a general recurrent neural network of size
+at most kj in time tj Using an idea of Koiran and Sontag we unfold the
+network to obtain a feedforward network of size at most kjtj computing fj Thus we
+can replace the nodes computing ft ft fl2 in Nz by networks of size kltl
+respectively such that we have a feedforward network
+consisting of sigmoidal
+product and linear units Since there are 3l units in Nl computing ft ft or fl2
+and at most 3l product and linear units the size of Nt is at most c1lkl2tl2
+for some constant C1 Using that Nt has one adjustable weight we get from
+Proposition that its VC dimension is at most c2l2kr2tr2 for some constant C2
+On the other hand since Nz and Nt both shatter the VC dimension of Nt is at
+least Hence l3 kr2 tr2 holds which implies that tl2 cl kl2 for some
+and hence tl cl kl
+Lemma shows that a single recurrent network is capable of computing every
+function fl in time The following consequence of Theorem establishes that
+this bound cannot be much improved
+Corollary Every general recurrent neural network requires at least time
+to compute the functions fl
+Conclusions and Perspectives
+We have established bounds on the computing time of analog recurrent neural
+networks The result shows that for every network of given size there are functions
+of arbitrarily high time complexity This fact does not rely on a bound on the
+magnitude of weights We have derived upper and lower bounds that are rather
+tight with a polynomial gap of order four and hold for the computation of a
+specific family of real-valued functions in one variable Interestingly the upper
+bound is shown using second-order networks without sigmoidal units whereas the
+lower bound is valid even for networks with sigmoidal units and arbitrary product
+units This indicates that adding these units might decrease the computing time
+only marginally The derivation made use of an upper bound on the VC dimension
+of higher-order sigmoidal networks This bound is not known to be optimal Any
+future improvement will therefore lead to a better lower bound on the computing
+time
+We have focussed on product and sigmoidal units as nonlinear computing elements
+However the construction presented here is generic Thus it is possible to derive
+similar results for radial basis function units models of spiking neurons and other
+unit types that are known to yield networks with bounded VC dimension The
+questions whether such results can be obtained for continuous-time networks and for
+networks operating in the domain of complex numbers are challenging A further
+assumption made here is that the networks compute the functions exactly By a
+more detailed analysis and using the fact that the shattering of sets requires the
+outputs only to lie below or above some threshold similar results can be obtained
+for networks that approximate the functions more or less closely and for networks
+that are subject to noise
+Acknowledgment
+The author gratefully acknowledges funding from the Deutsche Forschungsgemeinschaft This work was also supported in part by the ESPRIT Working Group
+in Neural and Computational Learning NeuroCOLT2 No.
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 211-a-large-scale-neural-network-which-recognizes-handwritten-kanji-characters.pdf
+
+A Large-Scale Neural Network
+A LARGE-SCALE NEURAL NETWORK
+WHICH RECOGNIZES HANDWRITTEN
+KANJI CHARACTERS
+Yoshihiro Mori
+Kazuki Joe
+ATR Auditory and Visual Perception Research Laboratories
+Sanpeidani Inuidani Seika-cho Soraku-gun Kyoto Japan
+ABSTRACT
+We propose a new way to construct a large-scale neural network for
+handwritten Kanji characters recognition This neural network
+consists of parts a collection of small-scale networks which are
+trained individually on a small number of Kanji characters a network
+which integrates the output from the small-scale networks and a
+process to facilitate the integration of these neworks The recognition
+rate of the total system is comparable with those of the small-scale
+networks Our results indicate that the proposed method is effective for
+constructing a large-scale network without loss of recognition
+performance
+INTRODUCTION
+Neural networks have been applied to recognition tasks in many fields with good results
+Denker They have performed better than
+conventional methods However these networks currently operate with only a few
+categories about to The Japanese writing system at present is composed of about
+characters For a network to recognize this many characters it must be given a
+large number of categories while maintaining its level of performance
+To train small-scale neural networks is not a difficult task Therefore exploring methods
+for integrating these small-scale neural networks is important to construct a large-scale
+network If such methods could integrate small-scale networks without loss of the
+performance the scale of neural networks would be extended dramatically In this paper
+we propose such a method for constructing a large-scale network whose object is to
+recognize handwritten Kanji characters and report the result of a part of this
+network This method is not limited to systems for character recognition and can be
+applied to any system which recognizes many categories
+STRATEGIES FOR A LARGE-SCALE NETWORK
+Knowing the current recognition and generalization capacity of a neural network we
+realized that constructing a large-scale monolithic network would not be efficient or
+Mori and Joe
+effective Instead from the start we decided on a building blocks approach
+There are two strategies to mix many small-scale networks
+Selective Neural Network SNN
+In this strategy a large-scale neural network is made from many small-scale networks
+which are trained individually on a small number of categories and a network SNN
+which selects the appropriate small-scale network I). The advantage of this strategy
+is that the information passed to a selected small-scale networks is always appropriate for
+that network Therefore training these small-scale networks is very easy But on the
+other hand increasing the number of categories will substantially increase the training
+time of the SNN and may make it harder for the SNN to retain high perfonnance
+Furthennore the error rate of the SNN will limit the perfonnance of the whole system
+Integrative Neural Network INN
+In this strategy a large-scale neural network is made from many small-scale networks
+which are trained individually on a small number of categories and a network INN
+which integrates the output from these small-scale networks(Fig The advantage of
+this strategy is that every small-scale network gets information and contributes to finding
+the right answer Therefore it is possible to use the knowledge distributed among each
+small-scale network But in some respects various devices are needed to make the
+integration easier
+The common advantage with both strategies just mentioned is that the size of each neural
+network is relatively small and it does not take a long time to train these networks Each
+small-scale networks is considered an independent part of the whole system Therefore
+retraining these networks to improve the performance of the whole system will not take
+too long
+O,utput
+Sub
+Net
+Neural Network
+Selection Type
+Suspending
+Network
+SNN Strategy
+A Large-Scale Neural Network
+Output
+Neural Network
+Integration Type
+INN Strategy
+STRUCTURE OF LARGE-SCALE NETWORK
+The whole system is constructed using three kinds of neural networks The ftrst one
+called a SubNet is an ordinary three layered feed forward type neural network trained
+using the Back Propagation learning algorithm The second kind of network is called a
+SuperNet This neural network makes its decision by integrating the outputs from all the
+SubNets This network is also a 3-layered feed-forward net but is larger than the Subnets
+The last network which we call an OtherFilter is devised to improve the integration of
+the uperNet This OtherFilter network was designed using the VQ algorithm
+There are also some changes made in the BP learning algorithm
+especially for pattern recognition
+We decided that based on the time it takes for learning there should be categories in
+each small-scale network The characters are separated into these small groups
+through the K-means clustering method which allows similar characters to be grouped
+together The separation occurs in two stages First groups of characters each are
+formed then each group is separated into smaller units In this way groups of
+characters each are obtained We choose the INN strategy to use distributed knowledge to
+full advantage The 9-character units are SubNets which are integrated in stages First
+SubNets are integrated by a higher level network SuperNet Altogether SuperNets
+are needed to recognize all characters SuperNets are in turn integrated by a higher
+level network the HyperNet More precisely the role and structure of these kinds of
+networks are as follows
+SubNet
+A feature vector extracted from handwritten patterns is used as the input described in
+Section The number of units in the output layer is the same as the number of
+categories to be recognized by the SubNet In short the role of a SubNet is to output the
+similarity between the input pattern and the categories allotted to the SubNet
+SuperNet
+The outputs from each SubNet fIltered by the OtherFilter network are used as the input to
+Mori and Joe
+the SuperNet The number of units in an output layer is the same as the number of
+SubNets belonging to a SuperNet In shortt the role of SuperNet is to select the SubNet
+which covers the category corresponding to the input patterns
+Output
+Horizontal
+45?diagonal
+Vertical
+Original Pattern
+ubNet
+OtherFIIter
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 1175-generating-accurate-and-diverse-members-of-a-neural-network-ensemble.pdf
+
+Generating Accurate and Diverse
+Members of a Neural-Network Ensemble
+David Opitz
+Computer Science Department
+University of Minnesota
+Duluth MN
+opitz@d.umn.edu
+Jude W. Shavlik
+Computer Sciences Department
+University of Wisconsin
+Madison WI
+shavlik@cs.wisc.edu
+Abstract
+Neural-network ensembles have been shown to be very accurate
+classification techniques Previous work has shown that an effective ensemble should consist of networks that are not only highly
+correct but ones that make their errors on different parts of the
+input space as well Most existing techniques however only indirectly address the problem of creating such a set of networks
+In this paper we present a technique called ADDEMUP that uses
+genetic algorithms to directly search for an accurate and diverse
+set of trained networks ADDEMUP works by first creating an initial population then uses genetic operators to continually create
+new networks keeping the set of networks that are as accurate as
+possible while disagreeing with each other as much as possible Experiments on three DNA problems show that ADDEMUP is able to
+generate a set of trained networks that is more accurate than several existing approaches Experiments also show that ADDEMUP
+is able to effectively incorporate prior knowledge if available to
+improve the quality of its ensemble
+Introduction
+Many researchers have shown that simply combining the output of many classifiers
+can generate more accurate predictions than that of any of the individual classifiers Clemen Wolpert In particular combining separately trained
+neural networks commonly referred to as a neural-network ensemble has been
+demonstrated to be particularly successful Alpaydin Drucker
+Hansen and Salamon Hashem Krogh and Vedelsby
+Maclin and Shavlik Perrone Both theoretical Hansen and Salamon Krogh and Vedelsby and empirical Hashem
+D. W. OPITZ J. W. SHA VLIK
+Maclin and Shavlik work has shown that a good ensemble is one where
+the individual networks are both accurate and make their errors on different parts
+of the input space however most previous work has either focussed on combining
+the output of multiple trained networks or only indirectly addressed how we should
+generate a good set of networks We present an algorithm ADDEMUP Accurate
+anD Diverse Ensemble-Maker giving United Predictions that uses genetic algorithms to generate a population of neural networks that are highly accurate while
+at the same time having minimal overlap on where they make their error
+Thaditional ensemble techniques generate their networks by randomly trying different topologies initial weight settings parameters settings or use only a part of the
+training set in the hopes of producing networks that disagree on where they make
+their errors we henceforth refer to diversity as the measure of this disagreement
+We propose instead to actively search for a good set of networks The key idea behind our approach is to consider many networks and keep a subset of the networks
+that minimizes our objective function consisting of both an accuracy and a diversity
+term In many domains we care more about generalization performance than we
+do about generating a solution quickly This coupled with the fact that computing
+power is rapidly growing motivates us to effectively utilize available CPU cycles by
+continually considering networks to possibly place in our ensemble
+proceeds by first creating an initial set of networks then continually
+produces new individuals by using the genetic operators of crossover and mutation
+It defines the overall fitness of an individual to be a combination of accuracy and
+diversity Thus ADDEMUP keeps as its population a set of highly fit individuals that
+will be highly accurate while making their mistakes in a different part of the input
+space Also it actively tries to generate good candidates by emphasizing the current
+population's erroneous examples during backpropagation training Experiments
+reported herein demonstrate that ADDEMUP is able to generate an effective set of
+networks for an ensemble
+ADDEMUP
+The Importance of an Accurate and Diverse Ensemble
+Figure illustrates the basic framework of a neural-network ensemble Each network
+in the ensemble network through network in this case is first trained using
+the training instances Then for each example the predicted output of each of
+these networks Oi in Figure is combined to produce the output of the ensemble
+in Figure Many researchers Alpaydin Hashem Krogh
+and Vedelsby Mani have demonstrated the effectiveness of combining
+schemes that are simply the weighted average of the networks L:iEN Wi Oi
+and L:iEN Wi and this is the type of ensemble we focus on in this paper
+Hansen and Salamon proved that for a neural-network ensemble if the average error rate for a pattern is less than and the networks in the ensemble are
+independent in the production of their errors the expected error for that pattern
+can be reduced to zero as the number of networks combined goes to infinity however such assumptions rarely hold in practice Krogh and Vedelsby later
+proved that if diversity Di of network is measured by
+Di I)Oi(X
+o(xW
+then the ensemble generalization error
+CE consists of two distinct portions
+Krogh and Vedelsby referred to this term as ambiguity
+Generating Accurate and Diverse Members of a Neural-network Ensemble
+ensemble output
+InW$lllnW$21-lnW$NI
+1j
+input
+Figure A neural-network ensemble
+where Li Wi Di and Li Wi Ei Ei is the error rate of network and the
+Wi'S sum to What the equation shows then is that we want our ensemble to
+consist of highly correct networks that disagree as much as possible Creating such
+a set of networks is the focus of this paper
+The ADDEMUP Algorithm
+Table summarizes our new algorithm ADDEMUP that uses genetic algorithms
+to generate a set of neural networks that are accurate and diverse in their classifications Although ADDEMUP currently uses neural networks it could be easily
+extended to incorporate other types of learning algorithms as well ADDEMUP
+starts by creating and training its initial population of networks It then creates
+new networks by using standard genetic operators such as crossover and mutation
+ADDEMUP trains these new individuals emphasizing examples that are misclassified
+by the current population as explained below ADDEMUP adds these new networks
+to the population then scores each population members with the fitness function
+Fitnessi AccuracYi A DiversitYi A
+where A defines the tradeoff between accuracy and diversity Finally ADDEMUP
+prunes the population to the most-fit members which it defines to be its current
+ensemble then repeats this process
+We define our accuracy term to be network i's validation-set accuracy
+training-set accuracy if a validation set is not used and we use Equation lover
+this validation set to calculate our diversity term Di We then separately normalize
+each term so that the values range from to Normalizing both terms allows A to
+have the same meaning across domains Since it is not always clear at what value
+one should set A we have therefore developed some rules for automatically setting
+A. First we never change A if the ensemble error is decreasing while we consider
+new networks otl.!erwise we change A if one of following two things happen
+population error is not increasing and the population diversity is decreasing
+diversity seems to be under-emphasized and we increase A or is increasing
+and is not decreasing diversity seems to be over-emphasized and we decrease A.
+We started A at for the results in this paper
+A useful network to add to an ensemble is one that correctly classifies as many
+examples as possible while making its mistakes primarily on examples that most
+D. W. OPITZ W. SHA VLIK
+Table The
+ADDEMUP
+algorithm
+GOAL Genetically create an accurate and diverse ensemble of networks
+Create and train the initial population of networks
+Until a stopping criterion is reached
+Use genetic operators to create new networks
+Thain the new networks using Equation and add them to the population
+Measure the diversity of each network with respect to the current population Equation
+Normalize the accuracy scores and the diversity scores of the individual
+networks
+Calculate the fitness of each population member Equation
+Prune the population to the fittest networks
+Adjust oX the text for an explanation
+Report the current population of networks as the ensemble Combine
+the output of the networks according to Equation
+of the current population members correctly classify We address this during backpropagation training by multiplying the usual cost function by a term that measures
+the combined population error on that example
+Cost
+kET
+It(k
+where is the target and is the network activation for example in the
+training set T. Notice that since our network is not yet a member of the ensemble
+and are not dependent on our network our new term is thus a constant when
+calculating the derivatives during backpropagation We normalize by the
+ensemble error so that the average value of our new term is around regardless of
+the correctness of the ensemble This is especially important with highly accurate
+populations since tk will be close to for most examples and the network
+would only get trained on a few examples The exponent A~l represents the ratio
+of importance of the diversity term in the fitness function For instance if oX is close
+to diversity is not considered important and the network is trained with the usual
+cost function however if oX is large diversity is considered important and our new
+term in the cost function takes on more importance
+We combine the predictions of the networks by taking a weighted sum of the output
+of each network where each weight is based on the validation-set accuracy of the
+network Thus we define our weights for combining the networks as follows
+While simply averaging the outputs generates a good composite model Clemen
+we include the predicted accuracy in our weights since one should believe
+accurate models more than inaccurate ones
+Generating Accurate and Diverse Members of a Neural-network Ensemble
+Experimental Study
+The genetic algorithm we use for generating new network topologies is the REGENT algorithm Opitz and Shavlik REGENT uses genetic algorithms
+to search through the space of knowledge-based neural network KNN topologies KNNs are networks whose topologies are determined as a result of the
+direct mapping of a set of background rules that represent what we currently
+know about our task KBANN Towell and Shavlik for instance translates a set of propositional rules into a neural network then refines the resulting network's weights using backpropagation Thained KNNs such as KBANN'S
+networks have been shown to frequently generalize better than many other
+inductive-learning techniques such as standard neural networks Opitz
+Towell and Shavlik Using KNNs allows us to have highly correct networks
+in our ensemble however since each network in our ensemble is initialized with the
+same set of domain-specific rules we do not expect there to be much disagreement
+among the networks An alternative we consider in our experiments is to randomly
+generate our initial population of network topologies since domain-specific rules
+are sometimes not available
+We ran ADDEMUP on NYNEX's MAX problem set and on three problems from the
+Human Genome Project that aid in locating genes in DNA sequences recognizing
+promoters splice-junctions and ribosome-binding sites RBS Each of these domains is accompanied by a set of approximately correct rules describing what is
+currently known about the task Opitz or Opitz and Shavlik for
+more details Our experiments measure the test-set error of ADDEMUP on these
+tasks Each ensemble consists of networks and the REGENT and ADDEMUP
+algorithms considered networks during their genetic search
+Table 2a presents the results from the case where the learners randomly create
+the topology of their networks they do not use the domain-specific knowledge Table first row best-network results from a single-layer neural network where for each fold we trained networks containing between and
+uniformly hidden nodes and used a validation set to choose the best network The
+next row bagging contains the results of running Breiman's bagging algorithm on standard single-hidden-Iayer networks where the number of hidden nodes
+is randomly set between and for each network Bagging is a bootstrap
+ensemble method that trains each network in the ensemble with a different partition
+of the training set It generates each partition by randomly drawing with replacement examples from the training set where is the size of the training set
+Breiman showed that bagging is effective on unstable learning algorithms
+such as neural networks where small changes in the training set result in large
+changes in predictions The bottom row of Table AOOEMUP contains the results
+of a run of ADDEMUP where its initial population of size is randomly generated
+The results show that on these domains combining the output of mUltiple trained
+networks generalizes better than trying to pick the single-best network
+While the top table shows the power of neural-network ensembles Table 2b demonstrates ADDEMUP'S ability to utilize prior knowledge The first row of Table 2b
+contains the generalization results of the KBANN algorithm while the next row
+KBANN-bagging contains the results of the ensemble where each individual network in the ensemble is the KBANN network trained on a different partition of the
+training set Even though each of these networks start with the same topology and
+2We also tried other ensemble approaches such as randomly creating varying multilayer network topologies and initial weight settings but bagging did significantly better
+on all datasets by on all three DNA domains
+D. W. OPITZ J. W. SHA VLlK
+Table Test-set error from a ten-fold cross validation Table shows the results
+from running three learners without the domain-specific knowledge Table shows
+the results of running three learners with this knowledge Pairwise one-tailed t-tests
+indicate that AOOEMUP in Table differs from the other algorithms in both tables
+at the confidence level except with REGENT in the splice-junction domain
+I
+Standard neural networks no domain-specific knowledge used
+best-network
+bagging
+AOOEMUP
+Promoters
+Splice Junction
+RBS
+I
+MAX
+Knowledge-based neural networks domain-specific knowledge used
+KBANN
+KBANN-bagging
+REGENT-Combined
+AOOEMUP
+Promoters
+Splice Junction
+RBS
+MAX
+large initial weight settings the weights resulting from the domain-specific
+knowledge small changes in the training set still produce significant changes in
+predictions Also notice that on all datasets KBANN-bagging is as good as or better
+than running bagging on randomly generated networks bagging in Table
+The next row REGENT-Combined contains the results of simply combining using
+Equation the networks in REGENT'S final population AOOEMUP the final row of
+Table mainly differs from REGENT-Combined in two ways its fitness function
+Equation takes into account diversity rather than just network accuracy and
+it trains new networks by emphasizing the erroneous examples of the current
+ensemble Therefore comparing AOOEMUP with REGENT-Combined helps directly
+test ADDEMUP'S diversity-achieving heuristics though additional results reported in
+Opitz show ADDEMUP gets most of its improvement from its fitness function
+There are two main reasons why we think the results of ADDEMUP in Table 2b are
+especially encouraging by comparing ADDEMUP with REGENT-Combined we
+explicitly test the quality of our heuristics and demonstrate their effectiveness and
+ADDEMUP is able to effectively utilize background knowledge to decrease the
+error of the individual networks in its ensemble while still being able to create
+enough diversity among them so as to improve the overall quality of the ensemble
+Conclusions
+Previous work with neural-network ensembles have shown them to be an effective
+technique if the classifiers in the ensemble are both highly correct and disagree
+with each other as much as possible Our new algorithm ADDEMUP uses genetic
+algorithms to search for a correct and diverse population of neural networks to be
+used in the ensemble It does this by collecting the set of networks that best fits an
+objective function that measures both the accuracy of the network and the disagreement of that network with respect to the other members of the set ADDEMUP tries
+Generating Accurate and Diverse Members of a Neural-network Ensemble
+to actively generate quality networks during its search by emphasizing the current
+ensemble's erroneous examples during backpropagation training
+Experiments demonstrate that our method is able to find an effective set of networks for our ensemble Experiments also show that ADDEMUP is able to effectively
+incorporate prior knowledge if available to improve the quality of this ensemble
+In fact when using domain-specific rules our algorithm showed statistically significant improvements over the single best network seen during the search a
+previously proposed ensemble method called bagging Breiman and a
+similar algorithm whose objective function is simply the validation-set correctness
+of the network In summary ADDEMUP is successful in generating a set of neural
+networks that work well together in producing an accurate prediction
+Acknowledgements
+This work was supported by Office of Naval Research grant
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 1692-lower-bounds-on-the-complexity-of-approximating-continuous-functions-by-sigmoidal-neural-networks.pdf
+
+Lower Bounds on the Complexity of
+Approximating Continuous Functions by
+Sigmoidal Neural Networks
+Michael Schmitt
+Lehrstuhl Mathematik und Informatik
+FakuWit ftir Mathematik
+Ruhr-Universitat Bochum
+Bochum Germany
+mschmitt@lmi.ruhr-uni-bochum.de
+Abstract
+We calculate lower bounds on the size of sigmoidal neural networks
+that approximate continuous functions In particular we show
+that for the approximation of polynomials the network size has
+to grow as where is the degree of the polynomials
+This bound is valid for any input dimension independently of
+the number of variables The result is obtained by introducing a
+new method employing upper bounds on the Vapnik-Chervonenkis
+dimension for proving lower bounds on the size of networks that
+approximate continuous functions
+Introduction
+Sigmoidal neural networks are known to be universal approximators This is one of
+the theoretical results most frequently cited to justify the use of sigmoidal neural
+networks in applications By this statement one refers to the fact that sigmoidal
+neural networks have been shown to be able to approximate any continuous function
+arbitrarily well Numerous results in the literature have established variants of
+this universal approximation property by considering distinct function classes to be
+approximated by network architectures using different types of neural activation
+functions with respect to various approximation criteria see for instance
+See in particular Scarselli and Tsoi for a recent survey and
+further references
+All these results and many others not referenced here some of them being constructive some being merely existence proofs provide upper bounds for the network size
+asserting that good approximation is possible if there are sufficiently many network nodes available This however is only a partial answer to the question that
+mainly arises in practical applications Given some function how many network
+nodes are needed to approximate Not much attention has been focused on
+establishing lower bounds on the network size and in particular for the approximation of functions over the reals As far as the computation of binary-valued
+Complexity ofApproximating Continuous Functions by Neural Networks
+functions by sigmoidal networks is concerned where the output value of a network
+is thresholded to yield or there are a few results in this direction For a specific Boolean function Koiran showed that networks using the standard sigmoid
+as activation function must have size where is the
+number of inputs When measuring network size we do not count the input nodes
+here and in what follows Maass established a larger lower bound by constructing a binary-valued function over IRn and showing that standard sigmoidal networks
+require many network nodes for computing this function The first work on
+the complexity of sigmoidal networks for approximating continuous functions is due
+to DasGupta and Schnitger They showed that the standard sigmoid in network
+nodes can be replaced by other types of activation functions without increasing the
+size of the network by more than a polynomial This yields indirect lower bounds
+for the size of sigmoidal networks in terms of other network types DasGupta and
+Schnitger also claimed the size bound AO(I/d for sigmoidal networks with
+layers approximating the function sin(Ax
+In this paper we consider the problem of using the standard sigmoid
+in neural networks for the approximation of polynomials We show
+that at least network nodes are required to approximate polynomials
+of degree with small error in the loo norm This bound is valid for arbitrary input
+dimension it does not depend on the number of variables Lower bounds can
+also be obtained from the results on binary-valued functions mentioned above by
+interpolating the corresponding functions by polynomials This however requires
+growing input dimension and does not yield a lower bound in terms of the degree
+Further the bound established here holds for networks of any number of layers As
+far as we know this is the first lower bound result for the approximation of polynomials From the computational point of view this is a very simple class of functions
+they can be computed using the basic operations addition and multiplication only
+Polynomials also play an important role in approximation theory since they are
+dense in the class of continuous functions and some approximation results for neural networks rely on the approximability of polynomials by sigmoidal networks see
+We obtain the result by introducing a new method that employs upper bounds on
+the Vapnik-Chervonenkis dimension of neural networks to establish lower bounds
+on the network size The first use of the Vapnik-Chervonenkis dimension to obtain
+a lower bound is due to Koiran who calculated the above-mentioned bound
+on the size of sigmoidal networks for a Boolean function Koiran's method was
+further developed and extended by Maass using a similar argument but another
+combinatorial dimension Both papers derived lower bounds for the computation
+of binary-valued functions Koiran for inputs from Maass for inputs
+from IRn Here we present a new technique to show that and how lower bounds can
+be obtained for networks that approximate continuous functions It rests on two
+fundamental results about the Vapnik-Chervonenkis dimension of neural networks
+On the one hand we use constructions provided by Koiran and Sontag to build
+networks that have large Vapnik-Chervonenkis dimension and consist of gates that
+compute certain arithmetic functions On the other hand we follow the lines of
+reasoning of Karpinski and Macintyre to derive an upper bound for the VapnikChervonenkis dimension of these networks from the estimates of Khovanskil and
+a result due to Warren
+In the following section we give the definitions of sigmoidal networks and the VapnikChervonenkis dimension Then we present the lower bound result for function
+approximation Finally we conclude with some discussion and open questions
+Schmitt
+Sigmoidal Neural Networks and VC Dimension
+We briefly recall the definitions of a sigmoidal neural network and the VapnikChervonenkis dimension see We consider eed/orward neural networks
+which have a certain number of input nodes and one output node The nodes
+which are not input nodes are called computation nodes and associated with each
+of them is a real number the threshold Further each edge is labelled with a
+real number called weight Computation in the network takes place as follows
+The input values are assigned to the input nodes Each computation node applies
+the standard sigmoid to the sum W1Xl WrXr where
+Xl are the values computed by the node's predecessors WI are the
+weights of the corresponding edges and is the threshold The output value of the
+network is defined to be the value computed by the output node As it is common
+for approximation results by means of neural networks we assume that the output
+node is a linear gate it just outputs the sum WIXI WrXr Clearly
+for computing functions on finite sets with output range the output node
+may apply the standard sigmoid as well Since is the only sigmoidal function
+that we consider here we will refer to such networks as sigmoidal neural networks
+Sigmoidal functions in general need to satisfy much weaker assumptions than
+does The definition naturally generalizes to networks employing other types of
+gates that we will make use of linear multiplication and division gates
+The Vapnik-Chervonenkis dimension is a combinatorial dimension of a function class
+and is defined as follows A dichotomy of a set IRn is a partition of into two
+disjoint subsets Sl such that So SI S. Given a set offunctions mapping
+IRn to I and a dichotomy Sd of we say that induces the dichotomy
+Sd on if there is some such that and f(Sd
+We say further that shatters if induces all dichotomies on S. The VapnikChervonenkis dimension of denoted VCdim(F is defined as the largest
+number such that there is a set of elements that is shattered by F. We refer
+to the VC dimension of a neural network which is given in terms of a feedforward
+architecture a directed acyclic graph as the VC dimension of the class of
+functions obtained by assigning real numbers to all its programmable parameters
+which are in general the weights and thresholds of the network or a subset thereof
+Further we assume that the output value of the network is thresholded at to
+obtain binary values
+Lower Bounds on Network Size
+Before we present the lower bound on the size of sigmoidal networks required for
+the approximation of polynomials we first give a brief outline of the proof idea
+We will define a sequence of univariate polynomials Pn)n>l by means of which
+we show how to construct neural architectures consistmg of various types of
+gates such as linear multiplication and division gates and in particular gates
+that compute some of the polynomials Further this architecture has a single
+weight as programmable parameter all other weights and thresholds are fixed
+We then demonstrate that assuming the gates computing the polynomials can be
+approximated by sigmoidal neural networks sufficiently well the architecture Nn
+can shatter a certain set by assigning suitable values to its programmable weight
+The final step is to reason along the lines of Karpinski and Macintyre to obtain
+via Khovanskil's estimates and Warren's result an upper bound on the VC
+dimension of in terms of the number of its computation nodes Note that we
+cannot directly apply Theorem of since it does not deal with division gates
+Comparing this bound with the cardinality of the shattered set we will then be able
+Complexity ofApproximating Continuous Functions by Neural Networks
+P3
+W1
+W1
+Wi
+W1
+P2
+Wj
+Wk
+Wn
+Wn
+P1
+Wn
+Figure The network with values assigned to the input nodes
+Xl X4 respectively The weight is the only programmable parameter of
+the network
+to conclude with a lower bound on the number of computation nodes in and
+thus in the networks that approximate the polynomials
+Let the sequence of polynomials over IR be inductively defined by
+Pn(X
+P(Pn-dx
+Clearly this uniquely defines Pn for every and it can readily be seen that
+Pn has degree The main lower bound result is made precise in the following
+statement
+Theorem Sigmoidal neural networks that approximate the polynomials Pn)n
+on the interval with error at most in the norm must have at least
+computation nodes
+Proof For each a neural architecture can be constructed as follows The
+network has four input nodes Xl X4. Figure shows the network with input
+values assigned to the input nodes in the order X4 X3 X2 Xl
+There is one weight which we consider as the only programmable parameter of
+It is associated with the edge outgoing from input node X4 and is denoted
+by The computation nodes are partitioned into six levels as indicated by the
+boxes in Figure Each level is itself a network Let us first assume for the sake of
+simplicity that all computations over real numbers are exact There are three levels
+labeled with having input nodes and one output node each that compute
+so-called projections 7r IRnH IR where Yn Ya for a
+The levels labeled P3 P2 PI have one input node and output nodes each Level
+P3 receives the constant as input and thus the value which is the parameter of
+the network We define the output values of level A for by
+wb
+Pbon"'-l
+where denotes the input value to level A. This value is equal to for and
+XA+l oth erWlse
+OUT
+can
+id
+vve observe at wb+l
+calcu
+ate rom
+7r WI
+Schmitt
+as Therefore the computations of level A can be implemented
+using gates each of them computing the function
+We show now that Nn can shatter a set of cardinality Let It
+has been shown in Lemma of that for each 1Y there exists
+some such that for
+pq(w
+if
+and pq(w
+if
+This implies that for each dichotomy Sd of there is some
+that for every
+Pk pj.n Pi.n
+if
+if
+such
+So
+Note that Pk(Pj.n(Pi.n2 is the value computed by given input values
+Therefore choosing a suitable value for which is the parameter of Nn the network
+can induce any dichotomy on S. In other words is shattered by Nn
+An such that
+for each weights can be chosen for An such that the function computed
+by this network satisfies lim?~o Ya. Moreover this architecture
+consists of computation nodes which are linear multiplication and division
+gates Note that the size of An does not depend on Therefore choosing
+sufficiently small we can implement the projections 1r in by networks of
+computation nodes such that the resulting network still shatters S. Now in
+we have computation nodes for implementing the three levels labeled and
+we have in each level A a number of computation nodes for computing
+respectively Assume now that the computation nodes for can be replaced
+by sigmoidal networks such that on inputs from and with the parameter values
+defined above the resulting network computes the same functions as N~. Note
+that the computation nodes for have no programmable parameters
+It has been shown in Lemma of that there is an architecture
+N::.
+We estimate the size of
+According to Theorem of Karpinski and Macintyre
+a sigmoidal neural network with I programmable parameters and computation
+nodes has VC dimension We have to generalize this result slightly before
+being able to apply it It can readily be seen from the proof of Theorem in that
+the result also holds if the network additionally contains linear and multiplication
+gates For division gates we can derive the same bound taking into account that for
+a gate computing division say we can introduce a defining equality
+where is a new variable See for how to proceed Thus we have that a
+network with I programmable parameters and computation nodes which are
+linear multiplication division and sigmoidal gates has VC dimension
+In particular if is the number of computation nodes of the VC dimension
+can shatter a set
+is O(m On the other hand as we have shown above
+of cardinality Since there are sigmoidal networks in
+computing the
+functions and since the number of linear multiplication and division gates
+is bounded by for some value of A a single network computing must
+have size at least This yields a lower bound of for the size of a
+sigmoidal network computing Pn.
+Thus far we have assumed that the polynomials Pn are computed exactly Since
+polynomials are continuous functions and since we require them to be calculated
+only on a finite set of input values those resulting from and from the parameter
+values chosen for to shatter an approximation of these polynomials is sufficient
+A straightforward analysis based on the fact that the output value of the network
+has a tolerance close to shows that if Pn is approximated with error
+Complexity ofApproximating Continuous Functions by Neural Networks
+in the loo norm the resulting network still shatters the set S. This completes the
+proof of the theorem
+The statement of the previous theorem is restricted to the approximation of polynomials on the input domain However the result immediately generalizes to
+any arbitrary interval in llt Moreover it remains valid for multivariate polynomials
+of arbitrary input dimension
+Corollary The approximation of polynomials of degree by sigmoidal neural
+networks with approximation error O(ljk in the norm requires networks of size
+O((log This holds for polynomials over any number of variables
+Conclusions and Open Questions
+We have established lower bounds on the size of sigmoidal networks for the approximation of continuous functions In particular for a concrete class of polynomials
+we have calculated a lower bound in terms of the degree of the polynomials The
+main result already holds for the approximation of univariate polynomials Intuitively approximation of multivariate polynomials seems to become harder when
+the dimension increases Therefore it would be interesting to have lower bounds
+both in terms of the degree and the input dimension
+Further in our result the approximation error and the degree are coupled Naturally
+one would expect that the number of nodes has to grow for each fixed function when
+the error decreases At present we do not know of any such lower bound
+We have not aimed at calculating the constants in the bounds For practical applications such values are indispensable Refining our method and using tighter results
+it should be straightforward to obtain such numbers Further we expect that better
+lower bounds can be obtained by considering networks of restricted depth
+To establish the result we have introduced a new method for deriving lower bounds
+on network sizes One of the main arguments is to use the functions to be approximated to construct networks with large VC dimension The method seems suitable
+to obtain bounds also for the approximation of other types of functions as long as
+they are computationally powerful enough
+Moreover the method could be adapted to obtain lower bounds also for networks
+using other activation functions more general sigmoidal functions ridge functions radial basis functions This may lead to new separation results for the
+approximation capabilities of different types of neural networks In order for this
+to be accomplished however an essential requirement is that small upper bounds
+can be calculated for the VC dimension of such networks
+Acknowledgments
+I thank Hans U. Simon for helpful discussions This work was supported in part
+by the ESPRIT Working Group in Neural and Computational Learning NeuroCOLT2 No.
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 1037-quadratic-type-lyapunov-functions-for-competitive-neural-networks-with-different-time-scales.pdf
+
+Quadratic-Type Lyapunov Functions for
+Competitive Neural Networks with
+Different Time-Scales
+Anke Meyer-Base
+Institute of Technical Informatics
+Technical University of Darmstadt
+Darmstadt Germany
+Abstract
+The dynamics of complex neural networks modelling the selforganization process in cortical maps must include the aspects of
+long and short-term memory The behaviour of the network is such
+characterized by an equation of neural activity as a fast phenomenon and an equation of synaptic modification as a slow part of the
+neural system We present a quadratic-type Lyapunov function for
+the flow of a competitive neural system with fast and slow dynamic
+variables We also show the consequences of the stability analysis
+on the neural net parameters
+INTRODUCTION
+This paper investigates a special class of laterally inhibited neural networks In
+particular we have examined the dynamics of a restricted class of laterally inhibited
+neural networks from a rigorous analytic standpoint
+The network models for retinotopic and somatotopic cortical maps are usually composed of several layers of neurons from sensory receptors to cortical units with
+feedforward excitations between the layers and lateral recurrent connection
+within the layer Standard techniques include Hebbian rule and its variations
+for modifying synaptic efficacies lateral inhibition for establishing topographical
+organization of the cortex and adiabatic approximation in decoupling the dynamics of relaxation which is on the fast time scale and the dynamics of learning
+which is on the slow time scale of the network However in most cases only computer simulation results were obtained and therefore provided limited mathematical
+understanding of the self-organizating neural response fields
+The networks under study model the dynamics of both the neural activity levels
+A. MEYER-BASE
+the short-term memory and the dynamics of synaptic modifications the
+long-term memory The actual network models under consideration may be
+considered extensions of Grossberg's shunting network or Amari's model
+for primitive neuronal competition These earlier networks are considered
+pools of mutually inhibitory neurons with fixed synaptic connections Our results
+extended these earlier studies to systems where the synapses can be modified by
+external stimuli The dynamics of competitive systems may be extremely complex
+exhibiting convergence to point attractors and periodic attractors For networks
+which model only the dynamic of the neural activity levels Cohen and Grossberg
+found a Lyapunov function as a necessary condition for the convergence
+behavior to point attractors
+In this paper we apply the results of the theory of Lyapunov functions for singularly
+perturbed systems on large-scale neural networks which have two types of state
+variables LTM and STM describing the slow and the fast dynamics of the system
+So we can find a Lyapunov function for the neural system with different time-scales
+and give a design concept of storing desired pattern as stable equilibrium points
+THE CLASS OF NEURAL NETWORKS WITH
+DIFFERENT TIME-SCALES
+This section defines the network of differential equations characterizing laterally
+inhibited neural networks We consider a laterally inhibited network with a deterministic signal Hebbian learning law and is similar to the spatiotemporal
+system of Amari
+The general neural network equations describe the temporal evolution of the STM
+activity modification and LTM states synaptic modification For the jth neuron
+of aN-neuron network these equations are
+Xj
+ajxj
+j!(Xi
+BjSj
+i=l
+where Xj is the current activity level aj is the time constant of the neuron Bj is
+the contribution of the external stimulus term is the neuron's output ij is
+the lateral inhibition term and Yi is the external stimulus The dynamic variable
+Sj represents the synaptic modification state and lyl21 is defined as lyl2 yTy
+We will assume that the input stimuli are normalized vectors of unit magnitude
+lyl2 These systems will be subject to our analysis considerations regarding the
+stability of their equilibrium points
+ASYMPTOTIC STABILITY OF NEURAL
+NETWORKS WITH DIFFERENT TIME-SCALES
+We show in this section that it is possible to determine the asymptotic stability of
+this class of neural networks interpreting them as nonlinear singularly perturbed
+systems While singular perturbation theory a traditional tool of fluid dynamics
+and nonlinear mechanics embraces a wide variety of dynamic phenomena possesing
+slow and fast modes we show that singular perturbations are present in many
+Quadratic-type Lyapunov Functions for Competitive Neural Networks
+neurodynamical problems In this sense we apply in this paper the results of this
+valuable analysis tool on the dynamics of laterally inhibited networks
+In is shown that a quadratic-type Lyapunov function for a singularly perturbed system is obtained as a weighted sum of quadratic-type Lyapunov functions
+of two lower order systems the so-called reduced and the boundary-layer systems
+Assuming that each of the two systems is asymptotically stable and has a Lyapunov
+function conditions are derived to guarantee that for a sufficiently small perturbation parameter asymptotic stability of the singularly perturbed system can be
+established by means of a Lyapunov function which is composed as a weighted sum
+of the Lyapunov functions of the reduced and boundary-layer systems
+Adopting the notations from we will consider the singularly perturbed system
+Bx
+We assume that in Bx and By the origin is the unique equilibrium point
+and and has a unique solution A reduced system is defined by setting in
+and to obtain
+Assuming that in Bx and By has a unique root the reduced system is
+rewritten as
+fr(x
+A boundary-layer system is defined as
+ay
+aT
+where tic is a stretching time scale In the vector is treated as a fixed
+unknown parameter that takes values in Bx. The aim is to establish the stability properties
+of the singularly perturbed system and for small from those of the reduced system
+and the boundary-layer system The Lyapunov functions for system and are of
+quadratic-type In it is shown that under mild assumptions for sufficiently small
+any weighted sum of the Lyapunov functions of the reduced and boundary-layer system
+is a quadratic-type Lyapunov function for the singularly perturbed system and
+The necessary assumptions are stated now
+The reduced system has a Lyapunov function
+such that for all
+xE Bx
+where is a scalar-valued function of that vanishes at and is different
+from zero for all other Bx. This condition guarantees that is an
+asymptotically stable equilibrium point of the reduced system
+2The symbol Bx indicates a closed sphere centered at OJ By is defined in the same
+way
+A. MEYER-BASE
+The boundary-layer system has a Lyapunov function
+such that for all Bx and By
+where is a scalar-valued function that vanishes
+at and is different from zero for all other Bx and By. This
+condition guarantees that is an asymptotically stable equilibrium point
+of the boundary-layer system
+The following three inequalities hold Ix Bx and Vy By
+y)ff(x
+The constants K1 and K2 are nonnegative The inequalities above determine the
+permissible interaction between the slow and fast variables They are basically smoothness
+requirements of and
+After these introductory remarks the stability criterion is now stated
+Theorem Suppose that conditions hold let be a positive number such that
+and let be the positive number given by
+where Ih f{l Gl then for all the origin
+is an asymptotically stable equilibrium point of and and
+dW(x
+is a Lyapunov function of and
+If we put
+as a global neural time constant in equation then we have
+to determine two Lyapunov functions one for the boundary-layer system and the
+other for the reduced-order system
+In is mentioned a global Lyapunov function for a competitive neural network
+with only an activation dynamics
+under the constraints mij mji ai(xi
+fj(xj
+This Lyapunov-function can be t?aken as one for the boundary-layer system STMequation if the LTM contribution Si is considered as a fixed unknown parameter
+Quadratic-type Lyapunov Functions for Competitive Neural Networks
+j=l
+BjSj
+j=l
+Dij!i(Xj)!k(Xk
+j=l
+For the reduced-order system LTM equation we can take as a Lyapunov-function
+STS
+i=l
+The Lyapunov-function for the coupled STM and LTM dynamics is the sum of the
+two Lyapunov-function
+vex
+dW(x
+DESIGN OF STABLE COMPETITIVE NEURAL
+NETWORKS
+Competitive neural networks with learning rules have moving equilibria during the
+learning process The concept of asymptotic stability derived from matrix perturbation theory can capture this phenomenon
+We design in this section a competitive neural network that is able to store a desired
+pattern as a stable equilibrium
+The theoretical implications are illustrated in an example of a two neuron network
+Example Let A Dii a Dij
+nonlinearity be a linear function f(xj Xj in equations and
+and the
+We get for the boundary-layer system
+Xj
+Axj
+Dijf(xd BSj
+i=l
+and for the reduced-order system
+lA-a
+A-a
+Then we get for the Lyapunov-functions
+and
+A. MEYER-BASE
+JJ
+OJ
+IJ
+lIS
+IJ
+JJ
+time in msec
+Figure Time histories of the neural network with the origin as an equilibrium
+point STM states
+For the nonnegative constants we get al a2
+with and C2 i3l and I<l
+A
+Cl
+We get some interesting implications from the above results as
+and
+The above impications can be interpreted as follows To achieve a stable equilibrium
+point we should have a negative contribution of the external stimulus term
+and the sum of the excitatory and inhibitory contribution of the neurons should
+be less than the time constant of a neuron An evolution of the trajectories of the
+STM and LTM states for a two neuron system is shown in figure and The
+STM states exhibit first an oscillation from the expected equilibrium point while
+the LTM states reach monotonically the equilibrium point We can see from the
+pictures that the equilibrium point is reached after msec by the STM and
+LTM-states
+From the above formula we can see that has a maximum at
+Choosing A
+and a we obtain for
+CONCLUSIONS
+We presented in this paper a quadratic-type Lyapunov function for analyzing the
+stability of equilibrium points of competitive neural networks with fast and slow
+dynamics This global stability analysis method is interpreting neural networks
+as nonlinear singularly perturbed systems The equilibrium point is constrained
+to a neighborhood of This technique supposes a monotonically increasing
+non-linearity and a symmetric lateral inhibition matrix The learning rule is a
+deterministic Hebbian This method gives an upper bound on the perturbation
+Quadratic-type Lyapunov Functions for Competitive Neural Networks
+III
+III
+III
+time in msec
+Figure Time histories of the neural network with the origin as an equilibrium
+point LTM states
+parameter and such an estimation of a maximal positive neural time-constant The
+practical implication ofthe theoretical problem is the design of a competitive neural
+network that is able to store a desired pattern as a stable equilibrium
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 503-refining-pid-controllers-using-neural-networks.pdf
+
+Refining PIn Controllers using Neural Networks
+Gary M. Scott
+Department of Chemical Engineering
+Johnson Drive
+University of Wisconsin
+Madison WI
+Jude W. Shavlik
+Department of Computer Sciences
+W. Dayton Street
+University of Wisconsin
+Madison WI
+W. Harmon Ray
+Department of Chemical Engineering
+Johnson Drive
+University of Wisconsin
+Madison WI
+Abstract
+The KBANN approach uses neural networks to refine knowledge that can
+be written in the form of simple propositional rules We extend this idea
+further by presenting the MANNCON algorithm by which the mathematical
+equations governing a PID controller determine the topology and initial
+weights of a network which is further trained using backpropagation We
+apply this method to the task of controlling the outflow and temperature
+of a water tank producing statistically-significant gains in accuracy over
+both a standard neural network approach and a non-learning PID controller Furthermore using the PID knowledge to initialize the weights of
+the network produces statistically less variation in testset accuracy when
+compared to networks initialized with small random numbers
+INTRODUCTION
+Research into the design of neural networks for process control has largely ignored
+existing knowledge about the task at hand One form this knowledge often called
+the domain theory can take is embodied in traditional controller paradigms The
+Scott Shavlik and Ray
+recently-developed KBANN Knowledge-Based Artificial Neural Networks approach
+Towell addresses this issue for tasks for which a domain theory written
+using simple propositional rules is available The basis of this approach is to use
+the existing knowledge to determine an appropriate network topology and initial
+weights such that the network begins its learning process at a good starting
+point
+This paper describes the MANNCON Multivariable Artificial Neural Network Control algorithm a method of using a traditional controller paradigm to determine
+the topology and initial weights of a network The used of a PID controller in this
+way eliminates network-design problems such as the choice of network topology
+the number of hidden units and reduces the sensitivity of the network to the
+initial values of the weights Furthermore the initial configuration of the network
+is closer to its final state than it would normally be in a randomly-configured network Thus the MANNCON networks perform better and more consistently than
+the standard randomly-initialized three-layer approach
+The task we examine here is learning to control a Multiple-Input Multiple-Output
+MIMO system There are a number of reasons to investigate this task using neural networks One it usually involves nonlinear input-output relationships which
+matches the nonlinear nature of neural networks Two there have been a number
+of successful applications of neural networks to this task Bhat McAvoy
+Jordan Jacobs Miller Finally there are a number of existing
+controller paradigms which can be used to determine the topology and the initial
+weights of the network
+CONTROLLER NETWORKS
+The MANNCON algorithm uses a Proportional-Integral-Derivative PID controller
+Stephanopoulos one of the simplest of the traditional feedback controller
+schemes as the basis for the construction and initialization of a neural network controller The basic idea of PID control is that the control action vector should
+be proportional to the error the integral of the error over time and the temporal
+derivative of the error Several tuning parameters determine the contribution of
+these various components Figure depicts the resulting network topology based
+on the PID controller paradigm The first layer of the network that from Y$P desired process output or setpoint and actual process output of the past time
+step calculates the simple error A simple vector difference
+e=Y$p-Y
+accomplishes this The second layer that between and calculates the
+actual error to be passed to the PID mechanism In effect this layer acts as a
+steady-state pre-compensator Ray where
+GIe
+and produces the current error and the error signals at the past two time steps
+This compensator is a constant matrix I with values such that interactions at a
+steady state between the various control loops are eliminated The final layer that
+between and controller output/plant input calculates the controller action
+Refining PID Controllers using Neural Networks
+Fd
+Td
+den Water
+Tank
+Yen
+WCO
+WHO
+WCI
+WHI
+WC2
+WH2
+Figure
+MANNCON network showing weights that are initialized using
+Ziegler-Nichols tuning parameters
+based on the velocity form of the discrete PID controller
+UC(n
+UC(n-l WCOCI(n WCICI(n-l WC2
+where Wca wCb and WC2 are constants determined by the tuning parameters of the
+controller for that loop A similar set of equations and constants WHO WHI
+exist for the other controller loop
+Figure shows a schematic of the water tank Ray that the network controls This figure also shows the controller variables Fc and the tank output
+variables and and the disturbance variables Fd and Td). The controller
+cannot measure the disturbances which represent noise in the system
+MANN CON initializes the weights of Figure network with va.lues that mimic
+the behavior of a PID controller tuned with Ziegler-Nichols parameters
+Stephanopoulos at a particular operating condition Using the KBANN
+approach Towell it adds weights to the network such that all units
+in a layer are connected to all units in all subsequent layers and initializes these
+weights to small random numbers several orders of magnitude smaller than the
+weights determined by the PID parameters We scaled the inputs and outputs of
+the network to be in the range
+Initializing the weights of the network in the manner given above assumes that the
+activation functions of the units in the network are linear that is
+Scott Shavlik and Ray
+Cold Stream
+Fe
+Hot Stream at TH
+Dis urban ce
+Fd,Td
+I
+Temperature
+Flow Rate
+Output
+I I
+Figure Stirred mixing tank requiring outflow and temperature control
+Table Topology and initialization of networks
+Network
+Standard neural network
+MANNCON network I
+MANNCON network
+Topology
+3-layer hidden units
+PID topology
+PID topology
+Weight Initialization
+random
+random
+Z-N tuning
+The strength of neural networks however lie in their having nonlinear typically
+sigmoidal activation functions For this reason the MANNCON system initially sets
+the weights and the biases of the units so that the linear response dictated by the
+PID initialization is approximated by a sigmoid over the output range of the unit
+For units that have outputs in the range the activation function becomes
+exp
+where
+Wji
+WjiOi
+are the linear weights described above
+Once MANNCON configures and initializes the weights of the network it uses a set
+of training examples and backpropagation to improve the accuracy of the network
+The weights initialized with PID information as well as those initialized with small
+random numbers change during backpropagation training
+EXPERIMENTAL DETAILS
+We compared the performance of three networks that differed in their topology
+and/or their method of initialization Table summarizes the network topology
+and weight initialization method for each network In this table PID topology
+is the network structure shown in Figure Random weight initialization sets
+Refining PID Controllers using Neural Networks
+Table Range and average duration of setpoints for experiments
+Experiment
+Training Set
+22 instances
+22 instances
+22 instances
+Testing Set
+22 instances
+instances
+instances
+all weights to small random numbers centered around zero We also compare these
+networks to a non-learning PID controller
+We trained the networks using backpropagation over a randomly-determined schedule of setpoint YsP and disturbance changes that did not repeat The setpoints
+which represent the desired output values that the controller is to maintain are the
+temperature and outflow of the tank The disturbances which represent noise are
+the inflow rate and temperature of a disturbance stream The magnitudes of the
+setpoints and the disturbances formed a Gaussian distribution centered at The
+number of training examples between changes in the setpoints and disturbances
+were exponentially distributed
+We performed three experiments in which the characteristics of the training and/or
+testing set differed Table summarizes the range of the setpoints as well as their
+average duration for each data set in the experiments As can be seen in Experiment
+the training set and testing sets were qualitatively similar in Experiment the
+test set was of longer duration setpoints and in Experiment the training set was
+restricted to a subrange of the testing set We periodically interrupted training and
+tested the network Results are averaged over runs Scott
+We used the error at the output of the tank in Figure to determine the network
+error at by propagating the error backward through the plant Psaltis
+In this method the error signal at the input to the tank is given by
+8u
+Yi
+netui
+8y OUi
+where 8yj represents the simple error at the output of the water tank and 8ui is the
+error signal at the input of the tank Since we used a model of the process and not a
+real tank we can calculate the partial derivatives from the process model equations
+RESULTS
+Figure compares the performance of the three networks for Experiment As can
+be seen the MANNCON networks show an increase in correctness over the standard
+neural network approach Statistical analysis of the errors using a t-test show
+that they differ significantly at the confidence level Furthermore while the
+difference in performance between MANNCON network I and MANNCON network is
+Scott Shavlik and Ray
+Standard neural network
+MANNCON network I
+MANN CON network
+PID controller non-learning
+Training Instances
+Figure Mean square error of networks on the testset as a function of
+the number of training instances presented for Experiment
+not significant the difference in the variance of the testing error over different runs
+is significant confidence level Finally the MANNCON networks perform
+significantly better confidence level than the non-learning PID controller
+The performance of the standard neural network represents the best of several trials
+with a varying number of hidden units ranging from to
+A second observation from Figure is that the MANNCON networks learned much
+more quickly than the standard neural-network approach The MANNCON networks
+required significantly fewer training instances to reach a performance level within
+of its final error rate For each of the experiments Table summarizes the
+final mean error as well as the number of training instances required to achieve a
+performance within of this value
+In Experiments and we again see a significant gain in correctness of the
+MAN
+NCON networks over both the standard neural network approach confidence
+level as well as the non-learning PID controller confidence level In these
+experiments the MANNCON network initialized with Z-N tuning also learned significantly quicker confidence level than the standard neural network
+FUTURE WORK
+One question is whether the introduction of extra hidden units into the network
+would improve the performance by giving the network room to learn concepts
+that are outside the given domain theory The addition of extra hidden units as
+well as the removal of unneeded units is an area with much ongoing research
+Refining PID Controllers using Neural Networks
+Table Comparison of network performance
+I Mean Square Error I Training Instances
+Method
+Experiment
+Standard neural network
+MANN CON network I
+MANN CON network
+PID control tuning
+Fixed control action
+Experiment
+Standard neural network
+MANN CON network I
+MANN CON network
+PID control tuning
+Fixed con trol action
+Experiment
+Standard neural network
+MANN CON network I
+MANN CON network
+PID control tuning
+Fixed control action
+The indicates that the true value lies within these bounds at a
+confidence level The values given for fixed control action represent
+the errors resulting from fixing the control actions at a level that produces
+outputs of at steady state
+Ringing rapid changes in controller actions occurred in some of the trained
+networks A future enhancement of this approach would be to create a network
+architecture that prevented this ringing perhaps by limiting the changes in the
+controller actions to some relatively small values
+Another important goal of this approach is the application of it to other real-world
+processes The water tank in this project while illustrative of the approach was
+quite simple Much more difficult problems such as those containing significant
+time delays exist and should be explored
+There are several other controller paradigms that could be used as a basis for network construction and initialization There are several different digital controllers
+such as Deadbeat or Dahlin's Stephanopoulos that could be used in place
+of the digital PID controller used in this project Dynamic Matrix Control DMC
+Pratt and Internal Model Control IMC Garcia Morari are
+also candidates for consideration for this approach
+Finally neural networks are generally considered to be black boxes in that their
+inner workings are completely uninterpretable Since the neural networks in this
+approach are initialized with information it may be possible to interpret the weights
+of the network and extract useful information from the trained network
+Scott Shavlik and Ray
+CONCLUSIONS
+We have described the MANNCON algorithm which uses the information from a
+PID controller to determine a relevant network topology without resorting to trialand-error methods In addition the algorithm through initialization of the weights
+with prior knowledge gives the backpropagtion algorithm an appropriate direction
+in which to continue learning Finally we have shown that using the MANNCON
+algorithm significantly improves the performance of the trained network in the following ways
+Improved mean testset accuracy
+Less variability between runs
+Faster rate of learning
+Better generalization and extrapolation ability
+Acknowledgements
+This material based upon work partially supported under a National Science Foundation Graduate Fellowship to Scott Office of Naval Research Grant and National Science Foundation Grants and
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 657-optimal-depth-neural-networks-for-multiplication-and-related-problems.pdf
+
+Optimal Depth Neural Networks for Multiplication
+and Related Problems
+Kai-Yeung Siu
+Dept of Electrical Compo Engineering
+University of California Irvine
+Irvine CA
+Vwani Roychowdhury
+School of Electrical Engineering
+Purdue University
+West Lafayette IN
+Abstract
+An artificial neural network ANN is commonly modeled by a threshold
+circuit a network of interconnected processing units called linear threshold
+gates The depth of a network represents the number of unit delays or the
+time for parallel computation The SIze of a circuit is the number of gates
+and measures the amount of hardware It was known that traditional logic
+circuits consisting of only unbounded fan-in AND OR NOT gates would
+require at least O(log n/log log depth to compute common arithmetic
+functions such as the product or the quotient of two n-bit numbers unless
+we allow the size and fan-in to increase exponentially We show in
+this paper that ANNs can be much more powerful than traditional logic
+circuits In particular we prove that that iterated addition can be computed by depth-2 ANN and multiplication and division can be computed
+by depth-3 ANNs with polynomial size and polynomially bounded integer
+weights respectively Moreover it follows from known lower bound results that these ANNs are optimal in depth We also indicate that these
+techniques can be applied to construct polynomial-size depth-3 ANN for
+powering and depth-4 ANN for mUltiple product
+Introduction
+Recent interest in the application of artificial neural networks has spurred
+research interest in the theoretical study of such networks In most models of neural networks the basic processing unit is a Boolean gate that computes a linear
+59
+Siu and Roychowdhury
+threshold function or an analog element that computes a sigmoidal function Artificial neural networks can be viewed as circuits of these processing units which are
+massively interconnected together
+While neural networks have found wide application in many areas the behavior
+and the limitation of these networks are far from being understood One common
+model of a neural network is a threshold circuit Incidentally the study of threshold
+circuits motivated by some other complexity theoretic issues has also gained much
+interest in the area of computer science Threshold circuits are Boolean circuits in
+which each gate computes a linear threshold function whereas in the classical model
+of unbounded fan-in Boolean circuits only AND OR NOT gates are allowed A
+Boolean circuit is usually arranged in layers such that all gates in the same layer are
+computed concurrently and the circuit is computed layer by layer in some increasing
+depth order We define the depth as the number of layers in the circuit Thus each
+layer represents a unit delay and the depth represents the overall delay in the
+computation of the circuit
+Related Work
+Theoretical computer scientists have used unbounded fan-in Boolean circuits as
+a model to understand fundamental issues of parallel computation To be more
+specific this computational model should be referred to as unbounded fan-in parallelism since the number of inputs to each gate in the Boolean circuit is not bounded
+by a constant The theoretical study of unbounded fan-in parallelism may give us
+insights into devising faster algorithms for various computational problems than
+would be possible with bounded fan-in parallelism In fact any nondegenerate
+Boolean function of variables requires at least O(log depth to compute in a
+bounded fan-in circuit On the other hand in some practical situations for example large fan-in circuits such as programmable logic arrays PLAs or multiple
+processors simultaneously accessing a shared bus unbounded fan-in parallelism
+seems to be a natural model For example a PLA can be considered as a depth-2
+AND/OR circuit
+In the Boolean circuit model the amount of resources is usually measured by the
+number of gates and is considered to be reasonable as long as it is bounded
+by a polynomial as opposed to exponential in the number of the inputs For
+example a Boolean circuit for computing the sum of two n-bit numbers with O(n
+gates is reasonable though circuit designers might consider the size of the circuit
+impractical for moderately large One of the most important theoretical issues in
+parallel computation is the following Given that the number of gates in the Boolean
+circuit is bounded by a polynomial in the size of inputs what is the minimum depth
+number of layers that is needed to compute certain functions
+A first step toward answering this important question was taken by Furst
+and independently by Ajtai It follows from their results that for many basic
+functions such as the parity and the majority of Boolean variables or the multiplication of two n-bit numbers any constant depth independent of classical
+Boolean circuit of unbounded fan-in AND/OR gates computing these functions
+must have more than a polynomial number of gates This lower bound on
+the size was subsequently improved by Yao and Hastad it was proved that
+Optimal Depth Neural Networks for Multiplication and Related Problems
+indeed an exponential number of AND/OR gates are needed So functions such as
+parity and majority are computationally hard with respect to constant depth and
+polynomial size classical Boolean circuits Another way of interpreting these results
+is that circuits of AND/OR gates computing these hard functions which use polynomial amount of chip area must have unbounded delay delay that increases
+with In fact the lower bound results imply that the minimum possible delay
+for multipliers with polynomial number of AND/OR gates is O(logn/loglogn
+These results also give theoretical justification why it is impossible for circuit designers to implement fast parity circuit or multiplier in small chip area using AND
+OR gates as the basic building blocks
+One of the hard functions mentioned above is the majority function a special case
+of a threshold function in which the weights or parameters are restricted A natural
+extension is to study Boolean circuits that contain majority gates This type of
+Boolean circuit is called a threshold circuit and is believed to capture some aspects
+of the computation in our brain In the rest of the paper the term neural
+networks refers to the threshold circuits model
+With the addition of majority gates the resulting Boolean circuit model seems
+much more powerful than the classical one Indeed it was first shown by Muroga
+three decades ago that any symmetric Boolean function parity can be
+computed by a two-layer neural network with gates Recently Chandra
+showed that multiplication of two n-bit numbers and sorting of n-bit
+numbers can be computed by neural networks with constant depth and polynomial
+size These constants have been significantly reduced by Siu and Bruck to
+in both cases whereas a lower bound of depth-3 was proved by Hajnal
+in the case of multiplication It is now known that the size of the depth-4 neural
+networks for multiplication can be reduced to O(n However the existence of
+depth-3 and polynomial-size neural networks for multiplication was left as an open
+problem since the lower bound result in In some depth-efficient
+neural networks were constructed for division and related arithmetic problems the
+networks in do not have optimal depth
+Our main contribution in this paper is to show that small constant depth neural
+networks for multiplication division and related problems can be constructed For
+the problems such as iterated addition multiplication and division the neural networks constructed can be shown to have optimal depth These results have the
+following implication on their practical significance Suppose we can use analog devices to build threshold gates with a cost terms of delay and chip area that is
+comparable to that of AND OR logic gates then we can compute many basic functions much faster than using traditional circuits Clearly the particular weighting
+of depth fan-in and size that gives a realistic measure of a network's cost and speed
+depends on the technology used to build it One case where circuit depth would
+seem to be the most important parameter is when the circuit is implemented using
+optical devices We refer those who are interested in the optical implementation of
+neural networks to
+Due to space limitations we shall only state some of the important results further
+results and detailed proofs will appear in the journal version of this paper
+61
+62
+Siu and Roychowdhury
+Main Results
+Definition
+Given n-bit integers Zi zi,i2i zi,i
+We define iterated addition to be the problem of computing the log bit sum
+Zi of the integers
+Definition
+Given n-bit integers
+xi2i and Yi2i We
+define multiplication to be the problem of computing the product of and
+Using the notations of let us denote the class of depth-d polynomial-size neural
+networks where the integer weights are polynomially bounded by and the
+corresponding class where the weights are unrestricted by LTd. It is easy to see that
+if it~ated addition can be computed in then multiplication can be computed
+in LT We first prove the result on iterated addition Our result hinges on a
+recent striking result of Goldmann Hcistad and Razborov The key observation
+is that iterated addition can be computed as a sum of polynomially many linear
+threshold LTd functions with exponential weights Let us first state the result
+of Goldmann Hastad and Razborov
+Lemma
+Let LTd denote the class of depth-d polynomial-size neural networks where the weights at the output gate are polynomially bounded integers with
+no restriction on the weights of the other gates Then LTd for any fixed
+integer
+The following lemma is a generalization of the result in Informally the result
+says that if a function is when a weighted sum possibly exponential of its inputs
+lies in one of polynomially many intervals and is otherwise then the function can
+be computed as a sum of polynomially many LTI functions
+Lemma
+Let WiXi and be a function such that if
+ud for Nand otherwise where is polynomially bounded
+The can be computed as a sum of polynomially many LTI functions and thus
+LT2
+Combining the above two lemmas yields a depth-2 neural network for iterated addition
+Theorem
+Iterated addition is in LT2
+It is also easy to see that iterated addition cannot be computed in LTI
+Simply
+observe that the first bit of the sum is the parity function which does not belong
+to LT1 Thus the above neural network for iterated addition has minimum possible
+depth
+Theorem
+Multiplication of n-bit integers can be computed in
+LT3.
+It follows from the results in that the depth-3 neural network for multiplication
+stated in the above theorem has optimal depth
+Optimal Depth Neural Networks for Multiplication and Related Problems
+We can further apply the results in to construct small depth neural networks for
+division powering and multiple product Let us give a formal definition of these
+problems
+Definition
+Let be an input n-bit integer
+bit representation of
+We define powering to be the
+Definition
+Given n-bit integers Zi We define multiple product
+to be the bit representation of Zi.
+Suppose we want to compute the quotient of two integers Some quotient in binary representation might require infinitely many bits however a circuit can only
+compute the most significant bits of the quotient If a number has both finite and
+infinite binary representation for example we shall always express
+the number in its finite binary representation We are interested in computing the
+truncated quotient defined below
+Definition
+Let and be two input bit integers Let
+zi 2i be the quotient of divided by Y. We define DIVk(X/Y to be
+X/Y truncated to the k)-bit number
+In particular DIVo(X is the greatest integer
+Theorem
+Powering can be computed in LT3
+DIVk(x/y can be computed in
+Lr3
+Multiple Product can be computed in
+LT4
+It can be shown from the lower-bound results in that the neural networks for
+division are optimal in depth
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 6427-toward-deeper-understanding-of-neural-networks-the-power-of-initialization-and-a-dual-view-on-expressivity.pdf
+
+Toward Deeper Understanding of Neural Networks The Power
+of Initialization and a Dual View on Expressivity
+Amit Daniely
+Google Brain
+Roy Frostig
+Google Brain
+Yoram Singer
+Google Brain
+Abstract
+We develop a general duality between neural networks and compositional kernel
+Hilbert spaces We introduce the notion of a computation skeleton an acyclic
+graph that succinctly describes both a family of neural networks and a kernel space
+Random neural networks are generated from a skeleton through node replication
+followed by sampling from a normal distribution to assign weights The kernel
+space consists of functions that arise by compositions averaging and non-linear
+transformations governed by the skeleton?s graph topology and activation functions
+We prove that random networks induce representations which approximate the
+kernel space In particular it follows that random weight initialization often yields
+a favorable starting point for optimization despite the worst-case intractability of
+training neural networks
+Introduction
+Neural network learning has underpinned state of the art empirical results in numerous applied
+machine learning tasks see for instance Nonetheless theoretical analyses of neural network
+learning are still lacking in several regards Notably it remains unclear why training algorithms nd
+good weights and how learning is impacted by network architecture and its activation functions
+This work analyzes the representation power of neural networks within the vicinity of random
+initialization We show that for regimes of practical interest randomly initialized neural networks
+well-approximate a rich family of hypotheses Thus despite worst-case intractability of training
+neural networks commonly used initialization procedures constitute a favorable starting point for
+training
+Concretely we de?ne a computation skeleton that is a succinct description of feed-forward networks
+A skeleton induces a family of network architectures as well as an hypothesis class of functions
+obtained by non-linear compositions mandated by the skeleton?s structure We then analyze the set of
+functions that can be expressed by varying the weights of the last layer a simple region of the training
+domain over which the objective is convex We show that with high probability over the choice of
+initial network weights any function in can be approximated by selecting the nal layer?s weights
+Before delving into technical detail we position our results in the context of previous research
+Current theoretical understanding of NN learning Standard results from complexity theory
+imply that all ef?ciently computable functions can be expressed by a network of moderate size
+Barron?s theorem states that even two-layer networks can express a very rich set of functions The
+generalization ability of algorithms for training neural networks is also fairly well studied Indeed
+both classical and more recent results from statistical learning theory show that as
+the number of examples grows in comparison to the size of the network the empirical risk approaches
+the population risk In contrast it remains puzzling why and when ef?cient algorithms such as
+stochastic gradient methods yield solutions that perform well While learning algorithms succeed in
+Most of this work performed while the author was at Stanford University
+Conference on Neural Information Processing Systems NIPS Barcelona Spain
+practice theoretical analyses are overly pessimistic For example hardness results suggest that in
+the worst case even very simple 2-layer networks are intractable to learn Concretely it is hard to
+construct a hypothesis which predicts marginally better than random 23
+In the meantime recent empirical successes of neural networks prompted a surge of theoretical
+results on NN learning For instance we refer the reader to 28 32 38 and the
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 5267-on-the-computational-efficiency-of-training-neural-networks.pdf
+
+On the Computational Efficiency of Training Neural
+Networks
+Roi Livni
+The Hebrew University
+roi.livni@mail.huji.ac.il
+Shai Shalev-Shwartz
+The Hebrew University
+shais@cs.huji.ac.il
+Ohad Shamir
+Weizmann Institute of Science
+ohad.shamir@weizmann.ac.il
+Abstract
+It is well-known that neural networks are computationally hard to train On the
+other hand in practice modern day neural networks are trained efficiently using SGD and a variety of tricks that include different activation functions
+ReLU over-specification train networks which are larger than needed and
+regularization In this paper we revisit the computational complexity of training
+neural networks from a modern perspective We provide both positive and negative results some of them yield new provably efficient and practical algorithms
+for training certain types of neural networks
+Introduction
+One of the most significant recent developments in machine learning has been the resurgence of
+deep learning usually in the form of artificial neural networks A combination of algorithmic
+advancements as well as increasing computational power and data size has led to a breakthrough
+in the effectiveness of neural networks and they have been used to obtain very impressive practical
+performance on a variety of domains few recent examples include 24
+A neural network can be described by a directed acyclic graph where each vertex in the graph corresponds to a neuron and each edge is associated with a weight Each neuron calculates a weighted
+sum of the outputs of neurons which are connected to it and possibly adds a bias term It then
+passes the resulting number through an activation function and outputs the resulting
+number We focus on feed-forward neural networks where the neurons are arranged in layers in
+which the output of each layer forms the input of the next layer Intuitively the input goes through
+several transformations with higher-level concepts derived from lower-level ones The depth of the
+network is the number of layers and the size of the network is the total number of neurons
+From the perspective of statistical learning theory by specifying a neural network architecture
+the underlying graph and the activation function we obtain a hypothesis class namely the set of all
+prediction rules obtained by using the same network architecture while changing the weights of the
+network Learning the class involves finding a specific set of weights based on training examples
+which yields a predictor that has good performance on future examples When studying a hypothesis
+class we are usually concerned with three questions
+Sample complexity how many examples are required to learn the class
+Expressiveness what type of functions can be expressed by predictors in the class
+Training time how much computation time is required to learn the class
+For simplicity let us first consider neural networks with a threshold activation function
+if and otherwise over the boolean input space and with a single output in
+The sample complexity of such neural networks is well understood It is known that the
+VC dimension grows linearly with the number of edges up to log factors It is also easy to see that
+no matter what the activation function is as long as we represent each weight of the network using
+a constant number of bits the VC dimension is bounded by a constant times the number of edges
+This implies that empirical risk minimization or finding weights with small average loss over the
+training data can be an effective learning strategy from a statistical point of view
+As to the expressiveness of such networks it is easy to see that neural networks of depth and
+sufficient size can express all functions from to However it is also possible to show
+that for this to happen the size of the network must be exponential in Chapter
+Which functions can we express using a network of polynomial size The theorem below shows that
+all boolean functions that can be calculated in time O(T can also be expressed by a network of
+depth O(T and size O(T
+Theorem Let and for every let Fd be the set of functions that can be implemented
+by a Turing machine using at most operations Then there exist constants such that
+for every there is a network architecture of depth size of and threshold
+activation function such that the resulting hypotesis class contains Fd
+The proof of the theorem follows directly from the relation between the time complexity of programs
+and their circuit complexity see and the fact that we can simulate the standard boolean
+gates using a fixed number of neurons
+We see that from the statistical perspective neural networks form an excellent hypothesis class On
+one hand for every runtime by using depth of O(T we contain all predictors that can be
+run in time at most On the other hand the sample complexity of the resulting class depends
+polynomially on
+The main caveat of neural networks is the training time Existing theoretical results are mostly
+negative showing that successfully learning with these networks is computationally hard in the worst
+case For example neural networks of depth contain the class of intersection of halfspaces where
+the number of halfspaces is the number of neurons in the hidden layer By reduction to k-coloring
+it has been shown that finding the weights that best fit the training set is NP-hard has
+shown that even finding weights that result in close-to-minimal empirical error is computationally
+infeasible These hardness results focus on proper learning where the goal is to find a nearly-optimal
+predictor with a fixed network architecture A. However if our goal is to find a good predictor there
+is no reason to limit ourselves to predictors with one particular architecture Instead we can try
+for example to find a network with a different architecture A0 which is almost as good as the
+best network with architecture A. This is an example of the powerful concept of improper learning
+which has often proved useful in circumventing computational hardness results Unfortunately there
+are hardness results showing that even with improper learning and even if the data is generated
+exactly from a small depth-2 neural network there are no efficient algorithms which can find a
+predictor that performs well on test data In particular and have shown this in the case of
+learning intersections of halfspaces using cryptographic and average case complexity assumptions
+On a related note recently showed positive results on learning from data generated by a neural
+network of a certain architecture and randomly connected weights However the assumptions used
+are strong and unlikely to hold in practice
+Despite this theoretical pessimism in practice modern-day neural networks are trained successfully
+in many learning problems There are several tricks that enable successful training
+Changing the activation function The threshold activation function has zero
+derivative almost everywhere Therefore we cannot apply gradient-based methods with this activation function To circumvent this problem we can consider other activation functions Most
+widely known is a sigmoidal activation
+a which forms a smooth approximation of the threshold function Another recent popular activation function is the rectified linear
+unit ReLU function Note that subtracting a shifted ReLU from a ReLU
+yields an approximation of the threshold function so by doubling the number of neurons we can
+approximate a network with threshold activation by a network with ReLU activation
+Over-specification It was empirically observed that it is easier to train networks which are larger
+than needed Indeed we empirically demonstrate this phenomenon in Sec.
+Regularization It was empirically observed that regularizing the weights of the network speeds
+up the convergence
+The goal of this paper is to revisit and re-raise the question of neural network?s computational efficiency from a modern perspective This is a challenging topic and we do not pretend to give any
+definite answers However we provide several results both positive and negative Most of them are
+new although a few appeared in the literature in other contexts Our contributions are as follows
+We make a simple observation that for sufficiently over-specified networks global optima are
+ubiquitous and in general computationally easy to find Although this holds only for extremely
+large networks which will overfit it can be seen as an indication that the computational hardness of learning does decrease with the amount of over-specification This is also demonstrated
+empirically in Sec.
+Motivated by the idea of changing the activation function we consider the quadratic activation
+function a2 Networks with the quadratic activation compute polynomial functions of
+the input in Rd hence we call them polynomial networks Our main findings for such networks
+are as follows
+Networks with quadratic activation are as expressive as networks with threshold activation
+Constant depth networks with quadratic activation can be learned in polynomial time
+Sigmoidal networks of depth and with regularization can be approximated by polynomial
+networks of depth O(log It follows that sigmoidal networks with regularization
+can be learned in polynomial time as well
+The aforementioned positive results are interesting theoretically but lead to impractical algorithms We provide a practical provably correct algorithm for training depth-2 polynomial
+networks While such networks can also be learned using a linearization trick our algorithm is
+more efficient and returns networks whose size does not depend on the data dimension Our algorithm follows a forward greedy selection procedure where each step of the greedy selection
+procedure builds a new neuron by solving an eigenvalue problem
+We generalize the above algorithm to depth-3 in which each forward greedy step involves an
+efficient approximate solution to a tensor approximation problem The algorithm can learn a
+rich sub-class of depth-3 polynomial networks
+We describe some experimental evidence showing that our practical algorithm is competitive
+with state-of-the-art neural network training methods for depth-2 networks
+Sufficiently Over-Specified Networks Are Easy to Train
+We begin by considering the idea of over-specification and make an observation that for sufficiently
+over-specified networks the optimization problem associated with training them is generally quite
+easy to solve and that global optima are in a sense ubiquitous As an interesting contrast note that
+for very small networks such as a single neuron with a non-convex activation function the associated optimization problem is generally hard and can exhibit exponentially many local non-global
+minima We emphasize that our observation only holds for extremely large networks which will
+overfit in any reasonable scenario but it does point to a possible spectrum where computational cost
+decreases with the amount of over-specification
+To present the result let Rd,m be a matrix of training examples in Rd We can think of the
+network as composed of two mappings The first maps into a matrix Rn,m where is the
+number of neurons whose outputs are connected to the output layer The second mapping is a linear
+mapping where Ro,n that maps to the neurons in the output layer Finally
+there is a loss function Ro,m which we?ll assume to be convex that assesses the quality of
+the prediction on the entire data and will of course depend on the labels Let denote all the
+weights that affect the mapping from to and denote by the function that maps to Z.
+The optimization problem associated with learning the network is therefore minW,V
+The function is generally non-convex and may have local minima However if
+then it is reasonable to assume that Rank(f with large probability under some random
+choice of due to the non-linear nature of the function computed by neural networks1 In that
+case we can simply fix and solve minW which is computationally tractable as is
+For example consider the function computed by the first layer where is a sigmoid
+function Since is non-linear the columns of will not be linearly dependent in general
+assumed to be convex Since has full rank the solution of this problem corresponds to a global
+optima of and hence to a global optima of the original optimization problem Thus for sufficiently
+large networks finding global optima is generally easy and they are in a sense ubiquitous
+The Hardness of Learning Neural Networks
+We now review several known hardness results and apply them to our learning setting For simplicity throughout most of this section we focus on the PAC model in the binary classification case over
+the Boolean cube in the realizable case and with a fixed target accuracy.2
+Fix some For every dimension let the input space be Xd and let be a
+hypothesis class of functions from Xd to We often omit the subscript when it is clear from
+context A learning algorithm A has access to an oracle that samples according to an unknown
+distribution over and returns where is some unknown target hypothesis in H.
+The objective of the algorithm is to return a classifier such that with probability of
+at least
+Px?D
+We say that A is efficient if it runs in time poly(d and the function it returns can also be evaluated
+on a new instance in time poly(d If there is such A we say that is efficiently learnable
+In the context of neural networks every network architecture defines a hypothesis class
+that contains all target functions that can be implemented using a neural network with layers
+neurons excluding input neurons and an activation function The immediate question is which
+are efficiently learnable We will first address this question for the threshold activation function if and otherwise
+Observing that depth-2 networks with the threshold activation function can implement intersections
+of halfspaces we will rely on the following hardness results due to
+Theorem Theorem in Let let
+a Nd kwk1 poly(d
+and let Hka h1 h2 hk hi a where for some constant
+Then under a certain cryptographic assumption Hka is not efficiently learnable
+Under a different complexity assumption showed a similar result even for
+As mentioned before neural networks of depth and with the activation function can
+express intersections of halfspaces For example the first layer consists of neurons computing the
+halfspaces and the second layer computes their conjunction by the mapping
+Trivially if some class is not efficiently learnable then any class containing it is also not efficiently learnable We thus obtain the following corollary
+Corollary For every the class is not efficiently learnable under the
+complexity assumption given in
+What happens when we change the activation function In particular two widely used activation
+functions for neural networks are the sigmoidal activation function sig
+and the rectified linear unit ReLU activation function relu max{z
+As a first observation note that for we have that sig Our data domain is
+the discrete Boolean cube hence if we allow the weights of the network to be arbitrarily large then
+Nt,n,?sig Similarly the function relu z)??relu equals for every
+As a result without restricting the weights we can simulate each threshold activated neuron by two
+ReLU activated neurons which implies that Nt,2n,?relu Hence Corollary applies to
+both sigmoidal networks and ReLU networks as well as long as we do not regularize the weights of
+the network
+While we focus on the realizable case there exists that provides perfect predictions with a
+fixed accuracy and confidence since we are dealing with hardness results the results trivially apply to
+the agnostic case and to learning with arbitrarily small accuracy and confidence parameters
+What happens when we do regularize the weights Let be all target functions that can be
+implemented using a neural network of depth size activation function and when we restrict
+the input weights of each neuron to be kwk1 L.
+One may argue that in many real world distributions the difference between the two classes
+and is small Roughly speaking when the distribution density is low around the decision
+boundary of neurons similarly to separation with margin assumptions then sigmoidal neurons will
+be able to effectively simulate threshold activated neurons
+In practice the sigmoid and ReLU activation functions are advantageous over the threshold activation function since they can be trained using gradient based methods Can these empirical successes
+be turned into formal guarantees Unfortunately a closer examination of Thm. demonstrates that
+if then learning N2,n,?sig and N2,n,?relu is still hard Formally to apply these networks to binary classification we follow a standard definition of learning with a margin assumption
+We assume that the learner receives examples of the form sign(f where is a real-valued
+function that comes from the hypothesis class and we further assume that Even under
+this margin assumption we have the following
+Corollary For every the classes Nt,n,?sig and Nt,n,?relu are not
+efficiently learnable under the complexity assumption given in
+A proof is provided in the appendix What happens when is much smaller Later on in the paper
+we will show positive results for being a constant and the depth being fixed These results will be
+obtained using polynomial networks which we study in the next section
+Polynomial Networks
+In the previous section we have shown several strong negative results for learning neural networks
+with the threshold sigmoidal and ReLU activation functions One way to circumvent these hardness
+results is by considering another activation function Maybe the simplest non-linear function is
+the squared function We call networks that use this activation function polynomial
+networks since they compute polynomial functions of their inputs As in the previous section we
+denote by the class of functions that can be implemented using a neural network of depth
+size squared activation function and a bound on the norm of the input weights of each
+neuron Whenever we do not specify we refer to polynomial networks with unbounded weights
+Below we study the expressiveness and computational complexity of polynomial networks We
+note that algorithms for efficiently learning real-valued sparse or low-degree polynomials has been
+studied in several previous works However these rely on strong distributional
+assumptions such as the data instances having a uniform or log-concave distribution while we are
+interested in a distribution-free setting
+Expressiveness
+We first show that similarly to networks with threshold activation polynomial networks of polynomial size can express all functions that can be implemented efficiently using a Turing machine
+Theorem Polynomial networks can express Turing Machines Let Fd and be as in Thm.
+Then there exist constants such that for every the class with
+log(T t2 and contains Fd
+The proof of the theorem relies on the result of and is given in the appendix
+Another relevant expressiveness result which we will use later shows that polynomial networks can
+approximate networks with sigmoidal activation functions
+Theorem Fix and N. There are Bt O(log(tL
+log and
+Bn O(tL log such that for every Nt,n,?sig there is a function NtBt nBn such
+that supkxk kf
+The proof relies on an approximation of the sigmoid function based on Chebyshev polynomials as
+was done in and is given in the appendix
+Training Time
+We now turn to the computational complexity of learning polynomial networks We first show that
+it is hard to learn polynomial networks of depth Indeed by combining Thm. and
+Corollary we obtain the following
+Corollary The class where and is not efficiently learnable
+On the flip side constant-depth polynomial networks can be learned in polynomial time using a
+simple linearization trick Specifically the class of polynomial networks of constant depth is
+contained in the class of multivariate polynomials of total degree at most 2t This class can
+be represented as a ds dimensional linear space where each vector is the coefficient vector of some
+such polynomial Therefore the class of polynomial networks of depth can be learned in time
+poly(d2 by mapping each instance vector Rd to all of its monomials and learning a linear
+predictor on top of this representation which can be done efficiently in the realizable case or when
+a convex loss function is used In particular if is a constant then so is 2t and therefore polynomial
+networks of constant depth are efficiently learnable Another way to learn this class is using support
+vector machines with polynomial kernels
+An interesting application of this observation is that depth-2 sigmoidal networks are efficiently learnable with sufficient regularization as formalized in the result below This contrasts with corollary
+which provides a hardness result without regularization
+Theorem The class N2,n,?sig can be learned to accuracy in time poly(T where
+O(d4L
+The idea of the proof is as follows Suppose that we obtain data from some N2,n,?sig Based
+on Thm. there is N2Bt nBn that approximates to some fixed accuracy where Bt
+and Bn are as defined in Thm. for Now we can learn N2Bt nBn by considering the class
+of all polynomials of total degree and applying the linearization technique discussed above
+Since is assumed to separate the data with margin sign(f then
+separates the data with margin which is enough for establishing accuracy in sample and time
+that depends polynomially on
+Learning 2-layer and 3-layer Polynomial Networks
+While interesting theoretically the above results are not very practical since the time and sample
+complexity grow very fast with the depth of the network.3 In this section we describe practical
+provably correct algorithms for the special case of depth-2 and depth-3 polynomial networks with
+some additional constraints Although such networks can be learned in polynomial time via explicit
+linearization as described in section the runtime and resulting network size scales quadratically
+for depth-2 or cubically for depth-3 with the data dimension In contrast our algorithms and
+guarantees have a much milder dependence on
+We first consider layer polynomial networks of the following form
+w0
+kwi
+This networks corresponds to one hidden layer containing neurons with the squared activation
+function where we restrict the input weights of all neurons in the network to have bounded norm
+and where we also allow a direct linear dependency between the input layer and the output layer
+We?ll describe an efficient algorithm for learning this class which is based on the GECO algorithm
+for convex optimization with low-rank constraints
+If one uses SVM with polynomial kernels the time and sample complexity may be small under margin
+assumptions in a feature space corresponding to a given kernel Note however that large margin in that space
+is very different than the assumption we make here namely that there is a network with a small number of
+hidden neurons that works well on the data
+The goal of the algorithm is to find that minimizes the objective
+R(f
+where is a loss function We?ll assume that is smooth and convex
+The basic idea of the algorithm is to gradually add hidden neurons to the hidden layer in a greedy
+manner so as to decrease the loss function over the data To do so define
+kwk2 the set of functions that can be implemented by hidden neurons Then every
+is an affine function plus a weighted sum of functions from V. The algorithm starts with being
+the minimizer of over all affine functions Then at each greedy step we search for that
+minimizes a first order approximation of R(f
+R(f R(f
+g(xi
+where is the derivative of its first argument Observe that for every there is some
+with kwk2 for which
+the right-hand side of can
+Pm xx w.>Hence
+be rewritten as R(f The vector that minimizes this
+Pm
+expression for positive is the leading eigenvector of the matrix
+We add this vector as a hidden neuron to the network.4 Finally we minimize the weights
+from the hidden layer to the output layer namely the weights
+The following theorem which follows directly from Theorem of provides convergence guarantee for GECO Observe that the theorem gives guarantee for learning if we allow to output
+an over-specified network
+Theorem Fix some Assume that the loss function is convex and smooth Then if
+the GECO Algorithm is run for
+iterations it outputs a network for which
+R(f minf R(f
+We next consider a hypothesis class consisting of third degree polynomials which is a subset of
+3-layer polynomial networks Lemma 1nin the appendix The hidden neurons
+will be functions
+Qi
+from the class Vi where Vi kwj The hypothesis
+Pk
+class we consider is gi gi
+The basic idea of the algorithm is the same as for 2-layer networks However while in the 2-layer
+case we could implement efficiently each greedy step by solving an eigenvalue problem we now
+face the following tensor approximation problem at each greedy step
+max
+g(xi
+max
+kwk=1,kuk=1,kvk=1
+While this is in general a hard optimization problem we can approximate it and luckily an approximate greedy step suffices for success of the greedy procedure This procedure is given in Figure
+and is again based on an approximate eigenvector computation A guarantee for the quality of approximation is given in the appendix and this leads to the following theorem whose proof is given
+in the appendix
+Theorem Fix some Assume that the loss function is convex and smooth Then if the
+GECO Algorithm is run for
+iterations where each iteration relies on the approximation
+procedure given in then with probability it outputs a network for which
+R(f minf R(f
+It is also possible to find an approximate solution to the eigenvalue problem and still retain the performance
+guarantees Since an approximate eigenvalue can be found in time using the power method we
+obtain the runtime of GECO depends linearly on
+Input
+approximate
+solution to
+Output A
+max
+kwk,kuk,kvk=1
+Pick randomly w1 ws iid according to Id
+For 2d log
+wt
+wt kw
+tk
+Let A
+and set ut vt
+Av
+max
+kuk,kvk=1 r(u Av).
+Return the maximizers of maxi?s ui ui
+Figure Approximate tensor maximization
+Experiments
+To demonstrate the practicality of GECO to train neural networks for real world problems we considered a pedestrian detection problem as follows We collected training examples of image
+patches of size pixels containing either pedestrians positive examples or hard negative examples containing images that were classified as pedestrians by applying a simple linear classifier in
+a sliding window manner See a few examples of images above We used half of the examples as a
+training set and the other half as a test set We calculated HoG
+features from the images5 We then trained using GECO
+SGD ReLU
+a depth-2 polynomial network on the resulting features We
+SGD Squared
+GECO
+used neurons in the hidden layer For comparison we trained
+the same network architecture hidden neurons with a
+squared activation function by SGD. We also trained a similar
+network hidden neurons again with the ReLU activation
+function For the SGD implementation we tried the following
+tricks to speed up the convergence heuristics for initialization
+of the weights learning rate rules mini-batches Nesterov?s mo0
+iterations
+mentum as explained in and dropout The test errors of
+SGD as a function of the number of iterations are depicted on
+the top plot of the Figure on the side We also mark the perfor4
+mance of GECO as a straight line since it doesn?t involve SGD
+iterations As can be seen the error of GECO is slightly bet2
+ter than SGD. It should be also noted that we had to perform a
+very large number of SGD iterations to obtain a good solution
+while the runtime of GECO was much faster This indicates that
+GECO may be a valid alternative approach to SGD for training
+depth-2 networks It is also apparent that the squared activation
+iterations
+function is slightly better than the ReLU function for this task
+Error
+MSE
+The second plot of the side figure demonstrates the benefit of
+over-specification for SGD. We generated random examples in and passed them through a
+random depth-2 network that contains hidden neurons with the ReLU activation function We
+then tried to fit a new network to this data with over-specification factors of overspecification factor of means that we used hidden neurons As can be clearly seen
+SGD converges much faster when we over-specify the network
+Acknowledgements This research is supported by Intel ICRI-CI OS was also supported by
+an ISF grant and a Marie-Curie Career Integration Grant SSS and RL were also
+supported by the MOS center of Knowledge for AI and ML RL is a recipient of the
+Google Europe Fellowship in Learning Theory and this research is supported in part by this Google
+Fellowship We thank Itay Safran for spotting a mistake in a previous version of Sec. and to James
+Martens for helpful discussions
+Using the Matlab implementation provided in http://www.mathworks.com/matlabcentral
+fileexchange/33863-histograms-of-oriented-gradients
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+

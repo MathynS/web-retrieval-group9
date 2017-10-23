@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 
-import script_index_engine_test_interface as engine_controller
+import script_index_engine_test_interface_with_stemming as engine_controller
 import utils.index_models as models
 import utils.io_utils as io
 
-test_dir = "data/test"
+
+test_dir = "data/test/stemming"
 DATABASE_FILENAME = "data/database.sqlite"
 query_content_cmd = "QUERY_CONTENT"
 query_title_cmd = "QUERY_TITLE"
@@ -13,18 +14,17 @@ def retrieve_documents_per_content(query_sentence, output_filename):
     documents = engine_controller.search_per_content(query_content_cmd,
                                                      query_sentence,
                                                     number_of_docs)
-    print("Documents: ")
     print(documents)
     models.connect_to_db(DATABASE_FILENAME)
 
     test_result = "query sentence: " + query_sentence
-    test_result += "\n<<------------------------------------------------------------------------------------------------------------------------------------------->>\n"
+    test_result += "\n---------------------------------------------------------------------\n"
     for doc_id in documents:
-        paper_query = models.Papers_NR_NSW.select().where(models.Papers_NR_NSW.id == doc_id)
+        paper_query = models.Papers.select().where(models.Papers.id == doc_id)
         if len(paper_query) > 0:
             test_result += "title: " + paper_query[0].pdf_name + "\n\n"
             test_result += paper_query[0].paper_text
-            test_result += "\n<<----------------------------------------------------------------------------------------------------------------------->>\n\n"
+            test_result += "\n<<----------------------------------------------------------------------------------------------------------------------------------------->>\n\n"
     full_path_output_filename = test_dir + "/" + output_filename
     io.save_file(test_result, full_path_output_filename)
             

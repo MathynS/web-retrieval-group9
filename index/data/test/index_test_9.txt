@@ -1,0 +1,2160 @@
+query sentence: autonomous vehicles
+<<------------------------------------------------------------------------------------------------------------------------------------------->>
+title: 414-real-time-autonomous-robot-navigation-using-vlsi-neural-networks.pdf
+
+Real-time autonomous robot navigation using
+VLSI neural networks
+Lionel Tarassenko Michael Brownlow Gillian Marshall
+Department of Engineering Science
+Oxford University Oxford OXl UK
+Jon Tombs
+Alan Murray
+Department of Electrical Engineering
+Edinburgh University Edinburgh EH9 UK
+Abstract
+We describe a real time robot navigation system based on three VLSI
+neural network modules These are a resistive grid for path planning a
+nearest-neighbour classifier for localization using range data from a timeof-flight infra-red sensor and a sensory-motor associative network for dynamic obstacle avoidance
+INTRODUCTION
+There have been very few demonstrations ofthe application ofVLSI neural networks
+to real world problems Yet there are many signal processing pattern recognition
+or optimization problems where a large number of competing hypotheses need to
+be explored in parallel most often in real time The massive parallelism of VLSI
+neural network devices with one multiplier circuit per synapse is ideally suited to
+such problems In this paper we present preliminary results from our design for a
+real time robot navigation system based on VLSI neural network modules This is a
+Also RSRE Great Malvern Worcester 3PS
+Real-time Autonomous Robot Navigation Using VLSI Neural Networks
+real world problem which has not been fully solved by traditional AI methods even
+when partial solutions have been proposed and implemented these have required
+vast computational resources usually remote from the robot and linked to it via an
+umbilical cord
+OVERVIEW
+The aim of our work is to develop an autonomous vehicle capable of real-time
+navigation including obstacle avoidance in a known indoor environment The
+obstacles may be permanent static or unexpected and dynamic for example
+in an automated factory environment the walls and machines are permanent but
+people other moving vehicles and packages are not There are three neural network
+modules at the heart of our navigation system a localization module to determine
+at any time the robot's position within the environment an obstacle detection
+module and a path planning module to compute a path to the goal which avoids
+obstacles These modules perform low-level processing in real time which can then
+be decoupled from higher level processing to be carried out by a simple controller
+It is our view that such a hybrid system is the best way to realise the computational
+potential of artificial neural networks for solving a real world problem such as this
+without compromising overall system performance
+A short description of each module is now given In each case the general principles
+are first outlined and where applicable the results of our preliminary work are then
+reported
+PATH PLANNING
+The use ofresistive grids for parallel analog computation was first suggested by Horn
+in the mid-seventies Horn and the idea has since been exploited by Mead and
+co-workers for example in a silicon retina Mead and Mahowald Although
+these resistive grids cannot be said to be neural networks in the conventional sense
+they also perform parallel analog computation and they have the same advantages
+in terms of speed and fault-tolerance as any hardware realisation of neural networks
+We have taken the resistive grid concept and applied it to the path planning problem here taken to be the computation of an obstacle-avoiding path in a structured
+environment from the robot's initial present position to its goal In our
+approach the robot's working domain is discretized and mapped onto a resistive
+grid of hexagonal or rectangular cells see Figure which shows the test environment for Autonomous Guided Vehicles AGV's in the Oxford Robotics Laboratory
+Each resistor in the grid has a value of flo unless it is part of a region of the grid
+corresponding to an obstacle in which case its resistance is infinite
+The principle of the method is perhaps best understood by considering a continuous
+analog of the resistive grid for example a sheet of material of uniform resistivity in
+which holes have been cut to represent the obstacles The current streamlines resulting from the application of an external source between and skirt around the
+obstacles if we follow one of these streamlines from to we will obtain a guaranteed collision-free path since current cannot flow into the obstacles Tarassenko and
+Tarassenko Brownlow Marshall Tombs and Murray
+Blake For simple cases such as circularly symmetric conductivity distributions in Laplace's equation can be solved in order to calculate the value of the
+potential at every point within the workspace Following a current streamline is
+then simply a matter of performing gradient descent in V.
+Figure The Oxford test environment for AGV's mapped out as a hexagonal
+resistive grid The resistors corresponding to the four pillars in the middle are open
+circuits Note that the pillars are enlarged in their grid representation in order to
+take into account the mobile robot's finite size
+It is not possible however to solve Laplace's equation analytically for realistic environments With the resistive grid the problem is discretized and mapped onto a
+hardware representation which can be implemented in VLSI As soon as an external
+source of power is connected between and the resistive network settles into
+the state of least power dissipation and the node voltages can be read out hardware computation of Kirchhoff's equations The path from to is computed
+incrementally from local voltage measurements for each node the next move is
+identified by measuring the voltage drop Vn between that node and each of its
+nearest neighbours for a hexagonal grid and then selecting the node corresponding to Vn)max This is illustrated by the example of a robot in a maze
+Figure As above the resistors shown shaded are open circuits whilst all other
+resistors are set to be equal to Ro. The robot is initially placed at the centre of the
+maze and a path has to be found to the goal in the top left-hand corner The
+solid line shows the path resulting from a single application of the voltage between
+and G. The dotted line shows the optimal path computed by re-applying the
+Real-time Autonomous Robot Navigation Using VLSI Neural Networks
+voltage at every node as the robot moves towards the goal As already indicated
+this is actually how we intend to use the resistive grid planner in practice since
+this approach also allows us to re-compute the robot's path whenever unexpected
+obstacles appear in the environment Section
+Figure Path from middle of maze to top left-hand corner
+VLSI IMPLEMENTATION
+The VLSI implementation of the resistive grid method will allow us to solve the path
+planning for complex environments in real time MOS switches are ideal implementations of the binary resistors in the grid Each transistor can be programmed to
+be either open Roo or closed from a RAM cell connected to its gate With
+the incremental computation of the path described above the selection of the next
+move is a matter of identifying the largest of six voltages Of course the nearest
+neighbour voltages and that of the node could be read out through an AID converter and the decision made off-chip We favour a full hardware solution instead
+whereby the maximum voltage difference is directly identified on-chip
+LOCALIZATION
+The autonomous robot should at any time be able to work out its position in
+the workspace so that the path to the goal can be updated if required The grid
+representation of the environment used for the path planner can also be employed
+Tarassenko Brownlow Marshall Tombs and Murray
+for localization purposes in which case localization becomes in the first instance
+a matter of identifying the nearest node in the grid at any time during navigation
+This task can be performed by harnessing the pattern recognition capabilities of
+neural networks The room environment is learnt by recording a range scan
+at every node during a training phase prior to navigation During navigation the
+nearest node is identified using a minimum-distance classifier implemented on a
+single-layer neural network working on dense input data one range value every
+say In order to solve the localization problem in real-time we have designed a timeof-flight optical rangefinder which uses near infra-red light amplitude-modulated
+at a frequency of just above MHz together with a heterodyne mixing technique
+Our design is capable of resolving phase shifts in the received light signal of the
+order of over a dB dynamic range
+The rotating optical scanner gives a complete scan approximately every second
+during navigation The minimum-distance classifier is used to compare this scan
+with the patterns Uj recorded at each node during training If we use a Euclidean
+metric for the comparison this is equivalent to identifying the pattern Uj for which
+is a minimum The first term in the above equation is the same for all and can be
+ignored We can therefore write
+2wT
+WiT
+where gj(x is a linear discriminant function Wi Uj and
+gj
+Uj
+WjQ
+WjQ
+Thus each
+vector is one of the learnt patterns Ui and the discriminant gi(X matches the
+input with Uj point by point If we let
+Iij and and assume
+that there are range values in each scan then we can write
+Wj
+j=n
+gj(x
+Iij Vj
+WiO
+j=l
+Thus the synaptic weights are an exact copy of the patterns recorded at each grid
+point during learning and the neurons can be thought of as processors which compute distances to those patterns During navigation the nearest node is identified
+with a network of neurons evaluating discriminant functions in parallel followed
+by a winner-take-all network to pick the maximum This is the well-known
+implementation of the nearest-neighbour classifier on a neural network architecture
+Since the ui's are analog input vectors then the synaptic weights Iij will also be
+analog quantities and this leads to a very efficient use of the pulse-stream analog
+VLSI technology which we have recently developed for the implementation of neural
+networks Murray
+With pulse-stream arithmetic analog computation is performed under digital control The neural states are represented by pulse rates and synaptic multiplication is achieved by pulse width modulation This allows very compact fully
+Real-time Autonomous Robot Navigation Using VLSI Neural Networks
+programmable synapse circuits to be designed or transistors per synapse
+We have already applied one set of our working chips to the nearest-neighbour classification task described in this Section They were evaluated on a 24-node test
+environment and full results have been reported elsewhere Brownlow Tarassenko
+and Murray It was found that the Iij Vi scalar products evaluated by our
+VLSI chips on this test problem were always within of those computed on a
+SUN workstation
+OBSTACLE DETECTION/AVOIDANCE
+A more appropriate name for this module may be that of local navigation The
+module will rely on optical flow information derived from a number of fixed optical
+sensors mounted on the robot platform Each sensor will include a pulsed light
+source to illuminate the scene locally and the light reflected from nearby objects
+will be focussed onto a pair of gratings at right angles to each other before being
+detected by a photodiode array From the time derivatives of the received signals
+it is possible to compute the relative velocities of nearby objects such as moving
+obstacles We plan to use previous work on structure from motion to pre-process
+these velocity vectors and derive from them appropriate feature vectors to be used
+as inputs to a low-level neural network for motor control Figure below
+sensors intended
+un
+Measurement
+flow from
+of optic
+sensors
+Velocity signal of
+approaching objects
+Low level network
+Direct motor
+control
+Figure Sensory-motor associative network for obstacle avoidance
+Tarassenko Brownlow Marshall Tombs and Murray
+The obstacle avoidance network will be taught to associate appropriate motor behaviours with different types of sensory input data for example the taking of the
+correct evasive action when a moving object is approaching the robot from a particular direction This module will therefore be responsible for path adjustment in
+response to dynamic obstacles with a bandwidth of around but the path
+planner of Section will continue to deal with path reconfiguration at a much lower
+data rate once the dynamic obstacle has been avoided Our work on this
+module has so far been mainly concerned with the design of the input sensors and
+associated electronics
+CONCLUSION
+We have implemented the path planning and localization modules described in this
+paper on a SUN workstation and used them to control a mobile robot platform
+via a radio link This capability was demonstrated at the NIPS'90 Conference with
+a videotape recording of our mobile robot navigating around static obstacles in
+a laboratory environment using real-time infra-red data for localization It was
+possible to run the path planner in near real-time in simulation because no resistor
+value need be changed in a static environment in order to achieve real-time path
+planning in a dynamic environment however the hardware solution of Section
+will be mandatory Our aim remains the implementation of all modules in VLSI
+in order to demonstrate a fully autonomous real-time navigation system with all
+the sensors and hardware mounted on the robot platform
+Acknowledgements
+We gratefully acknowledge the financial support of UK Science and Engineering
+Research Council and of the EEC ESPRIT BRA We have benefitted greatly
+from the help and advice of members of the Robotics Research Group most notably
+Martin Adams Gabriel Hamid and Jake Reynolds
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 4189-joint-3d-estimation-of-objects-and-scene-layout.pdf
+
+Joint 3D Estimation of Objects and Scene Layout
+Andreas Geiger
+Karlsruhe Institute of Technology
+Christian Wojek
+MPI Saarbr?ucken
+Raquel Urtasun
+TTI Chicago
+geiger@kit.edu
+cwojek@mpi-inf.mpg.de
+rurtasun@ttic.edu
+Abstract
+We propose a novel generative model that is able to reason jointly about the 3D
+scene layout as well as the 3D location and orientation of objects in the scene
+In particular we infer the scene topology geometry as well as traffic activities
+from a short video sequence acquired with a single camera mounted on a moving
+car Our generative model takes advantage of dynamic information in the form of
+vehicle tracklets as well as static information coming from semantic labels and geometry vanishing points Experiments show that our approach outperforms
+a discriminative baseline based on multiple kernel learning MKL which has access to the same image information Furthermore as we reason about objects in
+we are able to significantly increase the performance of state-of-the-art object
+detectors in their ability to estimate object orientation
+Introduction
+Visual 3D scene understanding is an important component in applications such as autonomous driving and robot navigation Existing approaches produce either only qualitative results or a mild
+level of understanding semantic labels object detection or rough 3D A
+notable exception are approaches that try to infer the scene layout of indoor scenes in the form of
+3D bounding boxes However these approaches can only cope with limited amounts of
+clutter beds and rely on the fact that indoor scenes satisfy very closely the manhattan world
+assumption walls and often objects are aligned with the three dominant vanishing points In
+contrast outdoor scenarios often show more clutter vanishing points are not necessarily orthogonal
+and objects often do not agree with the dominant vanishing points
+Prior work on 3D urban scene analysis is mostly limited to simple ground plane estimation
+or models for which the objects and the scene are inferred separately In contrast in this paper
+we propose a novel generative model that is able to reason jointly about the 3D scene layout as well
+as the 3D location and orientation of objects in the scene In particular given a video sequence
+of short duration acquired with a single camera mounted on a moving car we estimate the scene
+topology and geometry as well as the traffic activities and 3D objects present in the scene
+for an illustration Towards this goal we propose a novel image likelihood which takes advantage
+of dynamic information in the form of vehicle tracklets as well as static information coming from
+semantic labels and geometry vanishing points Interestingly our inference reasons about
+whether vehicles are on the road or parked in order to get more accurate estimations Furthermore
+we propose a novel learning-based approach to detecting vanishing points and experimentally show
+improved performance in the presence of clutter when compared to existing approaches
+We focus our evaluation mainly on estimating the layout of intersections as this is the most challenging inference task in urban scenes Our approach proves superior to a discriminative baseline
+based on multiple kernel learning MKL which has access to the same image information 3D
+tracklets segmentation and vanishing points We evaluate our method on a wide range of metrics
+including the accuracy of estimating the topology and geometry of the scene as well as detecting
+Vehicle Tracklets
+Vanishing Points
+Scene Labels
+Figure Monocular 3D Urban Scene Understanding Left Image cues Right Estimated layout Detections
+belonging to a tracklet are depicted with the same color traffic activities are depicted with red lines
+activities traffic situations Furthermore we show that we are able to significantly increase the
+performance of state-of-the-art object detectors in terms of estimating object orientation
+Related Work
+While outdoor scenarios remain fairly unexplored estimating the 3D layout of indoor scenes has
+experienced increased popularity in the past few years 27 This can be mainly attributed
+to the success of novel structured prediction methods as well as the fact that indoor scenes behave
+mostly as Manhattan worlds edges on the image can be associated with parallel lines defined
+in terms of the three dominant vanishing points which are orthonormal With a moderate degree of
+clutter accurate geometry estimation has been shown for this scenario
+Unfortunately most urban scenes violate the Manhattan world assumption Several approaches
+have focused on estimating vanishing points in this more adversarial setting Barinova
+proposed to jointly perform line detection as well as vanishing point azimut and zenith estimation
+However their approach does not tackle the problem of 3D scene understanding and 3D object
+detection In contrast we propose a generative model which jointly reasons about these two tasks
+Existing approaches to estimate 3D from single images in outdoor scenarios typically infer popups Geometric approaches reminiscent to the blocksworld model which impose physical
+constraints between objects object A supports object have also been introduced Unfortunately all these approaches are mainly qualitative and do not provide the level of accuracy
+necessary for real-world applications such as autonomous driving and robot navigation Prior work
+on 3D traffic scene analysis is mostly limited to simple ground plane estimation or models for
+which the objects and scene are inferred separately In contrast our model offers a much richer
+scene description and reasons jointly about 3D objects and the scene layout
+Several methods have tried to infer the 3D locations of objects in outdoor scenarios The most
+successful approaches use tracklets to prune spurious detections by linking consistent evidence in
+successive frames However these models are either designed for static camera setups in
+surveillance applications or do not provide a rich scene description Notable exceptions
+are which jointly infer the camera pose and the location of objects However the employed
+scene models are rather simplistic containing only a single flat ground plane
+The closest approach to ours is probably the work of Geiger where a generative model is
+proposed in order to estimate the scene topology geometry as well as traffic activities at intersections Our work differs from theirs in two important aspects First they rely on stereo sequences
+while we make use of monocular imagery This makes the inference problem much harder as the
+noise in monocular imagery is strongly correlated with depth Towards this goal we develop a richer
+image likelihood model that takes advantage of vehicle tracklets vanishing points as well as segmentations of the scene into semantic labels The second and most important difference is that
+Geiger estimate only the scene layout while we reason jointly about the layout as well as
+the 3D location and orientation of objects in the scene vehicles
+Model Geometry
+Model Topology
+Figure Geometric model In the grey shaded areas illustrate the range of
+Finally non-parametric models have been proposed to perform traffic scene analysis from a stationary camera with a view similar to bird?s eye perspective In our work we aim to infer similar
+activities but use video sequences from a camera mounted on a moving car with a substantially lower
+viewpoint This makes the recognition task much more challenging Furthermore those models do
+not allow for viewpoint changes while our model reasons about over unseen scenes
+3D Urban Scene Understanding
+We tackle the problem of estimating the 3D layout of urban scenes road intersections from
+monocular video sequences In this paper 2D refers to observations in the image plane while 3D
+refers to the bird?s eye perspective our scenario the height above ground is non-informative We
+assume that the road surface is flat and model the bird?s eye perspective as the plane of the
+standard camera coordinate system The
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 218-real-time-computer-vision-and-robotics-using-analog-vlsi-circuits.pdf
+
+Koch Bair Harris Horiuchi Hsu and Luo
+Real Time Computer Vision and Robotics
+Using Analog VLSI Circuits
+Christof Koch
+Wyeth Bair
+John G. Harris
+Timothy Horiuchi
+Andrew Hsu
+Jin Luo
+Computation and Neural Systems Program
+Caltech
+Pasadena CA
+ABSTRACT
+The long-term goal of our laboratory is the development of analog
+resistive network-based VLSI implementations of early and intermediate vision algorithms We demonstrate an experimental circuit for smoothing and segmenting noisy and sparse depth data
+using the resistive fuse and a edge-detection circuit for computing zero-crossings using two resistive grids with different spaceconstants To demonstrate the robustness of our algorithms and
+of the fabricated analog CMOS VLSI chips we are mounting these
+circuits onto small mobile vehicles operating in a real-time laboratory environment
+INTRODUCTION
+A large number of computer vision algorithms for finding intensity edges computing motion depth and color and recovering the shapes of objects have been
+developed within the framework of minimizing an associated energy functional
+Such a variational formalism is attractive because it allows a priori constraints
+to be explicitly stated The single most important constraint is that the physical
+processes underlying image formation such as depth orientation and surface reflectance change slowly in space For instance the depths of neighboring points on
+a surface are usually very similar Standard regularization algorithms embody this
+smoothness constraint and lead to quadratic variational functionals with a unique
+global minimum Poggio Torre and Koch These quadratic functionals
+Real-Time Computer Vision and Robotics Using Analog VLSI Circuits
+Rl
+Rl
+Node
+Voltage
+I I
+Edge
+Output
+Photoreceptor
+Figure shows the schematic of the zero-crossing chip The phototransistors
+logarithmically map light intensity to voltages that are applied via a conductance
+onto the nodes of two linear resistive networks The network resistances Rl and R2
+can be arbitrarily adjusted to achieve different space-constants Transconductance
+amplifiers compute the difference of the smoothed network node voltages and report
+a current proportional to that difference The sign of current then drives exclusive-or
+circuitry not shown between each pair of neighboring pixels The final output is
+a binary signal indicating the positions of the zero-crossings The linear network
+resistances have been implemented using Mead's saturating resistor circuit Mead
+and the vertical resistors are implemented with transconductance followers
+shows the measured response of a seven-pixel version of the chip to a bright
+background with a shadow cast across the middle three photoreceptors The circles
+and triangles show the node voltages on the resistive networks with the smaller and
+larger space-constants respectively Edges are indicated by the binary output bar
+chart at bottom corresponding to the locations of zero-crossings
+Koch Bair Harris Horiuchi Hsu and Luo
+can be mapped onto linear resistive networks such that the stationary voltage distribution corresponding to the state of least power dissipation is equivalent to
+the solution of the variational functional Horn Poggio and Koch
+Smoothness breaks down however at discontinuities caused by occlusions or differences in the physical processes underlying image formation different surface
+reflectance properties Detecting these discontinuities becomes crucial not only
+because otherwise smoothness is incorrectly applied but also because the locations
+of discontinuities are often required for further image analysis and understanding
+We describe two different approaches for finding discontinuities in early vision
+a edge-detection circuit for computing zero-crossings using two resistive grids
+with different space-constants and a by pixel circuit for smoothing and
+segmenting noisy and sparse depth data using the resistive fuse
+Finally while successfully demonstrating a highly integrated circuit on a stationary
+laboratory bench under controlled conditions is already a tremendous success this
+is not the environment in which we ultimately intend them to be used The jump
+from a sterile well-controlled and predictable environment such as that of the
+laboratory bench to a noisy and physically demanding environment of a mobile
+robot can often spell out the true limits of a circuit's robustness In order to
+demonstrate the robustness and real-time performance of these circuits we have
+mounted two such chips onto small toy vehicles
+AN EDGE DETECTION CIRCUIT
+The zero-crossings of the Laplacian of the Gaussian are often used for detecting edges Marr and Hildreth discovered that the Mexican-hat shape
+of the V2G operator can be approximated by the difference of two Gaussians
+In this spirit we have built a chip that takes the difference of two resistivenetwork smoothings of photoreceptor input and finds the resulting zero-crossings
+The Green's function of the resistive network a decaying exponential differs from
+the Gaussian but simulations with digitized camera images have shown that the
+difference of exponentials DOE gives results nearly as good as the DOG. Furthermore resistive nets have a natural implementation in silicon while implementing
+the Gaussian is cumbersome
+The circuit Figure la uses two independent resistive networks to smooth the voltages supplied by logarithmic photoreceptors The voltages on the two networks are
+subtracted and exclusive-or circuitry not shown is used to detect zero-crossings In
+order to facilitate thresholding of edges an additional current is computed at each
+node indicating the strength of the zero-crossing This is particularly important
+for robust real-world performance where there will be many small magnitude
+of slope zero-crossings due to noise Figure 1b shows the measured response of a
+seven-pixel version of the chip to a bright background with a shadow cast across the
+middle three photoreceptors Subtracting the two network voltage traces shown at
+the top we find two zero-crossings which the chip correctly identifies in the binary
+output shown at the bottom
+Real-Time Computer Vision and Robotics Using Analog VLSI Circuits
+OJ
+I
+I
+2u
+dij
+o0
+I Il
+HRES
+I
+Volts
+Figure Schematic diagram for the by pixel surface interpolation and
+smoothing chip A rectangular mesh of resistive fuse elements shown as rectangles
+provide the smoothing and segmentation ability of the network The data are given
+as battery values dij with the conductance connecting the battery to the grid set
+to where is the variance of the additive Gaussian noise assumed to
+corrupt the data Measured current-voltage relationship for different settings
+of the resistive fuse For a voltage of less than VT across this two-terminal device
+the circuit acts as a resistor with conductance A. Above VT the current is either
+abruptly set to zero binary fuse or smoothly goes to zero analog fuse We can
+continuously vary the I-V curve from the hyperbolic tangent of Mead's saturating
+resistor HRES to that of an analog fuse effectively implementing a
+continuation method for minimizing the non-convex functional The I-V curve of a
+binary fuse is also illustrated
+Koch Bair Harris Horiuchi Hsu and Luo
+A CIRCUIT FOR SMOOTHING AND SEGMENTING
+Many researchers have extended regularization theory to include discontinuities
+Let us consider the problem of interpolating noisy and sparse data the
+generalization is straightforward where the depth data di is given on a discrete
+grid Associated with each lattice point is the value of the recovered surface Ii
+and a binary line discontinuity Ii. When the surface is expected to be smooth
+with a first-order membrane-type stabilizer except at isolated discontinuities the
+functional to be minimized is given by
+I A~(fi+l
+I
+I
+a
+Ii
+I
+where is the variance of the additive Gaussian noise process assumed to corrupt
+the data di and A and a are free parameters The first term implements the
+piecewise smooth constraint if all variables with the exception of Ii Ii+l and Ii
+are held fixed and A(fi+l a it is cheaper to pay the price A(fi+l
+and set Ii than to pay the larger price a if the gradient becomes too steep
+Ii and the surface is segmented at that location The second term with the
+sum only including those locations where data exist forces the surface I to be
+close to the measured data How close depends on the estimated magnitude of
+the noise in this case on The final surface I is the one that best satisfies the
+conflicting demands of piecewise smoothness and fidelity on the measured data
+To minimize the generalization of eq we map the functional onto the
+circuit shown in 2a such that the stationary voltage at every gridpoint then
+corresponds to hi The cost functional is interpreted as electrical co-content
+the generalization of power for nonlinear networks We designed a two-terminal
+nonlinear device which we call a resistive fuse to implement piecewise smoothness
+If the magnitude of the voltage drop across the device is less than
+VT the fuse acts as a linear resistor with conductance A. If VT is
+exceeded however the fuse breaks and the current goes to zero The operation of
+the fuse is fully reversible We built a by pixel fuse network chip and show
+its segmentation and smoothing performance in Figure
+AUTONOMOUS VEHICLES
+Our goal-beyond the design and fabrication of analog resistive-network chips-is
+to build mobile testbeds for the evaluation of chips as well as to provide a systems
+perspective on the usefulness of certain vision algorithms Due to the small size
+and power requirements of these chips it is possible to utilize the vast resource of
+commercially available toy vehicles The advantages of toy cars over robotic vehicles
+built for research are their low cost ease of modification high power-to-weight ratio
+availability and inherent robustness to the real-world Accordingly we integrated
+two analog resistive-network chips designed and built in Mead's laboratory onto
+small toy cars controlled by a digital microprocessor Figure
+Real-Time Computer Vision and Robotics Using Analog VLSI Circuits
+Noel.?Number
+Noel Number
+Noel.?Number
+Figure Experimental data from the fuse network chip We use as input data a
+tower corresponding to dij rising from a plane corresponding to
+with superimposed Gaussian noise shows the input with the variance of the
+noise set to the voltage output using the fuse configured as a saturating
+resistance and the output when the fuse elements are activated
+and illustrate the same behavior along a horizontal slice across the chip for
+V. We used a hardware deterministic algorithm of varying the fuse I-V
+curve of the saturating resistor to that of the analog fuse following the arroW in
+as well as increasing the conductance A. This algorithm is closely related
+to other deterministic approximations based on continuation methods or a Mean
+Field Theory approach Koch Marroquin and Yuille Blake and Zisserman
+Geiger and Girosi Notice that the amplitude of the noise in the last
+case of the amplitude of the voltage step is so large that a single filtering
+step on the input will fail to detect the tower Cooperativity and hysteresis
+are required for optimal performance Notice the bad pixel in the middle of the
+tower Its effect is localized however to a single element
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 6090-backprop-kf-learning-discriminative-deterministic-state-estimators.pdf
+
+Backprop KF Learning Discriminative Deterministic
+State Estimators
+Tuomas Haarnoja Anurag Ajay Sergey Levine Pieter Abbeel
+haarnoja anuragajay svlevine pabbeel}@berkeley.edu
+Department of Computer Science University of California Berkeley
+Abstract
+Generative state estimators based on probabilistic filters and smoothers are one
+of the most popular classes of state estimators for robots and autonomous vehicles However generative models have limited capacity to handle rich sensory
+observations such as camera images since they must model the entire distribution
+over sensor readings Discriminative models do not suffer from this limitation
+but are typically more complex to train as latent variable models for state estimation We present an alternative approach where the parameters of the latent state
+distribution are directly optimized as a deterministic computation graph resulting
+in a simple and effective gradient descent algorithm for training discriminative
+state estimators We show that this procedure can be used to train state estimators
+that use complex input such as raw camera images which must be processed
+using expressive nonlinear function approximators such as convolutional neural
+networks Our model can be viewed as a type of recurrent neural network and
+the connection to probabilistic filtering allows us to design a network architecture
+that is particularly well suited for state estimation We evaluate our approach on
+synthetic tracking task with raw image inputs and on the visual odometry task in
+the KITTI dataset The results show significant improvement over both standard
+generative approaches and regular recurrent neural networks
+Introduction
+State estimation is an important component of mobile robotic applications including autonomous
+driving and flight Generative state estimators based on probabilistic filters and smoothers are
+one of the most popular classes of state estimators However generative models are limited in their
+ability to handle rich observations such as camera images since they must model the full distribution
+over sensor readings This makes it difficult to directly incorporate images depth maps and other
+high-dimensional observations Instead the most popular methods for vision-based state estimation
+such as SLAM are based on domain knowledge and geometric principles Discriminative
+models do not need to model the distribution over sensor readings but are more complex to train
+for state estimation Discriminative models such as CRFs typically do not use latent variables
+which means that training data must contain full state observations Most real-world state estimation
+problem settings only provide partial labels For example we might observe noisy position readings
+from a GPS sensor and need to infer the corresponding velocities While discriminative models can
+be augmented with latent state this typically makes them harder to train
+We propose an efficient and scalable method for discriminative training of state estimators Instead of
+performing inference in a probabilistic latent variable model we instead construct a deterministic
+computation graph with equivalent representational power This computation graph can then be
+optimized end-to-end with simple backpropagation and gradient descent methods This corresponds
+to a type of recurrent neural network model where the architecture of the network is informed by the
+Conference on Neural Information Processing Systems NIPS Barcelona Spain
+structure of the probabilistic state estimator Aside from the simplicity of the training procedure one
+of the key advantages of this approach is the ability to incorporate arbitrary nonlinear components
+into the observation and transition functions For example we can condition the transitions on raw
+camera images processed by multiple convolutional layers which have been shown to be remarkably
+effective for interpreting camera images The entire network including the observation and transition
+functions is trained end-to-end to optimize its performance on the state estimation task
+The main contribution of this work is to draw a connection between discriminative probabilistic state
+estimators and recurrent computation graphs and thereby derive a new discriminative deterministic
+state estimation method From the point of view of probabilistic models we propose a method for
+training expressive discriminative state estimators by reframing them as representationally equivalent
+deterministic models From the point of view of recurrent neural networks we propose an approach
+for designing neural network architectures that are well suited for state estimation informed by
+successful probabilistic state estimation models We evaluate our approach on a visual tracking
+problem which requires processing raw images and handling severe occlusion and on estimating
+vehicle pose from images in the KITTI dataset The results show significant improvement over
+both standard generative methods and standard recurrent neural networks
+Related Work
+Some of the most successful methods for state estimation have been probabilistic generative state space models SSMs based on filtering and smoothing Figure
+Kalman filters are perhaps the best known state estimators
+and can be extended to the case of nonlinear dynamics
+through linearization and the unscented transform Nonparametric filtering methods such as particle filtering are
+also often used for tasks with multimodal posteriors For
+a more complete review of state estimation we refer the
+reader to standard
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 1499-vlsi-implementation-of-motion-centroid-localization-for-autonomous-navigation.pdf
+
+VLSI Implementation of Motion Centroid
+Localization for Autonomous Navigation
+Ralph Etienne-Cummings
+Dept of ECE
+Johns Hopkins University
+Baltimore MD
+Viktor Gruev
+Dept of ECE
+Johns Hopkins University
+Baltimore MD
+Mohammed Abdel Ghani
+Dept ofEE
+S. Illinois University
+Carbondale IL
+Abstract
+A circuit for fast compact and low-power focal-plane motion centroid
+localization is presented This chip which uses mixed signal CMOS
+components to implement photodetection edge detection ON-set
+detection and centroid localization models the retina and superior
+colliculus The centroid localization circuit uses time-windowed
+asynchronously triggered row and column address events and two
+linear resistive grids to provide the analog coordinates of the motion
+centroid This VLSI chip is used to realize fast lightweight
+autonavigating vehicles The obstacle avoiding line-following
+algorithm is discussed
+INTRODUCTION
+Many neuromorphic chips which mimic the analog and parallel characteristics of visual
+auditory and cortical neural circuits have been designed Mead Koch
+Recently researchers have started to combine digital circuits with neuromorphic aVLSI
+systems Boahen The persistent doctrine however has been that computation
+should be performed in analog and only communication should use digital circuits We
+have argued that hybrid computational systems are better equipped to handle the high
+speed processing required for real-world problem solving while maintaining
+compatibility with the ubiquitous digital computer Etienne As a further
+illustration of this point of view this paper presents a departure form traditional
+approaches for focal plane centroid localization by offering a mixed signal solution that is
+simultaneously high-speed low power and compact In addition the chip is interfaced
+with an 8-bit microcomputer to implement fast autonomous navigation
+Implementation of centroid localization has been either completely analog or completely
+digital The analog implementations realized in the early used focal plane current
+mode circuits to find a global continuos time centroid of the pixels intensities
+DeWeerth Due to their sub-threshold operation these circuits are low power
+but slow On the other hand the digital solutions do not compute the centroid at the focal
+R. Etienne-Cummings V. Grnev and A. Ghani
+plane They use standard CCO cameras AID converters and OSP/CPU to compute the
+intensity centroid Mansfield These software approaches offer multiple centroid
+localization with complex mathematical processing However they suffer from the usual
+high power consumption and non-scalability of traditional digital visual processing
+systems Our approach is novel in many aspects We benefit from the low power
+compactness and parallel organization of focal plane analog circuits and the speed
+robustness and standard architecture of asynchronous digital circuits Furthermore it
+uses event triggered analog address read-out which is ideal for the visual centroid
+localization problem Moreover our chip responds to moving targets only by using the
+ON-set of each pixel in the centroid computation Lastly our chip models the retina and
+two dimensional saccade motor error maps of superior colliculus on a single chip
+Sparks Subsequently this chip is interfaced with a IlC for autonomous obstacle
+avoidance during line-following navigation The line-following task is similar to target
+tracking using the saccadic system except that the eye is fixed and the head the
+vehicle moves to maintain fixation on the target Control signals provided to the vehicle
+based on decisions made by the IlC are used for steering and accelerating/braking Here
+the computational flexibility and programmability of the IlC allows rapid prototyping of
+complex and robust algorithms
+CENTROID LOCALIZATION
+The mathematical computation of the centroid of an object on the focal plane uses
+intensity weighted average of the position of the pixels forming the object OeWeerth
+Equation shows this formulation The implementation of this representation
+LI,x
+LI,y
+and
+I
+can be quite involved since a product between the intensity and position is implied To
+eliminate this requirement the intensity of the pixels can be normalized to a single value
+within the object This gives equation since the intensity can be factored out of the
+summations Normalization of the intensity using a simple threshold is not advised since
+Ix
+Iy
+and
+Intensity Image
+XI
+l+l
+I
+Edges from pixels
+Figure Centroid computation
+architecture
+Figure Centroid computation method
+the value of the threshold is dependent on the brightness of the image and number of
+pixels forming the object may be altered by the thresholding process To circumvent
+these problems we take the view that the centroid of the object is defined in relation to its
+boundaries This implies that edge detection second order spatial derivative of intensity
+can be used to highlight the boundaries and edge labeling the zero-crossing of the
+edges can be used to normalize the magnitude of the edges Subsequently the centroid
+VLSI Implementation ofMotion Centroid Localization for Autonomous Navigation
+of the zero-crossings is computed Equation is then realized by projecting the zerocrossing image onto the and y-axis and performing two linear centroid determinations
+Figure shows this process
+The determination of the centroid is computed using a resistance grid to associate the
+position of a column row with a voltage In figure the positions are given by the
+voltages Vi By activating the column row switch when a pixel of the edge image
+appears in that column the position voltage is connected to the output line through
+the switch impedance Rs. As more switches are activated the voltage on the output line
+approximates equation Clearly since no buffers are used to isolate the position
+voltages as more switches are activated the position voltages will also change This
+does not pose a problem since the switch resistors are design to be larger than the position
+resistors the switch currents are small compared to the grid current Equation gives
+the error between the ideal centroid and the switch loaded centroid in the worst case
+when Rs
+on
+In the equation is the number of nodes is the number of switches
+set and Xl and xM are the locations of the first and last set switches respectively This
+error is improved as Rs gets larger and vanishes as
+approaches infinity The
+terms represent an ascending ordered list of the activated switches I may correspond
+to column five for example This circuit is compact since it uses only a simple linear
+resistive grid and MOS switches It is low power because the total grid resistance
+can be large It can be fast when the parasitic capacitors are kept small It provides an
+analog position value but it is triggered by fast digital signals that activate the switches
+error VmOll Vmin
+M(N
+xCN+l
+XI Xm
+MODELING THE RETINA AND SUPERIOR COLLICULUS
+System Overview
+The centroid computation approach presented in section is used to isolate the location
+of moving targets on a focal plane array Consequently a chip which realizes a
+neuromorphic visual target acquisition system based on the saccadic generation
+mechanism of primates can be implemented The biological saccade generation process is
+mediated by the superior colliculus which contains a map of the visual field Sparks
+In laboratory experiments cellular recordings suggest that the superior colliculus
+provides the spatial location of targets to be foveated Clearly a great deal of neural
+circuitry exists between the superior colliculus and the eye muscle Horiuchi has built an
+analog system which replicates most of the neural circuits including the motor system
+which are believed to form the saccadic system Horiuchi Staying true to the
+anatomy forced his implementation to be a complex multi-chip system with many control
+parameters On the other hand our approach focuses on realizing a compact single chip
+solution by only mimicking the behavior of the saccadic system but not its structure
+Hardware Implementation
+Our approach uses a combination of analog and digital circuits to implement the
+functions of the retina and superior colliculus at the focal plane We use simple digital
+control ideas such as pulse-width modulation and stepper motors to position the
+The retina portion of this chip uses photodiodes logarithmic compression edge detection
+and zero-crossing circuits These circuits mimic the first three layers of cells in the retina
+R. Etienne-Cummings V. Grnev and M. A. Ghani
+with mixed sub-threshold and strong inversion circuits The edge detection circuit is
+realized with an approximation of the Laplacian operator implemented using the
+difference between a smooth with a resistive grid and unsmoothed version of the image
+Mead The high gain of the difference circuit creates a binary image of
+approximate zero-crossings After this point the computation is performed using mixed
+analog/digital circuits The zero-crossings are fed to ON-set detectors positive temporal
+derivatives which signal the location of moving or flashing targets These circuits model
+the behavior of some of the amacrine and ganglion cells of the primate retina Barlow
+These first layers of processing constitute all the direct mimicry of the
+biological models Figure shows the schematic of these early processing layers
+The ON-set detectors provide inputs to the model of the superior colliculus circuits The
+ON-set detectors allow us to segment moving targets against textured backgrounds This
+is an improvement on earlier centroid and saccade chips that used pixel intensity The
+essence of the superior colliculus map is to locate the target that is to be foveated In our
+case the target chosen to be foveated will be moving Here motion is define simply as
+the change in contrast over time Motion in this sense can be seen as being the earliest
+measurable attribute of the target which can trigger a saccade without requiring any high
+level decision making Subsequently the coordinates of the motion must be extracted and
+provided to the motor drivers
+otion Cenuold
+A
+Edge Detc:ctlon
+ON-set Detecu on
+Figure Schematic of
+the model of the retina
+Figure Schematic of the model of the superior
+collicu Ius.
+The circuits for locating the target are implemented entirely with mixed signal nonneuromorphic circuits The theoretical foundation for our approach is presented in
+section The ON-set detector is triggered when an edge of the target appears at a pixel
+At this time the pixel broadcasts its location to the edge of the array by activating row
+and column lines This row column signal sets a latch at the right top of the array The
+latches asynchronously activate switches and the centroid of the activated positions is
+provided The latches remain set until they are cleared by an external control signal This
+control signal provides a time-window over which the centroid output is integrated This
+has the effect of reducing noise by combining the outputs of pixels which are activated at
+different instances even if they are triggered by the same motion an artifact of small fill
+factor focal plane image processing Furthermore the latches can be masked from the
+pixels output with a second control signal This signal is used to de-activate the centroid
+VLSI Implementation of Motion Centroid Localization for Autonomous Navigation
+circuit during a saccade saccadic suppression A centroid valid signal is also generated
+by the chip Figure shows a portion of the schematic of the superior colliculus model
+Results
+In contrast to previous work this chip provides the coordinates of the centroid of a
+moving target Figure shows the oscilloscope trace of the coordinates as a target moves
+back and forth in and out of the chip's field of view The y-coordinate does change
+while the x-coordinate increases and decreases as the target moves to the left and right
+respectively The chip has been used to track targets in by making micro-saccades
+In this case the chip chases the target as it attempts to escape from the center The eye
+movement is performed by converting the analog coordinates into PWM signals which
+are used to drive stepper motors The system performance is limited by the contrast
+sensitivity of the edge detection circuit and the frequency response of the edge high
+frequency cut-off and ON-set low frequency cut-off detectors With the appropriate
+optics it can track walking or running persons under indoor or outdoor lighting
+conditions at close or far distances Table I gives a summary of the chip characteristics
+VarYing
+l'Oordma te
+Figure Oscilloscope trace of
+centroid for a moving target
+Technology
+ORBIT
+Chip Size
+Array Size
+4mm
+Pixel Size
+Fill Factor
+llOxllOutn
+Intensity
+Min Contrast
+0.lu-1OOmW/cm
+Response Time
+Power chip
+Hz(@1 mW/cml
+mW @l W/cm Vdd
+Table I Chip characteristics
+APPLICATION OBSTACLE AVOIDANCE DURING LINEFOLLOWING AUTONA VIGATION
+System Overview
+The frenzy of activity towards developing neuromorphic systems over the pass years
+has been mainly driven by the promise that one day engineers will develop machines that
+can interact with the environment in a similar way as biological organisms The prospect
+of having a robot that can help humans in their daily tasks has been a dream of science
+fiction for many decades As can be expected the key to success is premised on the
+development of compact systems with large computational capabilities at low cost
+terms of hardware and power Neuromorphic VLSI systems have closed the gap between
+dreams and reality but we are still very far from the android robot For all these robots
+autonomous behavior in the form of auto-navigation in natural environments must be
+one of their primary skills For miniaturization neuromorphic vision systems performing
+most of the pre-processing can be coupled with small fast computers to realize these
+compact yet powerful sensor/processor modules
+Navigation Algorithm
+The simplest form of data driven auto-navigation is the line-following task In this task
+the robot must maintain a certain relationship with some visual cues that guide its motion
+In the case of the line-follower the visual system provides data regarding the state of the
+R. Etienne-Cummings V. Gruev and A. Ghani
+line relative to the vehicle which results in controlling steering and/or speed If obstacle
+avoidance is also required auto-navigation is considerably more difficult Our system
+handles line-following and obstacle avoidance by using two neuromorphic visual sensors
+that provide information to a micro-controller OlC to steer accelerate or decelerate the
+vehicle The sensors which uses the centroid location system outlined above provides
+information on the position of the line and obstacles to the which provides PWM
+signals to the servos for controlling the vehicle The algorithm implemented in the p,C
+places the two sensors in competition with each other to force the line into a blind zone
+between the sensors Simultaneously if an object enters the visual field from outside it
+is treated as an obstacle and the p,C turns the car away from the object Obstacle
+avoidance is given higher priority than line-following to avoid collisions The p,C also
+keeps track of the direction of avoidance such that the vehicle can be re-oriented towards
+the line after the obstacle is pushed out of the field of view Lastly for line following
+the position orientation and velocity of drift determined from the temporal derivative of
+the centroid are used to track the line The control strategy is to keep the line in the blind
+zone while slowing down at corners speeding up on straight aways and avoiding
+obstacles The angle which the line or obstacle form with the x-axis also affects the
+speed The value of the x-centroid relative to the y-centroid provides rudimentary
+estimate of the orientation of the line or obstacle to the vehicle For example angles less
+Follow
+AV~8id~nce
+0I0s1ade
+Zone
+ne
+AV~na;ce
+Figure Block diagram of the
+autonomous line-follower system
+Figure A picture of the vehicle
+greater than 45 degrees tend to have small large x-coordinates and large small ycoordinates and require deceleration acceleration Figure shows the organization of
+the sensors on the vehicle and control spatial zones Figure shows the vehicle and
+samples of the line and obstacles
+Hardware Implementation
+The coordinates from the centroid localization circuits are presented to the p,C for
+analysis The p,C used is the Microchip This chip is chosen because of its
+five NO inputs and three PWM outputs The analog coordinates are presented directly to
+the NO inputs Two of the PWM outputs are connected to the steering and speed control
+servos The runs at MHz and has 35 instructions 4K by ROM and
+by RAM. The program which runs on the PIC determines the control action to take
+based on the signal provided by the neuromorphic visual sensors The vehicle used is a
+four-wheel drive radio controlled model car the radio receiver is disconnected with
+Digital Proportional Steering DPS
+VLSI Implementation ofMotion Centroid Localization for Autonomous Navigation
+Results
+The vehicle was tested on a track composed of black tape on a gray linoleum floor with
+black and white obstacles The track formed a closed loop with two sharp turns and some
+smooth S-curves The neuromorphic vision chip was equipped with a mm variable
+iris lens which limited its field of view to about Despite the narrow field of view
+the car was able to navigate the track at an average speed of mls without making any
+errors On less curvy parts of the track it accelerated to about mls and slowed down at
+the corners When the speed of the vehicle is scaled up the errors made are mainly due
+to over steering
+CONCLUSION
+A 2D model of the saccade generating components of the superior colliculus is presented
+This model only mimics the functionality the saccadic system using mixed signal focal
+plane circuits that realize motion centroid localization The single chip combines a
+silicon retina with the superior colliculus model using compact low power and fast
+circuits Finally the centroid chip is interfaced with an 8-bit IlC and vehicle for fast linefollowing auto navigation with obstacle avoidance Here all of the required computation is
+performed at the visual sensor and a standard IlC is the high-level decision maker
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 52-teaching-artificial-neural-systems-to-drive-manual-training-techniques-for-autonomous-systems.pdf
+
+Teaching Artificial Neural Systems to Drive
+Manual Training Techniques for Autonomous Systems
+J. F. Shepanski and S. A. Macy
+TRW Inc
+One Space Park
+Redondo Beach CA
+Abetract
+We have developed a methodology for manually training autononlous control systems
+based on artificial neural systems In applications where the rule set governing an expert's
+decisions is difficult to formulate ANS can be used to ext.ra.c:t rules by associating the information
+an expert receives with the actions takes Properly constructed networks imitate rules of
+behavior that permits them to function autonomously when they are trained on the spanning set
+of possible situations This training can be provided manually either under the direct supervision
+or a system trainer or indirectly using a background mode where the network assimilates training
+data as the expert perrorms his day-to-day tasks To demonstrate these methods we have trained
+an ANS network to drive a vehicle through simulated rreeway traffic
+I ntJooducticn
+Computational systems employing fine grained parallelism are revolutionizing the way we
+approach a number or long standing problems involving pattern recognition and cognitive processing The field spans a wide variety or computational networks rrom constructs emulating neural
+runctions to more crystalline configurations that resemble systolic arrays Several titles are used
+to describe this broad area or research we use the term artificial neural systems Our concern in this work is the use or ANS ror manually training certain types or autonomous systems
+where the desired rules of behavior are difficult to rormulate
+Artificial neural systems consist of a number or processing elements interconnected in a
+weighted user-specified fashion the interconnection weights acting as memory ror the system
+Each processing element calculatE an output value based on the weighted sum or its inputs In
+addition the input data is correlated with the output or desired output specified by an instructive
+agent in a training rule that is used to adjust the interconnection weights In this way the ne
+work learns patterns or imitates rules of behavior and decision making
+The partiCUlar ANS architecture we use is a variation of Rummelhart lJ multi-layer
+perceptron employing the generalized delta rule GD R). Instead of a single multi-layer structure our final network has a a multiple component or block configuration where one blOt'k
+output reeds into another Figure The training methodology we have developed is not
+tied to a particular training rule or architecture and should work well with alternative networks
+like Grossberg's adaptive resonance model[2J
+American Institute of Physics
+The equations describing the network are derived and described in detail by Rumelhart
+In summary they are
+Transfer function
+Sj
+WjiOi
+i-O
+Weight adaptation rule
+Error calculation
+a
+OJ
+a l'??Awp.revious
+OJ E0.tW.ti
+where OJ is the output or processing element or a sensor input is the interconnection weight
+leading from element ito is the number of inputs to Aw is the adjustment of is the
+training constant a is the training momentum OJ is the calculated error for element and
+is the Canout oC a given element Element zero is a constant input equal to one so that WjO is
+equivalent to the bias threshold of element The factor in equation differs from standard GDR formulation but it is useful for keeping track of the relative magnitudes of the two
+terms For the network's output layer the summation in equation is replaced with the
+difference between the desired and actual output value of element
+These networks are usually trained by presenting the system with sets of input/output data
+vectors in cyclic fashion the entire cycle of database presentation repeated dozens of times This
+method is effective when the training agent is a computer operating in batch mode but would be
+intolerable for a human instructor There are two developments that will help real-time human
+training The first is a more efficient incorporation of data/response patterns into a network The
+second which we are addressing in this paper is a suitable environment wherein a man and ANS
+network can interact in training situation with minimum inconvenience or boredom on the
+human's part The ability to systematically train networks in this fashion is extremely useful for
+developing certain types of expert systems including automatic signal processors autopilots
+robots and other autonomous machines We report a number of techniques aimed at facilitating
+this type of training and we propose a general method for teaching these networks
+System Development
+Our work focuses on the utility of ANS for system control It began as an application of
+Barto and Sutton's associative search network[3 Although their approach was useful in a
+number of ways it fell short when we tried to use it for capturing the subtleties of human
+decision-making In response we shifted our emphasis rrom constructing goal runctions for
+automatic learning to methods for training networks using direct human instruction An integral
+part or this is the development or suitable interraces between humans networks and the outside
+world or simulator In this section we will report various approaches to these ends and describe a
+general methodology for manually teaching ANS networks To demonstrate these techniques we
+taught a network to drive a robot vehicle down a simulated highway in traffic This application
+combines binary decision making and control of continuous parameters
+Initially we investigated the use or automatic learning based on goal functions[3 for training control systems We trained a network-controlled vehicle to maintain acceptable following
+distances from cars ahead or it On a graphics workstation a one lane circular track was
+constructed and occupied by two vehicles a network-controlled robot car and a pace car that
+varied its speed at random Input data to the network consisted of the separation distance and
+the speed of the robot vehicle The values of a goal function were translated into desired output
+for GDR training Output controls consisted of three binary decision elements accelerate one
+increment of speed maintain speed and decelerate one increment of speed At all times
+the desired output vector had exactly one of these three elements active The goal runction was
+quadratic with a minimum corresponding to the optimal following distance Although it had no
+direct control over the simulation the goal function positively or negatively reinforced the
+system's behavior
+The network was given complete control of the robot vehicle and the human trainer had
+no influence except the ability to start and terminate training This proved unsatisractory because
+the initial system behavior--governed by random interconnection weights--was very unstable The
+robot tended to run over the car in rront of it before significant training occurred By carerully
+halting and restarting training we achieved stable system behavior At first the rollowing distance
+maintained by the robot car oscillated as ir the vehicle was attached by a sj)ring to the pace car
+This activity gradually damped Arter about one thousand training steps the vehicle maintained
+the optimal following distance and responded quickly to changes in the pace car's speed
+Constructing composite goal functions to promote more sophisticated abilities proved
+difficult even ill-defined because there were many unspecified parameters To generate goal
+runctions ror these abilities would be similar to conventional programming--the type or labor we
+want to circumvent using ANS. On the other hand humans are adept at assessing complex situations and making decisions based on qualitative data but their goal runctions are difficult ir not
+impossible to capture analytically One attraction of ANS is that it can imitate behavior based on
+these elusive rules without rormally specifying them At this point we turned our efforts to
+manual training techniques
+The initially trained network was grafted into a larger system and augmented with additional inputs distance and speed inrormation on nearby pace cars in a second traffic lane and an
+output control signal governing lane changes The original network's ability to maintain a safe
+following distance was retained intact Thts grafting procedure is one of two methods we studied
+for adding ne abilities to an existin system The second which employs a block structure is
+described below The network remained in direct control of the robot vehicle but a human
+trainer instructed it when and when not to change lanes His commands were interpreted as the
+desired output and used in the GDR training algorithm This technique which we call coaching
+proved userul and the network quickly correlated its environmental inputs with the teacher's
+instructions The network became adept at changing lanes and weaving through traffic We found
+that the network took on the behavior pattern or its trainer A conservative teacher produced a
+timid network while an aggressive tzainer produced a network that tended to cut off other automobiles and squeeze through tight openings Despite its success the coaching method of training
+did not solve the problem or initial network instability
+The stability problem was solved by giving the trainer direct control over the simulation
+The system configuration Figure allows the expert to exert control or release it to the
+work During initial tzaining the expert is in the driver's seat while the network acts the role of
+apprentice It receives sensor information predicts system commands and compares its predictions against the desired output the trainer's commands Figure shows the data and command flow in detail Input data is processed through different channels and presented to the
+trainer and network Where visual and audio formats are effective for humans the network uses
+information in vector form This differentiation of data presentation is a limitation of the system
+removing it is a cask for future search The trainer issues control commands in accordance with
+his assigned while the network takes the trainer's actions as desired system responses and
+correlates these with the input We refer to this procedure as master/apprentice training network
+training proceeds invisibly in the background as the expert proceeds with his day to day work It
+avoids the instability problem because the network is free to make errors without the adverse
+consequence of throwing the operating environment into disarray
+I
+Input
+World sensors
+or
+Simulation
+Actuation
+I
+Ne',WOrk
+I
+Expert
+Commands
+Figure A scheme for manually training ANS networks Input data is received by both
+the network and trainer The trainer issues commands that are actuated solid command
+line or he coaches the network in how it ought to respond broken command line
+Commands
+Preprocessing
+tortunan
+Input
+data
+Preprocessing
+for network
+twork
+Predicted
+commands
+Actuation
+Coaching/emphasis
+Training
+rule
+Fegure Data and convnand flow In the training system Input data is processed and presented
+to the trainer and network In master/appre~ice training solid command Hne the trainer's
+orders are actuated and the network treats his commands as the system's desired output In
+coaching the network's predicted oonvnands are actuated broken command line and the
+trainer influences weight adaptation by specifying the desired system output and controlHng
+the values of trailing constants-his suggestions are not cirec:tty actuated
+Once initial bacqround wainmg is complete the expert proceeds in a more formal
+manner to teach the network He releases control of the command system to the network in
+order to evaluate ita behavior and weaknesses He then resumes control and works through a
+series of scenarios designed to train t.he network out of its bad behavior By switching back and
+forth between human and network control the expert assesses the network's reliability and
+teaches correct responses as needed We find master/apprentice training works well for behavior
+involving continuous functions like steering On the other hand coaching is appropriate for decision Cunctions like when Ule car ought to pass Our methodology employs both techniques
+The Driving Network
+The fully developed freeway simulation consists of a two lane highway that is made of
+joined straight and curved segments which vary at random in length and curvature Several
+pace cars move at random speeds near the robot vehicle The network is given the tasks of tracking the road negotiating curves returning to the road if placed far afield maintaining safe distances from the pace cars and changing lanes when appropriate Instead of a single multi-layer
+structure the network is composed of two blocks one controls the steering and the other regulates speed and decides when the vehicle should change lanes Figure The first block receives
+information about the position and speed of the robot vehicle relative to other ears in its vicinity
+Its output is used to determine the automobile's speed and whet.her the robot should change
+lanes The passing signal is converted to a lane assignment based on the car's current lane position The second block receives the lane assignment and data pertinent to the position and orientation of the vehicle with respect to the road The output is used to determine the steering angle
+of the robot car
+Block
+Inputs
+Outputs
+Constant
+Speed
+Disl Ahead Pl
+Disl Ahead Ol
+Dist Behind Ol
+ReI. Speed Ahead Pl
+ReI. Speed Ahead Ol
+ReI. Speed Behind Ol
+I
+Speed
+Change lanes
+Steering Angle
+Convert lane change to lane number
+Constant
+Rei. Orientation
+lane Nurmer
+lateral Dist
+Curvature
+Figure The two blocks of the driving ANS network Heavy arrows Indicate total interconnectivity
+between layers PL designates the traffic lane presently oca.apied by the robot vehicle Ol refers
+to the other lane QJrvature refers to the road lane nurrber is either or relative orientation and
+lateral distance refers to the robot car's direction and podion relative to the road'l direction and
+center line respectively
+The input data is displayed in pictorial and textual form to the driving instructor He views
+the road and nearby vehicles from the perspective of the driver's seat or overhead The network
+receives information in the form of a vector whose elements have been scaled to unitary order
+Wide ranging input parameters like distance are compressed using the hyperbolic tangent
+or logarithmic functions In each block the input layer is totally interconnected to both the ou
+put and a hidden layer Our scheme trains in real time and as we discuss later it trains more
+smoothly with a small modification of the training algorithm
+Output is interpreted in two ways as a binary decision or as a continuously varying parameter The first simply compares the sigmoid output against a threshold The second scales the
+output to an appropriate range for its application For example on the steering output element a
+value is interpreted as a zero steering angle Left and right turns of varying degrees are initiated when this output is above or below respectively
+The network is divided into two blocks that can be trained separately Beside being conceptually easier to understand we find this component approach is easy to train systematically
+Because each block has a restricted well-defined set of tasks the trainer can concentrate
+specifically on those functions without being concerned that other aspects of the network behavior
+are deteriorating
+trained the system from bottom up first teaching the network to stay on the road
+negotiate curves chan~e lanes and how to return if the vehicle strayed off the highway Block
+responsible for steering learned these skills in a few minutes using the master/apprentice mode
+It tended to steer more slowly than a human but further training progressively improved its
+responsiveness
+We experimented with different trammg constants and momentum values Large
+values about caused weights to change too coarsely values an order of magnitude smaller
+worked well We found DO advantage in using momentum for this method of training in fact
+the system responded about three times more slowly when than when the momentt:m
+term was dropped Our standard training parameters were and Cl
+Figure Typical behavior of a network-controlled vehicle dam rectangle when trained by
+a conservative miYer ItI:I reckless driver Speed Is indicated by the length of the arrows
+After Block Was trained we gave steering control to the network and concentrated on
+teaching the network to change lanes and adjust speed Speed control in this was a continuous variable and was best taught using master/apprentice training On the other hand the binary
+decision to change lanes was best taught by coaching About ten minutes of training were needed
+to teach the network to weave through traffic We found that the network readily adapts the
+behavioral pattern of its trainer A conservative trainer generated a network that hardly ever
+passed while an aggressive trainer produced a network that drove recklessly and tended to cut off
+other-cars Figure
+Discussion
+One of the strengths of el:pert 5ystf'mS based on ANS is that the use of input data in the
+decision making and control proc~ss does not have to be specified The network adapts its internal weights to conform to input output correlat.ions it discovers It is important however that
+data used by the human expert is also available to the network The different processing of sensor data for man and network may have important consequences key information may be
+presented to the man but not the machine
+This difference in data processing is particularly worrisome for image data where human
+ability to extract detail is vastly superior to our au tomatic image processing capabilities Though
+we would not require an image processing system to understand images it would have to extract
+relevant information from cluttered backgrounds Until we have sufficiently sophisticated algorithms or networks to do this our efforts at constructing expert systems which halldle image data
+are handicapped
+Scaling input data to the unitary order of magnitude is important for training stability
+is evident from equations and The sigmoid transfer function ranges from to in
+approximat.eiy four units that is over an domain If system response must change in reaction to a large swing of a given input parameter the weight associated with that input will
+be trained toward an magnitude On the other hand if the same system responds to an
+input whose range is its associated weight will also be The weight adjustment equation does not recognize differences in weight magnitude therefore relatively small weights will
+undergo wild magnitude adjustments and converge weakly On the other hand if all input parameters are of the same magnitude their associated weights will reflect this and the training constant
+can be adjusted for gentle weight convergence Because the output of hidden units are constrained between zero and one is a good target range for input parameters Both the hyperbolic tangent and logarithmic functions are useful for scaling wide ranging inputs A useful form
+of the latter is
+if
+ifx<-o
+where and defines the limits of the intermediate linear section and is a scaling factor
+This symmetric logarithmic function is continuous in its first derivative and useful when network
+behavior should change slowly as a parameter increases without bound On the othl'r hand if the
+system should approach a limiting behavior the tanh function is appropriate
+Weight adaptation is also complicated by relaxing the common practice of restricting interconnections to adjacent layers Equation shows that the calculated error for a hidden layergiven comparable weights fanouts and output errors-will be one quarter or less than that of the
+output layer This is caused by the slope ractor oil The difference in error magnitudes is
+not noticeable in networks restricted to adjacent layer interconnectivity But when this constraint
+is released the effect of errors originating directly from an output unit has times the magnitude
+and effect of an error originating from a hidden unit removed layers from the output layer
+Compared to the corrections arising from the output units those from the hidden units have little
+influence on weight adjustment and the power of a multilayer structure is weakened The system
+will train if we restrict connections to adjacent layers but it trains slowly To compensate for this
+effect we attenuate the error magnitudes originating from the output layer by the above factor
+This heuristic procedure works well and racilitates smooth learning
+Though we have made progress in real-time learning systems using GDR compared to
+humans-who can learn from a single data presentation-they remain relatively sluggish in learning
+and response rates We are interested in improvements of the GDR algorithm or alternative
+architectures that facilitate one-shot or rapid learning In the latter case we are considering least
+squares restoration techniquesl4 and Grossberg and Carpenter's adaptive resonance modelsI3,5
+The construction of automated expert systems by observation of human personnel is
+attractive because of its efficient use of the expert's time and effort Though the classic AI
+approach of rule base inference is applicable when such rules are clear cut and well organized too
+often a human expert can not put his decision making process in words or specify the values of
+parameters that influence him The attraction or ANS based systems is that imitations of expert
+behavior emerge as a natural consequence of their training
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 636-remote-sensing-image-analysis-via-a-texture-classification-neural-network.pdf
+
+Remote Sensing Image Analysis via a Texture
+Classification Neural Network
+Hayit K. Greenspan and Rodney Goodman
+Department of Electrical Engineering
+California Institute of Technology
+Pasadena CA
+hayit@electra.micro.caltech.edu
+Abstract
+In this work we apply a texture classification network to remote sensing image analysis The goal is to extract the characteristics of the area depicted
+in the input image thus achieving a segmented map of the region We have
+recently proposed a combined neural network and rule-based framework
+for texture recognition The framework uses unsupervised and supervised
+learning and provides probability estimates for the output classes We
+describe the texture classification network and extend it to demonstrate
+its application to the Landsat and Aerial image analysis domain
+INTRODUCTION
+In this work we apply a texture classification network to remote sensing image
+analysis The goal is to segment the input image into homogeneous textured regions
+and identify each region as one of a prelearned library of textures tree area and
+urban area distinction Classification remote sensing imagery is of importance in
+many applications such as navigation surveillance and exploration It has become
+a very complex task spanning a growing number of sensors and application domains
+The applications include landcover identification with systems such as the AVIRIS
+and SPOT atmospheric analysis via cloud-coverage mapping using the AVHRR
+sensor oceanographic exploration for sea/ice type classification SAR input and
+more
+Much attention has been given to the use of the spectral signature for the identifica425
+Greenspan and Goodman
+tion of region types Wharton Lee and Philpot Only recently has the
+idea of adding on spatial information been presented Ton aI In this work
+we investigate the possibility of gaining information from textural analysis We
+have recently developed a texture recognition system Greenspan aI which
+achieves state-of-the-art results on natural textures In this paper we apply the
+system to remote sensing imagery and check the system's robustness in this noisy
+environment Texture can playa major role in segmenting the images into homogeneous areas and enhancing other sensors capabilities such as multispectra analysis
+by indicating areas of interest in which further analysis can be pursued Fusion of
+the spatial information with the spectral signature will enhance the classification
+and the overall automated analysis capabilities
+Most of the work in the literature focuses on human expert-based rules with specific
+sensor data calibration Some of the existing problems with this classic approach
+are the following Ton aI
+Experienced photointerpreters are required to spend a considerable amount of
+time generating rules
+The rules need to be updated for different geographical regions
+No spatial rules exist for the complex Landsat imagery
+An interesting question is if one can automate the rule generation In this paper we
+present a learning framework in which spatial rules are learned by the system from
+a given database of examples
+The learning framework and its contribution in a texture-recognition system is the
+topic of section Experimental results of the system's application to remote sensing
+imagery are presented in section
+The texture-classification network
+We have previously presented a texture classification network which combines a
+neural network and rule-based framework Greenspan aI and enables both
+unsupervised and supervised learning The system consists of three major stages
+as shown in The first stage performs feature extraction and transforms the
+image space into an array of 15-dimensional feature vectors each vector corresponding to a local window in the original image There is much evidence in animal visual
+systems supporting the use of multi-channel orientation selective band-pass filters
+in the feature-extraction phase An open issue is the decision regarding the appropriate number of frequencies and orientations required for the representation of the
+input domain We define an initial set of filters and achieve a computationally
+efficient filtering scheme via the multi-resolution pyramidal approach
+The learning mechanism shown next derives a minimal subset of the above filters
+which conveys sufficient information about the visual input for its differentiation
+and labeling In an unsupervised stage a machine-learning clustering algorithm is
+used to quantize the continuous input features A supervised learning stage follows
+in which labeling of the input domain is achieved using a rule-based network Here
+an information theoretic measure is utilized to find the most informative correlations
+between the attributes and the pattern class specification while providing probability estimates for the output classes Ultimately a minimal representation for a
+library of patterns is learned in a training mode following which the classification
+Remote Sensing Image Analysis via a Texture Classification Neural Network
+ORENI'AT10N
+SELEcrlVE
+8PF
+SUPERVISED
+UNSUPERVISED
+a.USTEANi
+TEXTURE
+LEARNING
+CLASSES
+vIII
+Window
+of Input Image
+N-Dimensional
+Continuous
+Feature Vector
+N-Dimensional
+Quantized
+Feature-Vector
+FEATURE-EXTRACTION
+LEARNING
+PHASE
+PHASE
+Figure System block diagram
+of new patterns is achieved
+The system in more detail
+The initial stage for a classification system is the feature extraction phase In the
+texture-analysis task there is both biological a.nd computational evidence supporting the use of Gabor-like filters for the feature-extraction In this work we use
+the Log Gabor pyramid or the Gabor wavelet decomposition to define an initial
+finite set of filters A computational efficient scheme involves using a pyramidal
+representation of the image which is convolved with fixed spatial support oriented
+Gabor filters Greenspan at aI Three scales are used with orientations per
+scale degrees together with a non-oriented component to produce a
+15-dimensional feature vector as the output of the feature extraction stage Using
+the pyramid representation is computationally efficient as the image is subsampled
+in the filtering process Two such size reduction stages take place in the three scale
+pyramid The feature values thus generated correspond to the average power of the
+response to specific orientation and frequency ranges in an window of the
+input image Each such window gets mapped to a 15-dimensional attribute vector
+as the output of the feature extraction stage
+The goal of the learning system is to use the feature representation described above
+to discriminate between the input patterns or textures Both unsupervised and
+supervised learning stages are utilized A minimal set of features are extracted from
+the 15-dimensional attribute vector which convey sufficient information about the
+visual input for its differentiation and labeling
+The unsupervised learning stage can be viewed as a preprocessing stage for achieving a more compact representation of the filtered input The goal is to quantize the
+continuous valued features which are the result of the initial filtering thus shifting
+to a more symbolic representation of the input domain This clustering stage was
+found experimentally to be of importance as an initial learning phase in a classification system The need for discretization becomes evident when trying to learn
+associations between attributes in a symbolic representation such as rules
+Greenspan and Goodman
+The output of the filtering stage consists of continuous valued feature
+maps each representing a filtered version of the original input Thus each local
+area of the input image is represented via an N-dimensional feature vector An
+array of such N-dimensional vectors viewed across the input image is the input
+to the learning stage We wish to detect characteristic behavior across the Ndimensional feature space for the family of textures to be learned In this work each
+dimension out of the 15-dimensional attribute vector is individually clustered All
+training samples are thus projected onto each axis of the space and one-dimensional
+clusters are found using the K-means clustering algorithm Duda and Hart
+This statistical clustering technique consists of an iterative procedure of finding
+means in the training sample space following which each new input sample is
+associated with the closest mean in Euclidean distance The means labeled thru
+minus arbitrarily correspond to discrete codewords Each continuous-valued input
+sample gets mapped to the discrete codeword representing its associated mean The
+output of this preprocessing stage is a 15-dimensional quantized vector of attributes
+which is the result of concatenating the discrete-valued codewords of the individual
+dimensions
+In the final supervised stage we utilize the existing information in the feature
+maps for higher level analysis such as input labeling and classification A rule based information theoretic approach is used which is an extension of a first order
+Bayesian classifier because of its ability to output probability estimates for the output classes Goodman aI The classifier defines correlations between input
+features and output classes as probabilistic rules A data driven supervised learning
+approach utilizes an information theoretic measure to learn the most informative
+links or rules between features and class labels The classifier then uses these links
+to provide an estimate of the probability of a given output class being true When
+presented with a new input evidence vector a set of rules can be considered to
+fire The classifier estimates the posterior probability of each class given the rules
+that fire in the form log(p and the largest estimate is chosen as the initial
+class label decision The probability estimates for the output classes can now be
+used for feedback purposes and further higher level processing
+The rule-based classification system can be mapped into a layer feed forward
+architecture as shown in Greenspan aI The input layer contains
+a node for each attribute The hidden layer contains a node for each rule and the
+output layer contains a node for each class Each rule second layer node is
+connected to a class via a multiplicative weight of evidence Wj.
+Inputs
+Rules
+Class
+Probability
+Estimates
+Figure Rule-Based Network
+Remote Sensing Image Analysis via a Texture Classification Neural Network
+Results
+The above-described system has achieved state-of-the-art results on both structured
+and unstructured natural texture classification In this work we present initial
+results of applying the network to the noisy environment of satellite and air-borne
+Imagery
+presents two such examples The first example top is an image of Pasadena
+California taken via the AVIRIS system Airborne Visible/Infrared Imaging Spectrometer rhe AVIRIS system covers contiguous spectral bands simultaneously at meters per pixel resolution The presented example is taken as an
+average of several bands in the visual range In this input image we can see that
+a major distinguishing characteristic is urban area hilly surround These are
+the two categories we set forth to learn The training consists of a image
+sample for each category The test input is a image which is very noisy
+and because of its low resolution very difficult to segment into the two categories
+even to our own visual perception In the presented output top right the urban area is labeled in white the hillside in gray and unknown undetermined areas
+are in darker gray We see that a rough segmentation into the desired regions has
+been achieved The probabilistic network's output allows for the identification of
+unknown or unspecified regions in which more elaborate analysis can be pursued
+Greenspan aI The dark gray areas correspond to such regions one example is the hill and urban contact bottom right in which some urban suburbs
+on the hill slopes form a mixture of the classes Note that in the initial results
+presented the blockiness perceived is the result of the analysis resolution chosen
+Fusing into the system additional spectral bands as our input would enable pixel
+resolution as well as enable detecting additional classes not visually detectable
+such as concrete material a variety of vegetation etc
+A higher resolution Airborne image is presented at the bottom of The
+classes learned are bush output label dark gray ground output label gray and a
+structured area such as a field present or the man-made structures white Here
+the training was done on image examples example per class The input
+image is In the result presented right we see that the three classes have
+been found and a rough segmentation into the three regions is achieved Note in
+particular the detection of the bush areas and the three main structured areas in
+the image including the man-made field indicated in white
+Our final example relates to an autonomous navigation scenario Autonomous vehicles require an automated scene analysis system to avoid obstacles and navigate
+through rough terrain Fusion of several visual modalities such as intensity-based
+segmentation texture stereo and color together with other domain inputs such
+as soil spectral decomposition analysis will be required for this challenging task In
+we present preliminary results on outdoor photographed scenes taken by an
+autonomous vehicle at JPL Jet Propulsion Laboratory Pasadena The presented
+scenes left are segmented into bush and gravel regions right The training set
+consists of 64 64 image samples from each category In the top example
+pixel image light gray indicates gravel while black represents bushy regions We can see that intensity alone can not suffice in this task for example top
+right corner The system has learned some textural characteristics which guided
+Greenspan and Goodman
+Figure Remote sensing image analysis results The input test image is shown
+left followed by the system output classification map right In the AVIRIS top
+input white indicates urban regions gray is a hilly area and dark gray reflects
+undetermined or different region types In the Airborne output bottom dark
+gray indicates a bush area light gray is a ground cover region and white indicates
+man-made structures Both robustness to noise and generalization are demonstrated
+in these two challenging real-world problems
+Remote Sensing Image Analysis via a Texture Classification Neural Network
+the segmentation in otherwise similar-intensity regions Note that this is also probably the cause for identifying the track-like region center bottom as bush
+regions We could learn track-like regions as a third category or specifically include
+such examples as gravel in our training set
+In the second example input image bottom light gray indicates gravel
+dark gray represents a bush-like region and black represents the unknown category
+Here the top right region of the sky is labeled correctly as an unknown or new
+category Kote that intensity alone would have confused that region as being gravel
+Overall the texture classification neural-network succeeds in achieving a correct
+yet rough segmentation of the scene based on textural characteristics alone These
+are encouraging results indicating that the learning system has learned informative
+characteristics of the domain
+Fig Image Analysis for Autonomous Navigation
+Greenspan and Goodman
+Summary and Discussion
+The presented results demonstrate the network's capability for generalization and
+robustness to noise in very challenging real-world problems In the presented framework a learning mechanism automates the rule generation This framework can answer some of the current difficulties in using the human expert's knowledge Further
+more the automation of the rule generation can enhance the expert's knowledge
+regarding the task at hand We have demonstrated that the use of textural spatial information can segment complex scenery into homogeneous regions Some of
+the system's strengths include generalization to new scenes invariance to intensity
+and the ability to enlarge the feature vector representation to include additional
+inputs such as additional spectral bands and learn rules characterizing the integrated modalities Future work includes fusing several modalities within the learning framework for enhanced performance and testing the performance on a large
+database
+Acknowledgements
+This work is supported in part by Pacific Bell and in part by DARPA and ONR
+under grant no H. Greenspan is supported in part by an Intel
+fellowship The research described in this paper was carried out in part by the
+Jet Propulsion Laboratories California Institute of Technology We would like to
+thank Dr. C. Anderson for his pyramid software support and Dr. Matthies for
+the autonomous vehicle images
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 4477-monte-carlo-value-iteration-with-macro-actions.pdf
+
+Monte Carlo Value Iteration with Macro-Actions
+Zhan Wei Lim
+David Hsu
+Wee Sun Lee
+Department of Computer Science National University of Singapore
+Singapore Singapore
+Abstract
+POMDP planning faces two major computational challenges large state spaces
+and long planning horizons The recently introduced Monte Carlo Value Iteration MCVI can tackle POMDPs with very large discrete state spaces or continuous state spaces but its performance degrades when faced with long planning
+horizons This paper presents Macro-MCVI which extends MCVI by exploiting macro-actions for temporal abstraction We provide sufficient conditions for
+Macro-MCVI to inherit the good theoretical properties of MCVI Macro-MCVI
+does not require explicit construction of probabilistic models for macro-actions
+and is thus easy to apply in practice Experiments show that Macro-MCVI substantially improves the performance of MCVI with suitable macro-actions
+Introduction
+Partially observable Markov decision process POMDP provides a principled general framework for
+planning with imperfect state information In POMDP planning we represent an agent?s possible
+states probabilistically as a belief and systematically reason over the space of all beliefs in order
+to derive a policy that is robust under uncertainty POMDP planning however faces two major
+computational challenges The first is the curse of dimensionality A complex planning task
+involves a large number of states which result in a high-dimensional belief space The second
+obstacle is the curse of history In applications such as robot motion planning an agent often
+takes many actions before reaching the goal resulting in a long planning horizon The complexity
+of the planning task grows very fast with the horizon
+Point-based approximate algorithms have brought dramatic progress to POMDP planning Some of the fastest ones such as HSVI and SARSOP can solve moderately complex
+POMDPs with hundreds of thousands states in reasonable time The recently introduced Monte
+Carlo Value Iteration MCVI takes one step further It can tackle POMDPs with very large discrete state spaces or continuous state spaces The main idea of MCVI is to sample both an agent?s
+state space and the corresponding belief space simultaneously thus avoiding the prohibitive computational cost of unnecessarily processing these spaces in their entirety It uses Monte Carlo sampling
+in conjunction with dynamic programming to compute a policy represented as a finite state controller Both theoretical analysis and experiments on several robotic motion planning tasks indicate
+that MCVI is a promising approach for plannning under uncertainty with very large state spaces and
+it has already been applied successfully to compute the threat resolution logic for aircraft collision
+avoidance systems in space
+However the performance of MCVI degrades as the planning horizon increases Temporal abstraction using macro-actions is effective in mitigating the negative effect and has achieved good
+results in earlier work on Markov decision processes MDPs and POMDPs Section In this
+work we show that macro-actions can be seamlessly integrated into MCVI leading to the MacroMCVI algorithm Unfortunately the theoretical properties of MCVI such as the approximation error
+bounds do not carry over to Macro-MCVI automatically if arbitrary mapping from belief to actions are allowed as macro-actions We give sufficient conditions for the good theoretical properties
+to be retained tranforming POMDPs into a particular type of partially observable semi-Markov
+decision processes POSMDPs in which the lengths of macro-actions are not observable
+A major advantage of the new algorithm is its ability to abstract away the lengths of macro-actions in
+planning and reduce the effect of long planning horizons Furthermore it does not require explicit
+probabilistic models for macro-actions and treats them just like primitive actions in MCVI This
+simplifies macro-action construction and is a major benefit in practice Macro-MCVI can also be
+used to construct a hierarchy of macro-actions for planning large spaces Experiments show that the
+algorithm is effective with suitably designed macro-actions
+Related Works
+Macro-actions have long been used to speed up planning and learning algorithms for MDPs see
+Similarly they have been used in offline policy computation for POMDPs
+Macro-actions can be composed hierarchically to further improve scalability These earlier
+works rely on vector representations for beliefs and value functions making it difficult to scale up to
+large state spaces Macro-actions have also been used in online search algorithms for POMDPs
+Macro-MCVI is related to Hansen and Zhou?s work The earlier work uses finite state controllers
+for policy representation and policy iteration for policy computation but it has not yet been shown
+to work on large state spaces Expectation-maximization can be used to train finite state
+controllers and potentially handle large state spaces but it often gets stuck in local optima
+Planning with Macro-actions
+We would like to generalize POMDPs to handle macro-actions Ideally the generalization should
+retain properties of POMDPs such as piecewise linear and convex finite horizon value functions We
+would also like the approximation bounds for MCVI to hold with macro-actions
+We would like to allow our macro-actions to be as powerful as possible A very powerful representation for a macro-action would be to allow it to be an arbitrary mapping from belief to action
+that will run until some termination condition is met Unfortunately the value function of a process
+with such macro-actions need not even be continuous Consider the following simple finite horizon example with horizon one Assume that there are two primitive actions both with constant
+rewards regardless of state Consider two macro-actions one which selects the poorer primitive
+action all the time while the other which selects the better primitive action for some beliefs Clearly
+the second macro-action dominates the first macro-action over the entire belief space The reward
+for the second macro-action takes two possible values depending on which action is selected for the
+belief The reward function also forms the optimal value function of the process and need not even
+be continuous as the macro-action can be an arbitrary mapping from belief to action
+Next we give sufficient conditions for the process to retain piecewise linearity and convexity of
+the value function We do this by constructing a type of partially observable semi-Markov decision
+process POSMDP with the desired property The POSMDP does not need to have the length of
+the macro-action observed a property that can be practically very useful as it allows the branching
+factor for search to be significantly smaller Furthermore the process is a strict generalization of a
+POMDP as it reduces to a POMDP when all the macro-actions have length one
+Partially Observable Semi-Markov Decision Process
+Finite-horizon undiscounted POSMDP were studied in Here we focus on a type of infinitehorizon discounted POSMDPs whose transition intervals are not observable Our POSMDP is formally defined as a tuple A where is a state space A is a macro-action space
+is a macro-observation space is a joint transition and observation function is a reward
+function and is a discount factor If we apply a macro-action a with start state si
+p(sj k|si encodes the joint conditional probability of the end state sj macro-observation
+and the number of time steps that it takes for a to reach sj from si We could decompose
+into a state-transition function and an observation function but avoid doing so here to remain general and simplify the notation The reward function
+P?R gives the discounted cumulative reward for a
+macro-action a that starts at state E(rt where E(rt is the expected
+reward at step Here we assume that the reward is once a macro-action terminates
+For convenience we will work with reweighted beliefs instead of beliefs Assuming that the number
+of states is a reweighted belief like a belief is a vector of non-negative numbers that sums to
+one By assuming that the POSMDP process will stop with probability at each time step we can
+interpret the reweighted belief as the conditional probability of a state given that the process has not
+stopped This gives an interpretation of the reweighted belief in terms of the discount factor Given
+a reweighted belief we compute the next reweighted belief given macroaction a and observation
+b0 a as follows
+Pn
+k|si a)b(si
+Pn
+Pn
+b0
+p(sj k|si a)b(si
+We
+simply
+the reweighted belief as a belief from here on We denote the denominator
+P?will
+Pnrefer
+Pto
+p(sj k|si a)b(si by The value of can be interpreted
+as
+the
+probability
+that observation is received and the POSMDP has not stopped Note that
+may
+sum
+to
+less than due to discounting
+A policy is a mapping from a belief to a macro-action Let The value
+of a policy can be defined recursively as
+Note that the policy operates on the belief and may not know the number of steps taken by the
+macro-actions If knowledge of the number of steps is important it can be added into the observation
+function in the modeling process
+We now define the backup operator that operates on a value function Vm and returns
+b)V a
+HV max
+a
+o?O
+The backup operator is a contractive mapping1
+Lemma Given value functions and HV
+Let the value of an optimal policy be The following theorem is a consequence of the Banach
+fixed point theorem and Lemma
+Theorem is the unique fixed point of and satisfies the Bellman equation HV
+We call a policy an m-step policy if the number of times the macro-actions is applied is For
+m-step policies can be approximated by a finite set of linear functions the weight vectors of
+these linear functions are called the vectors
+Theorem The value function for an m-step policy is piecewise linear and convex and can be
+represented as
+Vm max
+s?S
+where is a finite collection of vectors
+As Vm is convex and converges to is also convex
+Macro-action Construction
+We would like to construct macro-actions from primitive actions of a POMDP in order to use temporal abstraction to help solve difficult POMDP problems A partially observable Markov decision
+process POMDP is defined by finite state space finite action space A a reward function
+an observation space and a discount
+In our POSMDP the probability function p(sj k|si for a macro-action must be independent
+of the history given the current state si hence the selection of primitive actions and termination
+conditions within the macro-action cannot depend on the belief We examine some allowable dependencies here Due to partial observability it is often not possible to allow the primitive action and
+the termination condition to be functions of the initial state Dependence on the portion of history
+Proofs of the results in this section are included in the supplementary material
+that occurs after the macro-action has started is however allowed In some POMDPs a subset of
+the state variables are always observed and can be used to decide the next action In fact we may
+sometimes explicitly construct observed variables to remember relevant parts of the history prior to
+the start of macro-action Section these can be considered as parameters that are passed on to
+the macro-action Hence one way to construct the next action in a macro-action is to make it a function of the history since the macro-action started xk ak ot where is
+the fully observable subset of state variables at time and is the starting time of the macro-action
+Similarly when the termination criterion and the observation function of the macro-action depends
+only on the history xk ak ot the macro-action can retain a transition
+function that is independent of the history given the initial state Note that the observation to be
+passed on to the POSMDP to create the POSMDP observation space is part of the design tradeoff usually it is desirable to reduce the number of observations in order to reduce complexity
+without degrading the value of the POSMDP too much In particular we may not wish to include
+the execution length of the macro-action if it does not contribute much towards obtaining a good
+policy
+Monte Carlo Value Iteration with Macro-Actions
+We have shown that if the action space A and the observation space of a POSMDP are discrete
+then the optimal value function can be approximated arbitrarily closely by a piecewise-linear
+convex function Unfortunately when is very high-dimensional continuous a vector representation is no longer effective In this section we show how the Monte Carlo Value Iteration MCVI
+algorithm which has been designed for POMDPs with very large or infinite state spaces can be
+extended to POSMDP
+Instead of vectors MCVI uses an alternative policy representation called a policy graph G. A
+policy graph is a directed graph with labeled nodes and edges Each node of is labeled with an
+macro-action a and each edge of is labeled with an observation To execute a policy it
+is treated as a finite state controller whose states are the nodes of G. Given an initial belief a
+starting node of is selected and its associated macro-action av is performed The controller
+then transitions from to a new node by following the edge labeled with the observation
+received The process then repeats with the new controller node
+Let denote a policy represented by when the controller always starts in node of G. We
+define the value to be the expected total reward of executing with initial state Hence
+VG max
+v?G
+s?S
+VG is completely determined by the functions associated with the nodes of G.
+MC-Backup
+One way to approximate the value function is to repeatedly run the backup operator starting
+from an arbitrary value function until it is close to convergence This algorithm is called value
+iteration Value iteration can be carried out on policy graphs as well as it provides an implicit
+representation of a value function Let VG be the value function for a policy graph G. Substituting
+into we get
+nX
+HVG max
+max
+a?A
+s?S
+o?O
+v?G
+s?S
+It is possible to then evaluate the right-hand side of via sampling and monte carlo simulation at a
+VG This is called MC-backup
+belief The outcome is a new policy graph G0 with value function
+of at Algorithm
+There are possible ways to generate a new policy graph G0 which has one new node
+compared to the old policy graph node Algorithm computes an estimate of the best new policy
+graph at using only samples Furthermore we can show that MC-backup approximates
+the standard VI backup equation well at with error decreasing at the rate Let
+Rmax be the largest absolute value of the reward rt at any time step
+Algorithm MC-Backup of a policy graph at a belief with samples
+MC-BACKUP(G
+For each action a A Ra
+For each action a A each observation and each node Va,o,v
+for each action a A do
+for to do
+Sample a state si with probability b(si
+Simulate taking macro-action a in state si Generate a new state s0i observation oi and discounted
+reward R0 si by sampling from p(sj k|si
+Ra Ra R0 si
+for each node do
+Set to be the expected total reward of simulating the policy represented by with initial
+controller state and initial state s0i
+Va,oi Va,oi
+for each observation do
+Va,o maxv?G Va,o,v
+va,o argmax
+Pv?G Va,o,v
+Va Ra o?O Va,o
+maxa?A Va
+a argmaxa?A Va
+Create a new policy graph G0 by adding a new node to G. Label with a For each add the
+edge va and label it with
+return G0
+Theorem Given a policy graph and a point MC-BACKUP(G produces an improved policy graph such that
+2R
+max
+Hb VG HVG
+with probability at least
+The proof uses Hoeffding bound together with union bound Details can be found in
+MC-backup can be combined with point-based POMDP planning which samples the belief space
+B. Point-based POMDP algorithms use a set of points sampled from as an approximate representation of B. In contrast to the standard VI backup operator which performs backup at every
+applies MC-BACKUP(Gm on a policy graph Gm at every point
+point in the operator
+then produces a new policy graph by
+in B. This results in new policy graph nodes
+adding the new policy graph nodes to the previous policy graph Gm
+Let supb?B minb0 kb b0 k1 be the maximum L1 distance from any point in to the closest
+Vm The theorem
+point in B. Let V0 be value function for some initial policy graph and
+below bounds the approximation error between Vm and the optimal value function
+Theorem For every
+2Rmax
+Vm
+2Rmax
+Rmax
+with probability at least
+The proof requires the contraction property and a Lipschitz property that can be derived from the
+piece-wise linearity of the value function Having established those results in Section the rest
+of the proof follows from the proof in The first term in the bound in?Theorem comes from
+Theorem showing that the error from sampling decays at the rate and can be reduced
+by taking a large enough sample size The second term depends on how well the set covers
+and can be reduced by sampling a larger number of beliefs The last term depends on the number of
+MC-backup iterations and decays exponentially with
+Figure Underwater Navigation A reduced map with a grid is shown with marking the
+possible initial positions marking the destinations marking the rocks and marking the locations
+where the robot can localize completely Collaborative search and capture Two robotic agents catching
+escaped crocodiles in a grid Vehicular ad-hoc networking An UAV maintains ad-hoc network
+over four ground vehicles in a grid with marking the base and the destinations
+Algorithm
+Theorem bounds the performance of the algorithm when given a set of beliefs Macro-MCVI
+like MCVI samples beliefs incrementally in practice and performs backup at the sampled beliefs
+Branch and bound is used to avoid sampling unimportant parts of the belief space See for details
+The other important component in a practical algorithm is the generation of next belief MacroMCVI uses a particle filter for that Given the macro-action construction as described in Section
+a simple particle filter is easily implemented to approximate the next belief function in equation
+sample a set of states from the current belief from each sampled state simulate the current macroaction until termination keeping track of its path length if the observation at termination matches
+the desired observation keep the particle the set of particles that are kept are weighted by and
+then renormalized to form the next belief2 Similarly MC-backup is performed by simply running
+simulations of the macro-actions there is no need to store additional transition and observation
+matrices allowing the method to run for very large state spaces
+Experiments
+We now illustrate the use of macro-actions for temporal abstraction in three POMDPs of varying
+complexity Their state spaces range from relatively small to very large Correspondingly the
+macro-actions range from relatively simple ones to much more complex ones forming a hierarchy
+Underwater Navigation The underwater navigation task was introduced in In this task an
+autonomous underwater vehicle AUV navigates in an environment modeled as 51 52 grid map
+The AUV needs to move from the left border to the right border while avoiding the rocks scattered
+near its destination The AUV has six actions move north move south move east move north-east
+move south-east or stay in the same location Due to poor visibility the AUV can only localize itself
+along the top or bottom borders where there are beacon signals
+This problem has several interesting characteristics First the relatively small state space size of
+means that solvers that use vectors such as SARSOP can be used Second the dynamics
+of the robot is actually noiseless hence the main difficulty is actually localization from the robot?s
+initially unknown location
+We use macro-actions that move in a direction north south east north-east or south-east until
+either a beacon signal or the destination is reached We also define an additional macro-action that
+navigates to the nearest goal location if the AUV position is known or simply stays in the same
+location if the AUV position is not known To enable proper behaviour of the last macro-action
+we augment the state space with a fully observable state variable that indicates the current AUV
+location The variable is initialized to a value denoting unknown but takes the value of the current
+AUV location after the beacon signal is received This gives a simple example where the original
+state space is augmented with a fully observable state variable to allow more sophisticated macroaction behaviour
+More sophisticated approximation of the belief can be constructed but may require more knowledge of the
+underlying POMDP and more computation
+Collaborative Search and Capture In this problem a group of crocodiles had escaped from its
+enclosure into the environment and two robotic agents have to collaborate to hunt down and capture
+the crocodiles Figure Both agents are centrally controlled and each agent can make a one
+step move in one of the four directions north south east and west or stay still at each time instance
+There are twelve crocodiles in the environment At every time instance each crocodile moves to
+a location furthest from the agent that is nearest to it with a probability in the
+experiments With a probability the crocodile moves randomly A crocodile is captured when
+it is at the same location as an agent The agents do not know the exact location of the crocodiles
+but each agent knows the number of crocodiles in the top left top right bottom left and bottom
+right quadrants around itself from the noise made by the crocodiles Each captured crocodile gives
+a reward of while movement is free
+We define twenty-five macro actions where each agent moves north south east west or stay along
+a passage way until one of them reaches an intersection In addition the macro-actions only return
+the observation it makes at the point when the macro-action terminates reducing the complexity
+of the problem possibly at a cost of some sub-optimality In this problem the macro-actions are
+simple but the state space is extremely large approximately
+Vehicular Ad-hoc Network In a post disaster search and rescue scenario a group of rescue vehicles are deployed for operation work in an area where communication infrastructure has been
+destroyed The rescue units need high-bandwidth network to relay images of ground situations An
+Unmanned Aerial Vehicle UAV can be deployed to maintain WiFi network communication between the ground units The UAV needs to visit each vehicle as often as possible to pick up and
+deliver data packets
+In this task rescue vehicles and UAV navigates in a terrain modeled as a grid map There
+are obstacles on the terrain that are impassable to ground vehicle but passable to UAV. The UAV can
+move in one of the four directions north south east and west or stay in the same location at every
+time step The vehicles set off from the same base and move along some predefined path towards
+their pre-assigned destinations where they will start their operations randomly stopping along the
+way Upon reaching its destination the vehicle may roam around the environment randomly while
+carrying out its mission The UAV knows its own location on the map and can observe the location
+of a vehicle if they are in the same grid square To elicit a policy with low network latency there
+is a penalty of number of time steps since last visit of a vehicle for each time step for each
+vehicle There is a reward of for each time a vehicle is visited by the UAV. The state space
+consists of the vehicles locations UAV location in the grid map and the number of time steps since
+each vehicle is last seen for computing the reward
+We abstract the movements of UAV to search and visit a single vehicle as macro actions There
+are two kinds of search macro actions for each vehicle search for a vehicle along its predefined
+path and search for a vehicle that has started to roam randomly To enable the macro-actions to
+work effectively the state space is also augmented with the previous seen location of each vehicle
+Each macro-action is in turn hierarchically constructed by solving the simplified POMDP task of
+searching for a single vehicle on the same map using basic actions and some simple macro-actions
+that move along the paths This problem has both complex hierarchically constructed macro-actions
+and very large state space
+Experimental setup
+We applied Macro-MCVI to the above tasks and compared its performance with the original MCVI
+algorithm We also compared with a state-of-the-art off-line POMDP solver SARSOP on the
+underwater navigation task SARSOP could not run on the other two tasks due to their large state
+space sizes For each task we ran Macro-MCVI until the average total reward stablized We then ran
+the competing algorithms for at least the same amount of time The exact running times are difficult
+to control because of our implementation limitations To confirm the comparison results we also
+ran the competing algorithms times longer when possible All experiments were conducted on
+a core Intel Xeon computer server
+Neither MCVI nor SARSOP uses macro-actions We are not aware of other efficient off-line macroaction POMDP solvers that have been demonstrated on very large state space problems Some online
+search algorithms such as PUMA use macro-actions and have shown strong results Online
+search algorithms do not generate a policy making a fair comparison difficult Despite that they
+are useful as baseline references we implement a variant of PUMA as a one such
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 4104-size-matters-metric-visual-search-constraints-from-monocular-metadata.pdf
+
+Size Matters Metric Visual Search Constraints from
+Monocular Metadata
+Mario Fritz
+UC Berkeley EECS ICSI
+Kate Saenko
+UC Berkeley EECS ICSI
+Trevor Darrell
+UC Berkeley EECS ICSI
+Abstract
+Metric constraints are known to be highly discriminative for many objects but
+if training is limited to data captured from a particular sensor the quantity of
+training data may be severly limited In this paper we show how a crucial aspect of
+information?object and feature absolute size?can be added to models learned
+from commonly available online imagery without use of any sensing or reconstruction at training time Such models can be utilized at test time together
+with explicit sensing to perform robust search Our model uses a
+local feature which combines traditional appearance gradient statistics with an
+estimate of average absolute depth within the local window We show how category size information can be obtained from online images by exploiting relatively
+unbiquitous metadata fields specifying camera intrinstics We develop an efficient metric branch-and-bound algorithm for our search task imposing size
+constraints as part of an optimal search for a set of features which indicate the
+presence of a category Experiments on test scenes captured with a traditional
+stereo rig are shown exploiting training data from from purely monocular sources
+with associated EXIF metadata
+Introduction
+Two themes dominate recent progress towards situated visual object recognition Most significantly
+the availability of large scale image databases and machine learning methods has driven performance accuracy on many category detection tasks is a function of the quantity and quality of the
+available training data At the same time when we consider situated recognition tasks as
+performed by robots autonomous vehicles and interactive physical devices mobile phones
+it is apparent that the variety and number of sensors is often what determines performance levels
+the avaibility of sensing can significantly improve performance on specific practical tasks
+irrespective of the amount of training data A rich variety of sensors are available on modern
+robotic systems yet the training data are few for most sensor regimes the vast majority of
+available online visual category data are from monocular sources and there are few databases of
+real-world scans from which to train robust visual recognizers In general it is however difficult to reconcile these two trends while one would like to use all available sensors at test time
+the paucity of 3D training data will mean few categories are well-defined with full models and
+generalization performance to new categories which lack training data may be poor In this
+paper we propose a method to bridge this gap and extract features from typical 2D data sources that
+can enhance recognition performance when 3D information is available at test time
+Figure Recovery of object size from known camera intrinsics
+The paradigm of recognition-by-local-features has been well established in the computer vision
+literature in recent years Existing recognition schemes are designed generally to be invariant to
+scale and size Local shape descriptors based on sensing have been proposed VIP
+as well as local descriptors shape context and SIFT but we are somewhat
+skeptical of the ability of even the most recent sensor systems to extract the detailed local
+geometry required to reliably detect and describe local shapes on real world objects
+Instead of extracting full 3D local features we propose a local feature model which augments
+a traditional 2D local feature SIFT GLOH SURF etc with an estimate of the depth and size
+of an observed patch Such features could distinguish for example the two different keypad patterns
+on a mobile device keyboard on a full-size computer keyboard while the keys might look locally
+similar the absolute patch size would be highly distinctive We focus on the recognition of realworld objects when additional sensors are available at test time and show how information
+can be extracted from monocular metadata already present in many online images Our model
+includes both a representation of the absolute size of local features and of the overall dimension
+of categories We recover the depth and size of the local features and thus of the bounding box of
+a detected object in Efficient search is an important goal and we show a novel extension to
+multi-class branch-and-bound search using explicit metric constraints
+Recognition with features
+The crux of our method is the inference and exploitation of size information we show that we
+can obtain such measurements from non-traditional sources that do not presume a scanner at
+training time nor rely on multi-view reconstruction structure-from-motion methods We instead
+exploit cues that are readily available in many monocular camera images.1 We are not interested
+in reconstructing the object surface and only estimate the absolute size of local patches and the
+statistics of the bounding box of instances in the category from these quantities we can infer the
+category size
+We adopt a local-feature based recognition model and augment it with metric size information
+While there are several possible local feature recognition schemes based on sets of such local features we focus on the Naive Bayes nearest-neighbor model of because of its simplicity and
+good empirical results We assume one or more common local feature descriptors and associated
+detectors or dense sampling grids SIFT SURF GLOH MSER Our emphasis in this paper is on
+There are a number of general paradigms by which estimates of object size can be extracted from a 2D
+image data source regression from scene context or inference of depth-from-a-single-image
+In addition to such schemes text associated with the training images extracted from internet merchants
+Amazon eBay typically explicitly defines a bounding volume for the object While all these are of
+interest we consider here only the use of methods based implicitly on depth-from-focus present
+as camera intrinsics stored as metadata in the JPEG EXIF file format Images collected by many modern
+consumer-grade digital SLR cameras automatically store absolute distance-to-subject as metadata in the JPEG
+image
+Figure Illustration of metric object size derived from image metadata stored in EXIF fields on an
+image downloaded from Flickr.com Absolute size is estimated by projecting bounding box of local
+features on object into using EXIF camera intrinsics stored in image file format
+improving the accuracy of recognizing categories that are at least approximately well modeled with
+such-local feature schemes size information alone cannot help recognize a category that does not
+repeatably and reliably produce such features
+Metric object size from monocular metadata
+Absolute pixel size can be infered using a planar object approximation and depth from focus cues
+Today?s digital cameras supplement the image data with rich meta-data provided in the EXIF format
+EXIF stores a wide range of intrinsic camera parameters which often include the focus distance as
+an explicit parameter some cameras it is not provided directly but can be estimated from other
+provided parameters This gives us a workable approximation of the depth of the object assuming
+it is in focus in the scene with a pinhole camera model we can derive the metric size of a pixel
+in the scene given these assumptions Using simple trigonometry the metric pixel size is fsdr
+where is the sensor width is the focus distance is the focal length and is the horizontal
+resolution of the sensor
+As shown in Figure this method provides a size estimate
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 1378-using-expectation-to-guide-processing-a-study-of-three-real-world-applications.pdf
+
+Using Expectation to Guide Processing
+A Study of Three Real-World Applications
+Shumeet 8aluja
+Justsystem Pittsburgh Research Center
+School of Computer Science Carnegie Mellon University
+baluja@cs.cmu.edu
+Abstract
+In many real world tasks only a small fraction of the available inputs are important
+at any particular time This paper presents a method for ascertaining the relevance
+of inputs by exploiting temporal coherence and predictability The method proposed in this paper dynamically allocates relevance to inputs by using expectations
+of their future values As a model of the task is learned the model is simultaneously extended to create task-specific predictions of the future values of inputs
+Inputs which are either not relevant and therefore not accounted for in the model
+or those which contain noise will not be predicted accurately These inputs can be
+de-emphasized and in turn a new improved model of the task created The techniques presented in this paper have yielded significant improvements for the
+vision-based autonomous control of a land vehicle vision-based hand tracking in
+cluttered scenes and the detection of faults in the etching of semiconductor wafers
+Introduction
+In many real-world tasks the extraneous information in the input can be easily confused
+with the important features making the specific task much more difficult One of the
+methods in which humans function in the presence of many distracting features is to selectively attend to only portions of the input signal A means by which humans select where
+to focus their attention is through the use of expectations Once the important features in
+the current input are found an expectation can be formed of what the important features in
+the next inputs will be as well as where they will be The importance of features must be
+determined in the context of a specific task different tasks can require the processing of
+different subsets of the features in the same input
+There are two distinct uses of expectations Consider Carnegie Mellon's Navlab autonomous navigation system The road-following module Pomerleau is separate from
+the obstacle avoidance modules Thorpe One role of expectation in which unexpected features are de-emphasized is appropriate for the road-following module in which
+the features to be tracked such as lane-markings appear in predictable locations This use
+of expectation removes distractions from the input scene The second role of expectation
+to emphasize unexpected features is appropriate for the obstacle avoidance modules This
+use of expectation emphasizes unanticipated features of the input scene
+Architectures for Attention
+In many studies of attention saliency maps maps which indicate input relevance have
+been constructed in a bottom-up manner For example in Koch Ullman a
+Baluja
+saliency map which is not task-specific is created by emphasizing inputs which are different from their neighbors An alternate approach presented in Clark Ferrier
+places mUltiple different weighted task-specific feature detectors around the input image
+The regions of the image which contain high weighted sums of the detected features are
+the portion of the scene which are focused upon Top-down knowledge of which features
+are used and the weightings of the features is needed to make the procedure task-specific
+In contrast the goal of this study is to learn which task-specific features are relevant without requiring top-down knowledge
+In this study we use a method based on Input Reconstruction Reliability Estimation
+IRRE Pomerleau to detennine which portions of the input are important for the
+task IRRE uses the hidden units of a neural network to perfonn the desired task and
+to reconstruct the inputs In its original use IRRE estimated how confident a network's
+outputs were by measuring the similarity between the reconstructed and current inputs
+Figure 1(Left provides a schematic ofIRRE Note that the weights between the input and
+hidden layers are trained to reduce both task and reconstruction error
+Because the weights between the input and hidden layers are trained to reduce both task
+and reconstruction error a potential drawback of IRRE is the use of the hidden layer to
+encode all of the features in the image rather than only the ones required for solving the
+particular task Pomerleau This can be addressed by noting the following if a
+strictly layered connections are only between adjacent layers feed-forward neural network can solve a given task the activations of the hidden layer contain in some fonn the
+important infonnation for this task from the input layer One method of detennining what
+is contained in the hidden layer is to attempt to reconstruct the original input image based
+solely upon the representation developed in the hidden layer Like IRRE the input image
+is reconstructed from the activations of the units in the hidden layer Unlike IRRE the hidden units are not trained to reduce reconstruction error they are only trained to solve the
+panicular task The network's allocation of its limited representation capacity at the hidden layer is an indicator of what it deems relevant to the task Information which is not relevant to the task will not be encoded in the hidden units Since the reconstruction of the
+inputs is based solely on the hidden units activations and the irrelevant portions of the
+input are not encoded in the hidden units activations the inputs which are irrelevant to the
+task cannot be reconstructed See Figure I(Right
+By measuring which inputs can be reconstructed accurately we can ascertain which inputs
+the hidden units have encoded to solve the task A synthetic task which demonstrates this
+idea is described here Imagine being given a lOxlO input retina such as shown in
+Figure The task is to categorize many such examples into one of four classes
+Because of the random noise in the examples the simple underlying process of a cross
+being present in one of four locations Figure is not easily discernible although it
+is the feature on which the classifications are to be based Given enough examples the NN
+will be able to solve this task However even after the model of the task is learned it is
+difficult to ascertain to which inputs the network is attending To detennine this we can
+freeze the weights in the trained network and connect a input-reconstruction layer to the
+hidden units as shown in Figure 1(Right After training these connections by measuring
+where the reconstruction matches the actual input we can detennine which inputs the network has encoded in its hidden units and is therefore attending See Figure
+weights
+trained to
+reduce task
+error only
+weights
+trained to reduce
+reconstruction
+error only
+error
+Figure
+weights
+trained to
+reduce task
+error only
+Left IRRE Right Modified IRRE
+weights
+trained to reduce
+reconstruction
+error only
+Using Expectation to Guide Processing
+ir
+Figure A Samples of training data cross appears in position respectively Note the large
+amounts of noise The underlying process puts a cross in one of these four locations The black
+crosses are where the reconstruction matched the inputs these correspond exactly to the underlying process
+IRRE and this modified IRRE are related to auto-encoding networks Cottrell and
+principal components analysis The difference between auto-encoding networks
+and those employed in this study is that the hidden layers of the networks used here were
+trained to perfonn well on the specific task not to reproduce the inputs accurately
+Creating Expectations
+A notion of time is necessary in order to focus attention in future frames Instead of reconstructing the current input the network is trained to predict the next input this corresponds to changing the subscript in the reconstruction layer of the network shown in
+Figure 1(Right from to The prediction is trained in a supervised manner by using
+the next set of inputs in the time sequence as the target outputs The next inputs may contain noise or extraneous features However since the hidden units only encode infonnation
+to solve the task the network will be unable to construct the noise or extraneous features
+in its prediction
+To this point a method to create a task-specific expectation of what the next inputs will be
+has been described As described in Section there are two fundamentally different ways
+in which to interpret the difference between the expected next inputs and the actual next
+inputs The first interpretation is that the difference between the expected and the actual
+inputs is a point of interest because it is a region which was not expected This has applications in anomaly detection it will be explored in Section In the second interpretation the difference between the expected and actual inputs is considered noise Processing
+should be de-emphasized from the regions in which the difference is large This makes the
+assumption that there is enough infonnation in the previous inputs to specify what and
+where the important portions of the next image will be As shown in the road-following
+and hand-tracking task this method can remove spurious features and noise
+Real-World Applications
+1bree real-world tasks are discussed in this section The first vision-based road following
+shows how the task-specific expectations developed in the previous section can be used to
+eliminate distractions from the input The second detection of anomalies in the plasmaetch step of wafer fabrication shows how expectations can be used to emphasize the unexpected'features in the input The third visual hand-tracking demonstrates how to incorporate a priori domain knowledge about expectations into the NN.
+Application Vision-Based Autonomous Road Following
+In the domain of autonomous road following the goal is to control a robot vehicle by analyzing the image of the road ahead The direction of travel should be chosen based on the
+location of important features like lane markings and r~ad edges On highways and dirt
+roads simple techniques such as feed-forward NNs have worked well for mapping road
+images to steering commands Pomerleau However on city streets where there
+are distractions like old lane-.narkings pedestrians and heavy traffic these methods fail
+The purpose of using attention in this domain is to eliminate features of the road which the
+NN may mistake as lane markings Approximately images were gathered from a
+S. Baluja
+Figure Top Four samples of training images Left most
+shows the position of the lane-marking which was hand-marked
+Right In each triplet Left raw input imagtt Middle the
+network's prediction of the inputs at time this prediction was
+made by a network with input ofimaget_I Right a pixel-by-pixel
+filtered image text This image is used as the input to the NN.
+camera mounted on the left side of the CMU-Navlab test vehicle pointed downwards
+and slightly ahead of the vehicle The car was driven through city and residential neighborhoods around Pittsburgh PA. The images were gathered at hz The images were
+subsampled to pixels In each of these images the horizontal position of the lane
+marking in the row of the input image was manually identified The task is to produce
+a Gaussian of activation in the outputs centered on the horizontal position of the lane
+marking in the row of the image given the entire input image Sample images and
+target outputs are shown in Figure In this task the ANN can be confused by road edges
+Figure by extraneous lane markings Figure and reflections on the car itself
+since the camera was positioned on the side of the car as shown in Figure
+The network architecture shown in Figure was used this is the same architecture as in
+Figure l(right with the feedback shown The feedback is used during both training and
+simulation In each time-step a steering direction and a prediction of the next inputs is
+produced For each time-step the magnitude of the difference between the input's
+expected value computed in the previous time-step and its actual value is computed
+Each input pixel can be moved towards its background value in proportion to this difference-value The larger the difference value the more weight is given to the background
+value If the difference value is small the actual inputs are used This has the effect of deemphasizing the unexpected inputs
+The results of using this method were very promising The lane tracker removed distracting features from the images In Figure a distracting lane-marking is removed the
+lane marker on the right was correctly tracked in images before the distractor lane-marker
+appeared In Figure a passing car is de-emphasized the network does not have a model
+to predict the movement of passing cars since these are not relevant for the lane-marker
+detection task In Figure the side of the road appears brighter than expected therefore
+it is de-emphasized Note that the expectation-images shown in the middle of each triplet
+weights
+trained to
+reduce task
+error only
+Delayed I time step
+I
+weights
+trained to reduce
+prediction
+error only
+Weight bkgd
+and actual
+inputs according to
+difference ima
+Figure
+Difference
+between
+inputs
+predicted in uts
+Architecture used
+to track the lane
+marking in
+cluttered scenes
+Signal Transfer
+Connections are not trainable
+I. A simple estimate of the background value for each pixel is its average activation across the training set For
+the road-following domain it is possible to use a background activation of when the entire image is scaled to
+activations of to since the road often appears as intermediate grays
+Using Expectation to Guide Processing
+in Figure show that the expected lane-marker and road edge locations are not precisely
+defined This is due to the training method which attempts to model the many possible
+transitions from one time step to the next to account for inter and intra-driver variability
+with a limited training set Baluja
+In summary by eliminating the distractions in the input images the lane-tracker with the
+attention mechanisms improved performance by over the standard lane-tracker measured on the difference between the estimated and hand-marked position of the lanemarker in each image This improvement was seen on multiple runs with random initial
+weights in the NN and different random translations chosen for the training images
+Application Fault Detection in the Plasma-Etch Wafer Fabrication
+Plasma etch is one of the many steps in the fabrication of semiconductor wafers In this
+study the detection of four faults was attempted Descriptions of the faults can be found in
+Baluja For the experiments conducted here only a single sensor
+was used which measured the intensity of light emitted from the plasma at the
+wavelength Each etch was sampled once a second providing approximately samples
+per wafer wavefonn The data-collection phase of this experiment began on October
+and continued until April The detection of faults is a difficult problem
+because the contamination of the etch chamber and the degradation parts keeps the sensor's outputs even for fault-free wafers changing over time Accounting for machine state
+should help the detection process
+Expectation is used as follows Given the waveform signature of waferT_I an expectation
+of waferT can be fonned The input to the prediction-NN is the wavefonn signature of
+waferT_I the output is the prediction of the signature of waferT The target output for each
+example is the signature of the next wafer in sequence the full parameters Detection
+of the four faults is done with a separate network which used as input the expectation of
+the wafer's wavefonn the actual wafer's wavefonn and the point-by-point difference of
+the two In this task the input is not filtered as in the driving domain described previously
+the values of the point-by-point difference vector are used as extra inputs
+The perfonnance of many methods and architectures were compared on this task details
+can be found in Baluja The results using the expectation based methods was a
+detection rate classification rate on the detected faults detennining which of
+the four types of faults the detected fault was and a false detection rate For comparison a simple perceptron had an detection rate and a false-detection rate A
+fully-connected network which did not consider the state of the machine achieved a
+detection rate but a false detection rate A network which considered state by using
+the last-previous no-fault wafer for comparison with the current wafer instead of an
+expectation for the current wafer achieved an detection rate and a falsedetection rate A variety of neural and non-neural methods which examined the differences between the expected and current wafer as well those which examined the differences between the last no-fault wafer and the current wafer perfonned poorly In
+summary methods which did not use expectations were unable to obtain the false-positives and detection rates of the expectation-based methods
+Application Hand-Tracking in Cluttered Scenes
+In the tasks described so far the transition rules were learned by the NN. However if the
+transition rules had been known a priori processing could have been directed to only the
+relevant regions by explicitly manipulating the expectations The ability to incorporate a
+priori rules is important in many vision-based tasks Often the constraints about the environment in which the tracking is done can be used to limit the portions of the input scene
+which need to be processed For example consider visually tracking a person's hand
+Given a fast camera sampling rate the person's hand in the current frame will be close to
+S. Baluja
+B.
+A.
+Figure
+Typical input images used for
+the hand-tracking experiments
+The target is to track the
+subject's right hand Without
+expectation in both hands
+were found in outputs and
+the wrong hand was found in
+the outputs In Subject's
+right hand and face found in
+the outputs
+where it appeared in the previous frame Although a network can learn this constraint by
+developing expectations of future inputs as with the NN architecture shown in Figure
+training the expectations can be avoided by incorporating this rule directly
+In this task the input layer is a image There are two output layers of 48 units the
+desired outputs are two gaussians centered on the position of the hand to be tracked
+See Figure Rather than creating a saliency map based upon the difference between the
+actual and predicted inputs as was done with autonomous road following the saliency
+map was explicitly created with the available domain knowledge Given the sampling rate
+of the camera and the size of the hand in the image the salient region for the next timestep was a circular region centered on the estimated location of the hand in the previous
+image The activations of the inputs outside of the salient region were shifted towards the
+background image The activations inside the salient region were not modified After
+applying the saliency map to the inputs the filtered inputs were fed into the NN.
+This system was tested in very difficult situations the testing set contained images of a
+person moving both of his hands and body throughout the sequence Figure Therefore both hands and body are clearly visible in the difference images used as input into
+the network All training was done on much simpler training sets in which only a single
+hand was moving To gauge the perfonnance of an expectation-based system it was compared to a system which used the following post-processing heuristics to account for temporal coherence First before a gaussian was fit to either of the output layers the
+activation of the outputs was inversely scaled with the distance away from the location of
+the hand in the previous time step This reduces the probability of detecting a hand in a
+location very different than the previous detection This helps when both hands are
+detected as shown in Figure The second heuristic was that any predictions which differ
+from the previous prediction by more than half of the dimension of the output layer were
+ignored and the previous prediction used instead See Table I for the results In summary
+by using the expectation based methods perfonnance improved from to when
+tracking the left hand and to 91 when tracking the right hand
+Table I Performance Number of frames in which each hand was located total images
+Method
+No Heuristics No Expect
+Heuristics
+Expectation
+Expectation Heuristics
+Target Find Left Hand
+Target Find Right Hand
+Which Hand Was Found
+Which Hand Was Found
+Correct
+44
+22
+None
+Correct
+93
+74
+22
+24
+68
+47
+None
+93
+68
+24
+Nowlan Platt presented a convolutional-NN based hand-tracker which used separate NNs for intensity and differences images with a rule-based integration of the multiple network outputs The integration of this expectation-based system should improve the
+performance of the difference-image NN.
+Using Expectation to Guide Processing
+Conclusions
+A very closely related procedure to the one described in this paper is the use of Kalman
+Filters to predict the locations of objects of interest in the input retina For example Dickmanns uses the prediction of the future state to help guide attention by controlling the
+direction of a camera to acquire accurate position of landmarks Dickmanns
+Strong models of the vehicle motion the appearance of objects of interest such as the
+road road-signs and other vehicles and the motion of these objects are encoded in the
+system The largest difference in their system and the one presented here is the amount of
+a priori knowledge that is used Many approaches which use Kalman Filters require a
+large amount of problem specific information for creating the models In the approach presented in this paper the main object is to automatically learn this information from examples First the system must learn what the important features are since no top-down
+information is assumed Second the system must automatically develop the control strategy from the detected features Third the system must also learn a model for the movements of all of the relevant features
+In deciding whether the approaches described in this paper are suitable to a new problem
+two criteria must be considered First if expectation is to be used to remove distractions
+from the inputs then given the current inputs the activations of the relevant inputs in the
+next time step must be predictable while the irrelevant inputs are either unrelated to the
+task or are unpredictable In many visual object tracking problems the relevant inputs are
+often predictable while the distractions are not In the cases in which the distractions are
+predictable if they are unrelated to the main task these methods can work When using
+expectation to emphasize unexpected or potentially anomalous features the activations of
+the relevant inputs should be unpredictable while the irrelevant ones are predictable This
+is often the case for anomaly/fault detection tasks Second when expectations are used as
+a filter it is necessary to explicitly define the role of the expected features In particular it
+is necessary to define whether the expected features should be considered relevant or irrelevant and therefore whether they should be emphasized or de-emphasized respectively
+We have demonstrated the value of using task-specific expectations to guide processing in
+three real-world tasks In complex dynamic environments such as driving expectations
+are used to quickly and accurately discriminate between the relevant and irrelevant features For the detection of faults in the plasma-etch step of semiconductor fabrication
+expectations are used to account for the underlying drift of the process Finally for visionbased hand-tracking we have shown that a priori knowledge about expectations can be
+easily integrated with a hand-detection model to focus attention on small portions of the
+scene so that distractions in the periphery can be ignored
+Acknowledgments
+The author would like to thank Dean Pomerleau Takeo Kanade Tom Mitchell and Tomaso Poggio
+for their help in shaping this work
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+

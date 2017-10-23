@@ -1,0 +1,2666 @@
+query sentence: Associative database
+<<------------------------------------------------------------------------------------------------------------------------------------------->>
+title: 1-self-organization-of-associative-database-and-its-applications.pdf
+
+SELF-ORGANIZATION OF ASSOCIATIVE DATABASE
+AND ITS APPLICATIONS
+Hisashi Suzuki and Suguru Arimoto
+Osaka University Toyonaka Osaka Japan
+ABSTRACT
+An efficient method of self-organizing associative databases is proposed together with
+applications to robot eyesight systems The proposed databases can associate any input
+with some output In the first half part of discussion an algorithm of self-organization is
+proposed From an aspect of hardware it produces a new style of neural network In the
+latter half part an applicability to handwritten letter recognition and that to an autonomous
+mobile robot system are demonstrated
+INTRODUCTION
+Let a mapping be given Here is a finite or infinite set and is another
+finite or infinite set A learning machine observes any set of pairs sampled randomly
+from Y. means the Cartesian product of and And it computes some
+estimate of to make small the estimation error in some measure
+Usually we say that the faster the decrease of estimation error with increase of the number of samples the better the learning machine However such expression on performance
+is incomplete Since it lacks consideration on the candidates of of assumed preliminarily Then how should we find out good learning machines To clarify this conception
+let us discuss for a while on some types of learning machines And let us advance the
+understanding of the self-organization of associative database
+Parameter Type
+An ordinary type of learning machine assumes an equation relating x's and y's with
+parameters being indefinite namely a structure of It is equivalent to define implicitly a
+set of candidates of
+is some subset of mappings from to And it computes
+values of the parameters based on the observed samples We call such type a parameter
+type
+For a learning machine defined well if approaches as the number of samples
+increases In the alternative case however some estimation error remains eternally Thus
+a problem of designing a learning machine returns to find out a proper structure of in this
+sense
+On the other hand the assumed structure of is demanded to be as compact as possible
+to achieve a fast learning In other words the number of parameters should be small Since
+if the parameters are few some can be uniquely determined even though the observed
+samples are few However this demand of being proper contradicts to that of being compact
+Consequently in the parameter type the better the compactness of the assumed structure
+that is proper the better the learning machine This is the most elementary conception
+when we design learning machines
+Universality and Ordinary Neural Networks
+Now suppose that a sufficient knowledge on is given though itself is unknown In
+this case it is comparatively easy to find out proper and compact structures of J. In the
+alternative case however it is sometimes difficult A possible solution is to give up the
+compactness and assume an almighty structure that can cover various A combination
+of some orthogonal bases of the infinite dimension is such a structure Neural networks
+are its approximations obtained by truncating finitely the dimension for implementation
+American Institute of Physics
+A main topic in designing neural networks is to establish such desirable structures of
+This work includes developing practical procedures that compute values of coefficients from
+the observed samples Such discussions are flourishing since while many efficient methods have been proposed Recently even hardware units computing coefficients in parallel
+for speed-up are sold ANZA Mark III Odyssey and E-1.
+Nevertheless in neural networks there always exists a danger of some error remaining
+eternally in estimating Precisely speaking suppose that a combination of the bases of a
+finite number can define a structure of essentially In other words suppose that or
+is located near F. In such case the estimation error is none or negligible However if
+is distant from the estimation error never becomes negligible Indeed many researches
+report that the following situation appears when is too complex Once the estimation
+error converges to some value as the number of samples increases it decreases hardly
+even though the dimension is heighten This property sometimes is a considerable defect of
+neural networks
+Recursi ve Type
+The recursive type is founded on another methodology of learning that should be as
+follows At the initial stage of no sample the set Fa instead of notation of candidates
+of I equals to the set of all mappings from to Y. After observing the first sample
+Yl Fa is reduced to Fi so that I(xt Yl for any I F. After observing
+the second sample Fl is further reduced to F2 so that i(xt Yl and
+Y2 for any I F. Thus the candidate set becomes gradually small as observation
+of samples proceeds The after observing i-samples which we write
+is one of the most
+likelihood estimation of selected in Hence contrarily to the parameter type the
+recursive type guarantees surely that approaches to as the number of samples increases
+The recursive type if observes a sample yd rewrites values to for
+some x's correlated to the sample Hence this type has an architecture composed of a rule
+for rewriting and a free memory space Such architecture forms naturally a kind of database
+that builds up management systems of data in a self-organizing way However this database
+differs from ordinary ones in the following sense It does not only record the samples already
+observed but computes some estimation of for any We call such database an
+associative database
+The first subject in constructing associative databases is how we establish the rule for
+rewri ting For this purpose we adap a measure called the dissimilari ty Here a dissimilari ty
+means a mapping reals such that for any
+whenever However it is not necessarily defined with a single formula It is
+definable with for example a collection of rules written in forms of then
+The dissimilarity defines a structure of locally in Y. Hence even though
+the knowledge on is imperfect we can re:flect it on in some heuristic way Hence
+contrarily to neural networks it is possible to accelerate the speed of learning by establishing
+well Especially we can easily find out simple d's for those l's which process analogically
+information like a human See the applications in this paper And for such the
+recursive type shows strongly its effectiveness
+We denote a sequence of observed samples by Yd One of the simplest
+constructions of associative databases after observing i-samples is as follows
+I
+Algorithm At the initial stage let So be the empty set For every
+let for any equal some such that and
+min
+Furthermore add to to produce Sa
+Another version improved to economize the memory is as follows
+Algorithm At the initial stage let So be composed of an arbitrary element
+in Y. For every let ii-lex for any equal some such
+that Si-l and
+min
+Furthermore if ii-l(Xi Yi then let Si Si-l or add Yi to Si-l to
+produce Si Si Si-l
+In either construction ii approaches to as increases However the computation time
+grows proportionally to the size of Si. The second subject in constructing associative
+databases is what addressing rule we should employ to economize the computation time In
+the subsequent chapters a construction of associative database for this purpose is proposed
+It manages data in a form of binary tree
+SELF-ORGANIZATION OF ASSOCIATIVE DATABASE
+Given a sample sequence the algorithm for constructing associative
+database is as follows
+Algorithm
+Step I(Initialization Let x[root y[root Yd. Here and are
+variables assigned for respective nodes to memorize data Furthermore let
+Step Increase by and put in After reset a pointer to the root repeat
+the following until arrives at some terminal node leaf
+Notations nand
+d(xt let
+mean the descendant nodes of
+Otherwise let
+If
+Step Display yIn as the related information Next put in If yIn back
+to step Otherwise first establish new descendant nodes and Secondly
+let
+yIn
+yIn
+Finally back to step Here the loop of step can be stopped at any time
+and also can be continued
+Now suppose that gate elements namely artificial synapses that play the role of branching by are prepared Then we obtain a new style of neural network with gate elements
+being randomly connected by this algorithm
+LETTER RECOGNITION
+Recen tly the vertical slitting method for recognizing typographic English letters3 the
+elastic matching method for recognizing hand written discrete English letters4 the global
+training and fuzzy logic search method for recognizing Chinese characters written in square
+styleS etc are published The self-organization of associative database realizes the recognition of handwritten continuous English letters
+NOV
+xk La.t
+dw1lo
+Source document
+Windowing
+Number of samples
+NUAlber of sampl es
+An experiment result
+An image scanner takes a document image The letter recognizer uses a parallelogram window that at least can cover the maximal letter and processes the
+sequence of letters while shifting the window That is the recognizer scans a word in a
+slant direction And it places the window so that its left vicinity may be on the first black
+point detected Then the window catches a letter and some part of the succeeding letter
+If recognition of the head letter is performed its end position namely the boundary line
+between two letters becomes known Hence by starting the scanning from this boundary
+and repeating the above operations the recognizer accomplishes recursively the task Thus
+the major problem comes to identifying the head letter in the window
+Considering it we define the following
+Regard window images as and define accordingly
+For a denote by a black point in the left area from the boundary on
+window image Project each onto window image Then measure the Euclidean
+distance between fj and a black point on being the closest to B. Let be
+the summation of for all black points B's on divided by the number of B's.
+Regard couples of the reading and the position of boundary as and define
+accordingly
+An operator teaches the recognizer in interaction the relation between window image and
+reading boundary with algorithm Precisely if the recalled reading is incorrect the
+operator teaches a correct reading via the console Moreover if the boundary position is
+incorrect he teaches a correct position via the mouse
+shows partially a document image used in this experiment shows the
+change of the number of nodes and that of the recognition rate defined as the relative
+frequency of correct answers in the past trials Speciiications of the window are height
+width and slant angular In this example the levels of tree
+were distributed in at time and the recognition rate converged to about
+Experimentally the recognition rate converges to about in most cases and to at
+a rare case However it does not attain since and are not distinguishable
+because of excessive lluctuation in writing If the consistency of the y-relation is not
+assured like this the number of nodes increases endlessly Hence it is clever to
+stop the learning when the recognition rate attains some upper limit To improve further
+the recognition rate we must consider the spelling of words It is one of future subjects
+OBSTACLE AVOIDING MOVEMENT
+Various systems of camera type autonomous mobile robot are reported flourishingly6-1O
+The system made up by the authors also belongs to this category Now in mathematical methodologies we solve usually the problem of obstacle avoiding movement as
+a cost minimization problem under some cost criterion established artificially Contrarily
+the self-organization of associative database reproduces faithfully the cost criterion of an
+operator Therefore motion of the robot after learning becomes very natural
+Now the length width and height of the robot are all about and the weight is
+about The visual angle of camera is about The robot has the following three
+factors of motion It turns less than advances less than and controls speed less
+than The experiment was done on the passageway of wid th inside a building
+which the authors laboratories exist in Because of an experimental intention we
+arrange boxes smoking stands gas cylinders stools handcarts etc on the passage way at
+random We let the robot take an image through the camera recall a similar image and
+trace the route preliminarily recorded on it For this purpose we define the following
+Let the camera face 28deg downward to take an image and process it through a low
+pass filter Scanning vertically the filtered image from the bottom to the top search
+the first point where the luminance changes excessively Then su bstitu te all points
+from the bottom to for white and all points from to the top for black
+If no obstacle exists just in front of the robot the white area shows the area
+where the robot can move around Regard binary 32 32dot images processed thus
+as and define accordingly
+For every let be the number of black points on the exclusive-or
+image between and
+Regard as y's the images obtained by drawing routes on images and define
+accordingly
+The robot superimposes on the current camera image the route recalled for and
+inquires the operator instructions The operator judges subjectively whether the suggested
+route is appropriate or not In the negative answer he draws a desirable route on with the
+mouse to teach a new to the robot This opera.tion defines implicitly a sample sequence
+of reflecting the cost criterion of the operator
+IibUBe
+22
+Roan
+13
+Stationary uni
+Configuration of
+autonomous mobile robot system
+I
+23
+24
+North
+rmbi Ie unit robot
+Roan
+Experimental
+environment
+Wall
+Camera image
+Preprocessing
+A
+fa
+Preprocessing
+Course
+suggest ion
+Search
+A
+Processing for
+obstacle avoiding movement
+Processing for
+position identification
+We define the satisfaction rate by the relative frequency of acceptable suggestions of
+route in the past trials In a typical experiment the change of satisfaction rate showed
+a similar tendency to and it attains about around time Here notice that
+the rest does not mean directly the percentage of collision In practice we prevent the
+collision by adopting some supplementary measure At time the number of nodes was
+and the levels of tree were distributed in
+The proposed method reflects delicately various characters of operator For example a
+robot trained by an operator moves slowly with enough space against obstacles while one
+trained by another operator brushes quickly against obstacles This fact gives us a hint
+on a method of printing characters into machines
+POSITION IDENTIFICATION
+The robot can identify its position by recalling a similar landscape with the position data
+to a camera image For this purpose in principle it suffices to regard camera images and
+position data as x's and respectively However the memory capacity is finite in actual
+compu ters Hence we cannot but compress the camera images at a slight loss of information
+Such compression is admittable as long as the precision of position identification is in an
+acceptable area Thus the major problem comes to find out some suitable compression
+method
+In the experimental environment juts are on the passageway at intervals of
+and each section between adjacent juts has at most one door The robot identifies
+roughly from a surrounding landscape which section itself places in And it uses temporarily
+a triangular surveying technique if an exact measure is necessary To realize the former task
+we define the following
+Turn the camera to take a panorama image of Scanning horizontally the
+center line substitute the points where the luminance excessively changes for black
+and the other points for white Regard binary line images processed
+thus as and define accordingly
+For every project each black point A on onto And measure the
+Euclidean distance between A and a black point A on being the closest to A. Let
+the summation of be S. Similarly calculate by exchanging the roles of and
+Denoting the numbers of A's and A's respectively by nand define
+Regard positive integers labeled on sections as y's and define accordingly
+In the learning mode the robot checks exactly its position with a counter that is reset periodically by the operator The robot runs arbitrarily on the passageways within area
+and learns the relation between landscapes and position data Position identification beyond area is achieved by crossing plural databases one another This task is automatic
+excepting the periodic reset of counter namely it is a kind of learning without teacher
+We define the identification rate by the relative frequency of correct recalls of position
+data in the past trials In a typical example it converged to about around time
+At time the number of levels was and the levels oftree were distributed in Since the identification failures of can be rejected by considering the trajectory no
+pro blem arises in practical use In order to improve the identification rate the compression
+ratio of camera images must be loosened Such possibility depends on improvement of the
+hardware in the future
+shows an example of actual motion of the robot based on the database for obstacle
+avoiding movement and that for position identification This example corresponds to a case
+of moving from to 23 in Here the time interval per frame is about
+I
+I
+Actual motion of the robot
+CONCLUSION
+A method of self-organizing associative databases was proposed with the application to
+robot eyesight systems The machine decomposes a global structure unknown into a set of
+local structures known and learns universally any input-output response This framework
+of problem implies a wide application area other than the examples shown in this paper
+A defect of the algorithm of self-organization is that the tree is balanced well only
+for a subclass of structures of A subject imposed us is to widen the class A probable
+solution is to abolish the addressing rule depending directly on values of and instead to
+establish another rule depending on the distribution function of values of It is now under
+investigation
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 81-invariant-object-recognition-using-a-distributed-associative-memory.pdf
+
+Invariant Object Recognition Using a Distributed Associative Memory
+Harry Wechsler and George Lee Zimmerman
+Department or Electrical Engineering
+University or Minnesota
+Minneapolis MN
+Abstract
+This paper describes an approach to 2-dimensional object recognition Complex-log conformal mapping is combined with a distributed associative memory to create a system
+which recognizes objects regardless of changes in rotation or scale Recalled information
+from the memorized database is used to classify an object reconstruct the memorized version of the object and estimate the magnitude of changes in scale or rotation The system
+response is resistant to moderate amounts of noise and occlusion Several experiments using real gray scale images are presented to show the feasibility of our approach
+Introduction
+The challenge of the visual recognition problem stems from the fact that the projection of an object onto an image can be confounded by several dimensions of variability
+such as uncertain perspective changing orientation and scale sensor noise occlusion and
+non-uniform illumination A vision system must not only be able to sense the identity of an
+object despite this variability but must also be able to characterize such variability because the variability inherently carries much of the valuable information about the world
+Our goal is to derive the functional characteristics of image representations suitable for invariant recognition using a distributed associative memory The main question is that of
+finding appropriate transformations such that interactions between the internal structure
+of the resulting representations and the distributed associative memory yield invariant
+recognition As Simon points out all mathematical derivation can be viewed simply as
+a change of representation making evident what was previously true but obscure This
+view can be extended to all problem solving Solving a problem then means transforming it
+so as to make the solution transparent
+We approach the problem of object recognition with three requirements
+classification reconstruction and characterization Classification implies the ability to distinguish objects that were previously encountered Reconstruction is the process by which
+memorized images can be drawn from memory given a distorted version exists at the input Characterization involves extracting information about how the object has changed
+from the way in which it was memorized Our goal in this paper is to discuss a system
+which is able to recognize memorized 2-dimensional objects regardless of geometric distortions like changes in scale and orientation and can characterize those transformations
+The system also allows for noise and occlusion and is tolerant of memory faults
+The following sections Invariant Representation and Distributed Associative
+Memory respectively describe the various components of the system in detail The Experiments section presents the results from several experiments we have performed on real
+data The paper concludes with a discussion of our results and their implications for future
+research
+American Institute of Physics
+Invariant Representation
+The goal of this section is to examine the various components used to produce the
+vectors which are associated in the distributed associative memory The block diagram
+which describes the various functional units involved in obtaining an invariant image
+representation is shown in Figure The image is complex-log conformally mapped so that
+rotation and scale changes become translation in the transform domain Along with the
+conformal mapping the image is also filtered by a space variant filter to reduce the effects
+of aliasing The conformally mapped image is then processed through a Laplacian in order
+to solve some problems associated with the conformal mapping The Fourier transform of
+both the conformally mapped image and the Laplacian processed image produce the four
+output vectors The magnitude output vector I-II is invariant to linear transformations of
+the object in the input image The phase output vector contains information concerning the spatial properties of the object in the input image
+Complex-Log Mapping and Space Variant Filtering
+The first box of the block diagram given in Figure consists of two components
+Complex-log mapping and space variant filtering Complex-log mapping transforms an
+image from rectangular coordinates to polar exponential coordinates This transformation
+changes rotation and scale into translation If the image is mapped onto a complex plane
+then each pixel on the Cartesian plane can be described mathematically by
+jy The complex-log mapped points ware described by
+In(lzl jiJ
+Our system sampled pixel images to construct complex-log mapped
+images Samples were taken along radial lines spaced degrees apart Along each radial
+line the step size between samples increased by powers of These numbers are derived
+from the number of pixels in the original image and the number of samples in the
+complex-log mapped image An excellent examination of the different conditions involved
+in selecting the appropriate number of samples for a complex-log mapped image is given in
+The non-linear sampling can be split into two distinct parts along each radial line Toward the center of the image the samples are dense enough that no anti-aliasing filter is
+needed Samples taken at the edge of the image are large and an anti-aliasing filter is
+necessary The image filtered in this manner has a circular region around the center which
+corresponds to an area of highest resolution The size of this region is a function of the
+number of angular samples and radial samples The filtering is done at the same time as
+the sampling by convolving truncated Bessel functions with the image in the space
+domain The width of the Bessel functions main lobe is inversely proportional to the eccentricity of the sample point
+A problem associated with the complex-log mapping is sensitivity to center
+misalignment of the sampled image Small shifts from the center causes dramatic distortions in the complex-log mapped image Our system assumes that the object is centered in
+the image frame Slight misalignments are considered noise Large misalignments are considered as translations and could be accounted for by changing the gaze in such a way as
+to bring the object into the center of the frame The decision about what to bring into the
+center of the frame is an active function and should be determined by the task An example of a system which could be used to guide the translation process was developed by
+Anderson and Burt Their pyramid system analyzes the input image at different tem
+Inverse
+Processing
+and
+Reconstruction
+Image
+I
+Compl".lo
+Mapping
+and
+Space Variant
+Filtering
+I
+I
+I
+1ransform
+I
+I
+I
+Laplacian
+Fourier
+Transform
+Distributed
+Associative
+Memory
+Rotation
+and
+Scale
+Estimation
+I-II
+Classification
+Figure Block Diagram of the System
+poral and spatial resolution levels Their smart sensor was then able to shift its fixation
+such that interesting parts of the image ie something large and moving was brought into
+the central part of the frame for recognition
+Fourier Transform
+The second box in the block diagram of Figure is the Fourier transform The
+Fourier transform of a 2-dimensional image is given by
+f(x,y)e-i(ux+vy dx dy
+and can be described by two 2-dimensional functions corresponding to the magnitude
+and phase The magnitude component of the Fourier trans~rm which is
+invariant to translatIOn carries much of the contrast information of the image The phase
+component of the Fourier transform carries information about how things ar placed in an
+image Translation of corresponds to the addition of a linear phase cpmponent The
+complex-log mapping transforms rotation and scale into translation and tije magnitude of
+the Fourier transform is invariant to those translations so that I-II ivill not change
+significantly with rotation and scale of the object in the image
+Laplacian
+The Laplacian that we use is a difference-of-Gaussians DOG approximation to the
+function as given by Marr
+2G
+1rtT
+The result of convolving the Laplacian with an image can be viewed as a two step process
+The image is blurred by a Gaussian kernel of a specified width oo Then the isotropic
+second derivative of the blurred image is computed The width of the Gaussian kernel is
+chosen such that the conformally mapped image is visible approximately pixels in our
+experiments The Laplacian sharpens the edges of the object in the image and sets any region that did not change much to zero Below we describe the benefits from using the Laplacian
+The Laplacian eliminates the stretching problem encountered by the complex-log
+mapping due to changes in object size When an object is expanded the complex-log
+mapped image will translate The pixels vacated by this translation will be filled with
+more pixels sampled from the center of the scaled object These new pixels will not be
+significantly different than the displaced pixels so the result looks like a stretching in the
+complex-log mapped image The Laplacian of the complex-log mapped image will set the
+new pixels to zero because they do not significantly change from their surrounding pixels
+The Laplacian eliminates high frequency spreading due to the finite structure of the
+discrete Fourier transform and enhances the differences between memorized objects by accentuating edges and de-emphasizing areas of little change
+Distributed Associative Memory DAM
+The particular form of distributed associative memory that we deal with in this paper is a memory matrix which modifies the flow of information Stimulus vectors are associated with response vectors and the result of this association is spread over the entire
+memory space Distributing in this manner means that information about a small portion
+of the association can be found in a large area of the memory New associations are placed
+over the older ones and are allowed to interact This means that the size of the memory
+matrix stays the same regardless of the number of associations that have been memorized
+Because the associations are allowed to interact with each other an implicit representation
+of structural relationships and contextual information can develop and as a consequence a
+very rich level of interactions can be captured There are few restrictions on what vectors
+can be associated there can exist extensive indexing and cross-referencing in the memory
+Distributed associative memory captures a distributed representation which is context
+dependent This is quite different from the simplistic behavioral model
+The construction stage assumes that there are pairs of m-dimensional vectors that
+are to be associated by the distributed associative memory This can be written as
+IV
+or
+I
+th stlmu
+I us vector an
+th correspon d?mg response Vech
+were
+enotes tel
+enotes tel
+tor want to construct a memory matrix such that when the kth stimulus vector
+is projected onto the space defined by the resulting projection will be the corresponding
+More specifically we want to solve the following equation
+response vector
+MS=R
+s2
+s1
+were
+an A
+umque
+soIutlOn
+lor
+h?IS equation does not necessarily exist for any arbitrary gr~up of associations that might be
+chosen Usually the number of associations is smaller than the length of the vector to
+be associated so the system of equations is underconstrained The constraint used to solve
+for a unique matrix is that of minimizing the square error IIMS RJ1 which results in
+the solution
+where is known as the Moore-Penrose generalized inverse of
+The recall operation projects an unknown stimulus vector
+M. The resulting projection yields the response vector
+Ms
+onto
+the memory space
+If the memorized stimulus vectors are independent and the unknown stimulus vector is
+one of the memorized vectors
+then the recalled vector will be the associated response
+If the memorized stimulus vectors are dependent then the vector recalled by
+vector
+one of the memorized stimulus vectors will contain the associated response vector and
+some crosstalk from the other stored response vectors
+The recall can be viewed as the weighted sum of the response vectors The recall
+begins by assigning weights according to how well the unknown stimulus vector matches
+with the memorized stimulus vector using a linear least squares classifier The response
+vectors are multiplied by the weights and summed together to build the recalled response
+vector The recalled response vector is usually dominated by the memorized response vector that is closest to the unknown stimulus vector
+Assume that there are associations in the memory and each of the associated
+stimulus and response vectors have elements This means that the memory matrix has
+elements Also assume that the noise that is added to each element of a memorized
+stimulus vector
+memory is then
+IS
+independent Zero mean with a variance of The recall from the
+where tt is the input noise vector and t1 is the output noise vector The ratio of the average output noise variance to the averagg input noise variance is
+MMT
+Tr
+For the autoassociative case this simplifies to
+This says that when a noisy version of a memorized input vector is applied to the memory
+the recall is improved by a factor corresponding to the ratio of the number of memorized
+vectors to the number of elements in the vectors For the heteroassociative memory matrix a similar formula holds as long as is less than
+Fault tolerance is a byproduct of the distributed nature and error correcting capabilities of the distributed associative memory By distributing the information no single
+memory cell carries a significant portion of the information critical to the overall performance of the memory
+Experiments
+In this section we discuss the result of computer simulations of our system Images
+of objects are first preprocessed through the sUbsystem outlined in section The output of
+such a subsystem is four vectors I-I and We construct the memory by associating the stimulus vector I-II with he response vector for each object in the database
+To perform a recall from the meJIlory the unknown image is preprocessed by the same_subsystem to produce the vectors I-II and The resulting stimulus vector I-I is
+projected onto the m~mory matrix to produce a respOJlse vector which is an stimatel of
+the memorized phase The estimated phase vector cI and the magnitude I-II ate used
+to reconstruct the memorized object The difference between the estimated phase and
+the unknown phase is used to estimate the amount of rotation and scale experienced by
+the object
+The database of images consists of twelve objects four keys four mechanical parts
+and four leaves The objects were chosen for their essentially two-dimensional structure
+Each object was photographed using a digitizing video camera against a black background We emphasize that all of the images used in creating and testing the recognition
+system were taken at different times using various camera rotations and distances The images are digitized to eight bit quantized pixels and each object covers an area of
+about pixels This small object size relative to the background is necessary due to
+the non-linear sampling of the complex-log mapping The objects were centered within the
+frame by hand This is the source of much of the noise and could have been done automatically using the object's center of mass or some other criteria determined by the task The
+orientation of each memorized object was arbitrarily chosen such that their major axis
+was vertical The 2-dimensional images that are the output from the invariant representation subsystem are scanned horizontally to form the vectors for memorization The database used for these experiments is shown in Figure
+Figure The Database of Objects Used in the Experiments
+Original
+Unknown
+Recall rotated
+Memory:6
+SNR Db
+Figure Recall Using a Rotated and scaled key
+The first example of the operation of our system is shown in Figure Figure is
+the image of one of the keys as it was memorized Figure is the unknown object
+presented to our system The unknown object in this caSe is the same key that has been
+rotated by degrees and scaled Figure is the recalled reconstructed image The
+rounded edges of the recalled image are artifacts of the complex-log mapping Notice that
+the reconstructed recall is the unrotated memorized key with some noise caused by errors
+in the recalled phase Figure is a histogram which graphically displays the
+classification vector which corresponds to S+S. The histogram shows the interplay between
+the memorized images and the unknown image The on the bargraph indicates which
+of the twelve classes the unknown object belongs The histogram gives a value which is
+the best linear estimate of the image relative to the memorized objects Another measure
+the signal-to-noise ratio is given at the bottom of the recalled image SNR compares the variance of the ideal recall after processing with the variance of the difference
+between the ideal and actual recall This is a measure of the amount of noise in the recall
+The SNR does not carry rr.uch information about the q"Jality of the recall image because
+the noise measured by the SNP is jue to many factors such as misalignment of the center
+changing reflections and dependence between other memorized objects each affecting
+quality in a variety of ways Rotation and scale estimate are made using a vector
+corresponding to the dlll'erence between the unknown vector and the recalled vector
+In an ideal situation will be a plane whose E;radient indicates the exact amount of r:.otation and scale the recalled object has experienced In our system the recalled vector is
+corrupted with noise which means rotation...and scale have to be estim:ned The estimate is
+made by letting the first order difference at each point in the plane vote for a specified
+range of rotation or scale
+Original
+Unknown
+Recall
+Memory:4
+Figure Recall Using Scaled and Rotated with Occlusion
+Figure is an example of occlusion The unknown object in this case is an
+curve which is larger and slightly tilted from the memorized curve A portion of the
+bottom curve was occluded The resulting reconstruction is very noisy but has filled in the
+missing part of the bottom curve The noisy recall is reflected in both the SNR and the interplay betw~en the memories shown by the hi~togram
+Ideal recall
+removed
+removed
+removed
+Figure Recall for Memory Matrix Randomly Set to Zero
+Figure is the result of randomly setting the elements of the memory matrix to
+zero Figure shows is the ideal recall Figure is the recall after percent of the
+memory matrix has been set to zero Figure is the recall for percent and Figure
+is the recall for 75 percent Even when 90 percent of the memory matrix has been set to
+zero a faint outline of the pin could still be seen in the recall This result is important in
+two ways First it shows that the distributed associative memory is robust in the presence
+of noise Second it shows that a completely connected network is not necessary and as a
+consequence a scheme for data compression of the memory matrix could be found
+Conclusion
+In this paper we demonstrate a computer vIsIon system which recognIzes 2dimensional objects invariant to rotation or scale The system combines an invariant
+representation of the input images with a distributed associative memory such that objects
+can be classified reconstructed and characterized The distributed associative memory is
+resistant to moderate amounts of noise and occlusion Several experiments demonstrating
+the ability of our computer vision system to operate on real grey scale images were
+presented
+Neural network models of which the di~tributed associative memory is one example
+were originally developed to simulate biological memory They are characterized by a
+large number of highly interconnected simple processors which operate in p2..rallel An excellent review of the many neural network models is given in The distrib-uted associative memory we use is linear and as a result there are certain desirable properties which
+will not be exhibited by our computer vision system For example feedback through our
+system will not improve recall from the memory Recall could be improved if a non-linear
+element such as a sigmoid function is introduced into the feedback loop Non-linear neural networks such as those proposed by Hopfield or Anderson can achieve
+this type of improvement because each memorized pattern js associated with sta~le points
+in an energy space The price to be paid for the introduction of non-linearities into a
+memory system is that the system will be difficult to analyze and can be unstable Implementing our computer vision system using non-linear distributed associative memory is a
+goal of our future research
+We are presently extending our work toward 3-dimensional object recognition Much
+of the present research in 3-dimensional object recognition is limited to polyhedral nonoccluded objects in a clean highly controlled environment Most systems are edge based
+and use a generate-and-test paradigm to estimate the position and orientation of recognized objects We propose to use an approach based on characteristic views llJ or aspects
+which suggests that the infinite 2-dimensional projections of a 3-dimensional object
+can be grouped into a finite number of topological equivalence classes An efficie:.t 3dimensional recognition system would require a parallel indexing method to search for object models in the presence of geometric distortions noise and occlusion Our object recognition system using distributed associative memory can fulfill those requirements with
+respect to characteristic views
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 1047-selective-attention-for-handwritten-digit-recognition.pdf
+
+Selective Attention for Handwritten
+Digit Recognition
+Ethem Alpaydm
+Department of Computer Engineering
+Bogazi<1i ni versi ty
+Istanbul TR-SOS15 Turkey
+alpaydin@boun.edu.tr
+Abstract
+Completely parallel object recognition is NP-complete Achieving
+a recognizer with feasible complexity requires a compromise between parallel and sequential processing where a system selectively
+focuses on parts of a given image one after another Successive
+fixations are generated to sample the image and these samples are
+processed and abstracted to generate a temporal context in which
+results are integrated over time A computational model based on a
+partially recurrent feedforward network is proposed and made credible by testing on the real-world problem of recognition of handwritten digits with encouraging results
+INTRODUCTION
+For all-parallel bottom-up recognition allocating one separate unit for each possible
+feature combination conjunctive encoding implies combinatorial explosion It
+has been shown that completely parallel bottom-up visual object recognition is
+NP-complete Tsotsos By exchanging space with time systems with much
+less complexity may be designed For example to phone someone at the press of a
+button one needs buttons on the phone the sequential alternative is to have
+buttons on the phone and press one at a time seven times
+We propose recognition based on selective attention where we analyze only a small
+part of the image in detail at each step combining results in time oton and Stark's
+scanpath theory advocates that each object is internally represented as a
+feature-ring which is a temporal sequence of features extracted at each fixation and
+the positions or the motor commands for the eye movements in between In this
+approach there is an eye that looks at an image but which can really see only a
+small part of it This part of the image that is examined in detail is the fovea The
+E. ALPAYDIN
+ASSOCIATIVE
+Class Probabilities
+LEVEL
+softmax
+Class Units
+lOxI
+T1
+Hidden Units I
+LEVEL
+ATTENTIVE LEVEL
+I
+Feature Map
+I
+Eye Position Map
+pxp
+Fovea
+I
+WTA
+subsample
+and blur
+I
+Saliency Map
+Bitmap Image
+Figure The block diagram of the implemented system
+fovea's content is examined by the pre-attentive level where basic feature extraction
+takes place The features thus extracted are fed to an a660ciative part together
+with the current eye position If the accumulated information is not sufficient for
+recognition the eye is moved to another part of the image making a saccade To
+minimize recognition time the number of saccades should be minimized This is
+done through defining a criterion of being interesting or saliency and by fixating
+only at the most interesting Thus sucessive fixations are generated to sample the
+image and these samples are processed and abstracted to generate a temporal context in which results are integrated over time There is a large amount of literature
+on selective attention in neuroscience and psychology for reviews see respectively
+Posner and Peterson and Treisman The point stressed in this paper
+is that the approach is also useful in engineering
+AN EXAMPLE SYSTEM FOR OCR
+The structure of the implemented system for recognition of handwritten digits is
+given in
+Selective Attention for Handwritten Digit Recognition
+We have an binary image in which the fovea is with To
+minimize recognition time the system should only attend to the parts of the image
+that carry discriminative information We define a criterion of being interesting
+or saliency which is applied to all image locations in parallel to generate a 8aliency
+map S. The saliency measure should be chosen to draw attention to parts that
+have the highest information content Here the saliency criterion is a low-pass filter
+which roughly counts the number of on pixels in the corresponding region
+of the input image M. As the strokes in handwritten digits are mostly one or two
+pixels wide a count of the on pixels is a good measure of the discontinuity and
+thus information It is also simple to compute
+i+lm/2J
+Sij
+HLm/2J
+MkIN2 i,j
+k=i-Lm/2J l=j-Lm/2J
+where is the bivariate normal with mean and the covariance E. Note
+that we want the convolution kernel to have effect up to Lm/2J and also that the
+normal is zero after In our simulations where is and is typical for
+digit recognition The location that is most salient is the position ofthe next
+fixation and as such defines the new center of the fovea A location once attended
+to is no longer interesting after each fixation the saliency of all the locations that
+currently are in the scope of the fovea are set to to inhibit another fixation there
+The attentive level thus controls the scope of the pre-attentive level The maximum
+of the saliency map through a winner-take-all gives the eye position at
+fixation
+arg~B:XSij
+By thus following the salient regions we get an input-dependent emergent sequence
+in time
+Eye-Position Map
+The eye p08ition map stores the position of the eye in the current fixation It is
+is chosen to be smaller than for dimensionality reduction for decreasing
+complexity and introducing an effect of regularization giving invariance to small
+translations When is a factor of computations are also simpler We also blur
+the immediate neighbors for a smoother representation
+blur(subsample winner-take-all
+Pre-Attentive Level Feature Extraction
+The pre-attentive level extracts detailed features from the fovea to generate a feature
+map This information and the current eye position is passed to the associative
+system for recognition There is a trade-off between the fovea size and the number
+of saccades required for recognition As the operation in the pre-attentive level is
+carried out in parallel to minimize complexity the features extracted there should
+not be many and the fovea should not be large Fovea is where the expensive
+computation takes place On the other hand the fovea should be large enough to
+extract discriminative features and thus complete recognition in a small amount of
+time The features to be extracted can be learned through an supervised method
+when feedback is available
+E. ALPAYDIN
+The region symmetrically around is extracted as the fovea I and is
+fed to the feature extractors The features extracted there are passed on to the
+associative level as the feature map F. is typically to Ug denote the weights
+of feature and Fg is the value of feature that is found by convolving the fovea
+input with the feature weight vector is the sigmoid function
+i,j
+Associative Level Classification
+At each fixation the associative level is fed the feature map from the pre-attentive
+level and the eye position map from the attentive level As a number of fixations
+may be necessary to recognize an image the associative system should have a shortterm memory able to accumulate inputs coming through time Learning similarly
+should be through time When used for classification the class units are organized
+so as to compete and during recognition the activations of the class units evolve
+till one class gets sufficiently active and suppresses the others When a training
+set is available a temporal supervised method can be used to train the associative
+level Note that there may be more than one scanpath for each object and learning
+one sequence for each object fails We see it is a task of accumulating two types of
+information through time the what features extracted and the where eye
+position
+The fovea map and the eye position map are concatenated to make a
+dimensional input that is fed to the associative level Here we use an
+artificial neural network with one hidden layer of units We have experimented
+with various architectures and noticed that recurrency at the output layer is the
+best There are output units
+VhgFg(t WhabPab(t
+gab
+LTchHh RckPk(t
+exp[Oc(t
+Lk exp[Ok(t
+where denotes the softmax"ed output probabilities Bridle and P(t
+are the values in the preceding fixation initially We use the cross-entropy as
+the goodness measure
+Dk
+Dc is the required output for class Learning is gradient-ascent on this goodness
+measure The fraction lit is to give more weight to initial fixations than later ones
+Connections to the output units are updated as follows is the learning factor
+Selective Attention for Handwritten Digit Recognition
+Note that we assume 8PIc(t lc
+we have
+For the connections to the hidden units
+We can back-propagate one step more to train the feature extractors Thus the
+update equations for the connections to feature units are
+Cg(t
+Ch(t)Vhg
+A series of fixations are made until one of the class units is sufficiently active
+Pc typically or when the most salient point has a saliency less than a
+certain threshold this condition is rarely met after the first few epochs Then the
+computed changes are summed up and the updates are made like the exaple below
+Backpropagation through time where the recurrent connections are unfolded in time
+did not work well in this task because as explained before for the same class there is
+more than one scanpath The above-mentioned approach is like real-time recurrent
+learning Williams and Zipser where the partial derivatives in the previous
+time step is thus ignoring this temporal dependence
+RESULTS AND DISCUSSION
+We have experimented with various parameter settings and finally chose the architecture given above When input is and there are classes the fovea is
+with features and there are hidden units There are images for
+training for cross-validation and for testing Results are given in Table
+It can be seen that by scanning less than half of the image we get generalization Additional to the local high-resolution image provided by the fovea a
+low-resolution image of the surrounding parafovea can be given to the associative
+level for better recognition For example we low-pass filtered and undersampled the
+original image to get a image which we fed to the class units additional to
+the attention-based hidden units Success went up quite high and fewer fixations
+were necessary compare rows and of the Table The information provided by
+the map is actually not much as can be seen from row of the table where
+only that is given as input Thus the idea is that when we have a coarse input
+looking only at a quarter of the image in detail is sufficient to get accuracy
+Both features what and eye positions where are necessary for good recognition
+When only one is used without the other success is quite low as can be seen in rows
+and In the last row we see the performance of a multi layer percept ron with
+hidden units that does all-parallel recognition
+Beyond a certain network size increasing the number of features do not help much
+Decreasing the certainty threshold decreases the number of fixations necessary
+E. ALPAYDIN
+Table Results of handwritten digit recognition with selective attention Values
+given are average and standard deviation of independent runs See text for
+comments
+NO OF
+PARAMS
+TEST
+SUCCESS
+TRAINING
+EPOCHS
+NO OF
+FIXATIONS
+SA system
+SA+parafovea
+Only parafovea
+Only what info
+Only where info
+MLP hiddens
+METHOD
+which we want but decreases success too which we don't Smaller foveas decrease
+the number of free parameters but decrease success and require a larger number
+of fixations Similarly larger foveas decrease the number of fixations but increase
+complexity
+The simple low-pass filter used here as a saliency measure is the simplest measure
+Previously it has been used by Fukushima and Imagawa for finding the next
+character segmentation and also by Olshausen for translation
+invariance More robust measures at the expense of more computations are possible see Rimey and Brown Milanese Salient regions are those
+that are conspicious different from their surrounding where there is a change
+in where can be brightness or color edges orientation corners time motion etc It is also possible that top-down task-dependent saliency measures be
+integrated to minimize further recognition time implying a remembered explicit
+sequence analogous to skilled motor behaviour probably gained after many repetitions
+Here a partially recurrent network is used for temporal processing Hidden Markov
+Models like used in speech recognition are another possibility Rimey and Brown
+Haclsalihzade They are probabilistic finite automata which can
+be trained to classify sequences and one can have more than one model for an object
+It should be noted here that better approaches for the same problem exists Le Cun
+Here we advocate a computational model and make it plausible by
+testing it on a real-world problem It is necessary for more complicated problems
+where an all-parallel approach would not work For example Le Cun model
+for the same type of inputs has free parameters Here there are
+mx r+(r+pxp
+iT
+free parameters which make when This is the main
+advantage of selective attention which is that the complexity of the system is heavily
+reduced at the expense of slower recognition both in overt form of attention through
+foveation and in its covert form for binding features For this latter type of
+attention not discussed here see Ahmad Also note that low-level feature
+extraction operations like carried out in the pre-attentive level are local convolutions
+Selective Attention for Handwritten Digit Recognition
+and are appropriate for parallel processing on a SIMD machine Higherlevel operations require larger connectivity and are better carried out sequentially
+Nature also seems to have taken this direction
+Acknowledgements
+This work is supported by Tiibitak Grant EEEAG-143 and Bogazi<;;i University
+Research Funds Cenk Kaynak prepared the handwritten digit database
+based on the programs provided by NIST Garris
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 6057-using-fast-weights-to-attend-to-the-recent-past.pdf
+
+Using Fast Weights to Attend to the Recent Past
+Jimmy Ba
+University of Toronto
+Geoffrey Hinton
+University of Toronto and Google Brain
+jimmy@psi.toronto.edu
+geoffhinton@google.com
+Volodymyr Mnih
+Google DeepMind
+Joel Z. Leibo
+Google DeepMind
+Catalin Ionescu
+Google DeepMind
+vmnih@google.com
+jzl@google.com
+cdi@google.com
+Abstract
+Until recently research on artificial neural networks was largely restricted to systems with only two types of variable Neural activities that represent the current
+or recent input and weights that learn to capture regularities among inputs outputs
+and payoffs There is no good reason for this restriction Synapses have dynamics at many different time-scales and this suggests that artificial neural networks
+might benefit from variables that change slower than activities but much faster
+than the standard weights These fast weights can be used to store temporary
+memories of the recent past and they provide a neurally plausible way of implementing the type of attention to the past that has recently proved very helpful in
+sequence-to-sequence models By using fast weights we can avoid the need to
+store copies of neural activity patterns
+Introduction
+Ordinary recurrent neural networks typically have two types of memory that have very different time
+scales very different capacities and very different computational roles The history of the sequence
+currently being processed is stored in the hidden activity vector which acts as a short-term memory
+that is updated at every time step The capacity of this memory is where is the number
+of hidden units Long-term memory about how to convert the current input and hidden vectors into
+the next hidden vector and a predicted output vector is stored in the weight matrices connecting the
+hidden units to themselves and to the inputs and outputs These matrices are typically updated at the
+end of a sequence and their capacity is O(H O(IH O(HO where I and are the numbers
+of input and output units
+Long short-term memory networks Hochreiter and Schmidhuber are a more complicated
+type of RNN that work better for discovering long-range structure in sequences for two main reasons
+First they compute increments to the hidden activity vector at each time step rather than recomputing
+the full vector1 This encourages information in the hidden states to persist for much longer Second
+they allow the hidden activities to determine the states of gates that scale the effects of the weights
+These multiplicative interactions allow the effective weights to be dynamically adjusted by the input
+or hidden activities via the gates However LSTMs are still limited to a short-term memory capacity
+of for the history of the current sequence
+Several researchers Hinton and Plaut Schmidhuber have suggested that neural networks could benefit from a third form of memory that has much higher storage capacity than the
+neural activities but much faster dynamics than the standard slow weights This memory could
+store information specific to the history of the current sequence so that this information is available
+to influence the ongoing processing without using up the memory capacity of the hidden activities
+This assumes the remember gates of the LSTM memory cells are set to one
+Until recently however there was surprisingly little investigation of other forms of memory in recurrent nets despite strong psychological evidence that it exists and obvious computational reasons
+why it was needed
+Evidence from physiology that temporary memory may not be stored as
+neural activities
+Processes like working memory attention and priming operate on timescale of to minutes
+This is simultaneously too slow to be mediated by neural activations without dynamical attractor
+states timescale and too fast for long-term synaptic plasticity mechanisms to kick in minutes
+to hours While artificial neural network research has typically focused on methods to maintain
+temporary state in activation dynamics that focus may be inconsistent with evidence that the brain
+also?or perhaps primarily?maintains temporary state information by short-term synaptic plasticity
+mechanisms Tsodyks Abbott and Regehr Barak and Tsodyks
+The brain implements a variety of short-term plasticity mechanisms that operate on intermediate
+timescale For example short term facilitation is implemented by leftover in the axon terminal after depolarization while short term depression is implemented by presynaptic neurotransmitter
+depletion Zucker and Regehr Spike-time dependent plasticity can also be invoked on this
+timescale Markram Bi and Poo These plasticity mechanisms are all synapsespecific Thus they are more accurately modeled by a memory with O(H capacity than the
+of standard recurrent artificial recurrent neural nets and LSTMs
+Fast Associative Memory
+One of the main preoccupations of neural network research in the and early Willshaw
+Kohonen Anderson and Hinton Hopfield was the idea that memories
+were not stored by somehow keeping copies of patterns of neural activity Instead these patterns
+were reconstructed when needed from information stored in the weights of an associative network
+and the very same weights could store many different memories An auto-associative memory that
+has weights cannot be expected to store more that real-valued vectors with components
+each How close we can come to this upper bound depends on which storage rule we use Hopfield
+nets use a simple one-shot outer-product storage rule and achieve a capacity of approximately
+binary vectors using weights that require log(N bits each Much more efficient use can
+be made of the weights by using an iterative error correction storage rule to learn weights that can
+retrieve each bit of a pattern from all the other bits Gardner but for our purposes maximizing
+the capacity is less important than having a simple non-iterative storage rule so we will use an outer
+product rule to store hidden activity vectors in fast weights that decay rapidly The usual weights in
+an RNN will be called slow weights and they will learn by stochastic gradient descent in an objective
+function taking into account the fact that changes in the slow weights will lead to changes in what
+gets stored automatically in the fast associative memory
+A fast associative memory has several advantages when compared with the type of memory assumed
+by a Neural Turing Machine NTM Graves Neural Stack Grefenstette or
+Memory Network Weston First it is not at all clear how a real brain would implement
+the more exotic structures in these models the tape of the NTM whereas it is clear that the brain
+could implement a fast associative memory in synapses with the appropriate dynamics Second in
+a fast associative memory there is no need to decide where or when to write to memory and where
+or when to read from memory The fast memory is updated all the time and the writes are all
+superimposed on the same fast changing component of the strength of each synapse Every time the
+input changes there is a transition to a new hidden state which is determined by a combination of
+three sources of information The new input via the slow input-to-hidden weights the previous
+hidden state via the slow transition weights and the recent history of hidden state vectors via
+the fast weights A. The effect of the first two sources of information on the new hidden state can be
+computed once and then maintained as a sustained boundary condition for a brief iterative settling
+process which allows the fast weights to influence the new hidden state Assuming that the fast
+weights decay exponentially we now show that the effect of the fast weights on the hidden vector
+during an iterative settling phase is to provide an additional input that is proportional to the sum over
+Sustained
+boundary
+condition
+Slow
+transition
+weights
+Fast
+transition
+weights
+Figure The fast associative memory model
+all recent hidden activity vectors of the scalar product of that recent hidden vector with the current
+hidden activity vector with each term in this sum being weighted by the decay rate raised to the
+power of how long ago that hidden vector occurred So fast weights act like a kind of attention to
+the recent past but with the strength of the attention being determined by the scalar product between
+the current hidden vector and the earlier hidden vector rather than being determined by a separate
+parameterized computation of the type used in neural machine translation models Bahdanau
+The update rule for the fast memory weight matrix A is simply to multiply the current fast weights
+by a decay rate and add the outer product of the hidden state vector multiplied by a learning
+rate
+The next vector of hidden activities h(t is computed in two steps The preliminary vector
+h0 is determined by the combined effects of the input vector and the previous hidden
+vector h0 where and are slow weight matrices and
+is the nonlinearity used by the hidden units The preliminary vector is then used to initiate an
+inner loop iterative process which runs for steps and progressively changes the hidden state into
+h(t hS
+A(t)hs
+where the terms in square brackets are the sustained boundary conditions In a real neural net
+A could be implemented by rapidly changing synapses but in a computer simulation that uses sequences which have fewer time steps than the dimensionality of A will be of less than full rank
+and it is more efficient to compute the term A(t)hs without ever computing the full fast weight
+matrix A. Assuming A is at the beginning of the sequence
+A(t)hs
+hs
+The term in square brackets is just the scalar product of an earlier hidden state vector with the
+current hidden state vector hs during the iterative inner loop So at each iteration of the inner
+loop the fast weight matrix is exactly equivalent to attending to past hidden vectors in proportion
+to their scalar product with the current hidden vector weighted by a decay factor During the inner
+loop iterations attention will become more focussed on past hidden states that manage to attract the
+current hidden state
+The equivalence between using a fast weight matrix and comparing with a set of stored hidden state
+vectors is very helpful for computer simulations It allows us to explore what can be done with fast
+weights without incurring the huge penalty of having to abandon the use of mini-batches during
+training At first sight mini-batches cannot be used because the fast weight matrix is different for
+every sequence but comparing with a set of stored hidden vectors does allow mini-batches
+Layer normalized fast weights
+A potential problem with fast associative memory is that the scalar product of two hidden vectors
+could vanish or explode depending on the norm of the hidden vectors Recently layer normalization
+Ba has been shown to be very effective at stablizing the hidden state dynamics in RNNs
+and reducing training time Layer normalization is applied to the vector of summed inputs to all the
+recurrent units at a particular time step It uses the mean and variance of the components of this
+vector to re-center and re-scale those summed inputs Then before applying the nonlinearity it includes a learned neuron-specific bias and gain We apply layer normalization to the fast associative
+memory as follows
+LN Cx(t A(t)hs
+where LN denotes layer normalization We found that applying layer normalization on each
+iteration of the inner loop makes the fast associative memory more robust to the choice of learning
+rate and decay hyper-parameters For the rest of the paper fast weight models are trained using
+layer normalization and the outer product learning rule with fast learning rate of and decay rate
+of unless otherwise noted
+Experimental results
+To demonstrate the effectiveness of the fast associative memory we first investigated the problems
+of associative retrieval section and MNIST classification section We compared fast
+weight models to regular RNNs and LSTM variants We then applied the proposed fast weights
+to a facial expression recognition task using a fast associative memory model to store the results
+of processing at one level while examining a sequence of details at a finer level section The
+hyper-parameters of the experiments were selected through grid search on the validation set All
+the models were trained using mini-batches of size and the Adam optimizer Kingma and Ba
+A description of the training protocols and the hyper-parameter settings we used can be
+found in the Appendix Lastly we show that fast weights can also be used effectively to implement
+reinforcement learning agents with memory section
+Associative retrieval
+We start by demonstrating that the method we propose for storing and retrieving temporary memories works effectively for a toy task to which it is very well suited Consider a task where multiple
+key-value pairs are presented in a sequence At the end of the sequence one of the keys is presented
+and the model must predict the value that was temporarily associated with the key We used strings
+that contained characters from English alphabet together with the digits to To construct a training sequence we first randomly sample a character from the alphabet without replacement This is
+the first key Then a single digit is sampled as the associated value for that key After generating a
+sequence of character-digit pairs one of the different characters is selected at random as the
+query and the network must predict the associated digit Some examples of such string sequences
+and their targets are shown below
+Input string Target
+where is the token to separate the query from the key-value pairs We generated training
+examples validation examples and test examples To solve this task a standard RNN
+has to end up with hidden activities that somehow store all of the key-value pairs after the keys and
+values are presented sequentially This makes it a significant challenge for models only using slow
+weights
+We used a neural network with a single recurrent layer for this experiment The recurrent network
+processes the input sequence one character at a time The input character is first converted into a
+learned 100-dimensional embedding vector which then provides input to the recurrent layer2 The
+To make the architecture for this task more similar to the architecture for the next task we first compute a
+dimensional embedding vector and then expand this to a 100-dimensional embedding
+Model
+IRNN
+LSTM
+A-LSTM
+Fast weights
+Negative log likelihood
+Table Classification error rate comparison on the
+associative retrieval task
+A-LSTM
+IRNN
+LSTM
+FW
+Updates
+Figure Comparison of the test log likelihood on
+the associative retrieval task with recurrent hidden
+units
+output of the recurrent layer at the end of the sequence is then processed by another hidden layer
+of ReLUs before the final softmax layer We augment the ReLU RNN with a fast associative
+memory and compare it to an LSTM model with the same architecture Although the original
+LSTMs do not have explicit long-term storage capacity recent work from Danihelka
+extended LSTMs by adding complex associative memory In our experiments we compared fast
+associative memory to both LSTM variants
+Figure and Table show that when the number of recurrent units is small the fast associative
+memory significantly outperforms the LSTMs with the same number of recurrent units The result
+fits with our hypothesis that the fast associative memory allows the RNN to use its recurrent units
+more effectively In addition to having higher retrieval accuracy the model with fast weights also
+converges faster than the LSTM models
+Integrating glimpses in visual attention models
+Despite their many successes convolutional neural networks are computationally expensive and the
+representations they learn can be hard to interpret Recently visual attention models Mnih
+Ba Xu have been shown to overcome some of the limitations in
+ConvNets One can understand what signals the algorithm is using by seeing where the model is
+looking Also the visual attention model is able to selectively focus on important parts of visual
+space and thus avoid any detailed processing of much of the background clutter In this section
+we show that visual attention models can use fast weights to store information about object parts
+though we use a very restricted set of glimpses that do not correspond to natural parts of the objects
+Given an input image a visual attention model computes a sequence of glimpses over regions of the
+image The model not only has to determine where to look next but also has to remember what it has
+seen so far in its working memory so that it can make the correct classification later Visual attention
+models can learn to find multiple objects in a large static input image and classify them correctly
+but the learnt glimpse policies are typically over-simplistic They only use a single scale of glimpses
+and they tend to scan over the image in a rigid way Human eye movements and fixations are far
+more complex The ability to focus on different parts of a whole object at different scales allows
+humans to apply the very same knowledge in the weights of the network at many different scales
+but it requires some form of temporary memory to allow the network to integrate what it discovered
+in a set of glimpses Improving the model?s ability to remember recent glimpses should help the
+visual attention model to discover non-trivial glimpse policies Because the fast weights can store
+all the glimpse information in the sequence the hidden activity vector is freed up to learn how to
+intelligently integrate visual information and retrieve the appropriate memory content for the final
+classifier
+To explicitly verify that larger memory capacity is beneficial to visual attention-based models we
+simplify the learning process in the following way First we provide a pre-defined glimpse control
+signal so the model knows where to attend rather than having to learn the control policy through
+reinforcement learning Second we introduce an additional control signal to the memory cells so
+the attention model knows when to store the glimpse information A typical visual attention model is
+complex and has high variance in its performance due to the need to learn the policy network and the
+classifier at the same time Our simplified learning procedure enables us to discern the performance
+improvement contributed by using fast weights to remember the recent past
+Update fast
+weights and
+wipe out
+hidden state
+Integration
+transition
+weights
+Slow
+transition
+weights
+Fast
+transition
+weights
+Figure The multi-level fast associative memory model
+Model
+IRNN
+features
+features
+features
+LSTM
+ConvNet
+Fast weights
+Table Classification error rates on MNIST
+We consider a simple recurrent visual attention model that has a similar architecture to the RNN from
+the previous experiment It does not predict where to attend but rather is given a fixed sequence of
+locations the static input image is broken down into four non-overlapping quadrants recursively
+with two scale levels The four coarse regions down-sampled to along with their the four
+quadrants are presented in a single sequence as shown in Figure Notice that the two glimpse
+scales form a two-level hierarchy in the visual space In order to solve this task successfully the
+attention model needs to integrate the glimpse information from different levels of the hierarchy
+One solution is to use the model?s hidden states to both store and integrate the glimpses of different
+scales A much more efficient solution is to use a temporary cache to store any of the unfinished
+glimpse computation when processing the glimpses from a finer scale in the hierarchy Once the
+computation is finished at that scale the results can be integrated with the partial results at the
+higher level by popping the previous result from the cache Fast weights therefore can act as
+a neurally plausible cache for storing partial results The slow weights of the same model can
+then specialize in integrating glimpses at the same scale Because the slow weights are shared for
+all glimpse scales the model should be able to store the partial results at several levels in the same
+set of fast weights though we have only demonstrated the use of fast weights for storage at a single
+level
+We evaluated the multi-level visual attention model on the MNIST handwritten digit dataset MNIST
+is a well-studied problem on which many other techniques have been benchmarked It contains the
+ten classes of handwritten digits ranging from to The task is to predict the class label of an
+isolated and roughly normalized image of a digit The glimpse sequence in this case consists
+of 24 patches of pixels
+Table compares classification results for a ReLU RNN with a multi-level fast associative memory against an LSTM that gets the same sequence of glimpses Again the result shows that when
+the number of hidden units is limited fast weights give a significant improvement over the other
+models As we increase the memory capacities the multi-level fast associative memory consistently
+outperforms the LSTM in classification accuracy
+Figure Examples of the near frontal faces from the MultiPIE dataset
+Test accuracy
+IRNN
+LSTM
+ConvNet
+Fast Weights
+Table Classification accuracy comparison on the facial expression recognition task
+Unlike models that must integrate a sequence of glimpses convolutional neural networks process all
+the glimpses in parallel and use layers of hidden units to hold all their intermediate computational
+results We further demonstrate the effectiveness of the fast weights by comparing to a three-layer
+convolutional neural network that uses the same patches as the glimpses presented to the visual
+attention model From Table we see that the multi-level model with fast weights reaches a very
+similar performance to the ConvNet model without requiring any biologically implausible weight
+sharing
+Facial expression recognition
+To further investigate the benefits of using fast weights in the multi-level visual attention model we
+performed facial expression recognition tasks on the CMU Multi-PIE face database Gross
+The dataset was preprocessed to align each face by eyes and nose fiducial points It was
+downsampled to 48 48 greyscale The full dataset contains photos taken from cameras with
+different viewpoints for each illumination expression identity session condition We used
+only the images taken from the three central cameras corresponding to views since
+facial expressions were not discernible from the more extreme viewpoints The resulting dataset
+contained images identities appeared in the training set with the remaining
+identities in the test set
+Given the input face image the goal is to classify the subject?s facial expression into one of the six
+different categories neutral smile surprise squint disgust and scream The task is more realistic
+and challenging than the previous MNIST experiments Not only does the dataset have unbalanced
+numbers of labels some of the expressions for example squint and disgust are are very hard to distinguish In order to perform well on this task the models need to generalize over different lighting
+conditions and viewpoints We used the same multi-level attention model as in the MNIST experiments with recurrent hidden units The model sequentially attends to non-overlapping
+pixel patches at two different scales and there are in total 24 glimpses Similarly we designed a
+two layer ConvNet that has a receptive fields
+From Table we see that the multi-level fast weights model that knows when to store information
+outperforms the LSTM and the IRNN The results are consistent with previous MNIST experiments
+However ConvNet is able to perform better than the multi-level attention model on this near frontal
+face dataset We think the efficient weight-sharing and architectural engineering in the ConvNet
+combined with the simultaneous availability of all the information at each level of processing allows
+the ConvNet to generalize better in this task Our use of a rigid and predetermined policy for where
+to glimpse eliminates one of the main potential advantages of the multi-level attention model It can
+process informative details at high resolution whilst ignoring most of the irrelevant details To realize
+this advantage we will need to combine the use of fast weights with the learning of complicated
+policies
+RNN
+RNN+FW
+LSTM
+Avgerage Reward
+Avgerage Reward
+RNN
+RNN+FW
+LSTM
+steps
+steps
+Figure Sample screen from the game Catch Performance curves for Catch with
+Performance curves for Catch with 24
+Agents with memory
+While different kinds of memory and attention have been studied extensively in the supervised
+learning setting Graves Mnih Bahdanau the use of such models for
+learning long range dependencies in reinforcement learning has received less attention
+We compare different memory architectures on a partially observable variant of the game Catch
+described in Mnih The game is played on an screen of binary pixels and each
+episode consists of frames Each trial begins with a single pixel representing a ball appearing
+somewhere in the first row of the column and a two pixel paddle controlled by the agent in the
+bottom row After observing a frame the agent gets to either keep the paddle stationary or move it
+right or left by one pixel The ball descends by a single pixel after each frame The episode ends
+when the ball pixel reaches the bottom row and the agent receives a reward of if the paddle
+touches the ball and a reward of if it doesn?t Solving the fully observable task is straightforward
+and requires the agent to move the paddle to the column with the ball We make the task partiallyobservable by providing the agent blank observations after the th frame Solving the partiallyobservable version of the game requires remembering the position of the paddle and ball after
+frames and moving the paddle to the correct position using the stored information
+We used the recently proposed asynchronous advantage actor-critic method Mnih to
+train agents with three types of memory on different sizes of the partially observable Catch task The
+three agents included a ReLU RNN an LSTM and a fast weights RNN. Figure shows learning
+progress of the different agents on two variants of the game and 24
+The agent using the fast weights architecture as its policy representation shown in green is able to
+learn faster than the agents using ReLU RNN or LSTM to represent the policy The improvement
+obtained by fast weights is also more significant on the larger version of the game which requires
+more memory
+Conclusion
+This paper contributes to machine learning by showing that the performance of RNNs on a variety
+of different tasks can be improved by introducing a mechanism that allows each new state of the
+hidden units to be attracted towards recent hidden states in proportion to their scalar products with
+the current state Layer normalization makes this kind of attention work much better This is a form
+of attention to the recent past that is somewhat similar to the attention mechanism that has recently
+been used to dramatically improve the sequence-to-sequence RNNs used in machine translation
+The paper has interesting implications for computational neuroscience and cognitive science The
+ability of people to recursively apply the very same knowledge and processing apparatus to a whole
+sentence and to an embedded clause within that sentence or to a complex object and to a major part
+of that object has long been used to argue that neural networks are not a good model of higher-level
+cognitive abilities By using fast weights to implement an associative memory for the recent past
+we have shown how the states of neurons could be freed up so that the knowledge in the connections
+of a neural network can be applied recursively This overcomes the objection that these models can
+only do recursion by storing copies of neural activity vectors which is biologically implausible
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 1369-learning-continuous-attractors-in-recurrent-networks.pdf
+
+Learning Continuous Attractors in
+Recurrent Networks
+H. Sebastian Seung
+Bell Labs Lucent Technologies
+Murray Hill NJ
+seung~bell-labs.com
+Abstract
+One approach to invariant object recognition employs a recurrent neural network as an associative memory In the standard depiction of the
+network's state space memories of objects are stored as attractive fixed
+points of the dynamics I argue for a modification of this picture if an
+object has a continuous family of instantiations it should be represented
+by a continuous attractor This idea is illustrated with a network that
+learns to complete patterns To perform the task of filling in missing information the network develops a continuous attractor that models the
+manifold from which the patterns are drawn From a statistical viewpoint the pattern completion task allows a formulation of unsupervised
+learning in terms of regression rather than density estimation
+A classic approach to invariant object recognition is to use a recurrent neural network as an associative memory[l In spite of the intuitive appeal and biological
+plausibility of this approach it has largely been abandoned in practical applications
+This paper introduces two new concepts that could help resurrect it object representation by continuous attractors and learning attractors by pattern completion
+In most models of associative memory memories are stored as attractive fixed points
+at discrete locations in state space[l Discrete attractors may not be appropriate for
+patterns with continuous variability like the images of a three-dimensional object
+from different viewpoints When the instantiations of an object lie on a continuous
+pattern manifold it is more appropriate to represent objects by attractive manifolds
+of fixed points or continuous attractors
+To make this idea practical it is important to find methods for learning attractors
+from examples A naive method is to train the network to retain examples in shortterm memory This method is deficient because it does not prevent the network
+from storing spurious fixed points that are unrelated to the examples A superior
+method is to train the network to restore examples that have been corrupted so
+that it learns to complete patterns by filling in missing information
+Learning Continuous Attractors in Recurrent Networks
+Figure Representing objects by dynamical attractors Discrete attractors
+Continuous attractors
+Learning by pattern completion can be understood from both dynamical and statistical perspectives Since the completion task requires a large basin of attraction
+around each memory spurious fixed points are suppressed The completion task
+also leads to a formulation of unsupervised learning as the regression problem of
+estimating functional dependences between variables in the sensory input
+Density estimation rather than regression is the dominant formulation of unsupervised learning in stochastic neural networks like the Boltzmann machine[2 Density
+estimation has the virtue of suppressing spurious fixed points automatically but it
+also has the serious drawback of being intractable for many network architectures
+Regression is a more tractable but nonetheless powerful alternative to density
+estimation
+In a number of recent neurobiological models continuous attractors have been used
+to represent continuous quantities like eye position-[3 direction of reaching[4 head
+direction[5 and orientation of a visual stimulus[6 Along with these models the
+present work is part of a new paradigm for neural computation based on continuous
+attractors
+DISCRETE VERSUS CONTINUOUS ATTRACTORS
+Figure depicts two ways of representing objects as attractors of a recurrent neural
+network dynamics The standard way is to represent each object by an attractive
+fixed point[l as in Figure Recall of a memory is triggered by a sensory input
+which sets the initial conditions The network dynamics converges to a fixed point
+thus retrieving a memory If different instantiations of one object lie in the same
+basin of attraction they all trigger retrieval of the same memory resulting in the
+many-to-one map required for invariant recognition
+In Figure each object is represented by a continuous manifold of fixed points
+A one-dimensional manifold is shown but generally the attractor should be multidimensional and is parametrized by the instantiation or pose parameters of the
+object For example in visual object recognition the coordinates would include the
+viewpoint from which the object is seen
+The reader should be cautioned that the term continuous attractor is an idealization and should not be taken too literally In real networks a continuous attractor
+is only approximated by a manifold in state space along which drift is very slow
+This is illustrated by a simple example a descent dynamics on a trough-shaped
+energy landscape[3 If the bottom of the trough is perfectly level it is a line of
+fixed points and an ideal continuous attract or of the dynamics However any slight
+imperfections cause slow drift along the line This sort of approximate continuous
+attract or is what is found in real networks including those trained by the learning
+S. Seung
+hidden layer
+visible layer
+Figure Recurrent network Feedforward autoencoder
+algorithms to be discussed below
+DYNAMICS OF MEMORY RETRIEVAL
+The preceding discussion has motivated the idea of representing pattern manifolds
+by continuous attractors This idea will be further developed with the simple network shown in Figure which consists of a visible layer Xl Rnl and a hidden
+layer X2 Rn2. The architecture is recurrent containing both bottom-up connections the n2 nl matrix W2d and top-down connections the nl n2 matrix
+The vectors bl and b2 represent the biases ofthe neurons The neurons have
+a rectification nonlinearity max{x which acts on vectors component by
+component
+There are many variants of recurrent network dynamics a convenient choice is the
+following discrete-time version in which updates of the hidden and visible layers
+alternate in time After the visible layer is initialized with the input vector Xl
+the dynamics evolves as
+Xl
+W2IXI(t
+If memories are stored as attractors iteration of this dynamics can be regarded as
+memory retrieval
+Activity circulates around the feedback loop between the two layers One iteration
+of this loop is the map Xl(t This single iteration is equivalent to the feedforward architecture of Figure In the case where the hidden
+layer is smaller than the visible layers this architecture is known as an auto encoder network[7 Therefore the recurrent network dynamics is equivalent to
+repeated iterations of the feedforward autoencoder This is just the standard trick
+of unfolding the dynamics of a recurrent network in time to yield an equivalent
+feedforward network with many layers[7 Because of the close relationship between
+the recurrent network of Figure 2a and the autoencoder of Figure it should not
+be surprising that learning algorithms for these two networks are also related as
+will be explained below
+LEARNING TO RETAIN PATTERNS
+Little trace of an arbitrary input vector Xl remains after a few time steps of the
+dynamics However the network can retain some input vectors in short-term
+memory as reverberating patterns of activity These correspond to fixed points of
+the dynamics they are patterns that do not change as activity circulates around
+the feedback loop
+Learning Continuous Attraclors in Recurrent Networlcs
+This suggests a formulation of learning as the optimization of the network's ability to
+retain examples in short-term memory Then a suitable cost function is the squared
+difference IXI Xl between the example pattern Xl and the network's
+short-term memory Xl of it after time steps Gradient descent on this cost
+function can be done via backpropagation through
+If the network is trained with patterns drawn from a continuous family then it can
+learn to perform the short-term memory task oy developing a continuous attractor
+that lies near the examples it is trained on When the hidden layer is smaller than
+the visible layer the dimensionality of the attractor is limited by the size of the
+hidden layer
+For the case of a single time step training the recurrent network of Figure
+2a to retain patterns is equivalent to training the autoencoder of Figure 2b by
+minimizing the squared difference between its input and output layers averaged
+over the examples[8 From the information theoretic perspective the small hidden
+layer in Figure 2b acts as a bottleneck between the input and output layers forcing
+the autoencoder to learn an efficient encoding of the input
+For the special case of a linear network the nature of the learned encoding is
+understood completely Then the input and output vectors are related by a simple
+matrix multiplication The rank of the matrix is equal to the number of hidden
+units The average distortion is minimized when this matrix becomes a projection
+operator onto the subspace spanned by the principal components of the examples[9
+From the dynamical perspective the principal subspace is a continuous attractor
+of the dynamics The linear network dynamics converges to this attractor in
+a single iteration starting from any initial condition Therefore we can interpret
+principal component analysis and its variants as methods of learning continuous
+attractors[lO
+LEARNING TO COMPLETE PATTERNS
+Learning to retain patterns in short-term memory only works properly for architectures with a small hidden layer The problem with a large hidden layer is evident
+when the hidden and visible layers are the same size and the neurons are linear
+Then the cost function for learning can be minimized by setting the weight matrices
+equal to the identity l2 I. For this trivial minimum every input vector
+is a fixed point of the recurrent network Figure and the equivalent feedforward
+network Figure exactly realizes the identity map Clearly these networks have
+not learned anything
+Therefore in the case of a large hidden layer learning to retain patterns is inadequate Without the bottleneck in the architecture there is no pressure on the
+feedforward network to learn an efficient encoding Without constraints on the dimension of the attractor the recurrent network develops spurious fixed points that
+have nothing to do with the examples
+These problems can be solved by a different formulation of learning based on the
+task of pattern completion In the completion task of Figure the network is
+initialized with a corrupted version of an example Learning is done by minimizing
+the completion error which is the squared difference IXI dl between the uncorrupted pattern and the final visible vector Xl Gradient descent on completion
+error can be done with backpropagation through time[ll
+This new formulation of learning eliminates the trivial identity map solution men
+H. S. Seung
+retention
+completio
+It
+It
+topographic feature map
+patch
+missing
+sensory
+Input
+retrieved
+memory
+Figure Pattern retention versus completion Dynamics of pattern completion
+receptive fields
+Figure Locally connected architecture Receptive fields of hidden neurons
+tioned above while the identity network can retain any example it cannot restore
+corrupted examples to their pristine form The completion task forces the network
+to enlarge the basins of attraction of the stored memories which suppresses spurious fixed points It also forces the network to learn associations between variables
+in the sensory input
+LOCALLY CONNECTED ARCHITECTURE
+Experiments were conducted with images of handwritten digits from the USPS
+database described in The example images were with a gray scale
+ranging from a to The network was trained on a specific digit class with the
+goal of learning a single pattern manifold Both the network architecture and the
+nature of the completion task were chosen to suit the topographic structure present
+in visual images
+The network architecture was given a topographic organization by constraining the
+synaptic connectivity to be local as shown in Figure Both the visible and hidden
+layers of the network were The visible layer represented an image while
+the hidden layer was a topographic feature map Each neuron had receptive
+and projective fields except for neurons near the edges which had more restricted
+connectivity
+In the pattern completion task example images were corrupted by zeroing the
+pixels inside a patch chosen at a random location as shown in Figure
+The location of the patch was randomized for each presentation of an example
+The size of the patch was a substantial fraction of the image and much
+larger than the receptive field size This method of corrupting the examples
+gave the completion task a topographic nature because it involved a set of spatially
+contiguous pixels This topographic nature would have been lacking if the examples
+had been corrupted by for example the addition of spatially uncorrelated noise
+Figure 3b illustrates the dynamics of pattern completion performed by a network
+Learning Continuous Attractors in Recurrent Networks
+trained on examples of the digit class The network is initialized with a
+corrupted example of a After the first itex:ation of the dynamics the image
+is partially restored The second iteration leads to superior restoration with further
+sharpening of the image The filling in phenomenon is also evident in the hidden
+layer
+The network was first trained on a retrieval dynamics of one iteration The resulting
+biases and synaptic weights were then used as initial conditions for training on a
+retrieval dynamics of two iterations The hidden layer developed into a topographic
+feature map suitable for representing images of the digit Figure 4b depicts
+the bottom-up receptive fields of the hidden neurons The top-down projective
+fields of these neurons were similar but are not shown
+This feature map is distinct from others[13 because of its use of top-down and
+bottom-up connections in a feedback loop The bottom-up connections analyze
+images into their constituent features while the top-down connections synthesize
+images by composing features The features in the top-down connections can be
+regarded as a vocabulary for synthesis of images Since not all combinations of
+features are proper patterns there must be some grammatical constraints on their
+combination The network's ability to complete patterns suggests that some of these
+constraints are embedded in the dynamical equations of the network Therefore the
+relaxation dynamics can be regarded as a process of massively parallel constraint
+satisfaction
+CONCLUSION
+I have argued that continuous attractors are a natural representation for pattern
+manifolds One method of learning attractors is to train the network to retain
+examples in short-term memory This method is equivalent to autoencoder learning
+and does not work if the number of hidden units is large A better method is to train
+the network to complete patterns For a locally connected network this method
+was demonstrated to learn a topographic feature map The trained network is able
+to complete patterns indicating that syntactic constraints on the combination of
+features are embedded in the network dynamics
+Empirical evidence that the network has indeed learned a continuous attractor is
+obtained by local linearization of the network The linearized dynamics has
+many eigenvalues close to unity indicating the existence of an approximate continuous attractor Learning with an increased number of iterations in the retrieval
+dynamics should improve the quality of the approximation
+There is only one aspect of the learning algorithm that is specifically tailored for
+continuous attractors This aspect is the limitation of the retrieval dynamics
+to a few iterations rather than iterating it all the way to a true fixed point As
+mentioned earlier a continuous attractor is only an idealization in a real network
+it does not consist of true fixed points but is just a manifold to which relaxation is
+fast and along which drift is slow Adjusting the shape of this manifold is the goal
+of learning the exact locations of the true fixed points are not relevant
+The use of a fast retrieval dynamics removes one long-standing objection to attractor
+neural networks which is that true convergence to a fixed point takes too long If all
+that is desired is fast relaxation to an approximate continuous attractor attractor
+neural networks are not much slower than feedforward networks
+In the experiments discussed here learning was done with backpropagation through
+time Contrastive Hebbian learning[14 is a simpler alternative Part of the image
+S. Seung
+is held clamped the missing values are filled in by convergence to a fixed point
+and an anti-Hebbian update is made Then the missing values are clamped at their
+correct values the network converges to a new fixed point and a Hebbian update
+is made This procedure has the disadvantage of requiring true convergence to a
+fixed point which can take many iterations It also requires symmetric connections
+which may be a representational handicap
+This paper addressed only the learning of a single attractor to represent a single
+pattern manifold The problem of learning multiple attractors to represent mUltiple
+pattern classes will be discussed elsewhere along with the extension to network
+architectures with many layers
+Acknowledgments This work was supported by Bell Laboratories I thank J. J.
+Hopfield D. D. Lee L. K. Saul N. D. Socci H. Sompolinsky and D. W. Tank for
+helpful discussions
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 177-neural-network-star-pattern-recognition-for-spacecraft-attitude-determination-and-control.pdf
+
+NEURAL NETWORK STAR PATTERN
+RECOGNITION FOR SPACECRAFT ATTITUDE
+DETERMINATION AND CONTROL
+Phillip Alvelda A. Miguel San Martin
+The Jet Propulsion Laboratory
+California Institute of Technology
+Pasadena Ca.
+ABSTRACT
+Currently the most complex spacecraft attitude determination
+and control tasks are ultimately governed by ground-based
+systems and personnel Conventional on-board systems face
+severe computational bottlenecks introduced by serial
+microprocessors operating on inherently parallel problems New
+computer architectures based on the anatomy of the human brain
+seem to promise high speed and fault-tolerant solutions to the
+limitations of serial processing This paper discusses the latest
+applications of artificial neural networks to the problem of star
+pattern recognition for spacecraft attitude determination
+INTRODUCTION
+By design a conventional on-board microprocessor can perform only
+one comparison or calculation at a time Image or pattern recognition
+problems involving large template sets and high resolution can require
+an astronomical number of comparisons to a given database Typical
+mission planning and optimization tasks require calculations involving
+a multitude of parameters where each element has an inherent degree
+of importance reliability and noise
+Even the most advanced
+supercomputers running the latest software can require seconds and
+even minutes to execute a complex pattern recognition or expert system
+task often providing incorrect or inefficient solutions to problems that
+prove trivial to ground control specialists
+The intent of ongoing research is to develop a neural network based
+satellite attitude determination system prototype capable of determining
+its current three-axis inertial orientation Such a system that can
+determine in real-time which direction the satellite is facing is needed
+in order to aim antennas science instruments and navigational
+equipment For a satellite to be autonomous an important criterion in
+interplanetary missions and most particularly so in the event of a
+system failure this task must be performed in a reasonable amount of
+time with all due consideration to actual environmental noise and
+precision constraints
+CELESTIAL ATTITUDE DETERMINATION
+Under normal operating conditions there is a whole repertoire of
+spacecraft systems that operate in conjunction to perform the attitude
+determination task the backbone of which is the Gyro But a Gyro
+measures only chaDles in orientation The current attitude is stored in
+Neural Network Star Pattern Recognition
+volatile on-board memory and is updated as the yro system inte,rates
+velocity to provide chanle in anlular position When there is a power
+system failure for any reason such as a sinlle-event-upset due to cosmic
+radiation an currently stored attitude lafor.atloa Is LOST
+One very attractive way of recoverinl attitude information with no
+a priori knowledge is by USinl on-board imalinl and computer systems
+to
+Image a portion of the sky
+Compare the characteristic pattern of stars in the sensor fieldof-view to an on-board star catalog
+Thereby identify the stars in the sensor FOV Field Of View
+Retrieve the identified star coordinates
+Transform and correlate FOV and real-sky coordinates to
+determine spacecraft attitude
+But the problem of matching a limited field of view that contains a
+small number of stars out of billions and billions of them to an onboard fUll-sky catalol containing perhaps thousands of stars has lonl
+been a severe computational bottleneck
+PAIR
+PAIR 22
+PAIR
+PAIR
+STORED PAIR ADDRESS
+PAIR
+PAIR
+GEOMETRIC
+CONSTRAINTS
+FicuN Serial tar I.D. catalol rorma and rnethodololY
+The latest serial allorithm to perform this task requires
+approximately KBytes of RAM to store the on-board star catalol
+It incorporates a hilhly optimized allorithm which uses a motorola
+to search a sorted database of more than star-pair distance
+values for correlations with the decomposed star pattern in the sensor
+FOV. It performs the identification process on the order of I second
+Alvelda and San Martin
+with a success rate of 99 percent But it does Dot fit iD the spacecraft
+oD-board memory and therefore no such system has flown on a
+planetary spacecraft
+USES SUN SENSOR AND ATTITUDE MANEUVERS
+TO SUN
+TO SUN
+CANOPUS
+FicuN Current Spacecraft attitude inrormation recovery lequence
+As a result state-of-the-art interplanetary spacecraft use several
+independent sensor systems in onjunction to determine attitude with no
+a priori knowledge First the craft is commanded to slew until a Sun
+Sensor aligned with the spacecraft's major axis has locked-on to the
+sun The craft must then rotate around that axis until an appropriate
+star pattern at approximately ninety degrees to the sun is acquired to
+provide three-axis orientation information
+The entire attitude
+acquisition sequence requires an absolute minimum of thirty minutes
+and presupposes that all spacecraft actuator and maneuvering systems
+are operational At the phenomenal rendezvous speeds involved in
+interplanetary navigation a system failure near mission culmination
+could mean an almost complete loss of the most valuable scientific data
+while the spacecraft performs its initial attitude acquisition sequence
+NEURAL MOTIVATION
+The parallel architecture and collective computation properties of a
+neural network based system address several problems associated with
+the implementation and performance of the serial star ID algorithm
+Instead of searching a lengthy database one element at a time each
+stored star pattern is correlated with the field of view concurrently
+And whereas standard memory storage technology requires one address
+in RAM per star-pair distance the neural star pattern representations are
+stored in characteristic matrices of interconnections between neurons
+This distributed data set representation has several desirable properties
+First of all the 2N redundancy of the serial star-p.air scheme which
+star is at which end of a pair is discarded and a new more compressed
+representation emerges from the neuromorphic architecture Secondly
+noise both statistical thermal noise and systematic sensor
+precision limitations and pattern invariance characteristics are
+Neural Network Star Pattern Recognition
+incorporated directly into the preprocessing and neural architecture
+without extra circuitry
+The first neural approach
+The primary motivation from the NASA perspective is to improve
+satellite attitude determination performance and enable on-board system
+implementations The problem methodology for the neural architecture
+is then slightly different than that of the serial model
+Instead of identifying every detected st~r in the field of view the
+neural system identifies a single Guide Star with respect to the pattern
+of dimmer stars around it and correlates that star's known position with
+the sensor FOV to determine the pointing axis If needed only one other
+star is then required to fix the roll angle about that axis So the core
+of the celestial attitude determination problem changes from multiple
+star identification and correlation single star pattern identification
+The entire system consists of several modules in a marriage of
+different technologies The first neural system architecture uses already
+mature(i.e sensor/preprocessor technologies where they perform well
+and neural technology only where conventional systems prove
+intractable With an eye towards rapid prototyping and implementation
+the system was designed with technologies such as neural VLSI that
+will be available in less than one year
+SYSTEM ARCHITECTURE
+The Star Tracker sensor system
+The system input is based on the ASTROS star tracker under
+development in the Guidance and Control section at the Jet Propulsion
+Laboratory The Star tracker optical system images a defocussed portion
+of the sky star sub-field onto a charged coupled device The
+tracker electronics then generate star centroid position and intensity
+information and passes this list to the preprocessing system
+The Preprocessln8 system
+This centroia ind intensity information is passed to the preprocessing
+subsystem where the star pattern is treated to extract noise and pattern
+invariance A pattern field-of-view is defined as centered aroun he
+brightest Guide Star in the central portion of the sensor field-ofview Since the pattern FOV radius is one half that of the sensor FOV
+the pattern for that Guide Star is then based on a portion of the image
+that is complete or invariant under translational perturbation The
+preprocessor then introduces rotational invariance to the guide-star
+pattern by using only the distances of all other dimmer stars inside the
+pattern FOV to the central guide star
+These distances are then mapped by the preprocessor onto a two
+dimensional coordinate system of distance versus relative magnitude
+normalized to the guide star the brightest star in the Pattern FOV to
+be sampled by the neural associative star catalog The motivation for
+this distance map format become clear when issues involving noise
+invariance and memory capacity are considered
+31
+Alvelda and San Martin
+Because the ASTROS Star Tracker is a limited precision instrument
+most particularly in the absolute and relative intensity measures two
+major problems arise First dimmer stars with intensities near the
+bottom of the dynamic range of the mayor may not be included
+in the star pattern So the entire distance map is scaled to the brightest
+star such that the bright high-confidence measurements are weighted
+more heavily while the dimmer and possibly transient stars are of less
+importance to a given pattern Secondly since there are a very large
+number of stars in the sky the uniqueness of a given star pattern is
+governed mostly by the relative star distance measures which by the
+way are the highest precision measurements provided by the star
+tracker
+In addition because of the limitations in expected neural hardware
+a discrete number of neurons must sample a continuous function To
+retain the maximum sample precision with a minimum number of
+neurons the neural system uses the biological mechanism of a receptive
+field for hyperacuity In other words a number of neurons respond to
+a single distance stimulus The process is analogous to that used on the
+defocussed image of a point source on the which was integrated
+over several pixels to generate a centroid at sub-pixel accuracies To
+relax the demands on hardware development for the neural module this
+point smoothing was performed in the preprocessor instead of being
+introduced into the neural network architecture and dynamics The
+equivalent neural response function then becomes
+X?I
+Ili
+Ille
+k=l
+where
+is the sampling activity of neuron
+is the number of stars in the Pattern Field Of View
+ILi
+is the position of neuron on the sample axis
+ILk is the position of the stimulus from star on the
+sample axis
+is the magnitude scale factor of star normalized
+to the brightest star in the PFOV the Guide star
+is the width of the gaussian point spread function
+The Neural system
+The neural system a neuron three-layer feed-forward network
+samples the scaled and smoothed distance map to provide an output
+vector with the highest neural output activity representing the best
+match to one of the pre-trained guide star patterns The network
+training algorithm uses the standard backwards error propagation
+Neural Network Star Pattern Recognition
+algorithm to set network interconnect weights from a training set of
+Guide Star patterns derived from the software simulated sky and
+sensor models
+Simulation testbed
+The computer simulation testbed includes a realistic celestial field
+model as well as a detector model that properly represents achievable
+position and intensity resolution sensor scan rates dynamic range and
+signal to noise properties Rapid identification of star patterns was
+observed in limited training sets as the simulated tracker was oriented
+randomly within the celestial sphere
+PERFORMANCE RESULTS AND PROJECTIONS
+In terms of improved performance the neural system was quite a
+success but not however in the areas which were initialJy expected
+While a VLSI implementation might yield considerable system speed-up
+the digital simulation testbed neural processing time was of the same
+order as the serial algorithm perhaps slightly better The success rate of
+the serial system was already better than The neural net system
+achieved an accuracy of when the systematic noise dropped
+stars of the sensor was neglected
+When the dropped star effect was introduced the performance
+figure dropped to It was later discovered that the reason for this
+low rate was due mostly to the limited size of the Yale Bright Star
+catalog at higher magnitudes lower star brightness In sparse regions
+of the sky the pattern in the sensor FOV presented by the limited sky
+model occasionally consisted of only two or three dim stars When one
+or two of them drop out because of the Star sensor magnitude precision
+limitations at times there was no pattern left to identify Further
+experiments and parametric studies are under way using a more
+complete Harvard Smithsonian catalog
+The big gain was in terms of required memory The serial algorithm
+stored over star pairs at high precision in addition to code for a
+rather complex heuristic artificial intelligence type of algorithm for a
+total size of KBytes The Neural algorithm used a connectionist
+data representation that was able to abstract from the star catalog
+pa ttern class similarities orthagonalities and in variances in a highly
+compressed fashion
+Network performance remained essentially
+constant until interconnect precision was decreased to less than four bits
+per synapse synapses at four bits per synapse requires very little
+computer memory
+These simulation results were all derived from a monte carlo run of
+approximately iterations using the simulator testbed
+Alvelda and San Martin
+CONCLUSIONS
+By means of a clever combination of several technologies and an
+appropriate data set representation a star system using one of the
+most simple neural algorithms outperforms those using the classical
+serial ones in several aspects even while running a software simulated
+neural network The neural simulator is approximately ten times faster
+than the equivalent serial algorithm and requires less than one seventh
+the computer memory With the transfer to neural VLSI technology
+memory requirements will virtually disappear and processing speed will
+increase by at least an order of magnitude
+W1)ere power and weight requirements scale with the hardware chip
+count and every pound that must be launched into space costs millions
+of dollars neural technology has enabled real-time on-board absolute
+attitude determination with no a priori information that may
+eventually make several accessory satellite systems like horizon and sun
+sensors obsolete while increasing the overall reliability of spacecraft
+systems
+Ackaowledgmeats
+We would like to acknowledge many fruitfull conversations with C. E.
+Bell J. Barhen and S. Gulati
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 2-the-capacity-of-the-kanerva-associative-memory-is-exponential.pdf
+
+THE CAPACITY OF THE KANERVA ASSOCIATIVE MEMORY IS EXPONENTIAL
+P. A. Choul
+Stanford University Stanford CA
+ABSTRACT
+The capacity of an associative memory is defined as the maximum
+number of vords that can be stored and retrieved reliably by an address
+vithin a given sphere of attraction It is shown by sphere packing
+arguments that as the address length increases the capacity of any
+associati ve memory is limited to an exponential grovth rate of h2
+vhere is the binary entropy function in bits and is the radius
+of the sphere of attraction This exponential grovth in capacity can
+actually be achieved by the Kanerva associative memory if its
+parameters are optimally set Formulas for these op.timal values are
+provided The exponential grovth in capacity for the Kanerva
+associative memory contrasts sharply vith the sub-linear grovth in
+capacity for the Hopfield associative memory
+ASSOCIATIVE MEMORY AND ITS CAPACITY
+Our model of an associative memory is the folloving Let be
+an address datum pair vhere is a vector of ls and is a
+vector of and let be address
+datum pairs stored in an associative memory If the associative memory
+is presented at the input vith an address that is close to some
+stored address then it should produce at the output a vord that
+is close to the corresponding contents To be specific let us say
+that an associative memory can correct fraction errors if an vi thin
+Hamming distance no of retrieves equal to The Hamming
+sphere around each vill be called the sphere of attraction and
+viII be called the radius of attraction
+One notion of the capacity of this associative memory is the
+maximum number of vords that it can store vhile correcting fraction
+errors Unfortunately this notion of capacity is ill-defined because
+it depends on exactly vhich address datum pairs have been stored
+Clearly no associative memory can correct fraction errors for every
+sequence of stored address datum pairs Consider for example a
+sequence in vhich several different vords are vritten to the same
+address No memory can reliably retrieve the contents of the
+overvritten vords At the other extreme any associative memory can
+store an unlimited number of vords and retrieve them all reliably if
+their contents are identical
+A useful definition of capacity must lie somevhere betveen these
+tvo extremes In this paper ve are interested in the largest such
+that for most sequences of addresses and most sequences of
+data the memory can correct fraction errors We define
+IThis vork vas supported by the National Science Foundation under NSF
+grant and by an IBM Doctoral Fellovship
+American Institute of Physics
+most sequences in a probabilistic sense as some set of sequences th
+total probability greater than say 99 When all sequences are
+equiprobab1e this reduces to the deterministic version of all
+sequences
+In practice it is too difficult to compute the capacity of a given
+associative memory yith inputs of length and outputs of length Tn.
+Fortunately though it is easier to compute the asymptotic rate at
+which A1 increases as and Tn increase for a given family of
+associative memories This is the approach taken by McEliece
+toyards the capacity of the Hopfield associative memory We take the
+same approach tovards the capacity of the Kanerva associative memory
+and tovards the capacities of associative memories in general In the
+next section ve provide an upper bound on the rate of grovth of the
+capacity of any associative memory fitting our general model It is
+shown by sphere packing arguments that capacity is limited to an
+exponential rate of grovth of vhere is the binary entropy
+function in bits and is the radius of attraction In a later section
+it vill turn out that this exponential grovth in capacity can actually
+be achieved by the Kanerva associative memory if its parameters are
+optimally set This exponential grovth in capacity for the Kanerva
+associative memory contrasts sharply yith the sub-linear grovth in
+capacity for the Hopfield associative memory
+I
+A UNIVERSAL UPPER BOUND ON CAPACITY
+Recall that our definition of the capacity of an associative memory
+is the largest A1 such that for most sequences of addresses
+and most sequences of data the memory can
+correct fraction errors Clearly an upper bound to this capacity is
+the largest Af for vhich there exists some sequence of addresses
+such that for most sequences of data the
+memory can correct fraction errors We nov derive an expression for
+this upper bound
+Let be the radius of attraction and let DH(X(i be the sphere
+of attraction the set of all Xs at most Hamming distance Ln8J
+from Since by assumption the memory corrects fraction errors
+every address DH(XU),d retrieves the vord yW The size of
+DH(XU),d is easily shown to be independent of xU and equal to
+vn.d
+vhere
+is the binomial coefficient n!jk!(n Thus
+out of a total of n-bit addresses at least vn.d addresses retrieve
+at least Vn.d addresses retrieve at least Vn.d addresses
+retrieve and so forth It fol10vs that the total number of
+distinct yU)s can be at most jv Nov from Stirling's formula it
+can be shovn that if then vn.d vhere
+log2 is the binary entropy function in bits
+and O(logn is some function yhose magnitude grovs more slovly than a
+constant times log Thus the total number of distinct y(j)s can be at
+most
+Since any set containing I most sequences of Af
+Tn-bit vords vill contain a large number of distinct vords if Tn is
+Figure Neural net representation of the Kanerva associative memory Signals propagate from the bottom input to the top output Each arc multiplies the signal by its
+weight each node adds the incoming signals and then thresholds
+sufficiently large see for details it follovs that
+In general a function fen is said to be if f(n)fg(n is
+bounded if there exists a constant a such that for
+all Thus says that there exists a constant a such that
+n(l-h S?+alogn It should be emphasized that since a is unknow
+this bound has no meaning for fixed Hovever it indicates that
+asymptotically in the maximum exponential rate of grovth of is
+h2
+Intui ti vely only a sequence of addresses that
+optimally pack the address space can hope to achieve this
+upper bound Remarkably most such sequences are optimal in this sense
+vhen is large The Kanerva associative memory can take advantage of
+this fact
+THE KANERVA ASSOCIATIVE MEMORY
+The Kanerva associative memory can be regarded as a tvo-layer
+neural netvork as shovn in Figure vhere the first layer is a
+preprocessor and the second layer is the usual Hopfield style array
+The preprocessor essentially encodes each n-bit input address into a
+very large k-bit internal representation vhose size will be
+permitted to grov exponentially in It does not seem surprising
+then that the capacity of the Kanerva associative memory can grov
+exponentially in for it is knovn that the capacity of the Hopfield
+array grovs almost linearly in assuming the coordinates of the
+k-vector are dravn at random by independent flips of a fair coin
+Figure Matrix representation of the Kanerva associative memory Signals propagate
+from the right input to the left output Dimensions are shown in the box corners
+Circles stand for functional composition dots stand for matrix multiplication
+In this situation hovever such an assumption is ridiculous Since the
+k-bit internal representation is a function of the n-bit input address
+it can contain at most bits of information whereas independent flips
+of a fair coin contain bits of information Kanerva's primary
+contribution is therefore the specification of the preprocessor that
+is the specification of how to map each n-bit input address into a very
+large k-bit internal representation
+The operation of the preprocessor is easily described Consider
+the matrix representation shovn in Figure The matrix is randomly
+populated vith This randomness assumption is required to ease the
+analysis The function fr is in the ith coordinate if the ith row of
+is within Hamming distance of and is Oothervise This is
+accomplished by thresholding the ith input against The
+parameters rand are two essential parameters in the Kanerva
+associative memory If rand are set correctly then the number of 1s
+in the representation fr(ZX vill be very small in comparison to the
+number of Os. Hence fr(Z~Y can be considered to be a sparse internal
+representation of
+The second stage of the memory operates in the usual way except on
+the internal representation of That is g(W vhere
+l-V LyU)[Jr(ZXU))]t
+i=l
+and is the threshold function whose ith coordinate is if the ith
+input is greater than and is the ith input is less than The ith
+column of l-V can be regarded as a memory location vhose address is the
+ith row of Z. Every vi thin Hamming distance of the ith rov of
+accesses this location Hence is known as the access radius and is
+the number of memory locations
+The approach taken in this paper is to fix the linear rate at
+which grovs vith and to fix the exponential rate at which grovs
+with It turns out that the capacity then grovs at a fixed
+exponential rate depending on and These exponential
+rates are sufficient to overcome the standard loose but simple
+polynomial bounds on the errors due to combinatorial approximations
+THE CAPACITY OF THE KANERVA ASSOCIATIVE MEMORY
+Fix and Let be the
+input address length and let Tn be the output word length It is
+assumed that Tn is at most polynomial in Tn exp{O(logn Let
+IJmJ be the access radius let L"nJ be the number of memory
+locations and let LonJ be the radius of attraction Let Afn be the
+number of stored words The components of the n-vectors X(Mn
+the m-vectors and the matrix are assumed to be
+lID equiprobable random variables Finally given an n-vector
+let g(W fr(ZX where Ef;nl yU)[Jr(ZXW)jf
+Define the quantity
+Cp 26
+Cp,ICo(p)(o
+where
+KO(p
+and
+Theorem
+If
+Af
+if
+if
+then for all all sufficiently large all jE{l Afn and all
+DH(X(j
+P{y
+See
+Interpretation If the exponential growth rate of the number of
+stored words Afn is asymptotically less than then for every
+sufficiently large address length there is some realization of the
+nx 2n preprocessor matrix such that the associative memory can
+correct fraction errors for most sequences of Afn address datum
+pairs Thus Cp,IC is a lover bound on the exponential growth rate of
+the capacity of the Kanerva associative memory with access radius np and
+number of memory locations 2nIC
+Figure shows Cp,IC(O as a function of the radius of attraction
+for and and For any fixed access
+radius Cp,ICO(p decreases as increases This reflects the fact
+that fewer address datum pairs can be stored if a greater fraction of
+errors must be corrected As increases begins at a lower
+point but falls off less steeply In a moment we shall see that can
+be adjusted to provide the optimal performance for a given
+Not ShOVIl in Figure is the behavior of Cp as a function of K,.
+However the behavior is simple For remains
+unchanged while for is simply shifted doVIl by the
+difference This establishes the conditions under which the
+Kanerva associative memory is robust against random component failures
+Although increasing the number of memory locations beyond does
+not increase the capacity it does increase robustness Random
+Proof
+IIl.S
+Figure Graphs of Cp,lCo(p)(o as defined by The upper envelope is
+component failures will not affect the capacity until so many components
+have failed that the number of surviving memory locations is less than
+2nlCo
+Perhaps the most important curve exhibited in Figure is the
+sphere packing upper bound h2 which is achieved for a particular
+by Equivalently the upper bound is achieved
+for a particular by equal to
+poCo
+Jt iO(l
+Thus and specify the optimal values of the parameters and P.
+respectively These functions are shown in Figure With these
+optimal values simplifies to
+the sphere packing bound
+It can also be seen that for in the exponential growth
+rate of the capacity is asymptotically equal to K. which is the
+exponential growth rate of the number of memory locations That is
+Mn O(logn logn Kanerva and Keeler have argued
+that the capacity at is proportional to the number of memory
+locations i.e Mn for some constant Thus our results are
+consistent with those of Kanerva and Keeler provided the polynomial
+logn can be proved to be a constant However the usual statement of
+their result that the capacity is simply proportional to the
+number of memory locations is false since in light of the universal
+liLS
+riJ.S
+Figure Graphs of KO(p and the inverse of as defined by and
+upper bound it is impossible for the capacity to grow without bound
+with no dependence on the dimension In our formulation this
+difficulty does not arise because we have explicitly related the number
+of memory locations to the input dimension kn In fact our
+formulation provides explicit coherent relationships between all of the
+following variables the capacity the number of memory locations
+the input and output dimensions and Tn the radius of attraction
+and the access radius We are therefore able to generalize the
+results of to the case and provide explicit expressions for
+the asymptotically optimal values of and as well
+CONCLUSION
+We described a fairly general model of associative memory and
+selected a useful definition of its capacity A universal upper bound
+on the growth of the capacity of such an associative memory was shown by
+a sphere packing argument to be exponential with rate where
+is the binary entropy function and is the radius of attraction
+We reviewed the operation of the Kanerva associative memory and stated
+a lower bound on the exponential growth rate of its capacity This
+lower bound meets the universal upper bound for optimal values of the
+memory parameters and K. We provided explicit formulas for these
+optimal values Previous results for stating that the capacity of
+the Kanerva associative memory is proportional to the number of memory
+locations cannot be strictly true Our formulation corrects the problem
+and generalizes those results to the case
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 100-storing-covariance-by-the-associative-long-term-potentiation-and-depression-of-synaptic-strengths-in-the-hippocampus.pdf
+
+STORING COVARIANCE BY THE ASSOCIATIVE
+LONG?TERM POTENTIATION AND DEPRESSION
+OF SYNAPTIC STRENGTHS IN THE HIPPOCAMPUS
+Patric K. Stanton and Terrence J. Sejnowski
+Department of Biophysics
+Johns Hopkins University
+Baltimore MD
+ABSTRACT
+In modeling studies or memory based on neural networks both the selective
+enhancement and depression or synaptic strengths are required ror effident storage
+or inrormation Sejnowski Kohonen Bienenstock aI
+Sejnowski and Tesauro We have tested this assumption in the hippocampus
+a cortical structure or the brain that is involved in long-term memory A brier
+high-frequency activation or excitatory synapses in the hippocampus produces an
+increase in synaptic strength known as long-term potentiation or LTP BUss and
+Lomo that can last ror many days LTP is known to be Hebbian since it
+requires the simultaneous release or neurotransmitter from presynaptic terminals
+coupled with postsynaptic depolarization Kelso al Malinow and Miller
+Gustatrson al However a mechanism ror the persistent reduction or
+synaptic strength that could balance LTP has not yet been demonstrated We studied the associative interactions between separate inputs onto the same dendritic
+trees or hippocampal pyramidal cells or field CAl and round that a low-frequency
+input which by itselr does not persistently change synaptic strength can either
+increase associative LTP or decrease in strength associative long-term depression
+or LTD depending upon whether it is positively or negatively correlated in time
+with a second high-frequency bursting input LTP or synaptic strength is Hebbian
+and LTD is anti-Hebbian since it is elicited by pairing presynaptic firing with postsynaptic hyperpolarization sufficient to block postsynaptic activity Thus associative LTP and associative LTO are capable or storing inrormation contained in the
+covariance between separate converging hippocampal inputs
+Present address Dep~ents of NeW'Oscience and Neurology Albert Einstein College
+of Medicine Pelham Parkway South Bronx NY USA.
+tPresent address Computational Neurobiology Laboratory The Salk Institute P.O. Box
+San Diego CA USA.
+Storing Covariance by Synaptic Strengths in the Hippocampus
+INTRODUCTION
+Associative LTP can be produced in some hippocampal neuroos when lowfrequency Weak and high-frequency Strong inputs to the same cells are simultaneously activated Levy and Steward Levy and Steward Barrionuevo and
+Brown When stimulated alone a weak input does not have a long-lasting effect
+on synaptic strength however when paired with stimulation of a separate strong input
+sufficient to produce homo synaptic LTP of that pathway the weak pathway is associatively potentiated Neural network modeling studies have predicted that in addition to
+this Hebbian form of plasticity synaptic strength should be weakened when weak and
+strong inputs are anti-correlated Sejnowski Kohonen Bienenstock al
+Sejnowski and Tesauro Evidence for heterosynaptic depression in the hippocampus has been found for inputs that are inactive Levy and Steward Lynch
+al or weakly active Levy and Steward during the stimulation of a strong
+input but this depression did not depend on any pattern of weak input activity and was
+not typically as long-lasting as LTP.
+Therefore we searched for conditions under which stimulation of a hippocampal
+pathway rather than its inactivity could produce either long-term depression or potentiation of synaptic strengths depending on the pattern of stimulation The stimulus paradigm that we used illustrated in I is based on the finding that bursts of stimuli at
+Hz are optimal in eliciting LTP in the hippocampus Larson and Lynch A highfrequency burst S'IRONG stimulus was applied to Schaffer collateral axons and a lowfrequency WEAK stimulus given to a separate subicular input coming from the opposite side of the recording site but terminating on dendrites of the same population of CAl
+pyramidal neurons Due to the rhythmic nature of the strong input bursts each weak
+input shock could be either superimposed on the middle of each burst of the strong input
+IN PHASE or placed symmetrically between bursts OUT OF PHASE
+RESULTS
+Extracellular evoked field potentials were recorded from the apical dendritic and
+somatic layers of CAl pyramidal cells The weak stimulus train was first applied alone
+and did not itself induce long-lasting changes The strong site was then stimulated alone
+which elicited homosynaptic LTP of the strong pathway but did not significantly alter
+amplitude of responses to the weak input When weak and strong inputs were activated
+IN PHASE there was an associative LTP of the weak input synapses as shown in
+Both the synaptic excitatory post-synaptic potential
+and population action potential Pike were
+significantly enhanced for at least min up to min following stimulation
+In contrast when weak and strong inputs were applied OUT OF PHASE they elicited an associative long-term depression LTO of the weak input synapses as shown in
+There was a marked reduction in the population spike
+with smaller decreases in the Note that the stimulus patterns applied to each input were identical in these two experiments and only the relative
+Stanton and Sejnowski
+phase of the weak and strong stimuli was altered With these stimulus patterns synaptic
+strength could be repeatedly enhanced and depressed in a single slice as illustrated in Fig
+As a control experiment to determine whether information concerning covariance
+between the inputs was actually a determinant of plasticity we combined the in phase
+and out of phase conditions giving both the weak input shocks superimposed on the
+bursts plus those between the bursts for a net frequency of Hz. This pattern which
+resulted in zero covariance between weak and strong inputs produced no net change in
+weak input synaptic strength measmed by extracellular evoked potentials Thus the assoa
+A.SSOCIA.TIVE STIMULUS PA.RA.DIGMS
+POSJTIVE.LY CORKELA TED IN PHASE
+SI1IONG,NJO\IT
+u.Jj1l
+NEGATIVELY CORRELATED our OF PHASE
+W[AKIN'lTf
+STIONG
+I
+Figure Hippocampal slice preparation and stimulus paradigms a The in vitro hippocampal slice showing recording sites in CAl pyramidal cell somatic stratum pyramidale and dendritic stratum radiatum layers and stimulus sites activating Schaffer collateral STRONG and commissural WEAK afferents Hippocampal slices Jlm
+thick were incubated in an interface slice chamber at C. Extracellular M!l
+resistance 2M NaCI filled and intracellular 2M K-acetate filled recording electrodes and bipolar glass-insulated platinum wire stimulating electrodes Jlm
+tip diameter were prepared by standard methods Mody al Stimulus paradigms used Strong input stimuli STRONG INPUT were four trains of Hz bursts
+Each burst had stimuli and the interburst interval was msec Each train lasted
+seconds for a total of stimuli Weak input stimuli WEAK INPUT were four trains of
+shocks at Hz frequency each train lasting for seconds When these inputs were IN
+PHASE the weak single shocks were superimposed on the middle of each burst of the
+strong input When the weak input was OUT OF PHASE the single shocks were placed
+symmetrically between the bursts
+Storing Covariance by Synaptic Strengths in the Hippocampus
+ciative LTP and LTD mechanisms appear to be balanced in a manner ideal for the
+storage of temporal covariance relations
+The simultaneous depolarization of the postsynaptic membrane and activation of
+glutamate receptors of the N-methyl-D-aspartate NMDA subtype appears to be necessary for LTP induction Collingridge Harris al Wigstrom and Gustaffson The SJ?read of current from strong to weak synapses in the dendritic tree
+ASSOCIATIVE
+LON(;.TE
+I'OTENTIATION
+LONG-TE
+DE,/tESSION
+ASSOCIATIVE
+I
+I
+I
+I
+I
+I
+Figure mustration of associative long-term potentiation LTP and associative longterm depression LTD using extracellular recordings a Associative LTP of evoked
+excitatory postsynaptic potentials and population action potential responses in
+the weak inpuL Test responses are shown before Pre and min after post application of weak stimuli in phase with the coactive strong input Associative LTD of
+evoked and population spike responses in the weak input Test responses are
+shown before Pre and min after post application of weak stimuli out of phase with
+the coactive strong input Time course of the changes in population spike amplitude
+observed at each input for a typical experiment Test responses from the strong input
+open circles show that the high-frequency bursts pulses/l00 Hz msec interburst
+interval as in elicited synapse-specific LTP independent of other input activity
+Test responses from the weak input filled circles show that stimulation of the weak
+pathway out of phase with the strong one produced associative LTD Assoc LTD of this
+input Associative LTP Assoc LTP of the same pathway was then elicited following in
+phase stimulation Amplitude and duration of associative LTD or LTP could be increased
+by stimulating input pathways with more trains of shocks
+Stanton and Sejnowski
+coupled with release of glutamate from the weak inputs could account for the ability of
+the strong pathway to associatively potentiate a weak one Kelso al Malinow
+and Miller Gustaffson al Consistent with this hypothesis we find that
+the NMDA receptor antagonist 2-amino-S-phosphonovaleric acid APS blocks
+induction of associative LTP in CAl pyramidal neurons data not shown In contrast the application of APS to the bathing solution at this same concentration had no
+significant effect on associative LTD data not shown Thus the induction of LTD
+seems to involve cellular mechanisms different from associative LTP.
+The conditions necessary for LTD induction were explored in another series of
+experiments using intracellular recordings from CAl pyramidal neurons made using
+standard techniques Mody al Induction of associative LTP Fig WEAK
+S+W IN PHASE produced an increase in amplitude of the single cell evoked and
+a lowered action potential threshold in the weak pathway as reported previously Barrionuevo and Brown Conversely the induction of associative LTD
+WEAK S+W OUT OF PHASE was accompanied by a long-lasting reduction of
+amplitude and reduced ability to elicit action potential firing As in control extracellular
+experiments the weak input alone produced no long-lasting alterations in intracellular
+or firing properties while the strong input alone yielded specific increases of
+the strong pathway without altering elicited by weak input stimulation
+PRE
+min POST
+S+W OUT OF PHASE
+min POST
+S+W IN PHASE
+Figure Demonstration of associative LTP and LTD using intracellular recordings from
+a CAl pyramidal neuron Intracellular prior to repetitive stimulation
+min after out of phase stimulation OUT OF PHASE and min after subsequent in phase stimuli IN PHASE The strong input Schaffer collateral side
+lower traces exhibited LTP of the evoked independent of weak input activity
+Out of phase stimulation of the weak Subicular side upper traces pathway produced a
+marked persistent reduction in amplitude In the same cell subsequent in phase
+stimuli resulted in associative LTP of the weak input that reversed the LTD and enhanced
+amplitude of the past the original baseline RMP 62 mY RN MO
+Storing Covariance by Synaptic Strengths in the Hippocampus
+A weak stimulus that is out of phase with a strong one anives when the postsynaptic neuron is hyperpolarized as a consequence of inhibitory postsynaptic potentials and
+afterhyperpolarization from mechanisms intrinsic to pyramidal neurons This suggests
+that postsynaptic hyperpolarization coupled with presynaptic activation may trigger L'ID
+To test this hypothesis we injected current with intracellular microelectrodes to hyperpolarize or depolarize the cell while stimulating a synaptic input Pairing the injection of
+depolarizing current with the weak input led to LTP of those synapses STIM
+a
+PRE
+IDPOST
+S'I1M DEPOL
+COI'ITROL
+Jj
+I
+W.c:ULVllj
+PRE
+lOlIIin POST
+STlM HYPERPOL
+Figure Pairing of postsynaptic hyperpolarization with stimulation of synapses on CAl
+hippocampal pyramidal neurons produces L'ID specific to the activated pathway while
+pairing of postsynaptic depolarization with synaptic stimulation produces synapsespecific LTP. a Intracellular evoked are shown at stimulated STIM and
+unstimulated CONTROL pathway synapses before Pre and min after post pairing a mY depolarization constant current nA with Hz synaptic stimulation
+The stimulated pathway exhibited associative LTP of the while the control
+unstimulated input showed no change in synaptic strength RMP 65 mY RN 35
+Mfl Intracellular are shown evoked at stimulated and control pathway
+synapses before Pre and min after post pairing a mV hyperpolarization constant current nA with Hz synaptic stimulation The input STIM activated during
+the hyperpolarization showed associative LTD of synaptic evoked while
+synaptic strength of the silent input CONTROL was unaltered RMP mV RN
+Stanton and Sejnowski
+while a control input inactive during the stimulation did not change
+CONTROL as reported previously Kelso al Malinow and Miller Gustaffson al Conversely prolonged hyperpolarizing current injection paired with
+the same low-frequency stimuli led to induction of LTD in the stimulated pathway
+STIM but not in the unstimulated pathway CONTROL The
+application of either depolarizing current hyperpolarizing current or the weak Hz
+synaptic stimulation alone did not induce long-term alterations in synaptic strengths
+Thus hyperpolarization and simultaneous presynaptic activity supply sufficient conditions for the induction of LTD in CAl pyramidal neurons
+CONCLUSIONS
+These experiments identify a novel fono of anti-Hebbian synaptic plasticity in the
+hippocampus and confirm predictions made from modeling studies of information storage
+in neural networks Unlike previous reports of synaptic depression in the hippocampus
+the plasticity is associative long-lasting and is produced when presynaptic activity
+occurs while the postsynaptic membrane is hyperpolarized In combination with Hebbian
+mechanisms also present at hippocampal synapses associative LTP and associative LTD
+may allow neurons in the hippocampus to compute and store covariance between inputs
+Sejnowski Stanton and Sejnowski These finding make temporal as
+well as spatial context an important feature of memory mechanisms in the hippocampus
+Elsewhere in the brain the receptive field properties of cells in cat visual cortex
+can be altered by visual experience paired with iontophoretic excitation or depression of
+cellular activity Fregnac al Greuel al In particular the chronic hyperpolarization of neurons in visual cortex coupled with presynaptic transmitter release leads
+to a long-teno depression of the active but not inactive inputs from the lateral geniculate
+nucleus Reiter and Stryker Thus both Hebbian and anti-Hebbian mechanisms
+found in the hippocampus seem to also be present in other brain areas and covariance of
+firing patterns between converging inputs a likely key to understanding higher cognitive
+function
+This research was supported by grants from the National Science Foundation and
+the Office of Naval research to TJS. We thank Drs. Charles Stevens and Richard Morris
+for discussions about related experiments
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 6121-dense-associative-memory-for-pattern-recognition.pdf
+
+Dense Associative Memory for Pattern Recognition
+Dmitry Krotov
+Simons Center for Systems Biology
+Institute for Advanced Study
+Princeton USA
+krotov@ias.edu
+John J. Hopfield
+Princeton Neuroscience Institute
+Princeton University
+Princeton USA
+hopfield@princeton.edu
+Abstract
+A model of associative memory is studied which stores and reliably retrieves many
+more patterns than the number of neurons in the network We propose a simple
+duality between this dense associative memory and neural networks commonly used
+in deep learning On the associative memory side of this duality a family of models
+that smoothly interpolates between two limiting cases can be constructed One limit
+is referred to as the feature-matching mode of pattern recognition and the other
+one as the prototype regime On the deep learning side of the duality this family
+corresponds to feedforward neural networks with one hidden layer and various
+activation functions which transmit the activities of the visible neurons to the
+hidden layer This family of activation functions includes logistics rectified linear
+units and rectified polynomials of higher degrees The proposed duality makes
+it possible to apply energy-based intuition from associative memory to analyze
+computational properties of neural networks with unusual activation functions the
+higher rectified polynomials which until now have not been used in deep learning
+The utility of the dense memories is illustrated for two test cases the logical gate
+XOR and the recognition of handwritten digits from the MNIST data set
+Introduction
+Pattern recognition and models of associative memory are closely related Consider image
+classification as an example of pattern recognition In this problem the network is presented with an
+image and the task is to label the image In the case of associative memory the network stores a set of
+memory vectors In a typical query the network is presented with an incomplete pattern resembling
+but not identical to one of the stored memories and the task is to recover the full memory Pixel
+intensities of the image can be combined together with the label of that image into one vector
+which will serve as a memory for the associative memory Then the image itself can be thought of
+as a partial memory cue The task of identifying an appropriate label is a subpart of the associative
+memory reconstruction There is a limitation in using this idea to do pattern recognition The standard
+model of associative memory works well in the limit when the number of stored patterns is much
+smaller than the number of neurons or equivalently the number of pixels in an image In order
+to do pattern recognition with small error rate one would need to store many more memories than
+the typical number of pixels in the presented images This is a serious problem It can be solved by
+modifying the standard energy function of associative memory quadratic in interactions between the
+neurons by including in it higher order interactions By properly designing the energy function
+Hamiltonian for these models with higher order interactions one can store and reliably retrieve many
+more memories than the number of neurons in the network
+Deep neural networks have proven to be useful for a broad range of problems in machine learning
+including image classification speech recognition object detection etc These models are composed
+of several layers of neurons so that the output of one layer serves as the input to the next layer Each
+Conference on Neural Information Processing Systems NIPS Barcelona Spain
+neuron calculates a weighted sum of the inputs and passes the result through a non-linear activation
+function Traditionally deep neural networks used activation functions such as hyperbolic tangents or
+logistics Learning the weights in such networks using a backpropagation algorithm faced serious
+problems in the and These issues were largely resolved by introducing unsupervised
+pre-training which made it possible to initialize the weights in such a way that the subsequent
+backpropagation could only gently move boundaries between the classes without destroying the
+feature detectors More recently it was realized that the use of rectified linear units ReLU
+instead of the logistic functions speeds up learning and improves generalization Rectified
+linear functions are usually interpreted as firing rates of biological neurons These rates are equal
+to zero if the input is below a certain threshold and linearly grow with the input if it is above the
+threshold To mimic biology the output should be small or zero if the input is below the threshold but
+it is much less clear what the behavior of the activation function should be for inputs exceeding the
+threshold Should it grow linearly sub-linearly or faster than linearly How does this choice affect
+the computational properties of the neural network Are there other functions that would work even
+better than the rectified linear units These questions to the best of our knowledge remain open
+This paper examines these questions through the lens of associative memory We start by discussing
+a family of models of associative memory with large capacity These models use higher order higher
+than quadratic interactions between the neurons in the energy function The associative memory
+description is then mapped onto a neural network with one hidden layer and an unusual activation
+function related to the Hamiltonian We show that by varying the power of interaction vertex in
+the energy function equivalently by changing the activation function of the neural network one
+can force the model to learn representations of the data either in terms of features or in terms of
+prototypes
+Associative memory with large capacity
+The standard model of associative memory uses a system of binary neurons with values A
+configuration of all the neurons is denoted by a vector The model stores memories denoted by
+which for the moment are also assumed to be binary The model is defined by an energy function
+which is given by
+Tij
+Tij
+and a dynamical update rule that decreases the energy at every update The basic problem is the
+following when presented with a new pattern the network should respond with a stored memory
+which most closely resembles the input
+There has been a large amount of work in the community of statistical physicists investigating
+the capacity of this model which is the maximal number of memories that the network can store
+and reliably retrieve It has been demonstrated that in case of random memories this
+maximal value is of the order of max If one tries to store more patterns several
+neighboring memories in the configuration space will merge together producing a ground state of
+the Hamiltonian which has nothing to do with any of the stored memories By modifying the
+Hamiltonian in a way that removes second order correlations between the stored memories it is
+possible to improve the capacity to max
+The mathematical reason why the model gets confused when many memories are stored is that
+several memories produce contributions to the energy which are of the same order In other words the
+energy decreases too slowly as the pattern approaches a memory in the configuration space In order
+to take care of this problem consider a modification of the standard energy
+In this formula is some smooth function summation over index is assumed The computational capabilities of the model will be illustrated for two cases First when is
+an integer number which is referred to as a polynomial energy function Second when is a
+rectified polynomial energy function
+In the case of the polynomial function with the network reduces to the standard model of
+associative memory If each term in becomes sharper compared to the case thus
+more memories can be packed into the same configuration space before cross-talk intervenes
+Having defined the energy function one can derive an iterative update rule that leads to decrease of
+the energy We use asynchronous updates flipping one unit at a time The update rule is
+Sign
+The argument of the sign function is the difference of two energies One for the configuration with
+all but the i-th units clumped to their current states and the i-th unit in the off state The other one
+for a similar configuration but with the i-th unit in the state This rule means that the system
+updates a unit given the states of the rest of the network in such a way that the energy of the entire
+configuration decreases For the case of polynomial energy function a very similar family of models
+was considered in 13 The update rule in those models was based on the induced
+magnetic fields however and not on the difference of energies The two are slightly different due to
+the presence of self-coupling terms Throughout this paper we use energy-based update rules
+How many memories can model store and reliably retrieve Consider the case of random patterns
+so that each element of the memories is equal to with equal probability Imagine that the system
+is initialized in a state equal to one of the memories pattern number One can derive a stability
+criterion the upper bound on the number of memories such that the network stays in that initial
+state Define the energy difference between the initial state and the state with spin flipped
+where the polynomial energy function is used This quantity has a mean Ei
+2nN which comes from the term with and a variance the limit of large
+where
+The i-th bit becomes unstable when the magnitude of the fluctuation exceeds the energy gap Ei
+and the sign of the fluctuation is opposite to the sign of the energy gap Thus the probability that the
+state of a single neuron is unstable the limit when both and are large so that the noise is
+effectively gaussian is equal to
+Z1
+Nn
+dx
+Perror
+Ei
+Requiring that this probability is less than a small value say one can find the upper limit on
+the number of patterns that the network can store
+max
+where is a numerical constant which depends on the arbitrary threshold The case
+corresponds to the standard model of associative memory and gives the well known result
+For the perfect recovery of a memory Perror one obtains
+Nn
+max
+Kno
+errors
+ln(N
+For higher powers the capacity rapidly grows with in a non-linear way allowing the network
+to store and reliably retrieve many more patterns than the number of neurons that it has in accord1
+with This non-linear scaling relationship between the capacity and the size of the
+network is the phenomenon that we exploit
+The n-dependent coefficient in depends on the exact form of the Hamiltonian and the update rule
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+
+title: 968-capacity-and-information-efficiency-of-a-brain-like-associative-net.pdf
+
+Capacity and Information Efficiency of a
+Brain-like Associative Net
+Bruce Graham and David Willshaw
+Centre for Cognitive Science University of Edinburgh
+Buccleuch Place Edinburgh EH8 UK
+Email bruce@cns.ed.ac.uk&david@cns.ed.ac.uk
+Abstract
+We have determined the capacity and information efficiency of an
+associative net configured in a brain-like way with partial connectivity and noisy input cues Recall theory was used to calculate
+the capacity when pattern recall is achieved using a winners-takeall strategy Transforming the dendritic sum according to input
+activity and unit usage can greatly increase the capacity of the
+associative net under these conditions For moderately sparse patterns maximum information efficiency is achieved with very low
+connectivity levels This corresponds to the level of connectivity commonly seen in the brain and invites speculation that
+the brain is connected in the most information efficient way
+INTRODUCTION
+Standard network associative memories become more plausible as models of associative memory in the brain if they incorporate partial connectivity sparse
+activity and recall from noisy cues In this paper we consider the capacity of
+a binary associative net Willshaw Buneman Longuet-Higgins Willshaw
+Buckingham containing these features While the associative net is
+a very simple model of associative memory its behaviour as a storage device is
+not trivial and yet it is tractable to theoretical analysis We are able to calculate
+Bruce Graham David Willshaw
+the capacity of the net in different configurations and with different pattern recall
+strategies Here we consider the capacity as a function of connectivity level when
+winners-take-all recall is used
+The associative net is an heteroassociative memory in which pairs of binary patterns are stored by altering the connection weights between input and output units
+via a Hebbian learning rule After pattern storage an output pattern is recalled
+by presenting a previously stored input pattern on the input units Which output
+units become active during recall is determined by applying a threshold of activation to measurements that each output unit makes of the input cue pattern The
+most commonly used measurement is the weighted sum of the inputs or dendritic
+sum Amongst the simpler thresholding strategies is the winners-take-all WTA
+approach which chooses the required number of output units with the highest dendritic sums to be active This works well when the net is fully connected each input
+unit is connected to every output unit and input cues are noise-free However
+recall performance deteriorates rapidly if the net is partially connected each input
+unit is connected to only some of the output units and cues are noisy
+Marr recognised that when an associative net is only partially connected
+another useful measurement for threshold setting is the total input activity sum of
+the inputs regardless of the connection weights The ratio of the dendritic sum
+to the input activity can be a better discriminator of which output units should be
+active than the dendritic sum alone Buckingham and Willshaw showed that
+differences in unit usage the number of patterns in which an output unit is active
+during storage causes variations in the dendritic sums that makes accurate recall
+difficult when the input cues are noisy They incorporated both input activity and
+unit usage measurements into a recall strategy that minimised the number of errors
+in the output pattern by setting the activity threshold on a unit by unit basis This
+is a rather more complex threshold setting strategy than a simple winners-take-all
+We have previously demonstrated via computer simulations Graham Wills haw
+that the WTA threshold strategy can achieve the same recall performance
+as this minimisation approach if the dendritic sums are transformed by certain
+functions of the input activity and unit usage before a threshold is applied Here
+we calculate the capacity of the associative net when WTA recall is used with three
+different functions of the dendritic sums pure dendritic sums modified by
+input activity and modified by input activity and unit usage The results show
+that up to four times the capacity can be obtained by transforming the dendritic
+sums by a function of both input activity and unit usage This increase in capacity
+was obtained without a loss of information efficiency For the moderately sparse
+patterns used WTA recall is most information efficient at low levels of connectivity
+as is the minimisation approach to threshold setting Buckingham
+This connectivity range is similar to that commonly seen in the brain
+Capacity and Infonnation Efficiency of a Brain-Like Associative Net
+NOTATION AND OPERATION
+The associative net consists of binary output units each connected to a proportion of the A binary input units Pairs of binary patterns are stored in the net
+Input and output patterns contain MA and MB active units respectively activity
+level a All connection weights start at zero On presentation to
+the net of a pattern pair for storage the connection weight between an active input
+unit and an active output unit is set to During recall an input cue pattern is
+presented on the input units The input cue is a noisy version of a previously stored
+input pattern in which a fraction of the MA active units do not come from the
+stored pattern A thresholding strategy is applied to the output units to determine
+which of them should be active Those that should be active in response to the
+input cue will be called high units and those that should be inactive will be called
+low units We consider winners-take-all WTA thresholding strategies that choose
+to be active the MB output units with the highest values of three functions of the
+dendritic sum the input activity a and the unit usage These functions are
+listed in Table The normalised strategy deals with partial connectivity The
+transformed strategy reduces variations in the dendritic sums due to differences in
+unit usage This function minimises the variance of the low unit dendritic sums
+with respect to the unit usage Graham Willshaw
+Table WTA Strategies
+WTA Strategy
+Basic
+Normalised
+Transformed
+FUnction
+d/a
+d/a)l/r
+RECALL THEORY
+The capacity of the associative net is defined to be the number of pattern pairs that
+can be stored before there is one bit in error in a recalled output pattern This
+cannot be calculated analytically for the net configuration under study However it
+can be determined numerically for the WTA recall strategy by calculating the recall
+response for different numbers of stored patterns until the minimum value of
+is found for which a recall error occurs The WTA recall response can be calculated
+theoretically using expressions for the distributions of the dendritic sums of low and
+high output units The probability that the dendritic sum of a low or high output
+unit should have a particular value is respectively Buckingham Willshaw
+Buckingham
+Zp[rJ)MA
+Bruce Graham David Willshaw
+P(dh
+A
+where and are the probabilities that an arbitrarily selected active input is
+on a connection with weight For a low unit OA)r For a high unit
+a good approximation for is sp[r s(l OAY where and
+are the probabilities that a particular active input in the cue pattern is genuine
+belongs to the stored pattern or spurious respectively Buckingham
+Willshaw The basic WTA response is calculated using these distributions
+by finding the threshold that gives
+The number of false positive and false negative errors of the response is given by
+The actual distributions of the normalised dendritic sums are the distributions of
+dja For the purposes of calculating the normalised WTA response it is possible to use the basic distributions for the situation where every unit has the mean
+input activity am MAZ. In this case the low and high unit distributions are
+approximately
+P(til
+P(d'h
+a
+Due to the nonlinear transformation used it is not possible to calculate the transformed distributions as simple sums of binomials so the following approach is used
+to generate the transformed WTA response For a given transformed threshold
+and for each possible value of unit usage an equivalent normalised threshold is
+calculated via
+am
+The transformed cumulative probabilities can then be calculated from the normalised distributions
+P(dj TO
+di
+til
+The normalised and transformed WTA responses are calculated in the same manner
+as the basic response using the appropriate probability distributions
+Capacity and Information Efficiency of a Brain-Like Associative Net
+noise
+noise
+ca
+Co
+ca
+Connectivity
+Connectivity
+Figure Capacity Versus Connectivity
+RESULTS
+Extensive simulations were previously carried out of WTA recall from a large
+associative net with the following specifications Graham Willshaw
+NA MA NB MB Agreement between the simulations and the theoretical recall described above is extremely good indicating that
+the approximations used in the theory are valid Here we use the theoretical recall
+to calculate capacity results for this large associative net that are not easily obtained via simulations All the results shown have been generated using the theory
+described in the previous section
+Figure shows the capacity as a function of connectivity for the different WTA
+strategies when there is no noise in the input cue or noise in the cue legend
+basic WTA normalised WTA transformed WTA for clarity individual
+data points are omitted With no noise in the cue the normalised and transformed
+methods perform identically so only the normalised results are shown Figure
+highlights the effectiveness of normalising the dendritic sums against input activity
+when the net is partially connected Figure shows the effect of noise on capacity
+The capacity of each recall strategy at a given connectivity level is much reduced
+compared to the noise-free case However for connectivities greater than the
+capacity of the transformed WTA is now much greater than either the normalised
+or basic WTA.
+The relative capacities of the different strategies are shown in Figure legend
+NIB ratio of normalised to basic capacity I ratio of transformed to basic
+TIN ratio of transformed to normalised In the noise-free case Figure at
+low levels of connectivity the relative capacity is distorted because the basic capacity
+Bruce Graham David Willshaw
+drops to near zero so that even low normalised capacities are relatively very large
+For most connectivity levels the normalised WTA provides times the
+capacity of the basic WTA. In the noisy case Figure the normalised capacity
+is only up to times the basic capacity over this range of connectivities The
+transformed WTA however provides to nearly times the basic capacity and
+to nearly times the normalised capacity for connectivities greater than
+The capacities can be interpreted in information theoretic terms by considering the
+information efficiency of the net This is the ratio of the amount of information
+that can be retrieved from the net to the number of bits of storage available and
+is given by Ro10jZNANB where Ro is the capacity is the amount of
+information contained in an output pattern and NANB is the number of weights
+or bits of storage required Willshaw Buckingham Willshaw
+Information efficiency as a function of connectivity is shown in Figure There is
+a distinct peak in information efficiency for each of the recall strategies at some
+low level of connectivity The peak information efficiencies and the efficiencies at
+full connectivity are summarised in Table The greatest contrast between full
+and partial connectivity is seen with the normalised WTA and noise-free cues At
+connectivity the normalised WTA is nearly times more efficient than at full
+connectivity In absolute terms however the normalised capacity is only at
+connectivity compared with at full connectivity The peak efficiency of
+obtained by the normalised WTA is approaching the theoretically approximate
+maximum of for a fully connected net Willshaw
+DISCUSSION
+Previous simulations Graham Willshaw have shown that when the input
+cues are noisy the recall performance of the winners-take-all thresholding strategy
+applied to the partially connected associative net is greatly improved if the dendritic sums of the output units are transformed by functions of input activity and
+unit usage We have confirmed and extended these results here by calculating the
+theoretical capacity of the associative net as a function of connectivity
+For the moderately sparse patterns used all of the recall strategies are most information efficient at very low levels of connectivity However the optimum
+connectivity level is dependent on the pattern coding rate Extending the analysis
+of Willshaw to a partially connected net using normalised WTA recall
+yields that maximum information efficiency is obtained when ZMA log2(NB
+So for input coding rates higher than log2(NB a partially connected net is most
+information efficient For the input coding rate used here this relationship gives an
+optimum connectivity level of very close to the obtained from the recall
+theory
+Comparing the peak efficiencies across the different strategies for the noisy cue
+case the normalised WTA is about twice as efficient as the basic WTA while the
+transformed WTA is three times as efficient This comparison does not include the
+Capacity and Information Efficiency of a Brain-Like Associative Net
+noise
+noise
+NIB TIB
+III
+a
+I
+III
+a
+Connectivity
+I I
+I NIB
+T/B
+I
+TIN
+I
+III
+Connectivity
+Figure Relative Capacity Versus Connectivity
+noise
+noise
+ffic
+ia
+r-o
+Connectivity
+f.l
+I
+I
+Connectivity
+Figure Information Efficiency Versus Connectivity
+Table Information Efficiency
+WTA
+Strategy
+Basic
+Normalised
+Transformed
+at
+Peak
+TJo
+Noise
+at
+TJo at
+Peak
+at
+Peak
+T]o
+Noise
+at
+TJo at
+Peak
+Bruce Graham David Willshaw
+cost of storing input activity and unit usage information If one bit of storage per
+connection is required for the input activity and another bit for the unit usage then
+the information efficiency of the normalised WTA is halved and the information
+efficiency of the transformed WTA is reduced by two thirds This results in all the
+strategies having about the same peak efficiency However the absolute capacities
+of the different strategies at their peak efficiencies are and for the basic
+normalised and transformed WTA respectively So at the same level of efficiency
+the transformed WTA delivers four times the capacity of the basic WTA.
+In conclusion numerical calculations of the capacity of the associative net show that
+it is most information efficient at a very low level of connectivity when moderately
+sparse patterns are stored Including input activity and unit usage information into
+the recall calculations results in a four-fold increase in storage capacity without loss
+of efficiency
+Acknowledgements
+To the Medical Research Council for financial support under Programme Grant PG
+
+<<----------------------------------------------------------------------------------------------------------------------->>
+

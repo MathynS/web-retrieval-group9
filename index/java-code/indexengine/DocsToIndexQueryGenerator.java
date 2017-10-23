@@ -35,6 +35,7 @@ public class DocsToIndexQueryGenerator {
 
 	public String createQueryString(){
     	StringBuilder sb = new StringBuilder();
+    	//sb.append("select id, pdf_name, paper_text, paper_title from papers_nr_nsw_ste where id >= ");
     	sb.append("select id, pdf_name, paper_text, paper_title from papers_nr_nsw where id >= ");
     	sb.append(Integer.toString(firstId));
     	sb.append(" and id <= ");
