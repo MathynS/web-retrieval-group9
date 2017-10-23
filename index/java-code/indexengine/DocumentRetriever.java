@@ -75,16 +75,22 @@ public class DocumentRetriever {
 		TopDocs foundDocs = searchByContent(queryInputString, searcher, numberOfDocs);
 		
 	   	List<Integer> selectedDocuments = new ArrayList<Integer>();    	
+		//System.out.println("Number of found documents: " + foundDocs.totalHits);
+	   	int counter = 1;
 		for (ScoreDoc scoreDoc: foundDocs.scoreDocs){
 			Document document = searcher.doc(scoreDoc.doc);
 			//System.out.println(String.format(document.get("pdf_name")));
 			String docId = document.get("id");
+			String pdfName = document.get("pdf_name");
 			try {
 				selectedDocuments.add(Integer.parseInt(docId));
+				//System.out.println("Counter: " + counter + ", Doc id: " + docId + ", score:" + scoreDoc.score + ", pdf_name: " + pdfName);
 			} catch (NumberFormatException nfe){
 				logger.log(Level.INFO, "Document id: " + docId + " couldn't be added to list of documents", nfe);
 			}
+			counter++;
 		}
+		
 		return selectedDocuments;
 	}
 		
@@ -110,11 +116,12 @@ public class DocumentRetriever {
 	public static void main(String[] args) throws Exception {
 				
 		DocumentRetriever documentRetriever = new DocumentRetriever();
-		String queryInputString = "sampled image";
-		//List<Integer> selectedDocuments = documentRetriever.searchDocumentsByContent(queryInputString, 10);
-		List<Integer> selectedDocuments = documentRetriever.searchDocumentsByTitle(queryInputString, 10);
+		String queryInputString = "fredholm kernels";
+		List<Integer> selectedDocuments = documentRetriever.searchDocumentsByContent(queryInputString, 10);
+		//List<Integer> selectedDocuments = documentRetriever.searchDocumentsByTitle(queryInputString, 10);
 		
 		// Print selected documents
+		
 		for (Integer id: selectedDocuments){
 			System.out.println(id);
 		}
