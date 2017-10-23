@@ -148,9 +148,11 @@ def get_wikipedia_titles(search_terms: list) -> list:
             r = geturl(search_url)
             json_data = r.json()
         except json.decoder.JSONDecodeError as e:
-            return []
+            print(e)
+            continue
         except ValueError as e:
-            return []
+            print(e)
+            continue
         print([t['title'] for t in json_data['query']['search'][:8]])
         answer = input("Happy?")
         if answer in ['Y', 'y']:
@@ -253,8 +255,7 @@ def extract_topics(model: LdaModel) -> list:
     topic_list = []
     for x in range(model.num_topics):
         words = model.show_topic(x, topn=10)
-        print(words)
-        titles = get_wikipedia_titles([w[0] for w in words[:10]])  # TODO alter?
+        titles = get_wikipedia_titles([w[0] for w in words])  # TODO alter?
         possible_labels = chunk(titles)
         print(possible_labels)
         labels_content = retrieve_content(possible_labels)
@@ -277,6 +278,7 @@ def rate_labels(names: list, content: dict, topic_words: list) -> str:
 
     """
     best_label, best_score = "", 0
+    possible_labels = []
     for name in names:
         score = 0
         if name in content:
@@ -287,9 +289,16 @@ def rate_labels(names: list, content: dict, topic_words: list) -> str:
                     if topic_word[0] in word:  # Because they are stemmed!
                         score += topic_word[1]
             norm_score = score / math.sqrt(len(corpus))
-            if norm_score > best_score:
-                best_score = norm_score
-                best_label = name
+            possible_labels.append(name)
+            print(norm_score, "\t", name)
+    while True:
+        try:
+            index = int(input("Enter the label to select"))
+            best_label = possible_labels[index-1]
+        except (IndexError, ValueError):
+            continue
+        break
+
     return best_label
 
 

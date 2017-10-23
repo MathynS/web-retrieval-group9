@@ -32,7 +32,7 @@ def get_query_words_positions(document_words: list) -> list:
     Returns: list of indices of query words per document
 
     """
-    query_words = options.query.split(" ")
+    query_words = options.query.lower().split(" ")
     indices = [i for i, q in enumerate(document_words) if q in query_words]
     return indices
 
@@ -65,7 +65,8 @@ def main():
     connect_to_db('/home/mathyn/Documents/web-retrieval-group9/nips-papers.db')
     document = get_documents()
     document_words = document.replace('\n', " ").split(" ")
-    query_words_positions = get_query_words_positions(document_words)
+    low_document_words = [d.lower() for d in document_words]
+    query_words_positions = get_query_words_positions(low_document_words)
     snippets = create_snippets(document_words, query_words_positions)
     print(snippets)
 

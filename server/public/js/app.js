@@ -870,7 +870,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(10);
-module.exports = __webpack_require__(52);
+module.exports = __webpack_require__(55);
 
 
 /***/ }),
@@ -899,6 +899,7 @@ Vue.component('searchbar', __webpack_require__(40));
 Vue.component('searchresults', __webpack_require__(43));
 Vue.component('author-field', __webpack_require__(46));
 Vue.component('author-graph', __webpack_require__(49));
+Vue.component('search-helper', __webpack_require__(52));
 
 var app = new Vue({
   el: '#app'
@@ -42252,6 +42253,12 @@ var render = function() {
       attrs: { type: "text", placeholder: "Enter a search query" },
       domProps: { value: _vm.query },
       on: {
+        keyup: function($event) {
+          if (!("button" in $event) && _vm._k($event.keyCode, "enter", 13)) {
+            return null
+          }
+          _vm.manualSubmit()
+        },
         input: function($event) {
           if ($event.target.composing) {
             return
@@ -42409,8 +42416,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 var sort_translate = {
     'relevance': 'Relevance',
     'citations': 'Citations',
-    'year_asc': 'Date (old to new)',
-    'year_desc': 'Date (new to old)'
+    'year_asc': 'Date (Oldest first)',
+    'year_desc': 'Date (Newest first)'
 };
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -42422,7 +42429,8 @@ var sort_translate = {
             amount: -1,
             page: 1,
             warning: null,
-            barHeight: 0
+            barHeight: 0,
+            responseTime: 0
         };
     },
     mounted: function mounted() {
@@ -42442,12 +42450,14 @@ var sort_translate = {
             if ('error' in data) {
                 this.warning = data.error;
             } else {
+                this.warning = null;
                 this.documents = data.docs;
                 this.amount = data.amount;
                 this.query = data.query;
                 this.page = data.page;
                 this.visualOrder = sort_translate[data.order];
                 this.sortOrder = data.order;
+                this.responseTime = data.time;
             }
             if ('label_data' in data) {
                 this.barHeight = 300;
@@ -42459,9 +42469,9 @@ var sort_translate = {
         highlightQuery: function highlightQuery(text) {
             if (text != null && this.query != null) {
                 var splitted_text = text.split(' ');
-                var queryWords = this.query.split(' ');
+                var queryWords = this.query.toLowerCase().split(' ');
                 for (var i = 0; i < splitted_text.length; i++) {
-                    if (queryWords.indexOf(splitted_text[i]) != -1) {
+                    if (queryWords.indexOf(splitted_text[i].toLowerCase()) != -1) {
                         splitted_text[i] = '<strong>' + splitted_text[i] + '</strong>';
                     }
                 }
@@ -42535,9 +42545,11 @@ var render = function() {
             _vm._v(
               "\n      Found " +
                 _vm._s(_vm.amount) +
-                ' results for the query "' +
+                " results for the query `" +
                 _vm._s(_vm.query) +
-                '"!\n    '
+                "` in " +
+                _vm._s(_vm.responseTime) +
+                " seconds!\n    "
             )
           ])
         : _vm._e(),
@@ -43032,6 +43044,336 @@ if (false) {
 
 /***/ }),
 /* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(53)
+/* template */
+var __vue_template__ = __webpack_require__(54)
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/SearchHelper.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {return key !== "default" && key.substr(0, 2) !== "__"})) {console.error("named exports are not supported in *.vue files.")}
+if (Component.options.functional) {console.error("[vue-loader] SearchHelper.vue: functional components are not supported with templates, they should use render functions.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-f21894e6", Component.options)
+  } else {
+    hotAPI.reload("data-v-f21894e6", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 53 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            filters: {
+                "text": {
+                    "queries": [],
+                    "amount": 0
+                },
+                "label": {
+                    "queries": [],
+                    "amount": 0
+                },
+                "title": {
+                    "queries": [],
+                    "amount": 0
+                },
+                "year": {
+                    "queries": [],
+                    "amount": 0
+                },
+                "author": {
+                    "queries": [],
+                    "amount": 0
+                }
+            }
+        };
+    },
+    mounted: function mounted() {
+        console.log('Component mounted.');
+    },
+
+    methods: {
+        build: function build() {
+            var query = '';
+            for (var cat in this.filters) {
+                if (this.filters[cat]['queries'].length > 0) {
+                    if (cat != "text") {
+                        query += cat + ':\"' + this.filters[cat]['queries'].join('","') + '\" ';
+                    } else {
+                        query += " " + this.filters[cat]['queries'].join(" ") + " ";
+                    }
+                    this.filters[cat]['queries'] = [];
+                    this.filters[cat]['amount'] = 0;
+                }
+            }
+            window.location.replace('/search?q=' + query);
+        },
+        remove: function remove(cat, index) {
+            this.filters[cat]['queries'].splice(index, 1);
+            this.filters[cat]['amount'] -= 1;
+        }
+    }
+});
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("h3", [_vm._v("Query Builder")]),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _c("p", [_vm._v(_vm._s(_vm.query))]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-lg-8" }, [
+        _c(
+          "form",
+          _vm._l(_vm.filters, function(value, key) {
+            return _c(
+              "div",
+              { staticClass: "form-group" },
+              [
+                _c("div", { staticClass: "input-group" }, [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "input-group-addon",
+                      attrs: { id: "query_label" }
+                    },
+                    [_vm._v(_vm._s(key))]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: value["queries"][0],
+                        expression: "value['queries'][0]"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", "aria-describedby": "query_label" },
+                    domProps: { value: value["queries"][0] },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(value["queries"], 0, $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "input-group-btn" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-secondary",
+                        attrs: { type: "button" },
+                        on: {
+                          click: function($event) {
+                            _vm.filters[key]["amount"] += 1
+                          }
+                        }
+                      },
+                      [_vm._v("OR")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _vm._l(value["amount"], function(n) {
+                  return _c("div", { staticClass: "form-group row" }, [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "col-sm-1 col-form-label",
+                        attrs: { for: "label" + key + n }
+                      },
+                      [_vm._v("OR")]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "col-sm-10" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: value["queries"][n],
+                            expression: "value['queries'][n]"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "label" + key + n,
+                          placeholder: "Add additional term"
+                        },
+                        domProps: { value: value["queries"][n] },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(value["queries"], n, $event.target.value)
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("span", {
+                      staticClass: "glyphicon glyphicon-remove",
+                      staticStyle: {
+                        color: "red",
+                        "font-size": "20px",
+                        "margin-top": "5px"
+                      },
+                      on: {
+                        click: function($event) {
+                          _vm.remove(key, n)
+                        }
+                      }
+                    })
+                  ])
+                })
+              ],
+              2
+            )
+          })
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-primary",
+        attrs: { type: "button" },
+        on: {
+          click: function($event) {
+            _vm.build()
+          }
+        }
+      },
+      [_vm._v("Build query!")]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _vm._v(
+        "\n    With the query builder you can easily build advanced queries by using the input below"
+      ),
+      _c("br"),
+      _vm._v("\n    Fill in one or multiple boxes to search on. "),
+      _c("br"),
+      _vm._v(
+        "\n    If you want multiple value to match for a specific filter click on the button OR to specify the different possible matches\n    "
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-f21894e6", module.exports)
+  }
+}
+
+/***/ }),
+/* 55 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

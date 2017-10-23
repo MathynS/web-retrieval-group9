@@ -71,14 +71,12 @@ class Document extends Model
             throw new ProcessFailedException($process);
         }
         $result = $process->getOutput();
-        $result_ids = array_map('intval', explode(' ', $result));
-        // var_dump($result_ids);
+        $result_ids = array_map('intval', explode(' ', $result));    
         $orderby_case = "CASE ";
         for($x=0; $x<count($result_ids); $x++){
             $orderby_case .= " WHEN id = " . $result_ids[$x] . " THEN " . $x . " ";
         }
         $orderby_case .= "END";
-        // var_dump($orderby_case);
         if ($order == 'relevance'){
             return $documents->whereIn('id', $result_ids)->orderByRaw(DB::raw($orderby_case));
         }
@@ -87,13 +85,20 @@ class Document extends Model
         }
     }
 
-    public function filter($documents, $searchTerm, $searchEntity, $searchParam, $operator, $delimiter){
+    public function filter($documents, $searchTerm, $searchEntity, $searchParam, $operator){
         $response = array();
         $whereStatements = array();
         $searchTerm = explode(":", $searchTerm, 2)[1];
         if (substr($searchTerm, 0, 1) === "\""){
             $searchTerm = substr($searchTerm, 1, -1);
         }
+        if (strpos($searchTerm, '","')){
+            $delimiter = '","';
+        }
+        else{
+            $delimiter = ",";
+        }
+
         foreach (explode($delimiter, $searchTerm) as $term) {
             if ($operator == "LIKE"){
                 $term = "%$term%";

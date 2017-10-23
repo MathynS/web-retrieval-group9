@@ -1,6 +1,6 @@
 <template>
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Enter a search query" v-model="query">
+        <input type="text" class="form-control" placeholder="Enter a search query" v-model="query" v-on:keyup.enter="manualSubmit()">
         <span class="input-group-btn">p
             <button @click="manualSubmit()" class="btn btn-primary" type="button">Go!</button>
         </span>

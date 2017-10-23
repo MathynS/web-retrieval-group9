@@ -16,6 +16,7 @@ class QueryController extends Controller
 
     public function retrieve(Request $request)
     {
+        $starttime = microtime(true);
     	$this->validate($request, [
     		'query' => 'required|string',
             'page' => 'required|int',
@@ -36,7 +37,7 @@ class QueryController extends Controller
             $order = $order[0];
         }
         $terms = explode(' ', $query);
-        $queryTerm = null;
+        $queryTerm = array();
         $i = 0;
         while ($i < count($terms)){
             $lookup = 1;
@@ -61,10 +62,10 @@ class QueryController extends Controller
         $documents = Document::with(['labels', 'authors']);
         foreach ($terms as $term) {
             if (substr($term, 0, 7) === "author:"){
-                $documents = $this->document->filter($documents, $term, 'authors', 'name', 'LIKE', '","');
+                $documents = $this->document->filter($documents, $term, 'authors', 'name', 'LIKE');
             }
             elseif(substr($term, 0, 6) === "label:"){
-                $documents = $this->document->filter($documents, $term, 'labels', 'name', '=', '","');
+                $documents = $this->document->filter($documents, $term, 'labels', 'name', '=');
                 $searchTerm = explode(":", $term, 2)[1];
                 if (substr($searchTerm, 0, 1) === "\""){
                     $searchTerm = substr($searchTerm, 1, -1);
@@ -74,7 +75,7 @@ class QueryController extends Controller
                 })->select('year', DB::raw('count(*) as count'))->groupBy('year')->get();
             }
             elseif(substr($term, 0, 5) == "year:"){
-                $documents = $this->document->filter($documents, $term, 'documents', 'year', '=', ',');
+                $documents = $this->document->filter($documents, $term, 'documents', 'year', '=');
             }
             elseif(substr($term, 0, 6) == "title:"){
                 $searchTerm = explode(":", $term, 2)[1];
@@ -84,12 +85,12 @@ class QueryController extends Controller
                 $document = $this->document->searchIndex($documents, $searchTerm, $order, $mode, "QUERY_TITLE");
             }
             else{
-                $queryTerm = $term;
+                $queryTerm[] = $term;
             }
         }
 
-        if ($queryTerm != null){
-            $documents = $this->document->searchIndex($documents, $queryTerm, $order, $mode, "QUERY_CONTENT");
+        if (count($queryTerm) > 0){
+            $documents = $this->document->searchIndex($documents, implode(" ", $queryTerm), $order, $mode, "QUERY_CONTENT");
         }
         elseif ($order != 'relevance'){
             $documents = $documents->orderBy($order, $mode);
@@ -106,6 +107,7 @@ class QueryController extends Controller
         $response['page'] = intval($page);
         $response['docs'] = $documents;
         $response['query'] = $query;
+        $response['time'] = number_format(microtime(true) - $starttime, 2);
 		return $response;
 
     }

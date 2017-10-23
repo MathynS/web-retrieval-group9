@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="alert alert-success" v-if="amount >= 0">
-          Found {{ amount }} results for the query "{{ query }}"!
+          Found {{ amount }} results for the query `{{ query }}` in {{ responseTime }} seconds!
         </div>
         <div class="alert alert-warning" v-if="warning">
           {{ warning }}
@@ -66,8 +66,8 @@
     var sort_translate = {
         'relevance': 'Relevance',
         'citations': 'Citations',
-        'year_asc': 'Date (old to new)',
-        'year_desc': 'Date (new to old)'
+        'year_asc': 'Date (Oldest first)',
+        'year_desc': 'Date (Newest first)'
     };
 
     export default {
@@ -79,7 +79,8 @@
                 amount: -1,
                 page: 1,
                 warning: null,
-                barHeight: 0
+                barHeight: 0,
+                responseTime: 0
             }
         },
         mounted() {
@@ -95,12 +96,14 @@
                     this.warning = data.error;
                 }
                 else{
+                    this.warning = null;    
                     this.documents = data.docs;
                     this.amount = data.amount;
                     this.query = data.query;
                     this.page = data.page;
                     this.visualOrder = sort_translate[data.order];
                     this.sortOrder = data.order;
+                    this.responseTime = data.time;
                 }
                 if ('label_data' in data){
                     this.barHeight = 300;
@@ -112,9 +115,9 @@
             highlightQuery(text){
                 if (text != null && this.query != null){
                     var splitted_text = text.split(' ');
-                    var queryWords = this.query.split(' ');
+                    var queryWords = this.query.toLowerCase().split(' ');
                     for (var i=0; i<splitted_text.length; i++){
-                        if (queryWords.indexOf(splitted_text[i]) != -1){
+                        if (queryWords.indexOf(splitted_text[i].toLowerCase()) != -1){
                             splitted_text[i] = '<strong>' + splitted_text[i] + '</strong>';
                         }
                     }

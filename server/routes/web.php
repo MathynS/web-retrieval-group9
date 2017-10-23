@@ -11,8 +11,8 @@
 |
 */
 
-Route::get('/', function () { return redirect('search'); });
-Route::get('search', function () { return view('search'); });
+Route::get('/', function () { return view('builder'); });
+Route::get('/search', function () { return view('search'); });
 
 Route::get('/authors/{author}', 'AuthorController@show');
 Route::get('/labels/{label}', 'LabelController@show');

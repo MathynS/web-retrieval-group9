@@ -2,7 +2,9 @@
 
 @section('content')
 
-<searchresults></searchresults>
+<search-helper>
+</search-helper>
 
 
 @stop
+
