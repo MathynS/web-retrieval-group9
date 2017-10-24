@@ -4,6 +4,7 @@ import sys
 import json
 import random
 import numpy as np
+import os
 
 from typing import Union, Any
 from optparse import OptionParser
@@ -13,7 +14,8 @@ parser.add_option("-a", '--author', dest="author", help="Enter an author id", de
 parser.add_option("-m", '--max-depth', dest="max_depth", help="Max distance to the base author", default=2)
 (options, args) = parser.parse_args()
 
-sys.path.insert(0, '/home/mathyn/Documents/web-retrieval-group9')
+dir_name = os.path.dirname(os.path.realpath(__file__))
+sys.path.insert(0, "/".join(dir_name.split('/')[:-1]))
 from models import connect_to_db, Authors, Paper_authors
 
 
@@ -117,5 +119,5 @@ def main():
 
 
 if __name__ == '__main__':
-    connect_to_db('/home/mathyn/Documents/web-retrieval-group9/nips-papers.db')
+    connect_to_db("/".join(dir_name.split("/")[:-1]) + '/nips-papers.db')
     main() 

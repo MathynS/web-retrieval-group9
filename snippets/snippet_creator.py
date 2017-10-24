@@ -1,5 +1,6 @@
 #!/usr/bin/python3.5
 import sys
+import os
 
 from optparse import OptionParser
 
@@ -9,7 +10,9 @@ parser.add_option("-d", "--document", dest="document", help="Enter the document 
 parser.add_option("-m", '--max-words', dest="max_words", help="Maximal length of the snippet in words", default=30)
 (options, args) = parser.parse_args()
 
-sys.path.insert(0, '/home/mathyn/Documents/web-retrieval-group9')
+dir_name = os.path.dirname(os.path.realpath(__file__))
+
+sys.path.insert(0, "/".join(dir_name.split('/')[:-1]))  # Upper dir
 from models import Papers, connect_to_db
 
 
@@ -62,7 +65,7 @@ def create_snippets(document_words: list, query_words_positions: list) -> list:
 
 
 def main():
-    connect_to_db('/home/mathyn/Documents/web-retrieval-group9/nips-papers.db')
+    connect_to_db("/".join(dir_name.split('/')[:-1]) + '/nips-papers.db')
     document = get_documents()
     document_words = document.replace('\n', " ").split(" ")
     low_document_words = [d.lower() for d in document_words]
