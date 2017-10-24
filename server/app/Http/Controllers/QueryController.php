@@ -65,13 +65,13 @@ class QueryController extends Controller
                 $documents = $this->document->filter($documents, $term, 'authors', 'name', 'LIKE');
             }
             elseif(substr($term, 0, 6) === "label:"){
-                $documents = $this->document->filter($documents, $term, 'labels', 'name', '=');
+                $documents = $this->document->filter($documents, $term, 'labels', 'name', 'like');
                 $searchTerm = explode(":", $term, 2)[1];
                 if (substr($searchTerm, 0, 1) === "\""){
                     $searchTerm = substr($searchTerm, 1, -1);
                 }
                 $response['label_data'] = Document::with('labels')->whereHas('labels', function($q) use($searchTerm) {
-                    $q->where('labels.name', '=', $searchTerm);
+                    $q->where('labels.name', 'like', $searchTerm);
                 })->select('year', DB::raw('count(*) as count'))->groupBy('year')->get();
             }
             elseif(substr($term, 0, 5) == "year:"){

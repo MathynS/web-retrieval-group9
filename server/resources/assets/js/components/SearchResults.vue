@@ -43,7 +43,7 @@
             <span class="pull-right">Cited by {{ doc.citations }} papers</span>
             <br />
 
-            <strong>Tags:</strong>
+            <strong><span class="glyphicon glyphicon-tag"></span>Tags:</strong>
             
             <a v-for="label in doc.labels" :href="'search?q=label:%22' + label.name + '%22'">
                 <span class="tag label label-info">{{ label.name }}</span>
@@ -105,9 +105,12 @@
                     this.sortOrder = data.order;
                     this.responseTime = data.time;
                 }
-                if ('label_data' in data){
+                if ('label_data' in data && data['label_data'].length > 0){
                     this.barHeight = 300;
                     this.drawChart(data.label_data);
+                }
+                else{
+                    this.barHeight = 0;
                 }
                 console.log(this.page+5);
                 console.log(Math.max((this.page-5),1), Math.min((this.page+5), Math.ceil(this.amount/10)));

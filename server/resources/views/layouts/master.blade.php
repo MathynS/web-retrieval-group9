@@ -18,6 +18,14 @@
 
     <div id="app">
       <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="#">Paper search engine</a>
+            </div>
+            <div class="navbar-header">
+              <a class="navbar-brand" href="/"><span class="glyphicon glyphicon-home"> Home</span></a>
+            </div>
+          </div>
       </nav>
 
       <section class="jumbotron text-center">

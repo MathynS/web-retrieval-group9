@@ -42459,9 +42459,11 @@ var sort_translate = {
                 this.sortOrder = data.order;
                 this.responseTime = data.time;
             }
-            if ('label_data' in data) {
+            if ('label_data' in data && data['label_data'].length > 0) {
                 this.barHeight = 300;
                 this.drawChart(data.label_data);
+            } else {
+                this.barHeight = 0;
             }
             console.log(this.page + 5);
             console.log(Math.max(this.page - 5, 1), Math.min(this.page + 5, Math.ceil(this.amount / 10)));
@@ -42685,7 +42687,7 @@ var render = function() {
             _vm._v(" "),
             _c("br"),
             _vm._v(" "),
-            _c("strong", [_vm._v("Tags:")]),
+            _vm._m(0, true),
             _vm._v(" "),
             _vm._l(doc.labels, function(label) {
               return _c(
@@ -42786,7 +42788,17 @@ var render = function() {
     2
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("strong", [
+      _c("span", { staticClass: "glyphicon glyphicon-tag" }),
+      _vm._v("Tags:")
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
